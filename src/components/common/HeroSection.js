@@ -6,7 +6,7 @@ const HeroSection = () => {
   return (
     <LandingContainer
       showBg={true}
-      className=" flex items-center justify-between flex-wrap-reverse md:flex-nowrap pt-20  md:pl-28 h-fit md:h-screen"
+      className=" flex items-center justify-between flex-wrap-reverse md:flex-nowrap pt-20  md:pl-28 !h-fit md:h-screen"
     >
       <div className="md:w-[600px] flex flex-col gap-8 mt-4 m-5 mb-16 md:m-0">
         <div className=" text-4xl md:text-5xl font-bold">

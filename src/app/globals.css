@@ -152,7 +152,7 @@ body {
         var(--background) 30%,
         transparent
       ),
-      url("/background.png");
+      url("/background.png") !important;
     background-size: 150%;
     top: 30px;
   }
