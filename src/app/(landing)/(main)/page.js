@@ -3,9 +3,9 @@ import MainCarousel from "@/components/common/MainCarousel";
 
 export default function Home() {
   return (
-    <div className="h-full">
+    <div className="">
       <HeroSection />
-      {/* <MainCarousel /> */}
+      <MainCarousel />
     </div>
   );
 }
