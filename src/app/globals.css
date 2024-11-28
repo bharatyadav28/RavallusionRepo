@@ -138,10 +138,8 @@ body {
       transparent 50%,
       var(--background) 90%
     ),
-    url("/background.png");
-  background-size: 120%;
+    url("/Background.png");
   background-repeat: no-repeat !important;
-  /* background-position: center; */
 }
 
 @media screen and (max-width: 480px) {
@@ -152,7 +150,7 @@ body {
         var(--background) 30%,
         transparent
       ),
-      url("/background.png") !important;
+      url("/Background.png");
     background-size: 150%;
     top: 30px;
   }
@@ -173,7 +171,8 @@ body {
     background: linear-gradient(
       to left,
       var(--background),
-      var(--background) 30%,
+      var(--background),
+      var(--background),
       transparent
     );
   }
@@ -181,8 +180,10 @@ body {
     background: linear-gradient(
       to right,
       var(--background),
-      var(--background) 30%,
+      var(--background),
+      var(--background),
       transparent
     );
+    filter: blur(100%);
   }
 }
