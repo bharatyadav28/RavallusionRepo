@@ -109,20 +109,33 @@ const list = [
 
 const CarouselCard = ({ item }) => {
   return (
-    // <div className="w-fit">
-    <Image
-      src={item.image}
-      width={100}
-      height={100}
-      alt={item.id}
-      className="w-[1262px] h-[60vw] md:h-[500px]  "
-    />
-    // </div>
+    <div className=" relative w-fit h-fit">
+      <Image
+        src={item.image}
+        width={100}
+        height={100}
+        alt={item.id}
+        className="w-[1262px] h-[65vw] md:h-[500px]  "
+      />
+      <div className="absolute top-8 sm:top-20 md:top-32 left-3 md:left-10 w-[52%] sm:w-[48%] md:w-[43%] ">
+        <div className="text-sm sm:text-lg md:text-[32.7px] font-bold">
+          {item.title}
+        </div>
+        <div className="text-[6px] sm:text-xs md:text-sm mt-2">{item.para}</div>
+        <ul className="px-4 list-disc text-[6px] sm:text-xs md:text-sm mt-2">
+          {item.details.map((d) => (
+            <li key={d.id}>
+              <span className="font-bold">{d.title}:</span> {d.detail}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 const MainCarousel = () => {
   return (
-    <LandingContainer className=" flex items-center justify-center h-fit py-20">
+    <LandingContainer className=" flex items-center justify-center !h-fit py-20">
       <CustomCarousel>
         {list.map((item) => (
           <CarouselItem key={item.id} className="basis-[70%]">

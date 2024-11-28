@@ -84,7 +84,8 @@ body {
 .btn:hover {
   background: var(--neon-purple) !important;
   box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.4) inset;
-  filter: drop-shadow(0px 0px 60px rgba(125, 20, 208, 0.8));
+  filter: drop-shadow(0px 0px 20px rgba(125, 20, 208, 0.8));
+  transition: all 0.5s;
 }
 
 .glow-btn,
@@ -136,22 +137,24 @@ body {
       to right,
       var(--background) 20%,
       transparent 50%,
-      var(--background) 90%
+      var(--background) 100%
     ),
     url("/Background.png");
+
   background-repeat: no-repeat !important;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 750px) {
   .background-image {
     background: linear-gradient(
-        to left,
+        to top left,
         var(--background),
-        var(--background) 30%,
+        var(--background),
+        var(--background) 60%,
         transparent
       ),
       url("/Background.png");
-    background-size: 150%;
+    background-size: 120%;
     top: 30px;
   }
 }

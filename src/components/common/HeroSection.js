@@ -6,7 +6,7 @@ const HeroSection = () => {
   return (
     <LandingContainer
       showBg={true}
-      className=" flex items-center justify-between flex-wrap-reverse md:flex-nowrap pt-20  md:pl-28 !h-fit md:h-screen"
+      className=" flex items-center justify-between flex-wrap-reverse md:flex-nowrap pt-20 md:pl-28 !h-fit md:!h-screen"
     >
       <div className="md:w-[600px] flex flex-col gap-8 mt-4 m-5 mb-10 md:m-0 z-10">
         <div className=" text-4xl md:text-5xl font-bold">
@@ -19,7 +19,9 @@ const HeroSection = () => {
           expert-led courses. Whether you’re a beginner or a pro, we have
           something for everyone!
         </div>
-        <GlowButton className="text-xl self-start mt-6 ">Enroll Now</GlowButton>
+        <GlowButton className="text-xl self-start mt-6 px-14 py-7 ">
+          Enroll Now
+        </GlowButton>
       </div>
       <div className="relative w-full md:w-fit flex items-center justify-center ">
         <Image

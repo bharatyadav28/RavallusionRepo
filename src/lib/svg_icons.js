@@ -181,17 +181,17 @@ export const BtnBg = ({ className }) => (
       <path
         d="M70 76.5C70 67.6634 77.1634 60.5 86 60.5H294C302.837 60.5 310 67.6634 310 76.5V108.5C310 117.337 302.837 124.5 294 124.5H86C77.1634 124.5 70 117.337 70 108.5V76.5Z"
         fill="url(#paint2_radial_161_7739)"
-        fill-opacity="0.3"
+        fillOpacity="0.3"
       />
       <path
         d="M70 76.5C70 67.6634 77.1634 60.5 86 60.5H294C302.837 60.5 310 67.6634 310 76.5V108.5C310 117.337 302.837 124.5 294 124.5H86C77.1634 124.5 70 117.337 70 108.5V76.5Z"
         fill="url(#paint3_radial_161_7739)"
-        fill-opacity="0.1"
+        fillOpacity="0.1"
       />
       <path
         d="M70 76.5C70 67.6634 77.1634 60.5 86 60.5H294C302.837 60.5 310 67.6634 310 76.5V108.5C310 117.337 302.837 124.5 294 124.5H86C77.1634 124.5 70 117.337 70 108.5V76.5Z"
         fill="url(#paint4_radial_161_7739)"
-        fill-opacity="0.2"
+        fillOpacity="0.2"
       />
     </g>
     <defs>
@@ -202,9 +202,9 @@ export const BtnBg = ({ className }) => (
         width="400"
         height="224"
         filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+        colorInterpolationFilters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix
           in="SourceAlpha"
           type="matrix"
@@ -292,8 +292,8 @@ export const BtnBg = ({ className }) => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(175 40.5) rotate(70.0659) scale(99.991 205.109)"
       >
-        <stop offset="0.241623" stop-color="#AA229C" stop-opacity="0.92" />
-        <stop offset="0.848853" stop-color="#A25FF8" stop-opacity="0.89" />
+        <stop offset="0.241623" stopColor="#AA229C" stopOpacity="0.92" />
+        <stop offset="0.848853" stopColor="#A25FF8" stopOpacity="0.89" />
       </radialGradient>
       <radialGradient
         id="paint1_radial_161_7739"
@@ -303,8 +303,8 @@ export const BtnBg = ({ className }) => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(154.545 60.5) rotate(60.0367) scale(70.9879 164.083)"
       >
-        <stop stop-color="#C243FE" />
-        <stop offset="1" stop-color="#B62FF6" stop-opacity="0.12" />
+        <stop stopColor="#C243FE" />
+        <stop offset="1" stopColor="#B62FF6" stopOpacity="0.12" />
       </radialGradient>
       <radialGradient
         id="paint2_radial_161_7739"
@@ -314,8 +314,8 @@ export const BtnBg = ({ className }) => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(145 109.5) rotate(-141.19) scale(54.2493 90.9072)"
       >
-        <stop stop-color="white" stop-opacity="0.73" />
-        <stop offset="1" stop-color="white" stop-opacity="0.12" />
+        <stop stopColor="white" stopOpacity="0.73" />
+        <stop offset="1" stopColor="white" stopOpacity="0.12" />
       </radialGradient>
       <radialGradient
         id="paint3_radial_161_7739"
@@ -325,8 +325,8 @@ export const BtnBg = ({ className }) => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(190 80.5) rotate(90) scale(44 159.545)"
       >
-        <stop stop-color="white" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </radialGradient>
       <radialGradient
         id="paint4_radial_161_7739"
@@ -336,9 +336,67 @@ export const BtnBg = ({ className }) => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(286.818 103.5) rotate(167.762) scale(99.0695 207.506)"
       >
-        <stop stop-color="white" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </radialGradient>
+    </defs>
+  </svg>
+);
+
+export const Views = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M12 4C14.787 4 17.263 5.257 19.026 6.813C19.911 7.594 20.64 8.471 21.154 9.344C21.659 10.201 22 11.13 22 12C22 12.87 21.66 13.799 21.154 14.656C20.64 15.529 19.911 16.406 19.026 17.187C17.263 18.743 14.786 20 12 20C9.213 20 6.737 18.743 4.974 17.187C4.089 16.406 3.36 15.529 2.846 14.656C2.34 13.799 2 12.87 2 12C2 11.13 2.34 10.201 2.846 9.344C3.36 8.471 4.089 7.594 4.974 6.813C6.737 5.257 9.214 4 12 4ZM12 6C9.816 6 7.792 6.993 6.298 8.312C5.554 8.968 4.966 9.685 4.569 10.359C4.163 11.049 4 11.62 4 12C4 12.38 4.163 12.951 4.569 13.641C4.966 14.315 5.554 15.031 6.298 15.688C7.792 17.007 9.816 18 12 18C14.184 18 16.208 17.007 17.702 15.688C18.446 15.031 19.034 14.315 19.431 13.641C19.837 12.951 20 12.38 20 12C20 11.62 19.837 11.049 19.431 10.359C19.034 9.685 18.446 8.969 17.702 8.312C16.208 6.993 14.184 6 12 6ZM12 9C12.088 9 12.175 9.00367 12.261 9.011C12.0439 9.39185 11.9579 9.8335 12.0163 10.268C12.0747 10.7025 12.2743 11.1057 12.5843 11.4157C12.8943 11.7257 13.2975 11.9253 13.732 11.9837C14.1665 12.0421 14.6081 11.9561 14.989 11.739C15.0416 12.3412 14.911 12.9452 14.6145 13.4719C14.3179 13.9986 13.8692 14.4234 13.327 14.6907C12.7849 14.958 12.1746 15.0553 11.5762 14.9699C10.9778 14.8844 10.4192 14.6202 9.97357 14.2118C9.52792 13.8034 9.21603 13.27 9.07876 12.6813C8.94149 12.0926 8.98524 11.4762 9.20429 10.9128C9.42334 10.3495 9.80746 9.8654 10.3063 9.52407C10.8052 9.18274 11.3955 9.00008 12 9Z"
+      fill="url(#paint0_linear_123_5983)"
+    />
+    <defs>
+      <linearGradient
+        id="paint0_linear_123_5983"
+        x1="12"
+        y1="4"
+        x2="12"
+        y2="20"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="#C99BFD" />
+        <stop offset="1" stopColor="#8574F6" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const Like = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M18.4941 3.801C20.5891 5.022 22.0631 7.501 21.9981 10.393C21.9171 14.003 19.1081 17.187 14.3191 20.031C13.6091 20.453 12.8611 21 12.0001 21C11.1551 21 10.3751 20.443 9.68007 20.03C4.89307 17.187 2.08307 14.002 2.00207 10.393C1.93707 7.501 3.41107 5.023 5.50607 3.801C7.46607 2.66 9.92807 2.653 12.0001 4.338C14.0721 2.653 16.5341 2.659 18.4941 3.801ZM17.4871 5.53C16.0931 4.718 14.3511 4.747 12.8431 6.273C12.7325 6.38397 12.6011 6.47201 12.4565 6.53209C12.3118 6.59217 12.1567 6.62309 12.0001 6.62309C11.8434 6.62309 11.6883 6.59217 11.5437 6.53209C11.399 6.47201 11.2676 6.38397 11.1571 6.273C9.64907 4.747 7.90707 4.718 6.51307 5.53C5.06907 6.372 3.95307 8.158 4.00207 10.35C4.05807 12.861 6.04207 15.544 10.7021 18.312C11.1101 18.555 11.5361 18.866 12.0001 18.995C12.4641 18.866 12.8901 18.555 13.2981 18.312C17.9581 15.544 19.9421 12.862 19.9981 10.349C20.0481 8.159 18.9311 6.372 17.4871 5.53Z"
+      fill="url(#paint0_linear_123_5989)"
+    />
+    <defs>
+      <linearGradient
+        id="paint0_linear_123_5989"
+        x1="12.0001"
+        y1="2.99997"
+        x2="12.0001"
+        y2="21"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="#C99BFD" />
+        <stop offset="1" stopColor="#8574F6" />
+      </linearGradient>
     </defs>
   </svg>
 );
