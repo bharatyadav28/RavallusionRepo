@@ -6,7 +6,7 @@ import CoursesList from "./CoursesList";
 
 const TutorialsSection = () => {
   return (
-    <LandingContainer className="!h-fit py-12 flex flex-col gap-10">
+    <LandingContainer className="!h-fit py-12 pb-14 flex flex-col gap-10">
       <div className="flex justify-between items-center flex-wrap gap-4 px-5 md:px-[9%]">
         <div>
           <div className="text-3xl md:text-5xl font-bold">

@@ -38,6 +38,7 @@ body {
     --button-bg: #a37fff26;
     --neon-purple: #c99bfd;
     --light-gray: rgba(255, 255, 255, 0.8);
+    --card: rgba(24, 31, 43, 1);
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -188,5 +189,65 @@ body {
       transparent
     );
     filter: blur(100%);
+  }
+}
+
+.skeleton-left {
+  background: linear-gradient(
+      270deg,
+      rgba(4, 12, 25, 0) 0%,
+      rgba(4, 12, 25, 0) 5%,
+      rgba(4, 12, 25, 0.65) 20.45%,
+      rgba(4, 12, 25, 0.65) 9.45%,
+      #040c19 70.47%,
+      #040c19 25.47%
+    ),
+    #181f2b;
+  border-top-right-radius: 16px !important;
+  border-bottom-right-radius: 16px !important;
+}
+.skeleton-right {
+  background: linear-gradient(
+      90deg,
+      rgba(4, 12, 25, 0) 0%,
+      rgba(4, 12, 25, 0) 5%,
+      rgba(4, 12, 25, 0.65) 20.45%,
+      rgba(4, 12, 25, 0.65) 9.45%,
+      #040c19 70.47%,
+      #040c19 25.47%
+    ),
+    #181f2b;
+  border-top-left-radius: 16px !important;
+  border-bottom-left-radius: 16px !important;
+}
+
+@media screen and (max-width: 640px) {
+  .skeleton-left {
+    background: linear-gradient(
+        270deg,
+        rgba(4, 12, 25, 0) 0%,
+        rgba(4, 12, 25, 0) 5%,
+        rgba(4, 12, 25, 0.65) 50.45%,
+        rgba(4, 12, 25, 0.65) 100%,
+        #040c19 70.47%
+      ),
+      #181f2b;
+  }
+  .skeleton-right {
+    background: linear-gradient(
+        90deg,
+        rgba(4, 12, 25, 0) 0%,
+        rgba(4, 12, 25, 0) 5%,
+        rgba(4, 12, 25, 0.65) 50.45%,
+        rgba(4, 12, 25, 0.65) 100%,
+        #040c19 70.47%
+      ),
+      #181f2b;
+  }
+}
+
+.accordion-custom-trigger {
+  svg:last-child {
+    display: none;
   }
 }

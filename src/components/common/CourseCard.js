@@ -5,7 +5,7 @@ const CourseCard = ({ course }) => {
   const { title, description, views, likes, imageUrl } = course;
 
   return (
-    <div className="p-3 flex flex-col items-start gap-2 bg-gray-800 text-white rounded-2xl  sm:w-full ">
+    <div className="p-3 flex flex-col items-start gap-2 bg-[var(--card)] text-white rounded-2xl  sm:w-full ">
       <Image
         src={imageUrl}
         alt={title}

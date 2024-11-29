@@ -1,4 +1,9 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 import CourseCard from "./CourseCard";
+import CustomSkeleton from "./CustomSkeleton";
 
 const courses = [
   {
@@ -52,11 +57,46 @@ const courses = [
 ];
 
 const CoursesList = () => {
+  const [count, setCount] = useState(2);
+  const [screenWidth, setScreenWidth] = useState("");
+
+  useEffect(() => {
+    const updateCountBasedOnScreenSize = () => {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth >= 1024) {
+        setCount(2);
+      } else if (screenWidth >= 640) {
+        setCount(3);
+      } else {
+        setCount(6);
+      }
+    };
+
+    // Run the function on initial render
+    updateCountBasedOnScreenSize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", updateCountBasedOnScreenSize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateCountBasedOnScreenSize);
+    };
+  });
   return (
     <div className="flex-grow overflow-y-auto relative">
-      <div className="absolute left-0 w-10 border-2 h-full" />
-      <div className="absolute right-0 w-10 border-2 h-full" />
-      <div className="mx-12 sm:mx-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <CustomSkeleton
+        count={count}
+        className="absolute left-0 !w-[10%] sm:!w-24 !h-full"
+        skeletonClass="skeleton-left"
+      />
+      <CustomSkeleton
+        count={count}
+        className="absolute right-0 !w-[10%] sm:!w-24 !h-full"
+        skeletonClass="skeleton-right"
+      />
+      <div className="mx-[15%] sm:mx-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {courses.map((course) => (
           <CourseCard key={course.id} course={course} />
         ))}
