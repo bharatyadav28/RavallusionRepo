@@ -39,6 +39,7 @@ body {
     --neon-purple: #c99bfd;
     --light-gray: rgba(255, 255, 255, 0.8);
     --card: rgba(24, 31, 43, 1);
+    --light-black: rgba(39, 45, 57, 1);
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -75,11 +76,6 @@ body {
   body {
     @apply bg-[var(--background)] text-white;
   }
-}
-
-.navbar {
-  /* border-top: 0.1px solid; */
-  /* box-shadow: 0px 0px 2px 0px white; */
 }
 
 .btn:hover {
@@ -124,9 +120,6 @@ body {
     drop-shadow(-10px -10px 15px rgba(102, 67, 242, 0.25));
 
   transition: all 0.2s;
-}
-.footer {
-  /* filter: drop-shadow(90deg, var(--background), var(--background)); */
 }
 
 ::-webkit-scrollbar {

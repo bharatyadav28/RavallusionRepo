@@ -1,11 +1,12 @@
 import { Like, Views } from "@/lib/svg_icons";
 import Image from "next/image";
+import Card from "./Card";
 
 const CourseCard = ({ course }) => {
   const { title, description, views, likes, imageUrl } = course;
 
   return (
-    <div className="p-3 flex flex-col items-start gap-2 bg-[var(--card)] text-white rounded-2xl  sm:w-full ">
+    <Card>
       <Image
         src={imageUrl}
         alt={title}
@@ -29,7 +30,7 @@ const CourseCard = ({ course }) => {
           </span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

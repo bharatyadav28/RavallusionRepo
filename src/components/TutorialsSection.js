@@ -1,8 +1,7 @@
-import React from "react";
-import LandingContainer from "./LandingContainer";
-import { CustomButton } from "./CustomButton";
 import { ArrowRight } from "lucide-react";
-import CoursesList from "./CoursesList";
+import { CustomButton } from "./common/CustomButton";
+import LandingContainer from "./common/LandingContainer";
+import CoursesList from "./common/CoursesList";
 
 const TutorialsSection = () => {
   return (

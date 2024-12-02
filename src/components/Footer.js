@@ -1,3 +1,4 @@
+import { FooterBg } from "@/lib/svg_icons";
 import {
   FacebookIcon,
   FooterRavallusion,
@@ -60,10 +61,12 @@ const quickLinks = [
 ];
 const Footer = () => {
   return (
-    <div className="flex flex-col items-center p-0 m-0  bg-[url('/footer.png')] bg-cover footer backdrop-blur-lg">
+    <div className="relative flex flex-col items-center p-0 m-0 overflow-hidden">
+      <FooterBg className="absolute -bottom-[110%] md:-bottom-[170%] -left-[280%]  md:-left-[100%] md:h-[450%] md:w-[100%]  -z-[1000]" />
       <div className="flex self-stretch justify-around flex-col md:flex-row gap-10 p-10 px-4">
         <div className="flex flex-col gap-5 max-w-lg">
           <div>
+            {/* Logo */}
             <i className="text-3xl font-medium mb-2">Ravallusion Logo</i>
             <div className="text-lg">
               Join thousands of creators enhancing their storytelling with our
@@ -100,9 +103,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="">
-        <FooterRavallusion />
-      </div>
+      <FooterRavallusion className="w-[95%] h-full" />
     </div>
   );
 };

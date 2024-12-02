@@ -1,5 +1,5 @@
-import CustomAccordion from "./CustomAccordion";
-import LandingContainer from "./LandingContainer";
+import CustomAccordion from "./common/CustomAccordion";
+import LandingContainer from "./common/LandingContainer";
 
 const FAQ = [
   {
@@ -35,7 +35,7 @@ const FAQ = [
 ];
 const FAQSection = () => {
   return (
-    <LandingContainer className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-3 justify-center items-center !h-fit py-10 px-4 lg:py-14 lg:px-32 ">
+    <LandingContainer className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-3 justify-center items-center !h-fit py-10 px-4 lg:py-14 lg:px-[9%] ">
       <div className="flex flex-col gap-2 h-full">
         <div className="text-4xl md:text-5xl">Frequently asked Questions</div>
         <div className="text-base text-[var(--light-gray)]">

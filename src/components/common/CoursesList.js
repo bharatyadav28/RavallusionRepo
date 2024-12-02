@@ -58,7 +58,6 @@ const courses = [
 
 const CoursesList = () => {
   const [count, setCount] = useState(2);
-  const [screenWidth, setScreenWidth] = useState("");
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {

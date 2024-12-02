@@ -1,6 +1,6 @@
 import Image from "next/image";
-import LandingContainer from "./LandingContainer";
-import { GlowButton } from "./CustomButton";
+import LandingContainer from "./common/LandingContainer";
+import { GlowButton } from "./common/CustomButton";
 
 const HeroSection = () => {
   return (
@@ -14,7 +14,7 @@ const HeroSection = () => {
           <span className="text-[var(--neon-purple)]">Pro-Level</span> Editing
           Skills!
         </div>
-        <div className="text-base text-lg md:w-[90%]">
+        <div className=" text-lg md:w-[90%]">
           Join thousands of creators enhancing their storytelling with our
           expert-led courses. Whether you’re a beginner or a pro, we have
           something for everyone!

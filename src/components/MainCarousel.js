@@ -1,8 +1,7 @@
-import React from "react";
-import LandingContainer from "./LandingContainer";
-import CustomCarousel from "./CustomCarousel";
-import { CarouselItem } from "../ui/carousel";
 import Image from "next/image";
+import LandingContainer from "./common/LandingContainer";
+import CustomCarousel from "./common/CustomCarousel";
+import { CarouselItem } from "./ui/carousel";
 
 const list = [
   {
