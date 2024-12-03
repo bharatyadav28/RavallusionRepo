@@ -244,3 +244,12 @@ body {
     display: none;
   }
 }
+
+.cardContainer {
+  position: sticky;
+
+  .card {
+    position: relative;
+    transform-origin: top;
+  }
+}

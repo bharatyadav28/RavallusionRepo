@@ -61,8 +61,11 @@ const quickLinks = [
 ];
 const Footer = () => {
   return (
-    <div className="relative flex flex-col items-center p-0 m-0 overflow-hidden">
-      <FooterBg className="absolute -bottom-[110%] md:-bottom-[170%] -left-[280%]  md:-left-[100%] md:h-[450%] md:w-[100%]  -z-[1000]" />
+    <div
+      data-aos="fade-up"
+      className="relative flex flex-col items-center p-0 m-0 overflow-hidden "
+    >
+      <FooterBg className="absolute -bottom-[110%] sm:-bottom-[140%] -left-[280%]  sm:-left-[60%] sm:h-[400%] -z-[1000]" />
       <div className="flex self-stretch justify-around flex-col md:flex-row gap-10 p-10 px-4">
         <div className="flex flex-col gap-5 max-w-lg">
           <div>
