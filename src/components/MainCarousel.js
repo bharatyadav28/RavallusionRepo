@@ -1,7 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import LandingContainer from "./common/LandingContainer";
 import CustomCarousel from "./common/CustomCarousel";
 import { CarouselItem } from "./ui/carousel";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const list = [
   {
@@ -108,41 +115,64 @@ const list = [
 
 const CarouselCard = ({ item }) => {
   return (
-    <div className=" relative w-fit h-fit">
-      <Image
-        src={item.image}
-        width={100}
-        height={100}
-        alt={item.id}
-        className="w-[1262px] h-[65vw] md:h-[500px]  "
-      />
-      <div className="absolute top-8 sm:top-20 md:top-32 left-3 md:left-10 w-[52%] sm:w-[48%] md:w-[43%] ">
-        <div className="text-sm sm:text-lg md:text-[32.7px] font-bold">
-          {item.title}
+    <div className="flex items-center justify-center  ">
+      <div className=" relative w-fit h-fit self-center">
+        <Image
+          src={item.image}
+          width={100}
+          height={100}
+          alt={item.id}
+          className="w-[70vw] h-[70vw] md:w-[50vw] md:h-full   "
+          // layout="responsive"
+        />
+        <div className="absolute top-8 sm:top-20 left-2 sm:left-5 w-[52%] sm:w-[48%] md:w-[43%] ">
+          <div className="text-sm sm:text-2xl  font-bold">{item.title}</div>
+          <div className="text-[6px] sm:text-[9px]  mt-2">{item.para}</div>
+          <ul className="px-4 list-disc text-[6px] sm:text-[9px]  mt-2">
+            {item.details.map((d) => (
+              <li key={d.id}>
+                <span className="font-bold">{d.title}:</span> {d.detail}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="text-[6px] sm:text-xs md:text-sm mt-2">{item.para}</div>
-        <ul className="px-4 list-disc text-[6px] sm:text-xs md:text-sm mt-2">
-          {item.details.map((d) => (
-            <li key={d.id}>
-              <span className="font-bold">{d.title}:</span> {d.detail}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
 };
 const MainCarousel = () => {
   return (
-    <LandingContainer className=" flex items-center justify-center !h-fit py-20">
-      <CustomCarousel>
-        {list.map((item) => (
-          <CarouselItem key={item.id} className="basis-[70%]">
-            <CarouselCard item={item} />
-          </CarouselItem>
-        ))}
-      </CustomCarousel>
-    </LandingContainer>
+    <>
+      <LandingContainer className="flex items-center justify-center !h-fit py-24">
+        {/* <CustomCarousel>
+          {list.map((item) => (
+            <CarouselItem key={item.id} className="basis-[70%]">
+              <CarouselCard item={item} />
+            </CarouselItem>
+          ))}
+        </CustomCarousel> */}
+        <div className="md:carousel-left absolute h-full md:w-[100px] z-[100] left-0 " />
+        <div />
+        <Swiper
+          spaceBetween={180}
+          slidesPerView={1}
+          navigation={true}
+          enabled={true}
+          // scrollbar={{ draggable: true }}
+          loop={true}
+          onSlideChange={() => console.log("slide change")}
+          onSwiper={(swiper) => console.log(swiper)}
+          className=" w-[70vw] md:w-[50%] !overflow-visible"
+        >
+          {list.map((item) => (
+            <SwiperSlide key={item.id} className="">
+              <CarouselCard item={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="md:carousel-right absolute h-full md:w-[100px] z-[100] right-0" />
+      </LandingContainer>
+    </>
   );
 };
 

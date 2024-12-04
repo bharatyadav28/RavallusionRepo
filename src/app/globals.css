@@ -164,25 +164,6 @@ body {
 }
 
 .carousel {
-  .right {
-    background: linear-gradient(
-      to left,
-      var(--background),
-      var(--background),
-      var(--background),
-      transparent
-    );
-  }
-  .left {
-    background: linear-gradient(
-      to right,
-      var(--background),
-      var(--background),
-      var(--background),
-      transparent
-    );
-    filter: blur(100%);
-  }
 }
 
 .skeleton-left {
@@ -252,4 +233,69 @@ body {
     position: relative;
     transform-origin: top;
   }
+}
+
+@media screen and (max-width: 750px) {
+  .swiper-button-prev {
+    display: none !important;
+  }
+  .swiper-button-next {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 750px) {
+  .swiper-button-prev {
+    color: black !important;
+    background-color: white !important;
+    padding: 10px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50%;
+    left: -33% !important;
+    z-index: 1000;
+    &::after {
+      font-size: small !important;
+      font-weight: bolder;
+    }
+  }
+  .swiper-button-next {
+    color: black !important;
+    background-color: white !important;
+    padding: 10px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50%;
+    right: -33% !important;
+    &::after {
+      font-size: small !important;
+      font-weight: bolder;
+    }
+  }
+  .swiper-slide {
+    transition: all 1s linear;
+  }
+
+  .swiper-slide-active {
+    scale: 1.5;
+  }
+}
+
+.carousel-right {
+  background: linear-gradient(
+    to left,
+    var(--background),
+    var(--background) 50%,
+    var(--background) 40%,
+    transparent
+  ) !important;
+}
+.carousel-left {
+  background: linear-gradient(
+    to right,
+    var(--background),
+    var(--background) 50%,
+    var(--background) 40%,
+    transparent
+  ) !important;
+  filter: blur(100%);
 }
