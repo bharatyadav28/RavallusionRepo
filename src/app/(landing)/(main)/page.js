@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import MainCarousel from "@/components/MainCarousel";
 import TutorialsSection from "@/components/TutorialsSection";
 import ModuleSection from "@/components/ModuleSection";
+import PlansSection from "@/components/PlansSection";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <MainCarousel />
       <TutorialsSection />
       <ModuleSection />
+      {/* <PlansSection /> */}
       <FAQSection />
     </div>
   );

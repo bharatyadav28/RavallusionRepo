@@ -8,7 +8,7 @@ const LandingContainer = ({ children, className, showBg }) => {
   useEffect(() => {
     Aos.init({
       duration: 1000, // Animation duration in milliseconds
-      offset: 100, // Offset (in pixels) from the original trigger point
+      offset: 50, // Offset (in pixels) from the original trigger point
       easing: "ease-in-out", // Easing function
       // once: true, // Whether animation should happen only once
     });

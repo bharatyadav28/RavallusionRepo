@@ -4,11 +4,11 @@ import Image from "next/image";
 import LandingContainer from "./common/LandingContainer";
 import CustomCarousel from "./common/CustomCarousel";
 import { CarouselItem } from "./ui/carousel";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { useEffect, useState } from "react";
+import EmblaCarousel from "./ui/EmblaCarousel";
 
 const list = [
   {
@@ -39,7 +39,7 @@ const list = [
   {
     id: 2,
     image: "/carousel-1.png",
-    title: "Craft Stories, Frame by Frame!",
+    title: "zcbhsdcb Stories, Frame by Frame!",
     para: "Bring your ideas to life with powerful, easy-to-use editing tools. Transform raw moments into compelling stories, one frame at a time.",
     details: [
       {
@@ -64,7 +64,7 @@ const list = [
   {
     id: 3,
     image: "/carousel-1.png",
-    title: "Craft Stories, Frame by Frame!",
+    title: "lllll Stories, Frame by Frame!",
     para: "Bring your ideas to life with powerful, easy-to-use editing tools. Transform raw moments into compelling stories, one frame at a time.",
     details: [
       {
@@ -89,7 +89,7 @@ const list = [
   {
     id: 4,
     image: "/carousel-1.png",
-    title: "Craft Stories, Frame by Frame!",
+    title: "Crappppppft Stories, Frame by Frame!",
     para: "Bring your ideas to life with powerful, easy-to-use editing tools. Transform raw moments into compelling stories, one frame at a time.",
     details: [
       {
@@ -113,20 +113,21 @@ const list = [
   },
 ];
 
+const OPTIONS = { loop: true };
+
 const CarouselCard = ({ item }) => {
   return (
     <div className="flex items-center justify-center  ">
-      <div className=" relative w-fit h-fit self-center">
+      <div className=" relative ">
         <Image
           src={item.image}
           width={100}
           height={100}
           alt={item.id}
-          className="w-[70vw] h-[70vw] md:w-[50vw] md:h-full   "
-          // layout="responsive"
+          className="w-[70vw] h-[65vw] md:w-[50vw] md:h-full   "
         />
-        <div className="absolute top-8 sm:top-20 left-2 sm:left-5 w-[52%] sm:w-[48%] md:w-[43%] ">
-          <div className="text-sm sm:text-2xl  font-bold">{item.title}</div>
+        <div className="absolute top-10 left-3 w-[50%] sm:w-[48%] md:w-[44%] ">
+          <div className="text-sm sm:text-3xl  font-bold">{item.title}</div>
           <div className="text-[6px] sm:text-[9px]  mt-2">{item.para}</div>
           <ul className="px-4 list-disc text-[6px] sm:text-[9px]  mt-2">
             {item.details.map((d) => (
@@ -140,37 +141,38 @@ const CarouselCard = ({ item }) => {
     </div>
   );
 };
+
 const MainCarousel = () => {
+  const [screenWidth, setScreenWidth] = useState();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
+  console.log(screenWidth);
   return (
     <>
-      <LandingContainer className="flex items-center justify-center !h-fit py-24">
-        {/* <CustomCarousel>
-          {list.map((item) => (
-            <CarouselItem key={item.id} className="basis-[70%]">
-              <CarouselCard item={item} />
-            </CarouselItem>
-          ))}
-        </CustomCarousel> */}
-        <div className="md:carousel-left absolute h-full md:w-[100px] z-[100] left-0 " />
-        <div />
-        <Swiper
-          spaceBetween={180}
-          slidesPerView={1}
-          navigation={true}
-          enabled={true}
-          // scrollbar={{ draggable: true }}
-          loop={true}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
-          className=" w-[70vw] md:w-[50%] !overflow-visible"
-        >
-          {list.map((item) => (
-            <SwiperSlide key={item.id} className="">
-              <CarouselCard item={item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <div className="md:carousel-right absolute h-full md:w-[100px] z-[100] right-0" />
+      <LandingContainer className="flex items-center justify-center !h-fit py-12 sm:py-32">
+        {screenWidth < 640 ? (
+          <CustomCarousel>
+            {list.map((item) => (
+              <CarouselItem key={item.id} className="basis-[70%]">
+                <CarouselCard item={item} />
+              </CarouselItem>
+            ))}
+          </CustomCarousel>
+        ) : (
+          <>
+            <div className="hidden md:flex carousel-left absolute h-full w-[100px] z-[100] left-0 " />
+            <EmblaCarousel options={OPTIONS} slides={list} />
+            <div className="hidden md:flex carousel-right absolute h-full w-[100px] z-[100] right-0" />
+          </>
+        )}
       </LandingContainer>
     </>
   );
