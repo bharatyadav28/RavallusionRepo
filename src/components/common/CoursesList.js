@@ -87,7 +87,7 @@ const CoursesList = () => {
     <div className="flex-grow relative">
       <CustomSkeleton
         count={count}
-        className="absolute !-left-7 sm:!-left-[11%] md:!-left-[7rem] !w-[10%] sm:!w-24 xl:!w-[rem]  !h-full"
+        className="absolute !-left-7 sm:!-left-[11%] md:!-left-[7rem] !w-[10%] sm:!w-24 2xl:!w-[rem]  !h-full"
         skeletonClass="skeleton-left"
       />
       <CustomSkeleton

@@ -27,14 +27,14 @@ const CarouselCard = ({ item }) => {
             className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full  "
           />
         </div>
-        <div className="absolute top-8 sm:top-20 left-2 sm:left-5 xl:left-7 w-[52%] sm:w-[48%] md:w-[44%] ">
-          <div className="text-sm sm:text-2xl xl:text-3xl font-bold">
+        <div className="absolute top-8 sm:top-20 left-2 sm:left-5 2xl:left-7 w-[52%] sm:w-[48%] md:w-[44%] ">
+          <div className="text-sm sm:text-2xl 2xl:text-3xl font-bold">
             {item.title}
           </div>
-          <div className="text-[6px] sm:text-[9px] xl:text-xs  mt-2 xl:w-[80%]">
+          <div className="text-[6px] sm:text-[9px] 2xl:text-xs  mt-2 2xl:w-[80%]">
             {item.para}
           </div>
-          <ul className="px-4 list-disc text-[6px] sm:text-[9px] xl:text-xs xl:w-[86%]  mt-2">
+          <ul className="px-4 list-disc text-[6px] sm:text-[9px] 2xl:text-xs 2xl:w-[86%]  mt-2">
             {item.details.map((d) => (
               <li key={d.id}>
                 <span className="font-bold">{d.title}:</span> {d.detail}
@@ -140,12 +140,12 @@ const EmblaCarousel = (props) => {
       <div className="embla__controls">
         <div className="embla__buttons">
           <PrevButton
-            className="absolute left-[9%] xl:left-[10rem] top-[50%] -translate-y-[50%] bg-white text-black w-7 h-7 rounded-full z-[1000]"
+            className="absolute left-[9%] 2xl:left-[10rem] top-[50%] -translate-y-[50%] bg-white text-black w-7 h-7 rounded-full z-[1000]"
             onClick={onPrevButtonClick}
             disabled={prevBtnDisabled}
           />
           <NextButton
-            className="absolute right-[9%] xl:right-[10rem] top-[50%] -translate-y-[50%] bg-white text-black w-7 h-7 rounded-full z-[1000]"
+            className="absolute right-[9%] 2xl:right-[10rem] top-[50%] -translate-y-[50%] bg-white text-black w-7 h-7 rounded-full z-[1000]"
             onClick={onNextButtonClick}
             disabled={nextBtnDisabled}
           />

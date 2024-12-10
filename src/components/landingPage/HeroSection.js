@@ -6,20 +6,20 @@ const HeroSection = () => {
   return (
     <LandingContainer
       showBg={true}
-      className=" flex items-center flex-wrap-reverse md:flex-nowrap pt-20 md:pt-0 md:px-[7rem] xl:px-[10rem] !h-fit md:!h-screen"
+      className=" flex items-center flex-wrap-reverse md:flex-nowrap pt-20 md:pt-0 md:px-[7rem] 2xl:px-[10rem] !h-fit md:!h-screen"
     >
-      <div className="md:w-[600px]  xl:w-[800px] flex flex-col gap-8 xl:gap-9 mt-4  mb-10 md:m-0 z-10">
-        <div className=" text-4xl md:text-5xl xl:text-6xl font-bold">
+      <div className="md:w-[600px]  2xl:w-[800px] flex flex-col gap-8 2xl:gap-9 mt-4  mb-10 md:m-0 z-10">
+        <div className=" text-4xl md:text-5xl 2xl:text-6xl font-bold">
           Unleash Your Inner Storyteller with{" "}
           <span className="text-[var(--neon-purple)]">Pro-Level</span> Editing
           Skills!
         </div>
-        <div className=" text-lg xl:text-xl md:w-[90%] xl:w-[75%]">
+        <div className=" text-lg 2xl:text-xl md:w-[90%] 2xl:w-[75%]">
           Join thousands of creators enhancing their storytelling with our
           expert-led courses. Whether you’re a beginner or a pro, we have
           something for everyone!
         </div>
-        <GlowButton className="text-xl xl:text-2xl self-start mt-6 px-14 xl:px-16 py-7 xl:py-8 ">
+        <GlowButton className="text-xl 2xl:text-2xl self-start mt-6 px-14 2xl:px-16 py-7 2xl:py-8 ">
           Enroll Now
         </GlowButton>
       </div>
@@ -30,7 +30,7 @@ const HeroSection = () => {
             width={100}
             height={100}
             alt="hero-image"
-            className=" w-[350px]  md:w-[500px] xl:w-[40rem] xl:h-[35rem]  "
+            className=" w-[350px]  md:w-[500px] 2xl:w-[40rem] 2xl:h-[35rem]  "
           />
           <div className="hero-image absolute inset-0 z-[1001] "></div>
         </div>

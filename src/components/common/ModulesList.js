@@ -58,18 +58,18 @@ const data = [
 const ModuleCard = ({ index, item, progress, range, targetScale }) => {
   const scale = useTransform(progress, range, [1, targetScale]);
   return (
-    <div className=" cardContainer h-[55vh] sm:[60vh] md:h-[70vh] top-[300px] sm: lg:top-[200px] xl:top-[15rem] px-5 md:px-[7%] xl:px-[8%]">
+    <div className=" cardContainer h-[55vh] sm:[60vh] md:h-[70vh] top-[300px] sm: lg:top-[200px] 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]">
       <motion.div
         className="card"
         style={{ scale: scale, top: `calc( ${index * 25}px)` }}
       >
-        <Card className=" !h-fit gap-7 flex md:!flex-row justify-between py-7 px-4 md:p-[60px] xl:p-[70px] items-start flex-wrap md:flex-nowrap ">
-          <div className="text-2xl md:text-[35px] xl:text-[2.5rem] min-w-[53%] md:font-bold">
+        <Card className=" !h-fit gap-7 flex md:!flex-row justify-between py-7 px-4 md:p-[60px] 2xl:p-[70px] items-start flex-wrap md:flex-nowrap ">
+          <div className="text-2xl md:text-[35px] 2xl:text-[2.5rem] min-w-[53%] md:font-bold">
             {item.module}
           </div>
-          <div className="flex-grow text-xs xl:text-sm flex flex-col gap-[30px] ">
+          <div className="flex-grow text-xs 2xl:text-sm flex flex-col gap-[30px] ">
             <div className="flex flex-col gap-4 items-start ">
-              <h1 className="text-4xl xl:text-[2.5rem] font-bold ">
+              <h1 className="text-4xl 2xl:text-[2.5rem] font-bold ">
                 {item.title}
               </h1>
               <div className="flex items-center gap-4 py-2 px-3 text-[var(--light-gray)] bg-[var(--light-black)] rounded-lg">

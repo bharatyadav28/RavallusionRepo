@@ -66,14 +66,14 @@ const Footer = () => {
       className="relative flex flex-col items-center p-0 m-0 overflow-hidden "
     >
       <FooterBg className="absolute -bottom-[110%] sm:-bottom-[140%] -left-[280%]  sm:-left-[60%] sm:h-[400%] -z-[1000]" />
-      <div className="flex self-stretch justify-between flex-col md:flex-row gap-10 py-10 px-4 md:px-[9%] xl:px-[10rem]">
-        <div className="flex flex-col gap-5 w-[30rem] xl:!w-[33rem]">
+      <div className="flex self-stretch justify-between flex-col md:flex-row gap-10 py-10 px-4 md:px-[9%] 2xl:px-[10rem]">
+        <div className="flex flex-col gap-5 w-[30rem] 2xl:!w-[33rem]">
           <div>
             {/* Logo */}
-            <i className="text-3xl xl:text-4xl font-medium mb-2">
+            <i className="text-3xl 2xl:text-4xl font-medium mb-2">
               Ravallusion Logo
             </i>
-            <div className="text-lg xl:text-xl">
+            <div className="text-lg 2xl:text-xl">
               Join thousands of creators enhancing their storytelling with our
               expert-led courses.
             </div>
@@ -94,13 +94,13 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <div className="text-2xl xl:text-3xl">Quick Links</div>
+          <div className="text-2xl 2xl:text-3xl">Quick Links</div>
           <div className="flex flex-col gap-3">
             {quickLinks.map((item) => (
               <Link
                 key={item.title}
                 href={item.link}
-                className="text-base xl:text-lg text-[var(--light-gray)] hover:underline "
+                className="text-base 2xl:text-lg text-[var(--light-gray)] hover:underline "
               >
                 {item.title}
               </Link>
@@ -108,7 +108,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <FooterRavallusion className="w-full md:h-[10rem] xl:h-[12.5rem] left-[50%]" />
+      <FooterRavallusion className="w-full h-full md:h-[10rem] 2xl:h-[12.5rem] " />
     </div>
   );
 };

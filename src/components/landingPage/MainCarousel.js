@@ -170,9 +170,9 @@ const MainCarousel = () => {
           </CustomCarousel>
         ) : (
           <>
-            <div className="hidden md:flex carousel-left absolute h-full w-[100px] xl:w-[200px] z-[100] left-0 " />
+            <div className="hidden md:flex carousel-left absolute h-full w-[100px] 2xl:w-[200px] z-[100] left-0 " />
             <EmblaCarousel options={OPTIONS} slides={list} />
-            <div className="hidden md:flex carousel-right absolute h-full w-[100px] xl:w-[200px] z-[100] right-0" />
+            <div className="hidden md:flex carousel-right absolute h-full w-[100px] 2xl:w-[200px] z-[100] right-0" />
           </>
         )}
       </LandingContainer>

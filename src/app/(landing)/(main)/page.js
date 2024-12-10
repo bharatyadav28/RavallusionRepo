@@ -5,6 +5,7 @@ import TutorialsSection from "@/components/landingPage/TutorialsSection";
 import ModuleSection from "@/components/landingPage/ModuleSection";
 import PlansSection from "@/components/landingPage/PlansSection";
 import MentorsSection from "@/components/landingPage/MentorsSection";
+import CertificateSection from "@/components/landingPage/CertificateSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <ModuleSection />
       <PlansSection />
       <MentorsSection />
+      <CertificateSection />
       <FAQSection />
     </div>
   );

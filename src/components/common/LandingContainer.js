@@ -17,12 +17,12 @@ const LandingContainer = ({ children, className, showBg }) => {
     <div
       // data-aos="fade-up"
       className={
-        `h-screen w-screen px-4 md:px-[9%] xl:px-[10rem] relative overflow-hidden  ` +
+        `h-screen w-screen px-4 md:px-[9%] 2xl:px-[10rem] relative overflow-hidden  ` +
         className
       }
     >
       {showBg && (
-        <div className="absolute -top-20 xl:top-0 -left-44 xl:-left-14 -right-44 bottom-0 background-image"></div>
+        <div className="absolute -top-20 2xl:top-0 -left-44 2xl:-left-14 -right-44 bottom-0 background-image"></div>
       )}
       {children}
     </div>
