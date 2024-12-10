@@ -1,9 +1,10 @@
-import FAQSection from "@/components/FAQSection";
-import HeroSection from "@/components/HeroSection";
-import MainCarousel from "@/components/MainCarousel";
-import TutorialsSection from "@/components/TutorialsSection";
-import ModuleSection from "@/components/ModuleSection";
-import PlansSection from "@/components/PlansSection";
+import FAQSection from "@/components/landingPage/FAQSection";
+import HeroSection from "@/components/landingPage/HeroSection";
+import MainCarousel from "@/components/landingPage/MainCarousel";
+import TutorialsSection from "@/components/landingPage/TutorialsSection";
+import ModuleSection from "@/components/landingPage/ModuleSection";
+import PlansSection from "@/components/landingPage/PlansSection";
+import MentorsSection from "@/components/landingPage/MentorsSection";
 
 export default function Home() {
   return (
@@ -12,7 +13,8 @@ export default function Home() {
       <MainCarousel />
       <TutorialsSection />
       <ModuleSection />
-      {/* <PlansSection /> */}
+      <PlansSection />
+      <MentorsSection />
       <FAQSection />
     </div>
   );

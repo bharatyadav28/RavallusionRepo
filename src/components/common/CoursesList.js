@@ -84,18 +84,18 @@ const CoursesList = () => {
     };
   });
   return (
-    <div className="flex-grow overflow-y-auto relative">
+    <div className="flex-grow relative">
       <CustomSkeleton
         count={count}
-        className="absolute left-0 !w-[10%] sm:!w-24 !h-full"
+        className="absolute !-left-7 sm:!-left-[11%] md:!-left-[7rem] !w-[10%] sm:!w-24 xl:!w-[rem]  !h-full"
         skeletonClass="skeleton-left"
       />
       <CustomSkeleton
         count={count}
-        className="absolute right-0 !w-[10%] sm:!w-24 !h-full"
+        className="absolute !-right-7 sm:!-right-[11%] md:!-right-[7rem] !w-[10%] sm:!w-24 !h-full"
         skeletonClass="skeleton-right"
       />
-      <div className="mx-[15%] sm:mx-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
         {courses.map((course) => (
           <CourseCard key={course.id} course={course} />
         ))}

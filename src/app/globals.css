@@ -8,7 +8,7 @@ body {
 
 @layer base {
   :root {
-    --background: #040c19;
+    --background: rgb(4, 12, 25);
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -36,10 +36,11 @@ body {
 
     --main-purple: #5b099b;
     --button-bg: #a37fff26;
-    --neon-purple: #c99bfd;
+    --neon-purple: rgb(201, 155, 253);
     --light-gray: rgba(255, 255, 255, 0.8);
     --card: rgba(24, 31, 43, 1);
     --light-black: rgba(39, 45, 57, 1);
+    --yellow: #feb179;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -129,9 +130,9 @@ body {
 .background-image {
   background: linear-gradient(
       to right,
-      var(--background) 20%,
+      var(--background) 15%,
       transparent 50%,
-      var(--background) 100%
+      var(--background) 200%
     ),
     url("/Background.png");
 
@@ -141,11 +142,13 @@ body {
 @media screen and (max-width: 750px) {
   .background-image {
     background: linear-gradient(
-        to top left,
-        var(--background),
-        var(--background),
-        var(--background) 60%,
-        transparent
+        to bottom right,
+        var(--background) 18%,
+        transparent,
+        transparent,
+        transparent,
+        transparent,
+        var(--background) 50%
       ),
       url("/Background.png");
     background-size: 120%;
@@ -161,9 +164,6 @@ body {
       transparent
     ),
     linear-gradient(to top left, var(--background), transparent, transparent);
-}
-
-.carousel {
 }
 
 .skeleton-left {
@@ -279,7 +279,27 @@ body {
     scale: 1.5;
   }
 }
-
+.carousel-bg {
+  border-radius: 15.782px;
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 20%,
+      rgba(201, 155, 253, 0.53) 50%,
+      rgba(255, 255, 255, 0.05) 80%,
+      rgba(255, 255, 255, 0.05)
+    ),
+    linear-gradient(
+      to top,
+      var(--background) 0%,
+      var(--background) 10%,
+      transparent 100%
+    );
+  background-blend-mode: screen;
+  backdrop-filter: blur(54.10266876220703px);
+  /* z-index: 1000; */
+  /* box-shadow: 0px -10px 10px var(--neon-purple); */
+}
 .carousel-right {
   background: linear-gradient(
     to left,
@@ -305,7 +325,7 @@ body {
   height: 100%;
   margin: auto;
   --slide-height: 19rem;
-  --slide-spacing: 13vw;
+  --slide-spacing: 10vw;
   --slide-size: 55%;
 }
 /* .embla__viewport {
@@ -415,4 +435,38 @@ body {
 }
 .embla__slide__number {
   backface-visibility: hidden;
+}
+
+.plans-card {
+  background: linear-gradient(
+      167deg,
+      rgba(194, 67, 254, 0.2) 18.5%,
+      rgba(17, 24, 37, 0.2) 51.78%
+    ),
+    #131a26;
+}
+
+.vinod-card {
+  background-image: linear-gradient(to top, var(--yellow), #30333b, #181f2b);
+}
+
+.featured::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  width: 5rem;
+  height: 100%;
+  background: linear-gradient(to right, var(--card) 40%, transparent 100%);
+}
+.featured::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  width: 5rem;
+  height: 100%;
+  background: linear-gradient(to left, var(--card) 40%, transparent 100%);
 }

@@ -1,4 +1,4 @@
-import Footer from "@/components/Footer";
+import Footer from "@/components/landingPage/Footer";
 
 export default function LandingLayout({ children }) {
   return (

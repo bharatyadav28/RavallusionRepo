@@ -12,22 +12,22 @@ const CourseCard = ({ course }) => {
         alt={title}
         width={100}
         height={100}
-        className="w-full h-40 object-cover rounded-2xl"
+        className="w-full h-40 xl:!h-48 object-cover rounded-2xl"
       />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 xl:gap-4">
         <div>
-          <h3 className="text-lg font-bold">{title}</h3>
-          <p className="text-gray-400 text-xs">{description}</p>
+          <h3 className="text-lg xl:text-2xl font-bold">{title}</h3>
+          <p className="text-gray-400 text-xs xl:text-base">{description}</p>
         </div>
         <div className="flex items-center gap-2 text-gray-400 text-xs ">
-          <span className="flex items-center space-x-1">
+          <span className="flex items-center space-x-1 text-xs xl:text-sm">
             <Views />
             <span>{views}</span>
           </span>
-          <span className="flex items-center space-x-1">
+          {/* <span className="flex items-center space-x-1">
             <Like />
             <span>{likes}</span>
-          </span>
+          </span> */}
         </div>
       </div>
     </Card>
