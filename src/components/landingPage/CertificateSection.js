@@ -24,7 +24,7 @@ const CertificateSection = () => {
   //   }, []);
   return (
     <LandingContainer className="!h-fit py-[60px] !flex !flex-row justify-center">
-      <div className="flex gap-10 items-center flex-wrap">
+      <div className="flex gap-10 items-center w-full flex-wrap">
         <div className=" p-5 py-[60px] rounded-2xl certificate">
           <Image
             src={data.image}
