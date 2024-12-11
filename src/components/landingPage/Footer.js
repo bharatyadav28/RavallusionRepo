@@ -40,23 +40,23 @@ const socialHandles = [
 const quickLinks = [
   {
     title: "Terms and condition",
-    link: "#",
+    link: "/terms-and-conditions",
   },
   {
     title: "Privacy Policy",
-    link: "#",
+    link: "/privacy-policy",
   },
   {
     title: "Pricing Policy",
-    link: "#",
+    link: "/pricing-policy",
   },
   {
     title: "Refund Policy",
-    link: "#",
+    link: "/refund-policy",
   },
   {
     title: "Contact us",
-    link: "#",
+    link: "/contact-us",
   },
 ];
 const Footer = () => {

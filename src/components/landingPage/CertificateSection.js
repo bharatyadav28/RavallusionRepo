@@ -14,14 +14,16 @@ const data = {
   image: "/certificate.jpg",
 };
 const CertificateSection = () => {
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       const res = await fetch("https://revallusion.onrender.com/api/v1/home");
-  //       const data = await res.json();
-  //       console.log(data);
-  //     };
-  //     fetchData();
-  //   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("https://revallusion.onrender.com/api/v1/home");
+      const data = await res.json();
+      console.log(data);
+      localStorage.setItem("data", JSON.stringify(data));
+    };
+    fetchData();
+  }, []);
+
   return (
     <LandingContainer className="!h-fit py-[60px] !flex !flex-row justify-center">
       <div className="flex gap-10 items-center w-full flex-wrap">

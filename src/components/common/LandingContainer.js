@@ -4,7 +4,7 @@ import Aos from "aos";
 import { useEffect } from "react";
 import "aos/dist/aos.css";
 
-const LandingContainer = ({ children, className, showBg }) => {
+const LandingContainer = ({ children, className, showBg, bg2 }) => {
   useEffect(() => {
     Aos.init({
       duration: 1000, // Animation duration in milliseconds
@@ -15,7 +15,7 @@ const LandingContainer = ({ children, className, showBg }) => {
   }, []);
   return (
     <div
-      // data-aos="fade-up"
+      data-aos="fade-up"
       className={
         `h-screen w-screen px-4 md:px-[9%] 2xl:px-[10rem] relative overflow-hidden  ` +
         className
@@ -23,6 +23,9 @@ const LandingContainer = ({ children, className, showBg }) => {
     >
       {showBg && (
         <div className="absolute -top-20 2xl:top-0 -left-44 2xl:-left-14 -right-44 bottom-0 background-image"></div>
+      )}
+      {bg2 && (
+        <div className="absolute -left-28 w-[130vw] h-[130vh] bg-cover bg-center bg-[url('/bg2.png')] -z-10 "></div>
       )}
       {children}
     </div>

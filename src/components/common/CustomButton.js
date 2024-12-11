@@ -25,3 +25,18 @@ export const GlowButton = ({ children, ...props }) => {
     </CustomButton>
   );
 };
+export const SubmitButton = ({ children, ...props }) => {
+  const { className, onClick } = props;
+
+  const classes = cn(" submit-btn text-base py-6 text-lg  ", className);
+  return (
+    <CustomButton
+      {...props}
+      className={classes}
+      onClick={onClick}
+      type="submit"
+    >
+      {children}
+    </CustomButton>
+  );
+};

@@ -46,17 +46,19 @@ const MentorsSection = () => {
             className="absolute w-[200vw] md:w-[140vw] md:-left-[65%] lg:w-[62rem] 2xl:!w-[75rem] max-w-none -left-[100%] lg:-left-[27rem] 2xl:!-left-[32rem] h-[31rem] md:h-[41rem] 2xl:h-[49rem] bottom-0  !right-0 "
           />
         </div>
-        <div className="flex flex-col gap-5 self-center">
+        <div className="flex flex-col gap-5 self-center py-3">
           <div className="flex flex-col gap-3">
             <h1 className="text-[34px] md:text-5xl 2xl:text-6xl font-bold">
               Meet Our Mentor!
             </h1>
             <div className="flex flex-col gap-5">
               <div>
-                <div className="text-lg md:text-[1.75rem] 2xl:text-[2.5rem] font-bold text-[var(--yellow)]">
+                <div className="text-lg md:text-[1.75rem] mb-3 2xl:text-[2.5rem] font-bold text-[var(--yellow)]">
                   Vinod Kumar
                 </div>
-                <div className="text-xs 2xl:text-sm">Ceo of Ravallusion</div>
+                <div className="text-xs 2xl:text-sm text-[var(--light-gray)]">
+                  Ceo of Ravallusion
+                </div>
               </div>
               <div className="text-sm md:text-base 2xl:text-lg">
                 Welcome to my personal course platform! I&rsquo;m Gowtham, a

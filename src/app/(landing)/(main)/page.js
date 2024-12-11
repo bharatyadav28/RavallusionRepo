@@ -9,7 +9,7 @@ import CertificateSection from "@/components/landingPage/CertificateSection";
 
 export default function Home() {
   return (
-    <div className="">
+    <div>
       <HeroSection />
       <MainCarousel />
       <TutorialsSection />
