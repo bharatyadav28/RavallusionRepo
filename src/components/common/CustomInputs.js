@@ -30,13 +30,13 @@ export const TextInput = (props) => {
       <div className="flex items-center gap-3 bg-[var(--input)] py-5 px-3 rounded-xl ">
         <span>{icon}</span>
         <input
+          type="text"
           {...props}
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={classes}
-          type="text"
         />
       </div>
     </div>

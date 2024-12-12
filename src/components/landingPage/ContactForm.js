@@ -18,7 +18,7 @@ import { SubmitButton } from "../common/CustomButton";
 import { useState } from "react";
 
 const ContactForm = () => {
-  // const formData = new FormData();
+  const formData = new FormData();
   const [formInputs, setFormInputs] = useState({
     first_name: "",
     last_name: "",
@@ -29,6 +29,8 @@ const ContactForm = () => {
     message: "",
     file: null,
   });
+
+  const checkIsNumber = (data) => /^d{1,10}$/.test(data);
 
   const submitQuery = async (data) => {
     try {
@@ -42,25 +44,17 @@ const ContactForm = () => {
     }
     console.log(message);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formInputs);
-    const formData = {
-      name: formInputs.first_name + " " + formInputs.last_name,
-      email: formInputs.email,
-      mobile: formInputs.mobile,
-      profession: formInputs.profession,
-      address: formInputs.address,
-      file: formInputs.file,
-      message: formInputs.message,
-    };
-    // formData.append("name", formInputs.first_name + " " + formInputs.last_name);
-    // formData.append("email", formInputs.email);
-    // formData.append("mobile", formInputs.mobile);
-    // formData.append("profession", formInputs.profession);
-    // formData.append("address", formInputs.address);
-    // formData.append("message", formInputs.message);
-    // formData.append("file", formInputs.file);
+
+    Object.entries(formInputs).forEach(([key, value]) => {
+      if (key === "first_name" || key === "last_name") return;
+      formData.append(key, value);
+    });
+    formData.append("name", `${formInputs.first_name} ${formInputs.last_name}`);
+
     console.log(formData);
     submitQuery(formData);
   };

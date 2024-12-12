@@ -62,12 +62,12 @@ const quickLinks = [
 const Footer = () => {
   return (
     <div
-      data-aos="fade-up"
+      // data-aos="fade-up"
       className="relative flex flex-col items-center p-0 m-0 overflow-hidden "
     >
-      <FooterBg className="absolute -bottom-[110%] sm:-bottom-[140%] -left-[280%]  sm:-left-[60%] sm:h-[400%] -z-[1000]" />
+      <FooterBg className="absolute -top-[50rem] xl:-top-[48rem]  -left-[62rem] md:-left-[45rem] xl:-left-[35rem]  -z-[1000]" />
       <div className="flex self-stretch justify-between flex-col md:flex-row gap-10 py-10 px-4 md:px-[9%] 2xl:px-[10rem]">
-        <div className="flex flex-col gap-5 w-[30rem] 2xl:!w-[33rem]">
+        <div className="flex flex-col gap-5 w-screen sm:w-[30rem] 2xl:!w-[33rem]">
           <div>
             {/* Logo */}
             <i className="text-3xl 2xl:text-4xl font-medium mb-2">
