@@ -33,7 +33,7 @@ const FAQ = [
       "Once you enroll in a course, you’ll have lifetime access. This means you can revisit lessons anytime, at your own pace, from anywhere!",
   },
 ];
-const FAQSection = () => {
+const FAQSection = ({ faqs }) => {
   return (
     <LandingContainer className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-3 justify-center items-center !h-fit py-10  lg:py-14  ">
       <div className="flex flex-col gap-2 h-full">
@@ -45,7 +45,7 @@ const FAQSection = () => {
           help you.
         </div>
       </div>
-      <CustomAccordion list={FAQ} />
+      <CustomAccordion list={faqs} />
     </LandingContainer>
   );
 };

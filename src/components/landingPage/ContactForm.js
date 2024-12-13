@@ -16,8 +16,12 @@ import {
 } from "../common/CustomInputs";
 import { SubmitButton } from "../common/CustomButton";
 import { useState } from "react";
+import { submitQuery } from "@/lib/serverAction";
+import { useToast } from "@/hooks/use-toast";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const ContactForm = () => {
+  const { toast } = useToast();
   const formData = new FormData();
   const [formInputs, setFormInputs] = useState({
     first_name: "",
@@ -29,25 +33,13 @@ const ContactForm = () => {
     message: "",
     file: null,
   });
+  const [isLoading, setLoading] = useState(false);
 
   const checkIsNumber = (data) => /^d{1,10}$/.test(data);
 
-  const submitQuery = async (data) => {
-    try {
-      const res = await fetch("https://revallusion.onrender.com/api/v1/query", {
-        method: "POST",
-        body: data,
-      });
-      const message = await res.json();
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(message);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formInputs);
+    setLoading(true);
 
     Object.entries(formInputs).forEach(([key, value]) => {
       if (key === "first_name" || key === "last_name") return;
@@ -56,7 +48,13 @@ const ContactForm = () => {
     formData.append("name", `${formInputs.first_name} ${formInputs.last_name}`);
 
     console.log(formData);
-    submitQuery(formData);
+    const res = await submitQuery(formData);
+    setLoading(false);
+    toast({
+      variant: res.success ? "default" : "destructive",
+      title: res.success ? res.data.message : res.message,
+      ...(res.success && { className: "bg-green-500 text-white" }),
+    });
   };
   return (
     <form
@@ -130,7 +128,7 @@ const ContactForm = () => {
         icon={uploadIcon}
         label="Upload Your File(JPG, PNG, PDF and Etc..)"
         id="upload-file"
-        value={formInputs.file}
+        value={formInputs.file?.name || "Upload file"}
         onChange={(data) => setFormInputs({ ...formInputs, file: data })}
       />
       <TextArea
@@ -147,7 +145,9 @@ const ContactForm = () => {
         id="privacy"
         required={true}
       />
-      <SubmitButton className="mt-[10px]">Submit</SubmitButton>
+      <SubmitButton className="mt-[10px]">
+        Submit {isLoading && <LoadingSpinner />}
+      </SubmitButton>
     </form>
   );
 };

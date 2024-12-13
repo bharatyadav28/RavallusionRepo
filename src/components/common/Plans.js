@@ -28,7 +28,7 @@ const plans = [
     validity: "One year validity",
   },
 ];
-const Plans = () => {
+const Plans = ({ plans2 }) => {
   const [count, setCount] = useState(1);
 
   useEffect(() => {
@@ -53,6 +53,19 @@ const Plans = () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
   });
+  const getValidity = (daysInSeconds) => {
+    const days = daysInSeconds / (60 * 60 * 24);
+    switch (days) {
+      case 365:
+        return "One year validity";
+      case 180:
+        return "Six months validity";
+      case 730:
+        return "Two years validity";
+      default:
+        break;
+    }
+  };
   return (
     <div className="flex-grow flex justify-center  relative ">
       <CustomSkeleton
@@ -68,7 +81,7 @@ const Plans = () => {
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
         <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
-            {plans[0].heading}
+            {plans2[0].plan_type}
           </h1>
           <div className="py-[30px] px-4 flex flex-col 2xl:px-6 2xl:py-9 2xl:gap-6  gap-4  items-start">
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -98,10 +111,10 @@ const Plans = () => {
           <CustomButton className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
-                &#8377; {plans[0].price}
+                &#8377; {plans2[0].inr_price}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-gray-400 font-semibold ">
-                {plans[0].validity}
+                {getValidity(plans2[0].validity)}
               </div>
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
@@ -109,7 +122,7 @@ const Plans = () => {
         </div>
         <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
-            {plans[1].heading}
+            {plans2[1].plan_type}
           </h1>
           <div className="py-[30px] px-4 flex flex-col 2xl:px-6 2xl:py-9 2xl:gap-6  gap-4 items-start">
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -139,10 +152,10 @@ const Plans = () => {
           <GlowButton className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
-                &#8377; {plans[1].price}
+                &#8377; {plans2[1].inr_price}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-[#D8D8D8] font-semibold ">
-                {plans[1].validity}
+                {getValidity(plans2[1].validity)}
               </div>
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />

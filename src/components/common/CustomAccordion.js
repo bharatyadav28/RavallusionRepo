@@ -15,14 +15,14 @@ const CustomAccordion = ({ list }) => {
     >
       {list.map((item, idx) => (
         <AccordionItem
-          key={item.id}
-          value={item.id}
+          key={item._id}
+          value={item._id}
           className={
             "border-gray-700 " + (idx === list.length - 1 ? "border-none" : "")
           }
         >
           <AccordionTrigger className="text-lg 2xl:text-xl hover:no-underline accordion-custom-trigger [&[data-state=open]>.accordion-plus]:hidden [&[data-state=closed]>.accordion-minus]:hidden">
-            <div className="max-w-[92%]"> {item.question}</div>
+            <div className="max-w-[92%]"> {item.title}</div>
             <Plus
               size={17}
               color="rgba(254, 177, 121, 1)"
@@ -35,7 +35,7 @@ const CustomAccordion = ({ list }) => {
             />
           </AccordionTrigger>
           <AccordionContent className="text-xs 2xl:text-sm text-[var(--light-gray)] max-w-[92%]">
-            {item.answer}
+            {item.description}
           </AccordionContent>
         </AccordionItem>
       ))}

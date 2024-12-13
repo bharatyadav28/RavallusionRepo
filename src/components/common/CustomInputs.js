@@ -79,7 +79,7 @@ export const UploadInput = (props) => {
       </label>
       <div className="flex items-center gap-3 bg-[var(--input)] py-[13px] px-3 rounded-xl ">
         <span id={id}>{icon}</span>
-        <span className="flex-grow text-lg text-white/60">{placeholder}</span>
+        <span className="flex-grow text-lg text-white/60">{value}</span>
         <CustomButton
           className="bg-transparent !m-0 !p-4 !text-sm"
           htmlFor={id}

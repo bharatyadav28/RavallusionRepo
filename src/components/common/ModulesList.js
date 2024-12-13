@@ -65,27 +65,27 @@ const ModuleCard = ({ index, item, progress, range, targetScale }) => {
       >
         <Card className=" !h-fit gap-7 flex md:!flex-row justify-between py-7 px-4 md:p-[60px] 2xl:p-[70px] items-start flex-wrap md:flex-nowrap ">
           <div className="text-2xl md:text-[35px] 2xl:text-[2.5rem] min-w-[53%] md:font-bold">
-            {item.module}
+            {item.name}
           </div>
           <div className="flex-grow text-xs 2xl:text-sm flex flex-col gap-[30px] ">
             <div className="flex flex-col gap-4 items-start ">
               <h1 className="text-4xl 2xl:text-[2.5rem] font-bold ">
-                {item.title}
+                {item.description}
               </h1>
               <div className="flex items-center gap-4 py-2 px-3 text-[var(--light-gray)] bg-[var(--light-black)] rounded-lg">
                 <div className="flex items-center gap-1">
                   <VideoIcon />
-                  <span>{item.videos} videos</span>
+                  <span>{item.videos || "12"} videos</span>
                 </div>
                 <span className="border-[1px] self-stretch "> </span>
                 <div className="flex items-center gap-1">
                   <ClockIcon />
-                  <span>Time: {item.time}</span>
+                  <span>Time: {item.time || "4.5 hours"}</span>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-4">
-              {item.points.map((point) => (
+              {item.key_points.map((point) => (
                 <div
                   key={point}
                   className="flex items-center gap-3 font-extralight"
@@ -102,12 +102,12 @@ const ModuleCard = ({ index, item, progress, range, targetScale }) => {
   );
 };
 
-const ModulesList = ({ scrollYProgress }) => {
-  return data.map((item, index) => {
+const ModulesList = ({ scrollYProgress, modules }) => {
+  return modules.map((item, index) => {
     const targetScale = 1 - (data.length - index) * 0.05;
     return (
       <ModuleCard
-        key={item.id}
+        key={item._id}
         item={item}
         index={index}
         progress={scrollYProgress}

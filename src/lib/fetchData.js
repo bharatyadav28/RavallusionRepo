@@ -5,16 +5,16 @@ const FetchRequest = async ({ path, isTokenRequired = true }) => {
     "Content-Type": "application/json",
   };
   if (isTokenRequired) {
-    headers.Authorization = `${cookies().get("supplier_token")?.value}`;
+    headers.Authorization = `${cookies().get("token")?.value}`;
   }
-  console.log("Headers:", headers);
+  // console.log("Headers:", headers);
 
   try {
-    const response = await fetch(`https://yeii-api.onrender.com${path}`, {
+    const response = await fetch(`https://revallusion.onrender.com${path}`, {
       method: "GET",
-      headers,
-      //   cache: "force-cache",
-      // cache: "no-cache",
+      // headers,
+      // cache: "force-cache",
+      cache: "no-store",
     });
 
     const responseData = await response.json();
@@ -26,8 +26,18 @@ const FetchRequest = async ({ path, isTokenRequired = true }) => {
           responseData?.error?.message
       );
     }
-    return { success: true, data: responseData };
+    console.log({ responseData });
+    return { success: true, data: responseData.data };
   } catch (error) {
     return { success: false, message: error.message };
   }
+};
+
+export const getLandingPageData = async () => {
+  const res = await FetchRequest({
+    path: "/api/v1/home",
+    isTokenRequired: false,
+  });
+  console.log({ res });
+  return res;
 };

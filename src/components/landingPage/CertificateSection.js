@@ -13,23 +13,13 @@ const data = {
   ],
   image: "/certificate.jpg",
 };
-const CertificateSection = () => {
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch("https://revallusion.onrender.com/api/v1/home");
-      const data = await res.json();
-      console.log(data);
-      localStorage.setItem("data", JSON.stringify(data));
-    };
-    fetchData();
-  }, []);
-
+const CertificateSection = ({ certificate }) => {
   return (
     <LandingContainer className="!h-fit py-[60px] !flex !flex-row justify-center">
       <div className="flex gap-10 items-center w-full flex-wrap">
         <div className=" p-5 py-[60px] rounded-2xl certificate">
           <Image
-            src={data.image}
+            src={data.image} //to do : need to ask to bharat to give access for the images
             width={100}
             height={100}
             alt="certificate"
@@ -38,9 +28,9 @@ const CertificateSection = () => {
         </div>
         <div className="flex flex-col gap-4">
           <div className="text-[34px] md:text-5xl xl:text-6xl font-bold">
-            {data.title}
+            {certificate.caption}
           </div>
-          {data.points.map((point) => (
+          {certificate.key_points.map((point) => (
             <div
               key={point}
               className="flex items-center gap-3 text-xs xl:text-sm"

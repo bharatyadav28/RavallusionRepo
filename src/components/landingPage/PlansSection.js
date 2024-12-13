@@ -2,7 +2,7 @@ import React from "react";
 import LandingContainer from "../common/LandingContainer";
 import Plans from "../common/Plans";
 
-const PlansSection = () => {
+const PlansSection = ({ plans }) => {
   return (
     <LandingContainer className="!h-fit py-12 pb-14 flex flex-col gap-10">
       <div className="flex justify-between items-center flex-wrap gap-4   ">
@@ -15,7 +15,7 @@ const PlansSection = () => {
           </div>
         </div>
       </div>
-      <Plans />
+      <Plans plans2={plans} />
     </LandingContainer>
   );
 };

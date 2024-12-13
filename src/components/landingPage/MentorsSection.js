@@ -3,26 +3,7 @@ import LandingContainer from "../common/LandingContainer";
 import Image from "next/image";
 import { FacebookBig, InstagramBig, LinkedinBig, Vinod } from "@/lib/svg_icons";
 
-const links = [
-  {
-    id: 1,
-    title: "Linkedin",
-    followers: "23K",
-    Icon: LinkedinBig,
-  },
-  {
-    id: 2,
-    title: "Facebook",
-    followers: "236K",
-    Icon: FacebookBig,
-  },
-  {
-    id: 3,
-    title: "Instagram",
-    followers: "236K",
-    Icon: InstagramBig,
-  },
-];
+const icons = [LinkedinBig, FacebookBig, InstagramBig];
 
 const images = [
   "/Frame-1 1.png",
@@ -32,7 +13,7 @@ const images = [
   "/Frame-1 1.png",
   "/Frame-1 1.png",
 ];
-const MentorsSection = () => {
+const MentorsSection = ({ mentor }) => {
   return (
     <LandingContainer className="py-[35px] !flex-col !h-fit ">
       <div className=" h-full grid grid-cols-1 lg:grid-cols-2 gap-7 2xl:gap-8 ">
@@ -54,41 +35,35 @@ const MentorsSection = () => {
             <div className="flex flex-col gap-5">
               <div>
                 <div className="text-lg md:text-[1.75rem] mb-3 2xl:text-[2.5rem] font-bold text-[var(--yellow)]">
-                  Vinod Kumar
+                  {mentor.name}
                 </div>
                 <div className="text-xs 2xl:text-sm text-[var(--light-gray)]">
-                  Ceo of Ravallusion
+                  {mentor.designation}
                 </div>
               </div>
               <div className="text-sm md:text-base 2xl:text-lg">
-                Welcome to my personal course platform! I&rsquo;m Gowtham, a
-                passionate content creator with over 5 years of experience, and
-                I&rsquo;m thrilled to share my journey with you. With a YouTube
-                community of over 1 million subscribers and a growing Instagram
-                family of 430k+, I&rsquo;ve crafted a one-of-a-kind course that
-                brings together everything I&rsquo;ve learned along the way.
-                Here, you&rsquo;ll find exclusive content, insights, and
-                practical tips that you won&rsquo;t get anywhere else—perfect
-                for anyone looking to take their skills to the next level. Join
-                me as I share my story and expertise, all in one powerful video!
+                {mentor.about}
               </div>
             </div>
           </div>
           <div className="flex gap-5 2xl:gap-6">
-            {links.map((link) => (
-              <div
-                key={link.id}
-                className="bg-[var(--card)] px-[0.9rem] py-[0.6rem] 2xl:px-[1rem] 2xl:py-[0.7rem] w-[9.35rem] h-[6.85rem] 2xl:w-[12rem] 2xl:h-[8rem] flex flex-col justify-end rounded-md relative"
-              >
-                <link.Icon className="absolute top-0 right-0 rounded-tr-md 2xl:w-[6rem] 2xl:h-[6rem] " />
-                <div className="text-xs 2xl:text-sm text-[var(--light-gray)] z-10">
-                  {link.title}
+            {mentor.networks.map((link, i) => {
+              const Icon = icons[i];
+              return (
+                <div
+                  key={link._id}
+                  className="bg-[var(--card)] px-[0.9rem] py-[0.6rem] 2xl:px-[1rem] 2xl:py-[0.7rem] w-[9.35rem] h-[6.85rem] 2xl:w-[12rem] 2xl:h-[8rem] flex flex-col justify-end rounded-md relative"
+                >
+                  <Icon className="absolute top-0 right-0 rounded-tr-md 2xl:w-[6rem] 2xl:h-[6rem] " />
+                  <div className="text-xs 2xl:text-sm text-[var(--light-gray)] z-10">
+                    {link.platform}
+                  </div>
+                  <div className="text-lg 2xl:text-xl font-bold">
+                    {link.followers}
+                  </div>
                 </div>
-                <div className="text-lg 2xl:text-xl font-bold">
-                  {link.followers}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="text-lg font-bold">Featured in</div>
           <div className="flex bg-[var(--card)] p-5 gap-3 overflow-y-auto rounded-[6px] relative featured">

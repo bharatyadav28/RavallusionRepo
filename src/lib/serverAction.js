@@ -17,8 +17,8 @@ const MutationRequest = async ({
   try {
     const response = await fetch(`https://revallusion.onrender.com${path}`, {
       method,
-      headers,
-      body: JSON.stringify(body),
+      //   headers,
+      body,
     });
     console.log("response", response);
 
@@ -34,4 +34,15 @@ const MutationRequest = async ({
   } catch (error) {
     return { success: false, message: error.message };
   }
+};
+
+export const submitQuery = async (body) => {
+  const res = await MutationRequest({
+    method: "POST",
+    path: "/api/v1/query",
+    body,
+    isTokenRequired: false,
+  });
+  console.log(res);
+  return res;
 };

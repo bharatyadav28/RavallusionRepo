@@ -7,7 +7,7 @@ import ModulesList from "../common/ModulesList";
 import { useRef } from "react";
 import { useScroll } from "framer-motion";
 
-const ModuleSection = () => {
+const ModuleSection = ({ modules }) => {
   const container = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -37,7 +37,7 @@ const ModuleSection = () => {
           </CustomButton>
         </div>
       </LandingContainer>
-      <ModulesList scrollYProgress={scrollYProgress} />
+      <ModulesList modules={modules} scrollYProgress={scrollYProgress} />
     </div>
   );
 };
