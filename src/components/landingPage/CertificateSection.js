@@ -19,9 +19,9 @@ const CertificateSection = ({ certificate }) => {
       <div className="flex gap-10 items-center w-full flex-wrap">
         <div className=" p-5 py-[60px] rounded-2xl certificate">
           <Image
-            src={data.image} //to do : need to ask to bharat to give access for the images
-            width={100}
-            height={100}
+            src={certificate.image} //to do : need to ask to bharat to give access for the images
+            width={10000}
+            height={10000}
             alt="certificate"
             className="w-[326px] h-[230px] md:w-[450px] md:h-[318px] xl:w-[32.5rem] 2xl:w-[34.5rem] xl:h-[24rem] 2xl:h-[26rem] rounded-xl "
           />

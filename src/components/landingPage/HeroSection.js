@@ -1,8 +1,10 @@
 import Image from "next/image";
 import LandingContainer from "../common/LandingContainer";
 import { GlowButton } from "../common/CustomButton";
+import { createMarkup } from "@/lib/functions";
 
 const HeroSection = ({ data }) => {
+  console.log(data.caption);
   return (
     <LandingContainer
       showBg={true}
@@ -13,7 +15,8 @@ const HeroSection = ({ data }) => {
           {/* Unleash Your Inner Storyteller with{" "}
           <span className="text-[var(--neon-purple)]">Pro-Level</span> Editing
           Skills! */}
-          {data.caption}
+          {/* {data.caption} */}
+          <div dangerouslySetInnerHTML={createMarkup(data.caption)} />
         </div>
         <div className="text-base md:text-lg 2xl:text-xl md:w-[90%] 2xl:w-[75%]">
           {/* Join thousands of creators enhancing their storytelling with our
@@ -29,10 +32,10 @@ const HeroSection = ({ data }) => {
         <div className="relative">
           <Image
             src="/hero-image.png"
-            width={100}
-            height={100}
+            width={1000}
+            height={1000}
             alt="hero-image"
-            className=" w-[350px]  md:w-[500px] 2xl:w-[40rem] 2xl:h-[35rem]  "
+            className=" w-[350px]  md:w-[500px] 2xl:w-[42rem] 2xl:h-[35rem]"
           />
           <div className="hero-image absolute inset-0 z-[1001] "></div>
         </div>

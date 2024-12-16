@@ -18,7 +18,7 @@ const ModuleSection = ({ modules }) => {
 
   return (
     <div ref={container}>
-      <LandingContainer className=" pt-12  flex flex-col gap-7 sticky top-0 ">
+      <LandingContainer className=" pt-12 h-fit  flex flex-col gap-7 sticky top-0 ">
         <LearnSvg className="absolute px-5 left-[50%] -translate-x-[50%] bottom-0 -z-10  w-full 2xl:h-[21rem]  " />
         <div className="flex justify-between items-center flex-wrap gap-4   ">
           <div className="md:max-w-[60%]">

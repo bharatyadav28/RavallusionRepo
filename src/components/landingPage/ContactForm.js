@@ -59,7 +59,7 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 sm:gap-5 sm:py-[3.75rem] w-full sm:w-[80%] md:w-[50rem] "
+      className="flex flex-col gap-4 sm:gap-5 sm:py-[3.75rem] md:pt-[1.3rem] w-full sm:w-[80%] md:w-[50rem] "
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 ">
         <TextInput
@@ -145,7 +145,7 @@ const ContactForm = () => {
         id="privacy"
         required={true}
       />
-      <SubmitButton className="mt-[10px]">
+      <SubmitButton className="!mt-[8px] text-base !py-5">
         Submit {isLoading && <LoadingSpinner />}
       </SubmitButton>
     </form>

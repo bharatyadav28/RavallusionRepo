@@ -21,8 +21,8 @@ const CarouselCard = ({ item }) => {
         <div className="p-3 carousel-bg">
           <Image
             src="/carousel-1.png"
-            width={100}
-            height={100}
+            width={1000}
+            height={1000}
             alt={item._id}
             className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full  "
           />

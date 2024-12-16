@@ -14,7 +14,7 @@ const FetchRequest = async ({ path, isTokenRequired = true }) => {
       method: "GET",
       // headers,
       // cache: "force-cache",
-      cache: "no-store",
+      // cache: "no-store",
     });
 
     const responseData = await response.json();
@@ -39,5 +39,13 @@ export const getLandingPageData = async () => {
     isTokenRequired: false,
   });
   console.log({ res });
+  return res;
+};
+
+export const getStaticData = async () => {
+  const res = await FetchRequest({
+    path: "/api/v1/content/page",
+    isTokenRequired: false,
+  });
   return res;
 };

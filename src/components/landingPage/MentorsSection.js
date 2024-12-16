@@ -21,8 +21,8 @@ const MentorsSection = ({ mentor }) => {
           <Vinod className="absolute top-5 w-full px-5" />
           <Image
             src="/vinod.png"
-            width={100}
-            height={100}
+            width={1000}
+            height={1000}
             alt="Vinod"
             className="absolute w-[200vw] md:w-[140vw] md:-left-[65%] lg:w-[62rem] 2xl:!w-[75rem] max-w-none -left-[100%] lg:-left-[27rem] 2xl:!-left-[32rem] h-[31rem] md:h-[41rem] 2xl:h-[49rem] bottom-0  !right-0 "
           />
@@ -68,7 +68,13 @@ const MentorsSection = ({ mentor }) => {
           <div className="text-lg font-bold">Featured in</div>
           <div className="flex bg-[var(--card)] p-5 gap-3 overflow-y-auto rounded-[6px] relative featured">
             {images.map((image, i) => (
-              <Image key={i} src={image} width={100} height={100} alt="image" />
+              <Image
+                key={i}
+                src={image}
+                width={1000}
+                height={1000}
+                alt="image"
+              />
             ))}
           </div>
         </div>

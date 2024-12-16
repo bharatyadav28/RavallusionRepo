@@ -10,8 +10,8 @@ const CourseCard = ({ course }) => {
       <Image
         src={imageUrl}
         alt={title}
-        width={100}
-        height={100}
+        width={1000}
+        height={1000}
         className="w-full h-40 2xl:!h-48 object-cover rounded-2xl"
       />
       <div className="flex flex-col gap-3 2xl:gap-4">
