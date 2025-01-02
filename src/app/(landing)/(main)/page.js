@@ -22,6 +22,7 @@ export default function Home() {
     };
     fetchData();
   }, []);
+  
   return !data ? (
     <PageLoader />
   ) : (

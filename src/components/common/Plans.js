@@ -28,6 +28,7 @@ const plans = [
     validity: "One year validity",
   },
 ];
+
 const Plans = ({ plans2 }) => {
   const [count, setCount] = useState(1);
 

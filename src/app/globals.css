@@ -523,3 +523,15 @@ body {
 .certificate {
   background: linear-gradient(to top, var(--yellow), #30333b, #181f2b);
 }
+
+
+/* hiding spinner in input  */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}

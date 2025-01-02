@@ -25,6 +25,7 @@ export const GlowButton = ({ children, ...props }) => {
     </CustomButton>
   );
 };
+
 export const SubmitButton = ({ children, ...props }) => {
   const { className, onClick } = props;
 
