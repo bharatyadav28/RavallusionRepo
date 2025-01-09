@@ -22,6 +22,7 @@ export default function Home() {
     };
     fetchData();
   }, []);
+  
   return !data ? (
     <PageLoader />
   ) : (
@@ -32,7 +33,7 @@ export default function Home() {
       <ModuleSection modules={data.modules} />
       <PlansSection plans={data.plans} />
       <MentorsSection mentor={data.mentor} />
-      <CertificateSection certificate={data.certificates[0]} />
+      <CertificateSection certificate={data.certificate} />
       <FAQSection faqs={data.faqs} />
     </div>
   );
