@@ -38,7 +38,7 @@ const FetchRequest = async ({ path, isTokenRequired = true }) => {
 
 export const getLandingPageData = async () => {
   const res = await FetchRequest({
-    path: "/api/v1/home",
+    path: "/api/v1/user/home",
     isTokenRequired: false,
   });
   console.log({ res });

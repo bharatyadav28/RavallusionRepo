@@ -1,19 +1,39 @@
 'use client'
 import Login from "@/components/loginSignupFlow/Login";
+import PaymentReceived from "@/components/loginSignupFlow/PaymentReceived";
 import SubscriptionPlan from "@/components/loginSignupFlow/SubscriptionPlan";
 import Verifyotp from "@/components/loginSignupFlow/Verifyotp";
 import { useState } from "react";
 
 const LoginPage = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [subs, setSubs] = useState(true);
+  const [courseType, setCourseType] = useState("Beginner");
+  const [price, setPrice] = useState("5999");
 
   return (
-    <div className="flex items-center justify-center min-h-screen relative">
-      <h1 className="absolute left-5 top-5 text-3xl italic font-bold">Ravallusion</h1>
-      {currentStep === 0 && <Login />}
+    <div className="flex min-h-screen items-center justify-center relative background">
+      <h1 className="absolute left-4 top-5 lg:left-16 lg:top-7 text-[28px] italic font-bold">Ravallusion</h1>
+      {
+        currentStep === 0 && <Login setCurrentStep={setCurrentStep} subs={subs}
+          courseType={courseType}
+          price={price}
+
+        />
+      }
       {currentStep === 1 && <Verifyotp setCurrentStep={setCurrentStep} />}
-      {currentStep === 2 && <SubscriptionPlan />}
-    </div>)
+      {
+        currentStep === 2 && <SubscriptionPlan setCurrentStep={setCurrentStep}
+        />
+      }
+      {currentStep === 3 && <PaymentReceived />}
+
+
+      {/* Ellipse */}
+      <div className="-z-10 absolute -top-40 -right-32 lg:-top-72 lg:-right-32 w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] bg-[url('/ellipse_of_auth.png')] bg-no-repeat bg-contain overflow-hidden">
+        <div className="w-full h-full"></div>
+      </div>
+    </div >)
 };
 
 export default LoginPage;

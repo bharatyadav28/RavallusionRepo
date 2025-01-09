@@ -1,5 +1,12 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import {Alexandria} from 'next/font/google'
+
+const alexandria = Alexandria({
+  subsets: ['latin'],
+  weight: ['900', '900'], 
+});
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${alexandria.variable}  antialiased`}
       >
         {children}
       </body>

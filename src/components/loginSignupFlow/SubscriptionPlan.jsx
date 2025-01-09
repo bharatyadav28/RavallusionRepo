@@ -1,5 +1,6 @@
 import React from 'react'
 import Plans from '../common/Plans'
+import SubscriptionDetails from './SubscriptionDetails';
 
 const plans = [
     {
@@ -10,7 +11,7 @@ const plans = [
         quality: "Standard FHD quality",
         devices: "Watch on Laptop, Mobile, Tab and ipad",
         inr_price: "5999",
-        validity: "One year validity",
+        validity: 31536000,
     },
     {
         id: 2,
@@ -20,16 +21,20 @@ const plans = [
         quality: "Standard FHD quality",
         devices: "Watch on Laptop, Mobile, Tab and ipad",
         inr_price: "9999",
-        validity: "One year validity",
+        validity: 31536000,
     },
 ];
-const SubscriptionPlan = () => {
-    return (
-        <div className='w-2/3 py-20'>
-            <h2 className='text-center text-3xl font-bold '>Select Subscription Plan</h2>
-            <p className='text-sm text-center my-4'>Please Select subscription plan to Continue</p>
 
-            < Plans plans2={plans} />
+
+const SubscriptionPlan = ({ setCurrentStep }) => {
+   
+    return (
+        <div className='mx-4 mt-24  p-10 rounded-[28px] bg-[var(--navy-blue)] mb-4'>
+            <h2 className='text-center text-[34px] font-bold'>Select Subscription Plan</h2>
+            <p className='text-[16px] text-center mb-[30px]'>Please Select subscription plan to Continue</p>
+
+            <Plans plans2={plans} showSkeleton={false} setCurrentStep={setCurrentStep} />
+            
         </div>
     )
 }

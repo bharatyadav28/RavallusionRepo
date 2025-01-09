@@ -14,7 +14,7 @@ const OTPInput = () => {
                 <input
                     key={index}
                     type="number"
-                    className="outline-none w-12 h-12 text-center bg-black text-white border border-gray-400 rounded-md"
+                    className="outline-none w-10 h-10 md:w-12 md:h-12 text-center bg-[#091528] text-white border border-gray-400 rounded-md font-semibold"
                     maxLength={1}
                     onInput={(e) => handleInputChange(e, index)}
                 />
