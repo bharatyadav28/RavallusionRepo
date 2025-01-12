@@ -12,8 +12,10 @@ const LoginPage = () => {
   const [price, setPrice] = useState("5999");
 
   return (
-    <div className="flex min-h-screen items-center justify-center relative background">
+    <div className="overflow-y-auto min-h-screen flex flex-col items-center justify-center relative background">
+
       <h1 className="absolute left-4 top-5 lg:left-16 lg:top-7 text-[28px] italic font-bold">Ravallusion</h1>
+
       {
         currentStep === 0 && <Login setCurrentStep={setCurrentStep} subs={subs}
           courseType={courseType}
@@ -30,9 +32,21 @@ const LoginPage = () => {
 
 
       {/* Ellipse */}
-      <div className="-z-10 absolute -top-40 -right-32 lg:-top-72 lg:-right-32 w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] bg-[url('/ellipse_of_auth.png')] bg-no-repeat bg-contain overflow-hidden">
+      <div
+        className="-z-10 absolute -top-7 -right-20 lg:-top-64 lg:-right-32 
+             w-[300px] h-[300px] lg:w-[630px] lg:h-[630px] 
+             bg-[url('/ellipse_of_auth.png')] bg-no-repeat bg-contain overflow-hidden"
+        style={{
+          background: `
+      linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
+      url('/ellipse_of_auth.png')`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="w-full h-full"></div>
       </div>
+
     </div >)
 };
 

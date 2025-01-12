@@ -1,16 +1,18 @@
 import Image from "next/image";
 import { useState } from "react";
 import { CrossIcon, MinusIcon } from "@/lib/svg_icons";
+import { LessonCard } from "./LessionModuleList";
+import { motion } from 'framer-motion';
 
-const CourseModuleList = ({ heading, subItems, subItems2 }) => {
+const CourseModuleList = ({ heading, modules }) => {
     return (
         <>
-            <h1 className='text-lg font-semibold font-[Satoshi] mb-4 px-3'>{heading}</h1>
+            <h1 className='text-lg font-semibold mb-7 px-3'>{heading}</h1>
 
-            <div className='flex flex-col gap-y-6'>
+            <div className='flex flex-col gap-y-7'>
                 {
-                    subItems && subItems.map((items, i) => (
-                        <CourseCard title={items.title} img={items.img} key={i} subItems2={subItems2} />
+                    modules && modules.map((items, i) => (
+                        <CourseCard title={items.title} videos={items.videos} submodules={items.submodules} img={items.img} key={i} />
                     ))
                 }
 
@@ -20,7 +22,7 @@ const CourseModuleList = ({ heading, subItems, subItems2 }) => {
 }
 
 
-const CourseCard = ({ title, img, subItems2, description,duration }) => {
+const CourseCard = ({ title, img, videos, submodules }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleExpand = () => {
@@ -31,32 +33,32 @@ const CourseCard = ({ title, img, subItems2, description,duration }) => {
         <>
             {!isExpanded ? (
                 <div
-                    className="flex gap-x-3 px-3 h-20 items-center cursor-pointer"
+                    className="flex gap-x-3 px-3 items-center cursor-pointer"
                     onClick={handleExpand}
                 >
-                    <div className="bg-red-400 rounded-2xl w-40 h-20 relative">
+                    <div className="rounded-xl w-40 h-20 relative">
                         <Image
                             src={img}
                             alt="video png"
                             fill
-                            style={{ borderRadius: "16px", objectFit: "cover" }}
+                            style={{ borderRadius: "12px", objectFit: "cover" }}
                         />
                         <span
                             style={{
                                 background: "rgba(0, 0, 0, 0.50)",
                                 backdropFilter: "blur(5.4px)",
                             }}
-                            className="px-1 py-[2px] text-[8px] absolute top-2 right-2 rounded-md"
+                            className="px-1 py-[2px] text-[10px] absolute top-2 right-2 rounded-sm"
                         >
-                           {duration}
+                            {videos}
                         </span>
                     </div>
 
                     <div className="flex-grow w-32">
-                        <h1 className="text-xs font-normal mb-1 font-[Satoshi]">{title}</h1>
-                        {description && (
+                        <h1 className="text-xs font-normal mb-1 ">{title}</h1>
+                        {videos && (
                             <p className="text-[10px] truncate whitespace-nowrap">
-                                {description}
+                                {videos}
                             </p>
                         )}
                     </div>
@@ -66,8 +68,8 @@ const CourseCard = ({ title, img, subItems2, description,duration }) => {
                 <CourseCardExpand
                     title={title}
                     img={img}
-                    subItems2={subItems2}
-                    description={description}
+                    submodules={submodules}
+                    videos={videos}
                     onCollapse={handleExpand}
                 />
             )}
@@ -76,7 +78,7 @@ const CourseCard = ({ title, img, subItems2, description,duration }) => {
 };
 
 
-const CourseCardExpand = ({ title, img, subItems2, onCollapse }) => {
+const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
     const [dropdownStates, setDropdownStates] = useState({});
 
     const toggleDropdown = (index) => {
@@ -92,9 +94,9 @@ const CourseCardExpand = ({ title, img, subItems2, onCollapse }) => {
 
             <div
                 style={{ background: "linear-gradient(180deg, rgba(201, 155, 253, 0.49) 0%, rgba(133, 116, 246, 0.49) 100%)" }}
-                className="flex gap-x-2 items-center cursor-pointer px-3 py-2"
+                className="flex gap-x-2 items-center cursor-pointer px-3 py-2 mb-4"
             >
-                <div className="rounded-md w-16 h-12 relative">
+                <div className="rounded-lg w-16 h-12 relative">
                     <Image
                         src={img}
                         alt="video png"
@@ -103,43 +105,54 @@ const CourseCardExpand = ({ title, img, subItems2, onCollapse }) => {
                     />
                 </div>
 
-                <div className="flex-grow w-32">
-                    <h1 className="text-xs font-normal mb-1 font-[Satoshi]">{title}</h1>
-                    <p className="text-[8px]">50 Videos</p>
+                <div className="flex-grow">
+                    <h1 className="text-xs font-normal mb-1 ">{title}</h1>
+                    <p className="text-[8px]">{videos}</p>
                 </div>
 
                 <button
                     onClick={onCollapse}
-                    className="text-xs text-red-500 underline ml-auto"
+                    className="ml-auto"
                 >
                     <CrossIcon />
                 </button>
             </div>
 
 
-            {/* Submodule */}
-            <div className="flex flex-col gap-y-6">
-                {subItems2 &&
-                    subItems2.map((item, i) => (
 
-                        <div key={i} className="flex flex-col gap-y-2">
+            {/* Submodule */}
+
+            {/* <div className="flex flex-col gap-y-7"> */}
+            <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col"
+            >
+
+
+                {submodules &&
+                    submodules.map((item, i) => (
+
+                        <div key={i} className="flex flex-col">
                             {dropdownStates[i] ? (
 
                                 // Submodule headings
-                                <div className="flex gap-x-2 mb-4 items-center cursor-pointer px-2 py-2 border-b">
+                                <div className="flex gap-x-2 mb-4 items-center cursor-pointer px-2 pb-2 border-b border-gray-700">
 
-                                    <div className="rounded-sm w-16 h-12 relative">
+                                    <div className="rounded-lg w-14 h-10 relative">
                                         <Image
-                                            src={img}
+                                            src={item.img}
                                             alt="video png"
                                             fill
-                                            style={{ borderRadius: "16px", objectFit: "cover" }}
+                                            style={{ borderRadius: "8px", objectFit: "cover" }}
                                         />
                                     </div>
 
                                     <div className="flex-grow w-32">
-                                        <h1 className="text-xs font-normal mb-1 font-[Satoshi]">{title}</h1>
-                                        <p className="text-[8px]">50 Videos</p>
+                                        <h1 className="text-xs mb-1">{item.title}</h1>
+                                        <p className="text-[8px] text-gray-300 ">{item.videos}</p>
                                     </div>
 
                                     <button
@@ -150,36 +163,37 @@ const CourseCardExpand = ({ title, img, subItems2, onCollapse }) => {
                                     </button>
                                 </div>
                             ) : (
+
                                 //Submodule 
                                 <div
-                                    className="flex gap-x-3 px-3 h-20 items-center cursor-pointer"
+                                    className="flex gap-x-3 px-3 items-center cursor-pointer my-3"
                                     onClick={() => toggleDropdown(i)}
                                 >
-                                    <div className="bg-blue-400 rounded-2xl w-40 h-20 relative">
+                                    <div className="bg-blue-400 rounded-xl w-40 h-20 relative">
                                         <Image
                                             src={item.img}
                                             alt="video png"
                                             fill
-                                            style={{ borderRadius: "16px", objectFit: "cover" }}
+                                            style={{ borderRadius: "12px", objectFit: "cover" }}
                                         />
                                         <span
                                             style={{
                                                 background: "rgba(0, 0, 0, 0.50)",
                                                 backdropFilter: "blur(5.4px)",
                                             }}
-                                            className="px-1 py-[2px] text-[8px] absolute top-2 right-2 rounded-md"
+                                            className="px-1 py-[2px] text-[10px] absolute top-2 right-2 rounded-sm"
                                         >
-                                            {item.description}
+                                            {item.videos}
                                         </span>
                                     </div>
 
                                     <div className="flex-grow w-32">
-                                        <h1 className="text-xs font-normal mb-1 font-[Satoshi]">
+                                        <h1 className="text-xs font-normal mb-1">
                                             {item.title}
                                         </h1>
-                                        {item.description && (
+                                        {item.videos && (
                                             <p className="text-[10px] truncate whitespace-nowrap">
-                                                {item.description}
+                                                {item.videos}
                                             </p>
                                         )}
                                     </div>
@@ -188,27 +202,33 @@ const CourseCardExpand = ({ title, img, subItems2, onCollapse }) => {
 
 
                             {dropdownStates[i] && (
-                                //last drop down (final video to watch)
-                                <div className="flex flex-col gap-y-3">
-
-                                    {item.sub &&
-                                        item.sub.map((subItem, j) => (
-                                            <CourseCard
+                                // Lessons to watch 
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="flex flex-col gap-y-3"
+                                >
+                                    {item.lessons &&
+                                        item.lessons.map((lesson, j) => (
+                                            <LessonCard
                                                 key={j}
-                                                title={subItem.title}
-                                                img={subItem.img}
-                                                // subItems2={subItem.subItems2}
-                                                duration={subItem.duration}
+                                                title={lesson.title}
+                                                img={lesson.img}
+                                                duration={lesson.duration}
                                             />
                                         ))}
-                                </div>
+                                </motion.div>
                             )}
                         </div>
                     ))}
-            </div>
-        </div>
+        </motion.div>
+        </div >
     );
 };
+
+
 
 
 
