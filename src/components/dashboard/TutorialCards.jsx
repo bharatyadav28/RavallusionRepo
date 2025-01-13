@@ -1,9 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 
-
-
-
 const TutorialCards = ({ title, subItems }) => {
     return (
         <div className='py-2'>
@@ -12,13 +9,12 @@ const TutorialCards = ({ title, subItems }) => {
                 <h1 className='text-lg font-semibold'>{title}</h1>
             </div>
 
-            <div className='grid grid-cols-12'>
+            <div className='grid grid-cols-12 px-2 md:px-0'>
                 {
                     subItems.map((items, i) => (
                         <VideoCard key={i} img={items.img} heading={items.heading} description={items.description} />
                     ))
                 }
-
             </div>
         </div>
     )

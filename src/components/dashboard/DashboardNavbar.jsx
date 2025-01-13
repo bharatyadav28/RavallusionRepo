@@ -16,13 +16,16 @@ const DashboardNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
 
   useEffect(() => {
-    if (pathname === "/dashboard/player-dashboard") {
-      setShow(true);
+    if (pathname === "/dashboard") {
+      setShow(false);
+    }
+    else{
+      setShow(true)
     }
   }, [pathname]);
 
   return (
-    <div className='bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative rounded-lg'>
+    <div className='bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative'>
       {openSidebar && <SideBar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} />}
       {show ? (
         <div className='flex gap-x-7 items-center'>
@@ -146,7 +149,7 @@ const ProfileComponent = ({ isOpenProfile, setIsOpenProfile }) => {
         className="rounded-full"
       />
 
-      {isOpenProfile && (<BoxDropdown title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[58px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
+      {isOpenProfile && (<BoxDropdown title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[54px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
       )}
     </div>
   )
@@ -156,12 +159,14 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="px-4 py-3 lg:flex flex-col border  border-[var(--neon-purple,#C99BFD)] relative cursor-pointer hidden">
+    <div className="px-4 py-3 lg:flex flex-col border  border-[var(--neon-purple)] relative cursor-pointer hidden">
       <div className="flex justify-between items-center">
+
         <div className="flex gap-x-2 items-center">
           {icon}
           <span className="text-sm font-semibold">{show && !isOpen ? "" : title}</span>
         </div>
+
         {introductory ? (
           <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
         ) : (
@@ -169,6 +174,8 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show }) => {
             {isOpen ? <ChevronUp /> : <ChevronDown />}
           </div>
         )}
+
+
       </div>
 
       {isOpen && (
@@ -217,7 +224,6 @@ const BoxDropdown = ({ className = '', title1, title2, setIsOpen }) => {
         border-x-[1px] border-b border-[var(--neon-purple,#C99BFD)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden`}
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: 'auto', opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <Link href="/dashboard/player-dashboard" className="text-xs text-white flex justify-between"  onClick={() => setIsOpen(false)}>

@@ -21,7 +21,7 @@ const commentData = [
 
 const Comments = () => {
     return (
-        <div className='px-4 lg:px-0'>
+        <>
             <h1 className='text-lg font-semibold '>150 Comments</h1>
 
             <div className='relative my-4'>
@@ -38,7 +38,7 @@ const Comments = () => {
                     ))
                 }
             </div>
-        </div>
+        </>
     )
 }
 

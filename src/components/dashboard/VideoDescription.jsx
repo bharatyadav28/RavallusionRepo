@@ -1,16 +1,24 @@
 "use client"
-import { Assignment, DownloadIcon, Quiz, BookMark } from '@/lib/svg_icons';
+import { Assignment, DownloadIcon, BookMark, Quiz } from '@/lib/svg_icons';
 import React, { useState } from 'react';
+import SubmitAssignment from './SubmitAssignment';
+import CustomDialog from '../common/CustomDialog';
+import AttendQuiz from './AttendQuiz';
+
+
 
 const VideoDescription = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isAssignmentOpen, setIsAssignmentOpen] = useState(false);
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   };
 
+
   return (
-    <div className="h-auto text-white px-4 lg:px-0">
+    <div className=" text-white">
 
       <div className="flex items-center justify-between mb-3">
         <h1 className="text-xl font-semibold">Advanced VFX</h1>
@@ -42,17 +50,26 @@ const VideoDescription = () => {
 
       <div className="flex gap-y-2 lg:gap-y-2 xl:gap-y-0 lg:gap-x-4 flex-col lg:flex-row items-center flex-wrap">
         <TextIconBox title={"Download Resources"} icon={<DownloadIcon />} />
-        <TextIconBox title={"Submit assignment"} icon={<Assignment />} />
-        <TextIconBox title={"Attend Quiz"} icon={<Quiz />} />
+
+        <TextIconBox title={"Submit assignment"} icon={<Assignment />} onClick={() => setIsAssignmentOpen(true)} />
+
+        <TextIconBox title={"Attend Quiz"} icon={<Quiz />} onClick={() => setIsQuizOpen(true)} />
       </div>
 
+      <CustomDialog open={isAssignmentOpen} close={() => setIsAssignmentOpen(false)}>
+        <SubmitAssignment />
+      </CustomDialog>
+
+      <CustomDialog open={isQuizOpen} close={() => setIsQuizOpen(false)}>
+        <AttendQuiz />
+      </CustomDialog>
     </div>
   );
 };
 
-const TextIconBox = ({ title, icon }) => {
+const TextIconBox = ({ title, icon, onClick }) => {
   return (
-    <div className='cursor-pointer flex items-center justify-center gap-x-2 rounded-[8px] px-4 py-2 w-52 border border-[var(--neon-purple)]'>
+    <div onClick={onClick} className='cursor-pointer flex items-center justify-center gap-x-2 rounded-[8px] px-4 py-2 w-full lg:w-52 border border-[var(--neon-purple)]'>
       <h1 className='text-sm font-semibold'>{title}</h1>
       {icon}
     </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
 import { SubmitButton } from '../common/CustomButton';
@@ -7,12 +7,18 @@ import SubscriptionDetails from './SubscriptionDetails';
 import { AppleIcon, GoogleIcon } from '@/lib/svg_icons';
 
 const Login = ({ setCurrentStep, price, courseType }) => {
+    const [email, setEmail] = useState('');
+
+    const subsDetail = true;
+
     return (
-        <div className={`${"mt-20 md:mt-20"}`}>
+        <div className={`${subsDetail && "mt-10 lg:min-h-[600px]"}`}>
+            {
+                subsDetail &&   
+                <SubscriptionDetails price={price} courseType={courseType} />
+            }
 
-            <SubscriptionDetails price={price} courseType={courseType} />
-
-            <div className='mx-4 p-10 rounded-[28px] bg-[var(--navy-blue)] mt-7'>
+            <div className='mx-4 p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mt-7 '>
                 <h2 className='text-center text-[2.13rem] font-bold mb-[30px]'>Login to continue</h2>
 
                 <div className='mb-4'>
@@ -67,6 +73,7 @@ const Login = ({ setCurrentStep, price, courseType }) => {
 
 
             </div>
+
         </div>
     )
 }
