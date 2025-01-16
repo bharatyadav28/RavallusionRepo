@@ -5,21 +5,23 @@ import { SubmitButton } from '../common/CustomButton';
 import { Button } from '../ui/button';
 import SubscriptionDetails from './SubscriptionDetails';
 import { AppleIcon, GoogleIcon } from '@/lib/svg_icons';
+import { useSearchParams } from 'next/navigation'
 
-const Login = ({ setCurrentStep, price, courseType }) => {
+const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced", subsDetail = true }) => {
     const [email, setEmail] = useState('');
 
-    const subsDetail = true;
+    // const params = useSearchParams();
+    // console.log(params.get('plan'));
 
     return (
-        <div className={`${subsDetail && "mt-10 lg:min-h-[600px]"}`}>
+        <div className={`w-full sm:w-auto ${subsDetail && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
             {
-                subsDetail &&   
+                subsDetail &&
                 <SubscriptionDetails price={price} courseType={courseType} />
             }
 
-            <div className='mx-4 p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mt-7 '>
-                <h2 className='text-center text-[2.13rem] font-bold mb-[30px]'>Login to continue</h2>
+            <div className=' mx-4 px-4 py-5 lg:p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mt-4'>
+                <h2 className='text-center text-2xl md:text-[2.13rem] font-bold mb-[30px]'>Login to continue</h2>
 
                 <div className='mb-4'>
                     <label className='text-gray-100 text-sm mb-[6px]' htmlFor="email">Your Email Id <span className='text-red-500'>*</span></label>
