@@ -1,6 +1,5 @@
 import React from 'react'
 import Plans from '../common/Plans'
-import SubscriptionDetails from './SubscriptionDetails';
 
 const plans = [
     {
@@ -29,7 +28,7 @@ const plans = [
 const SubscriptionPlan = ({ setCurrentStep }) => {
    
     return (
-        <div className='mx-4 mt-24  p-10 rounded-[28px] bg-[var(--navy-blue)] mb-4'>
+        <div className='overflow-y-auto mx-4 mt-20 md:mt-14 p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mb-4'>
             <h2 className='text-center text-[34px] font-bold'>Select Subscription Plan</h2>
             <p className='text-[16px] text-center mb-[30px]'>Please Select subscription plan to Continue</p>
 
@@ -39,4 +38,4 @@ const SubscriptionPlan = ({ setCurrentStep }) => {
     )
 }
 
-export default SubscriptionPlan
+export default SubscriptionPlan;

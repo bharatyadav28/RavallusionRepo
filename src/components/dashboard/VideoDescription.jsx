@@ -57,11 +57,11 @@ const VideoDescription = () => {
       </div>
 
       <CustomDialog open={isAssignmentOpen} close={() => setIsAssignmentOpen(false)}>
-        <SubmitAssignment />
+        <SubmitAssignment setIsAssignmentOpen={setIsAssignmentOpen}/>
       </CustomDialog>
 
-      <CustomDialog open={isQuizOpen} close={() => setIsQuizOpen(false)}>
-        <AttendQuiz />
+      <CustomDialog open={isQuizOpen}>
+        <AttendQuiz setIsQuizOpen={setIsQuizOpen}/>
       </CustomDialog>
     </div>
   );

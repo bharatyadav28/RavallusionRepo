@@ -1,10 +1,13 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import {Alexandria} from 'next/font/google'
+import { Alexandria } from 'next/font/google'
+import LayoutWrapper from "@/components/LayoutWrapper";
+
+
 
 const alexandria = Alexandria({
   subsets: ['latin'],
-  weight: ['900', '900'], 
+  weight: ['900', '900'],
 });
 
 
@@ -30,7 +33,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${alexandria.variable}  antialiased`}
       >
-        {children}
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );

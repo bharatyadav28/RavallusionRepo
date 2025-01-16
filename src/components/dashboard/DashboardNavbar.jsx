@@ -1,38 +1,107 @@
 "use client";
 
-import { BulbIcon, CrownIcon, EllipseOfSearch, Gear, HamburgerMenu } from '@/lib/svg_icons'
+import { BulbIcon, CrownIcon, EllipseOfSearch, Gear, HamburgerMenu, NeonElipse } from '@/lib/svg_icons'
 import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, X, SearchIcon } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import CustomDialog from '../common/CustomDialog';
+import SearchDialog, { SearchInput } from './SearchDialog';
+import { setShowProfileCard } from '@/store/slice/general';
+import { useDispatch } from 'react-redux';
 
 
 const DashboardNavbar = () => {
+
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [show, setShow] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [searchDialog, setSearchDialog] = useState(false);
+  const [urlpath, setUrlPath] = useState('');
+
 
   useEffect(() => {
     if (pathname === "/dashboard") {
       setShow(false);
+      setUrlPath('dashboard')
     }
-    else{
+    else if (pathname == '/dashboard/introductory') {
+      setShow(true);
+      setUrlPath('introductory')
+    }
+    else if (pathname == '/dashboard/player-dashboard') {
+      setShow(true);
+      setUrlPath('playerDashboard')
+    }
+    else if (pathname == '/dashboard/bookmarked-videos') {
+      setShow(true);
+      setUrlPath('bookmarked')
+    }
+    else if (pathname == '/dashboard/search') {
+      setShow(true);
+      setUrlPath('search')
+    }
+    else if (pathname == '/dashboard/profile') {
+      setShow(true);
+      setUrlPath('profile')
+    }
+    else {
       setShow(true)
     }
   }, [pathname]);
 
+
   return (
-    <div className='bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative'>
+    <div className={`${urlpath == 'dashboard' ? "rounded-none" : "rounded-xl"} bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative`}>
       {openSidebar && <SideBar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} />}
       {show ? (
-        <div className='flex gap-x-7 items-center'>
-          <ArrowLeft />
-          <div>
-            <h1 className='text-lg font-semibold mb-1'>Opening file</h1>
-            <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p>
+        <div className='flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2'>
+          <span onClick={() => router.back()}
+          > <ArrowLeft /></span>
+
+          <div className='flex-grow'>
+            {
+              urlpath == 'introductory' && (
+                <>
+                  <h1 className='text-lg font-semibold mb-1'>Introductory</h1>
+                  <p className='text-xs text-[#CDCED1]'>5 Videos</p>
+                </>
+              )
+            }
+            {
+              urlpath == 'playerDashboard' && (
+                <>
+                  <h1 className='text-lg font-semibold mb-1'>Opening file</h1>
+                  <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p>
+                </>
+              )
+            }
+            {
+              urlpath == 'bookmarked' && (
+                <>
+                  <h1 className='text-lg font-semibold mb-1'>Bookmarked videos</h1>
+                  <p className='text-xs text-[#CDCED1]'>16 Videos</p>
+                </>
+              )
+            }
+            {
+              urlpath == 'profile' && (
+                <>
+                  <h1 className='text-lg font-semibold mb-1'>Profile</h1>
+                  <p className='text-xs text-[#CDCED1]'>Advanced</p>
+                </>
+              )
+            }
+            {
+              urlpath == 'search' && (
+                <SearchInput />
+              )
+            }
+
           </div>
         </div>
       ) :
@@ -42,26 +111,31 @@ const DashboardNavbar = () => {
 
       <div className='flex gap-x-2 items-center'>
 
-        <div className='p-3 border border-gray-600 relative cursor-pointer'>
+        <div className='p-3 border border-gray-600 relative cursor-pointer' onClick={() => setSearchDialog(true)}>
           <EllipseOfSearch />
           <SearchIcon size={24} />
         </div>
 
-        <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} />
+        <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard'} />
 
 
-        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} />
+        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard'} />
 
 
-        <BoxComponent show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
+        <BoxComponent show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} href={'/dashboard/introductory'} />
 
 
-        <ProfileComponent setIsOpenProfile={setIsOpenProfile} isOpenProfile={isOpenProfile} />
+        <ProfileComponent setIsOpenProfile={setIsOpenProfile} isOpenProfile={isOpenProfile} urlpath={urlpath} />
 
 
-        <div onClick={() => setOpenSidebar(true)} className='p-3 border relative cursor-pointer lg:hidden border-[var(--neon-purple,#C99BFD)] '>
+        <div onClick={() => setOpenSidebar(true)} className='p-3 border relative cursor-pointer lg:hidden border-[var(--neon-purple)] bg-[#040C19] '>
+          <EllipseOfSearch />
           <HamburgerMenu width={24} />
         </div>
+
+        <CustomDialog open={searchDialog} close={() => setSearchDialog(false)}>
+          <SearchDialog setSearchDialog={setSearchDialog} />
+        </CustomDialog>
 
       </div>
     </div>
@@ -119,28 +193,38 @@ const SideBar = ({ openSidebar, setOpenSidebar }) => {
         </div>
 
         <div className='flex flex-col gap-y-4'>
-          <BoxComponentMobile show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} />
-          <BoxComponentMobile show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Photoshop"} />
-          <BoxComponentMobile show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
+          <BoxComponentMobile href={"/dashboard/player-dashboard"} show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} />
+          <BoxComponentMobile href={"/dashboard/player-dashboard"} show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Photoshop"} />
+          <BoxComponentMobile href={"/dashboard/introductory"} show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
 
-          <BoxComponentMobile show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
+          <BoxComponentMobile profileMobile={true} show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
             <Image
               src={'/URL_of_image_for_FX_Console_Plugin.jpeg'}
               alt='Profile pic'
               layout="fill"
               objectFit="cover"
               className="rounded-full"
-            /> </div>} title={"Profile"} title1={"Advance"} title2={"Beginner"} />
+            /> </div>} title={"Profile"} title1={"Advance"} title2={"Beginner"} href={"/dashboard/profile"} />
         </div>
       </motion.div>
     </>
   )
 }
 
+const ProfileComponent = ({ isOpenProfile, setIsOpenProfile, urlpath }) => {
+  const dispatch = useDispatch();
 
-const ProfileComponent = ({ isOpenProfile, setIsOpenProfile }) => {
   return (
-    <div className='ml-3 bg-gray-300 rounded-full w-11 h-11 relative hidden lg:block cursor-pointer' onClick={() => setIsOpenProfile((prev) => !prev)}>
+    <div className='ml-3 bg-gray-300 rounded-full w-11 h-11 relative hidden lg:block cursor-pointer'
+      onClick={() => {
+        if (urlpath !== 'profile') {
+          setIsOpenProfile((prev) => !prev);
+        }
+        else {
+          dispatch(setShowProfileCard())
+        }
+      }}
+    >
       <Image
         src={'/URL_of_image_for_FX_Console_Plugin.jpeg'}
         alt='Profile pic'
@@ -149,37 +233,47 @@ const ProfileComponent = ({ isOpenProfile, setIsOpenProfile }) => {
         className="rounded-full"
       />
 
-      {isOpenProfile && (<BoxDropdown title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[54px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
+      {isOpenProfile && urlpath !== 'profile' && (<BoxDropdown href={'/dashboard'} title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[54px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
       )}
+
     </div>
   )
 }
 
-const BoxComponent = ({ icon, title, introductory, title1, title2, show }) => {
+const BoxComponent = ({ icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="px-4 py-3 lg:flex flex-col border  border-[var(--neon-purple)] relative cursor-pointer hidden">
+    <div onClick={() => !introductory && setIsOpen((prev) => !prev)} className="px-4 py-3 lg:flex flex-col bg-[#040C19] border border-[var(--neon-purple)] relative cursor-pointer hidden">
+
       <div className="flex justify-between items-center">
 
-        <div className="flex gap-x-2 items-center">
+        <div className="flex gap-x-2 items-center" >
           {icon}
           <span className="text-sm font-semibold">{show && !isOpen ? "" : title}</span>
         </div>
 
         {introductory ? (
-          <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
+          <>
+
+            <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
+          </>
+
         ) : (
-          <div onClick={() => setIsOpen((prev) => !prev)} className="cursor-pointer ml-3">
+          <div className="cursor-pointer ml-3">
             {isOpen ? <ChevronUp /> : <ChevronDown />}
           </div>
         )}
 
+        <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center'>
+          <NeonElipse />
+        </div>
 
       </div>
 
+
       {isOpen && (
-        <BoxDropdown title1={title1} title2={title2} setIsOpen={setIsOpen} />
+        <BoxDropdown href={href} title1={title1} title2={title2} setIsOpen={setIsOpen} />
       )}
 
 
@@ -188,11 +282,12 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show }) => {
 };
 
 
-const BoxComponentMobile = ({ icon, title, introductory, title1, title2, show }) => {
+const BoxComponentMobile = ({ profileMobile, icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="px-4 py-3 lg:flex flex-col border w-auto border-[var(--neon-purple,#C99BFD)] relative cursor-pointer">
+    <div onClick={() => !profileMobile && !introductory && setIsOpen((prev) => !prev)} className="px-4 py-3 lg:flex flex-col border w-auto bg-[#040C19]  border-[var(--neon-purple)] relative cursor-pointer">
+
       <div className="flex justify-between items-center">
         <div className="flex gap-x-2 items-center">
           {icon}
@@ -201,14 +296,18 @@ const BoxComponentMobile = ({ icon, title, introductory, title1, title2, show })
         {introductory ? (
           <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
         ) : (
-          <div onClick={() => setIsOpen((prev) => !prev)} className="cursor-pointer ml-3">
+          <div className="cursor-pointer ml-3">
             {isOpen ? <ChevronUp /> : <ChevronDown />}
           </div>
         )}
       </div>
 
+      <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center'>
+        <NeonElipse />
+      </div>
+
       {isOpen && (
-        <BoxDropdown className={"relative border-none bg-[#040C19] mt-3 ml-0"} title1={title1} title2={title2} />
+        <BoxDropdown className={"relative border-none bg-[#040C19] mt-3 ml-0"} title1={title1} title2={title2} href={href} />
       )}
 
 
@@ -217,7 +316,7 @@ const BoxComponentMobile = ({ icon, title, introductory, title1, title2, show })
 };
 
 
-const BoxDropdown = ({ className = '', title1, title2, setIsOpen }) => {
+const BoxDropdown = ({ className = '', title1, title2, setIsOpen, href }) => {
   return (
     <motion.div
       className={`${className} absolute flex flex-col gap-y-2 top-full left-0 right-0 min-w-full -mx-[1px]
@@ -226,11 +325,11 @@ const BoxDropdown = ({ className = '', title1, title2, setIsOpen }) => {
       animate={{ height: 'auto', opacity: 1 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
-      <Link href="/dashboard/player-dashboard" className="text-xs text-white flex justify-between"  onClick={() => setIsOpen(false)}>
+      <Link href={href} className="text-xs text-white flex justify-between" onClick={() => setIsOpen((prev) => !prev)}>
         {title1} <ArrowRight size={21} />
       </Link>
-      <Link href="/dashboard/player-dashboard" className="text-xs text-white flex justify-between" onClick={() => setIsOpen(false)}>
-        {title2} <ArrowRight size={21}  />
+      <Link href={href} className="text-xs text-white flex justify-between" onClick={() => setIsOpen(false)}>
+        {title2} <ArrowRight size={21} />
       </Link>
     </motion.div>
   );

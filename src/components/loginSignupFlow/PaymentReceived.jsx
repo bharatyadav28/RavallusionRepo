@@ -5,7 +5,7 @@ import { GreenCheck } from '@/lib/svg_icons'
 const PaymentReceived = () => {
   return (
     <div
-      className="mx-4 p-10 rounded-[28px] flex items-center justify-center flex-col"
+      className="mx-4 p-10 rounded-[28px] flex items-center justify-center flex-col backdrop-blur-lg"
       style={{
         background:
           "radial-gradient(circle at top, #1cc74d -120%, transparent 50%), #091926",

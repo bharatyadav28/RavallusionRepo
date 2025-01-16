@@ -6,11 +6,11 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='lg:mt-7 grid grid-cols-12'>
+    <div className='lg:mt-6 flex lg:flex-row flex-col '>
 
-      <div className='col-span-12 lg:col-span-9 lg:mr-7'>
+      <div className='lg:mr-6 xl:mr-8 w-full lg:w-[70%]'>
 
-        <div className='h-[420px] rounded-md'>
+        <div className='h-[400px] rounded-md'>
           <VideoPlayer />
         </div>
 
@@ -25,7 +25,7 @@ const page = () => {
 
 
 
-      <div className='col-span-12 px-4 lg:px-0 mt-8 lg:mt-0 lg:col-span-3 h-screen rounded-md'>
+      <div className=' lg:my-0 lg:w-[30%] px-4 lg:px-0 mt-8 lg:mt-0 rounded-md'>
         <PlayerSidebar />
       </div>
 
