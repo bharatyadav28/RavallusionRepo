@@ -1,3 +1,4 @@
+'use client'
 import PrimaryDashboard from "@/components/dashboard/PrimaryDashboard";
 import TutorialCards from "@/components/dashboard/TutorialCards";
 import React from "react";

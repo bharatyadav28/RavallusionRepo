@@ -1,9 +1,9 @@
-'use client'
+"use client"
 import AssignmentSubmitList from '@/components/dashboard/AssignmentSubmitList';
 import SubscriptionDetails from '@/components/loginSignupFlow/SubscriptionDetails';
 import { Button } from '@/components/ui/button'
 import { BookmarkBold, ChevronRight, DownloadIcon, Lock, YellowDownload } from '@/lib/svg_icons'
-import React, { useState } from 'react'
+import React from 'react'
 import { CourseProgressBar } from '@/components/dashboard/AssignmentSubmitList';
 
 const page = () => {

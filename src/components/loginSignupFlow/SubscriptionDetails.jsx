@@ -9,6 +9,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
   const isSmallScreen = useSmallScreen();
 
   const [dropdown, setDropdown] = useState(profile && !isSmallScreen);
+  // const [dropdown, setDropdown] = useState(profile);
 
 
   const dropdownVariants = {
@@ -36,7 +37,6 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
             )
           }
 
-
           {
             dropdown && profile && (
 
@@ -52,6 +52,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
                     onClick={() => setDropdown(false)}
                   />
                 )}
+
               </div>
             )
           }
@@ -65,6 +66,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
               />
             )
           }
+
           {
             dropdown && !profile && (
               <ChevronUp
