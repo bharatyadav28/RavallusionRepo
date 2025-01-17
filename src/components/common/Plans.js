@@ -6,6 +6,8 @@ import { ArrowRight, Check } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
 import { useRouter } from 'next/navigation'
+import { useDispatch } from "react-redux";
+import { setSubDetail } from "@/store/slice/general";
 
 
 const plans = [
@@ -33,6 +35,7 @@ const plans = [
 
 
 const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [count, setCount] = useState(1);
@@ -123,7 +126,8 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
             </div>
           </div>
 
-          <CustomButton onClick={() => router.push(`/login?plan=${plans[0].id}`)} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   ">
+          {/* <CustomButton onClick={() => router.push(`/login?plan=${plans[0].id}`)} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   "> */}
+          <CustomButton onClick={() => { router.push('/login'), dispatch(setSubDetail(true)) }} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
                 &#8377; {plans2[0].inr_price}
@@ -167,7 +171,8 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
               <span>{plans[1].devices}</span>
             </div>
           </div>
-          <GlowButton onClick={() => router.push(`/login?plan=${plans[1].id}`) } className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
+          {/* <GlowButton onClick={() => router.push(`/login?plan=${plans[1].id}`) } className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "> */}
+          <GlowButton onClick={() => { router.push('/login'), dispatch(setSubDetail(true)),setCurrentStep(3) }} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
                 &#8377; {plans2[1].inr_price}

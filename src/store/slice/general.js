@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   showProfileCard: false,
+  subDetail: false,
 
 }
 
@@ -12,9 +13,12 @@ export const generalSlice = createSlice({
     setShowProfileCard: (state) => {
       state.showProfileCard = !state.showProfileCard;
     },
+    setSubDetail: (state, actions) => {
+      state.subDetail = actions.payload;
+    },
   },
 })
 
-export const { setShowProfileCard } = generalSlice.actions
+export const { setShowProfileCard, setSubDetail } = generalSlice.actions
 
 export default generalSlice.reducer

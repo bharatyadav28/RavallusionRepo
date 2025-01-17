@@ -163,12 +163,11 @@ const SideBar = ({ openSidebar, setOpenSidebar }) => {
       },
     },
   };
-
+  const show = false;
   const backdropVariants = {
     open: { opacity: 1, pointerEvents: "auto" },
     closed: { opacity: 0, pointerEvents: "none" },
   };
-  const show = false
   return (
     <>
       <motion.div
@@ -241,52 +240,68 @@ const ProfileComponent = ({ isOpenProfile, setIsOpenProfile, urlpath }) => {
 }
 
 const BoxComponent = ({ icon, title, introductory, title1, title2, show, href }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenBoxDropdown, setIsOpenBoxDropdown] = useState(false);
+
+  const handleClick = () => {
+    if (introductory) {
+      window.location.href = href;
+    } else {
+      setIsOpenBoxDropdown((prev) => !prev);
+    }
+  };
 
   return (
-    <div onClick={() => !introductory && setIsOpen((prev) => !prev)} className="px-4 py-3 lg:flex flex-col bg-[#040C19] border border-[var(--neon-purple)] relative cursor-pointer hidden">
-
+    <div
+      onClick={handleClick}
+      className="px-4 py-3 lg:flex flex-col bg-[#040C19] border border-[var(--neon-purple)] relative cursor-pointer hidden"
+    >
       <div className="flex justify-between items-center">
-
-        <div className="flex gap-x-2 items-center" >
+        <div className="flex gap-x-2 items-center">
           {icon}
-          <span className="text-sm font-semibold">{show && !isOpen ? "" : title}</span>
+          <span className="text-sm font-semibold">{show && !isOpenBoxDropdown ? "" : title}</span>
         </div>
 
         {introductory ? (
-          <>
-
-            <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
-          </>
-
+          <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
         ) : (
           <div className="cursor-pointer ml-3">
-            {isOpen ? <ChevronUp /> : <ChevronDown />}
+            {isOpenBoxDropdown ? <ChevronUp /> : <ChevronDown />}
           </div>
         )}
 
-        <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center'>
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center">
           <NeonElipse />
         </div>
-
       </div>
 
+      {isOpenBoxDropdown && (
+        <BoxDropdown
+          href={href}
+          title1={title1}
+          title2={title2}
 
-      {isOpen && (
-        <BoxDropdown href={href} title1={title1} title2={title2} setIsOpen={setIsOpen} />
+        />
       )}
-
-
     </div>
   );
 };
 
 
+
 const BoxComponentMobile = ({ profileMobile, icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleClick = () => {
+    if (introductory) {
+      window.location.href = href;
+    } else {
+      setIsOpen((prev) => !prev);
+
+    }
+  };
+
   return (
-    <div onClick={() => !profileMobile && !introductory && setIsOpen((prev) => !prev)} className="px-4 py-3 lg:flex flex-col border w-auto bg-[#040C19]  border-[var(--neon-purple)] relative cursor-pointer">
+    <div onClick={handleClick} className="px-4 py-3 lg:flex flex-col border w-auto bg-[#040C19]  border-[var(--neon-purple)] relative cursor-pointer">
 
       <div className="flex justify-between items-center">
         <div className="flex gap-x-2 items-center">
@@ -309,14 +324,13 @@ const BoxComponentMobile = ({ profileMobile, icon, title, introductory, title1, 
       {isOpen && (
         <BoxDropdown className={"relative border-none bg-[#040C19] mt-3 ml-0"} title1={title1} title2={title2} href={href} />
       )}
-
-
     </div>
   );
 };
 
 
-const BoxDropdown = ({ className = '', title1, title2, setIsOpen, href }) => {
+const BoxDropdown = ({ className = '', title1, title2, href }) => {
+
   return (
     <motion.div
       className={`${className} absolute flex flex-col gap-y-2 top-full left-0 right-0 min-w-full -mx-[1px]
@@ -325,10 +339,10 @@ const BoxDropdown = ({ className = '', title1, title2, setIsOpen, href }) => {
       animate={{ height: 'auto', opacity: 1 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
-      <Link href={href} className="text-xs text-white flex justify-between" onClick={() => setIsOpen((prev) => !prev)}>
+      <Link href={href} className="text-xs text-white flex justify-between">
         {title1} <ArrowRight size={21} />
       </Link>
-      <Link href={href} className="text-xs text-white flex justify-between" onClick={() => setIsOpen(false)}>
+      <Link href={href} className="text-xs text-white flex justify-between">
         {title2} <ArrowRight size={21} />
       </Link>
     </motion.div>
