@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react'
 import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
@@ -6,8 +7,11 @@ import { Button } from '../ui/button';
 import SubscriptionDetails from './SubscriptionDetails';
 import { AppleIcon, GoogleIcon } from '@/lib/svg_icons';
 import { useSearchParams } from 'next/navigation'
+import { useSelector } from 'react-redux';
 
-const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced", subsDetail = true }) => {
+const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced" }) => {
+    const subsDetail = useSelector((state) => state.general.subDetail);
+
     const [email, setEmail] = useState('');
 
     // const params = useSearchParams();
