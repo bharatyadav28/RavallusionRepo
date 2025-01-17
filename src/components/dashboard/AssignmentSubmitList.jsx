@@ -1,3 +1,4 @@
+'use client'
 import { Lock, YellowDownload } from '@/lib/svg_icons'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
