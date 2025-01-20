@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { GreenCheck } from '@/lib/svg_icons'
+import { useRouter } from 'next/navigation'
 
 const PaymentReceived = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push('/dashboard');
+    },1000)
+  },[])
+
   return (
     <div
       className="mx-4 p-10 rounded-[28px] flex items-center justify-center flex-col backdrop-blur-lg"

@@ -8,6 +8,7 @@ import SubscriptionDetails from './SubscriptionDetails';
 import { AppleIcon, GoogleIcon } from '@/lib/svg_icons';
 import { useSearchParams } from 'next/navigation'
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 
 const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced" }) => {
     const subsDetail = useSelector((state) => state.general.subDetail);
@@ -37,9 +38,9 @@ const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced" }) => {
                     <p className='text-sm'>Keep me signed in</p>
                 </div>
 
-                <SubmitButton className={"w-full mb-[30px] text-md"} onClick={() => setCurrentStep(1)}>
-                    Continue
-                </SubmitButton>
+                    <SubmitButton className={"w-full mb-[30px] text-md"} onClick={()=>setCurrentStep(1)}>
+                        Continue
+                    </SubmitButton>
 
 
 
