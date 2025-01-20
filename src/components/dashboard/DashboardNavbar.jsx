@@ -178,7 +178,7 @@ const SideBar = ({ openSidebar, setOpenSidebar }) => {
         onClick={() => setOpenSidebar(false)}
       />
 
-      <motion.div className=" absolute bg-[var(--Surface)] w-72 pt-12 pb-8 px-4 h-screen top-0 left-0 z-20 lg:hidden"
+      <motion.div className="absolute bg-[var(--Surface)] w-72 pt-12 pb-8 px-4 h-screen top-0 left-0 z-20 lg:hidden"
         initial="closed"
         animate={openSidebar ? "open" : "closed"}
         variants={sidebarVariants}
@@ -196,7 +196,7 @@ const SideBar = ({ openSidebar, setOpenSidebar }) => {
           <BoxComponentMobile href={"/dashboard/player-dashboard"} show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Photoshop"} />
           <BoxComponentMobile href={"/dashboard/introductory"} show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
 
-          <BoxComponentMobile profileMobile={true} show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
+          <BoxComponentMobile setOpenSidebar={setOpenSidebar} profileMobile={true} show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
             <Image
               src={'/URL_of_image_for_FX_Console_Plugin.jpeg'}
               alt='Profile pic'
@@ -232,7 +232,7 @@ const ProfileComponent = ({ isOpenProfile, setIsOpenProfile, urlpath }) => {
         className="rounded-full"
       />
 
-      {isOpenProfile && urlpath !== 'profile' && (<BoxDropdown href={'/dashboard'} title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[54px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
+      {isOpenProfile && urlpath !== 'profile' && (<BoxDropdown href={'/dashboard/profile'} title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[54px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
       )}
 
     </div>
@@ -288,15 +288,20 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
 
 
 
-const BoxComponentMobile = ({ profileMobile, icon, title, introductory, title1, title2, show, href }) => {
+const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     if (introductory) {
       window.location.href = href;
-    } else {
+    }
+    else if (profileMobile) {
+      dispatch(setShowProfileCard());
+      setOpenSidebar(false);
+    }
+    else {
       setIsOpen((prev) => !prev);
-
     }
   };
 
