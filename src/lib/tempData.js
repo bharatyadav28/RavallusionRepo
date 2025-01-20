@@ -54,7 +54,7 @@ export const LessonData = [
                 img: '/thumbnail1.png',
                 title: "CREATE A NEW PHOTOSHOP FILE",
                 duration:"20:30",
-                description: "Learn advanced VFX course with use to gain more knowledge"
+                description: "Learn advanced VFX course with use to gain more knowledge",
             },
             {
                 img: '/thumbnail3.png',
