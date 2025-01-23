@@ -6,7 +6,7 @@ const CourseCard = ({ course }) => {
   const { title, description, views, likes, imageUrl } = course;
 
   return (
-    <Card>
+    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1"}>
       <Image
         src={imageUrl}
         alt={title}

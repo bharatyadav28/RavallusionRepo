@@ -3,7 +3,7 @@ import { CustomButton } from "../common/CustomButton";
 
 const Navbar = () => {
   return (
-    <div className="absolute  top-0 !w-full z-[1000] md:px-[8%] 2xl:px-[9%] backdrop-blur-lg ">
+    <div className="fixed  top-0 !w-full z-[1000] md:px-[8%] 2xl:px-[9%] backdrop-blur-lg ">
       <div className="h-[0.5px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div>
       <nav className="p-5 w-full flex justify-between items-center backdrop-blur-lg navbar  z-10">
         <Link href="/">

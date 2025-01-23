@@ -7,6 +7,7 @@ const { cn } = require("@/lib/utils");
 
 export const TextInput = (props) => {
   const {
+    type = 'text',
     children,
     className,
     onChange,
@@ -30,7 +31,7 @@ export const TextInput = (props) => {
       <div className="flex items-center gap-3 bg-[var(--input)] py-3 px-2 rounded-xl ">
         <span>{icon}</span>
         <input
-          type="text"
+          type={type}
           {...props}
           id={id}
           value={value}

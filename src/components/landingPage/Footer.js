@@ -94,8 +94,8 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <div className="text-2xl 2xl:text-3xl">Quick Links</div>
-          <div className="flex flex-col gap-3">
+          <div className="text-[22px] 2xl:text-3xl font-bold">Quick Links</div>
+          <div className="flex flex-col gap-3 items-center justify-center">
             {quickLinks.map((item) => (
               <Link
                 key={item.title}
