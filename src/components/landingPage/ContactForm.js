@@ -87,6 +87,7 @@ const ContactForm = () => {
         <TextInput
           label="Your Email Name"
           id="email"
+          type={"email"}
           placeholder="Email address"
           icon={emailIcon}
           required={true}
@@ -94,6 +95,7 @@ const ContactForm = () => {
           onChange={(data) => setFormInputs({ ...formInputs, email: data })}
         />
         <TextInput
+          type={'number'}
           label="Your Phone Number"
           id="phone_no"
           placeholder="Phone number"

@@ -36,7 +36,7 @@ const CertificateSection = ({ certificate }) => {
               className="flex items-center gap-3 text-xs xl:text-sm"
             >
               <CheckIcon />
-              {point}
+              {point}.
             </div>
           ))}
         </div>

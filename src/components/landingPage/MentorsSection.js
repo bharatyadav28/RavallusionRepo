@@ -52,7 +52,7 @@ const MentorsSection = ({ mentor }) => {
               return (
                 <div
                   key={link._id}
-                  className="bg-[var(--card)] px-[0.9rem] py-[0.6rem] 2xl:px-[1rem] 2xl:py-[0.7rem] w-[9.35rem] h-[6.85rem] 2xl:w-[12rem] 2xl:h-[8rem] flex flex-col justify-end rounded-md relative"
+                  className="hover:bg-gray-500 bg-[var(--card)] px-[0.9rem] py-[0.6rem] 2xl:px-[1rem] 2xl:py-[0.7rem] w-[9.35rem] h-[6.85rem] 2xl:w-[12rem] 2xl:h-[8rem] flex flex-col justify-end rounded-md relative"
                 >
                   <Icon className="absolute top-0 right-0 rounded-tr-md 2xl:w-[6rem] 2xl:h-[6rem] " />
                   <div className="text-xs 2xl:text-sm text-[var(--light-gray)] z-10">
