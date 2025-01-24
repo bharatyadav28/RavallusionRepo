@@ -1,6 +1,7 @@
 import React from "react";
 import LandingContainer from "../common/LandingContainer";
 import Plans from "../common/Plans";
+import CarouselWrapper from "../common/CarouselWrapper";
 
 const PlansSection = ({ plans }) => {
   return (
@@ -15,7 +16,10 @@ const PlansSection = ({ plans }) => {
           </div>
         </div>
       </div>
-      <Plans plans2={plans} />
+      <CarouselWrapper navigation={true} autoScrollInterval={5000}>
+        <Plans plans2={plans} />
+        <Plans plans2={plans} />
+      </CarouselWrapper>
     </LandingContainer>
   );
 };

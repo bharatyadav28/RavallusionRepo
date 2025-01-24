@@ -96,7 +96,7 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
 
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
 
-        <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col">
+        <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
             {plans2[0].plan_type}
           </h1>

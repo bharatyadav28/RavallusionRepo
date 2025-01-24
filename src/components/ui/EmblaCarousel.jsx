@@ -140,12 +140,12 @@ const EmblaCarousel = (props) => {
       <div className="embla__controls">
         <div className="embla__buttons">
           <PrevButton
-            className="absolute left-[9%] 2xl:left-[10rem] top-[50%] -translate-y-[50%] bg-white text-black w-7 h-7 rounded-full z-[1000]"
+            className="absolute left-[9%] 2xl:left-[10rem] top-[50%] -translate-y-[50%] bg-gray-700 hover:bg-gray-900 text-white w-7 h-7 rounded-full z-[1000]"
             onClick={onPrevButtonClick}
             disabled={prevBtnDisabled}
           />
           <NextButton
-            className="absolute right-[9%] 2xl:right-[10rem] top-[50%] -translate-y-[50%] bg-white text-black w-7 h-7 rounded-full z-[1000]"
+            className="absolute right-[9%] 2xl:right-[10rem] top-[50%] -translate-y-[50%] bg-gray-700 hover:bg-gray-900 text-white w-7 h-7 rounded-full z-[1000]"
             onClick={onNextButtonClick}
             disabled={nextBtnDisabled}
           />

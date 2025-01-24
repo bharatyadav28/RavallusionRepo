@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import CourseCard from "./CourseCard";
 import CustomSkeleton from "./CustomSkeleton";
+import CarouselWrapper from "./CarouselWrapper";
 
 const courses = [
   {
@@ -54,6 +55,7 @@ const courses = [
     likes: "80K",
     imageUrl: "/URL_of_image_for_Cinematic_Title_Design.jpeg",
   },
+
 ];
 
 const CoursesList = () => {
@@ -95,11 +97,19 @@ const CoursesList = () => {
         className="absolute !-right-7 sm:!-right-[11%] md:!-right-[7rem] !w-[10%] sm:!w-24 !h-full"
         skeletonClass="skeleton-right"
       />
-      <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
-        {courses.map((course) => (
-          <CourseCard key={course.id} course={course} />
-        ))}
-      </div>
+
+      <CarouselWrapper autoScrollInterval={4000} navigation={true}>
+        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+      </CarouselWrapper>
     </div>
   );
 };
