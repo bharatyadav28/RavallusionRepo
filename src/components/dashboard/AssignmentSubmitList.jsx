@@ -85,7 +85,7 @@ const SubmitAssignment = ({ completed, ongoing, notStarted, submited }) => {
         <div className='py-3 flex items-center justify-between'>
             <div>
                 <h1 className='text-sm mb-1 font-semibold'>List of shortcuts used in the course</h1>
-                <p className='text-[9px] text-[var(--yellow)]'>Completed · <span className='text-[#7EFF9A]'>Assignment submitted</span></p>
+                <p className='text-[11px] text-[var(--yellow)]'>Completed · <span className='text-[#7EFF9A]'>Assignment submitted</span></p>
             </div>
             <div>
                 {

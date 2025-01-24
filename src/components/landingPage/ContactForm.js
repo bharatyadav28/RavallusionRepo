@@ -10,6 +10,8 @@ import {
 } from "@/lib/svg_icons";
 import {
   CheckBoxInput,
+  SearchInput,
+  SelectInput,
   TextArea,
   TextInput,
   UploadInput,
@@ -106,7 +108,7 @@ const ContactForm = () => {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <TextInput
+        {/* <TextInput
           label="Your Profession"
           id="profession"
           placeholder="Profession"
@@ -115,7 +117,26 @@ const ContactForm = () => {
           onChange={(data) =>
             setFormInputs({ ...formInputs, profession: data })
           }
+        /> */}
+
+        <SelectInput
+          type="select"
+          id="profession"
+          label="Your Profession"
+          icon={professionIcon}
+          placeholder="Select your Profession"
+          options={[
+            { value: "Teacher", label: "Teacher" },
+            { value: "Student", label: "Student" },
+            { value: "Engineer", label: "Engineer" },
+          ]}
+          value={formInputs.profession}
+          onChange={(data) =>
+            setFormInputs({ ...formInputs, profession: data })
+          }
+          required
         />
+
         <TextInput
           label="Your Address"
           id="address"
@@ -124,6 +145,8 @@ const ContactForm = () => {
           value={formInputs.address}
           onChange={(data) => setFormInputs({ ...formInputs, address: data })}
         />
+
+       
       </div>
       <UploadInput
         placeholder="Upload file"

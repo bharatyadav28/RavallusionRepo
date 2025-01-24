@@ -115,7 +115,7 @@ const PersonalInfoCard = () => {
                         onClick={() => setIsOpenLogout(false)}
                         icon={<LogoutCard />}
                         title="Log Out"
-                        text="Are you sure you want to logout?"
+                        text="Are you sure you want to logout ?"
                     />
                 </CustomDialog>
 
@@ -124,7 +124,7 @@ const PersonalInfoCard = () => {
                         onClick={() => setIsOpenDelete(false)}
                         icon={<DeleteCard />}
                         title="Delete account"
-                        text="Are you sure you want to delete your account?"
+                        text="Are you sure you want to delete your account ?"
                     />
                 </CustomDialog>
 
@@ -143,6 +143,7 @@ const PersonalInfoCard = () => {
                 <CustomDialog open={isOpenPhone} close={() => setIsOpenPhone(false)}>
                     <EditInfo
                         label="Phone"
+                        type='number'
                         content={phone}
                         onClick={() => setIsOpenPhone(false)}
                         onSave={(value) => {

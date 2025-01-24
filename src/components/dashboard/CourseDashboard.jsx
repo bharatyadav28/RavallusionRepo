@@ -39,7 +39,7 @@ const CourseDashboard = () => {
                         <div>
                             <p className='text-sm font-bold'>Module 1</p>
                             <p className='text-sm text-gray-400'>Fundamental of Figma App</p>
-                            <p className='text-[var(--yellow)] mt-2 text-[8px]'>😃You stand out better than 70% of users</p>
+                            <p className='text-[var(--yellow)] mt-2 text-[10px]'>😃You stand out better than 70% of users</p>
                         </div>
 
                     </div>
@@ -135,7 +135,7 @@ const CourseProgress = () => {
             <div className='flex items-center justify-between mb-4'>
                 <div>
                     <h1 className='text-sm mb-1 font-semibold'>Photoshop</h1>
-                    <p className='text-[10px] text-[var(--yellow)]'>Submodule 1: Photoshop basics</p>
+                    <p className='text-[12px] text-[var(--yellow)]'>Submodule 1: Photoshop basics</p>
                 </div>
                 <Button variant={'neonOutline'} className={'px-3 py-3 rounded-lg'}>
                     Watch now

@@ -29,7 +29,7 @@ const ModuleSection = ({ modules }) => {
               Discover a comprehensive curriculum designed to empower you with
               the skills and knowledge needed to excel in communication.
               Throughout the Communication Masterclass, you&apos;ll explore the
-              following modules in depth
+              following modules in depth.
             </div>
           </div>
           <CustomButton className="!p-5 !py-6 !text-base 2xl:!text-lg !rounded-lg ">

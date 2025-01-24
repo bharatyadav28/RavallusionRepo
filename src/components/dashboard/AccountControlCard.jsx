@@ -19,8 +19,8 @@ const AccountControlCard = ({ title, icon, text,onClick }) => {
                 </div>
 
                 <div className='flex items-center gap-x-4'>
-                    <Button className="px-7 py-5 border border-gray-400" onClick={onClick} >Cancel</Button>
-                    <Button variant={'destructive'} className=" px-7 py-5" onClick={onClick} >Confirm</Button>
+                    <Button className="px-7 py-5 border border-gray-400 hover:bg-gray-700" onClick={onClick} >Cancel</Button>
+                    <Button variant={'destructive'} className=" px-7 py-5 hover:bg-red-900" onClick={onClick} >Confirm</Button>
                 </div>
 
             </div>
