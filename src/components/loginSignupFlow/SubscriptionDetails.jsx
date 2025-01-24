@@ -105,7 +105,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
 
           <div className='flex justify-between items-center'>
             <div>
-              <p className='text-[10px]'>Current plan</p>
+              <p className='text-[12px]'>Current plan</p>
               <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>Advance</h2>
             </div>
 
@@ -113,7 +113,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
               {
                 profile ? (
                   <>
-                    <p className='text-[10px] text-end'>Paid on 22/20/2023</p>
+                    <p className='text-[12px] text-end'>Paid on 22/20/2023</p>
                     <h2 className='text-lg md:text-2xl font-semibold'>335 days remaining</h2>
                   </>
                 ) :
@@ -137,12 +137,12 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
               <span className="text-[10] font-bold border-2 py-[3px] 2xl:py-0 px-[5px] rounded-2xl ">
                 X 1
               </span>
-              <span className='text-[8.271px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
+              <span className='text-[10px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
             </div>
 
             <div className="flex flex-col text-xs items-center 2xl:gap-3 2xl:text-sm">
               <Check className="border-2 rounded-full p-1" size={23} />
-              <span className='text-[8.271px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
+              <span className='text-[10px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
             </div>
 
             <div className="flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -152,13 +152,13 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
                   FHD
                 </span>
               </div>
-              <span className='mt-3 text-[8.271px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
+              <span className='mt-3 text-[10px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
             </div>
 
             <div className=" flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm">
               <DevicesIcon width={23} />
               <span
-                className="text-[8.271px] mt-[4px] md:mt-[10px]  text-center break-words leading-tight max-w-[100px] sm:max-w-[120px]">
+                className="text-[10px] mt-[4px] md:mt-[10px]  text-center break-words leading-tight max-w-[100px] sm:max-w-[120px]">
                 Watch on Laptop, Mobile, Tab and iPad
               </span>
             </div>

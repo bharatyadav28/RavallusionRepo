@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
-const EditInfo = ({ label, content, onClick, onSave }) => {
+const EditInfo = ({ label, content, onClick, onSave ,type='text'}) => {
     const [inputValue, setInputValue] = useState(content);
 
     const handleSave = () => {
@@ -30,7 +30,7 @@ const EditInfo = ({ label, content, onClick, onSave }) => {
                 <div className='mb-5'>
                     <label className='text-gray-100 text-sm mb-[6px]' htmlFor="name">{label}</label>
                     <Input
-                        type={"text"}
+                        type={type}
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         className="w-full py-5 px-3 border-2 rounded-[12px] border-gray-500 mt-1 input-shadow" />
@@ -38,8 +38,8 @@ const EditInfo = ({ label, content, onClick, onSave }) => {
 
                 <div className='flex items-center gap-x-7'>
 
-                    <Button className="px-7 py-6 w-full border border-gray-500" onClick={onClick}>Cancel</Button>
-                    <Button className="bg-[var(--neon-purple)] px-7 py-6 hover:bg-[var(--neon-purple)] w-full" onClick={handleSave}>Save</Button>
+                    <Button className="px-7 py-6 w-full border border-gray-500 hover:bg-gray-700" onClick={onClick}>Cancel</Button>
+                    <Button className="bg-[var(--neon-purple)] px-7 py-6 hover:bg-[#3ac648] w-full" onClick={handleSave}>Save</Button>
 
                 </div>
 
