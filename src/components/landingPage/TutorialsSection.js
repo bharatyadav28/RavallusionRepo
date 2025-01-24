@@ -2,6 +2,8 @@ import { ArrowRight } from "lucide-react";
 import { CustomButton } from "../common/CustomButton";
 import LandingContainer from "../common/LandingContainer";
 import CoursesList from "../common/CoursesList";
+import CarouselWrapper from "../common/CarouselWrapper";
+import CustomCarousel from "../common/CustomCarousel";
 
 const TutorialsSection = () => {
   return (
@@ -19,7 +21,7 @@ const TutorialsSection = () => {
           Get more videos <ArrowRight />
         </CustomButton> */}
       </div>
-      <CoursesList />
+        <CoursesList />
     </LandingContainer>
   );
 };
