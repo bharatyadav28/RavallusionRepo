@@ -600,3 +600,8 @@ input[type="number"] {
     #0B5ED7  
   );
 }
+
+
+.background-popover{
+  background: #0B5ED7 !important;
+}
