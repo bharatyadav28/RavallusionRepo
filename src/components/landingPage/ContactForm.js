@@ -10,8 +10,6 @@ import {
 } from "@/lib/svg_icons";
 import {
   CheckBoxInput,
-  SearchInput,
-  SelectInput,
   TextArea,
   TextInput,
   UploadInput,
@@ -21,6 +19,7 @@ import { useState } from "react";
 import { submitQuery } from "@/lib/serverAction";
 import { useToast } from "@/hooks/use-toast";
 import LoadingSpinner from "../common/LoadingSpinner";
+import CustomCombobox from "../common/CustomCombobox";
 
 const ContactForm = () => {
   const { toast } = useToast();
@@ -34,10 +33,9 @@ const ContactForm = () => {
     address: "",
     message: "",
     file: null,
+    privacy: false
   });
   const [isLoading, setLoading] = useState(false);
-
-  const checkIsNumber = (data) => /^d{1,10}$/.test(data);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,12 +50,39 @@ const ContactForm = () => {
     console.log(formData);
     const res = await submitQuery(formData);
     setLoading(false);
-    toast({
-      variant: res.success ? "default" : "destructive",
-      title: res.success ? res.data.message : res.message,
-      ...(res.success && { className: "bg-green-500 text-white" }),
-    });
+
+    if (res.success) {
+      setFormInputs({
+        first_name: "",
+        last_name: "",
+        email: "",
+        mobile: "",
+        profession: "",
+        address: "",
+        message: "",
+        file: null,
+        privacy: false
+      });
+      toast({
+        variant: "default",
+        title: res.data.message,
+        className: "bg-green-500 text-white",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: res.message,
+      });
+    }
   };
+
+
+  const handleMobileChange = (data) => {
+    if (/^\d{0,10}$/.test(data)) {
+      setFormInputs({ ...formInputs, mobile: data });
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -104,37 +129,18 @@ const ContactForm = () => {
           icon={indiaFlag}
           required={true}
           value={formInputs.mobile}
-          onChange={(data) => setFormInputs({ ...formInputs, mobile: data })}
+          onChange={handleMobileChange}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {/* <TextInput
-          label="Your Profession"
-          id="profession"
-          placeholder="Profession"
-          icon={professionIcon}
-          value={formInputs.profession}
-          onChange={(data) =>
-            setFormInputs({ ...formInputs, profession: data })
-          }
-        /> */}
 
-        <SelectInput
-          type="select"
-          id="profession"
-          label="Your Profession"
+        <CustomCombobox
+          label={"Your Profession"}
+          id={"profession"}
+          required={true}
           icon={professionIcon}
-          placeholder="Select your Profession"
-          options={[
-            { value: "Teacher", label: "Teacher" },
-            { value: "Student", label: "Student" },
-            { value: "Engineer", label: "Engineer" },
-          ]}
           value={formInputs.profession}
-          onChange={(data) =>
-            setFormInputs({ ...formInputs, profession: data })
-          }
-          required
+          onChange={(data) => setFormInputs({ ...formInputs, profession: data })}
         />
 
         <TextInput
@@ -146,7 +152,7 @@ const ContactForm = () => {
           onChange={(data) => setFormInputs({ ...formInputs, address: data })}
         />
 
-       
+
       </div>
       <UploadInput
         placeholder="Upload file"
@@ -163,17 +169,20 @@ const ContactForm = () => {
         required={true}
         rows={3}
         value={formInputs.message}
+        
         onChange={(data) => setFormInputs({ ...formInputs, message: data })}
       />
       <CheckBoxInput
         label="You agree to our friendly privacy policy."
         id="privacy"
         required={true}
+        checked={formInputs.privacy}  
+        onChange={(data) => setFormInputs({ ...formInputs, privacy: data })}
       />
       <SubmitButton className="!mt-[8px] text-base !py-5">
         Submit {isLoading && <LoadingSpinner />}
       </SubmitButton>
-    </form>
+    </form >
   );
 };
 

@@ -45,7 +45,7 @@ const PersonalInfoCard = () => {
 
     return (
         <div className='fixed z-10 inset-0 bg-black/20 backdrop-blur-md md:absolute md:backdrop-blur-0 '>
-            <div className="
+            <div className="lg:h-96
         shadow-lg fixed md:absolute w-full left-1/2 transform md:transform-none md:-translate-x-0 -translate-x-1/2 -bottom-1 md:w-2/3 lg:w-4/5 md:left-14 md:-top-6 z-20" style={{
                     backgroundImage: "url('/strap-gradient.png')",
                     backgroundSize: "cover",
