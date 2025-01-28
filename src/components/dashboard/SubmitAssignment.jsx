@@ -73,7 +73,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen }) => {
   };
 
   return (
-    <div className="p-6 bg-[#181F2B] w-full rounded-2xl">
+    <div className="p-6 bg-[#181F2B] w-full rounded-2xl ">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-lg">Assignment submission</h1>
@@ -86,25 +86,30 @@ const SubmitAssignment = ({ setIsAssignmentOpen }) => {
       </div>
 
       <div
-        className="my-4 bg-[var(--Surface)] p-4 items-center flex justify-center border border-dashed border-[var(--neon-purple)] flex-col"
+        className=" my-4 bg-[var(--Surface)] p-4 items-center flex justify-center border border-dashed border-[var(--neon-purple)] flex-col"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         <UploadIcon />
         <h1 className="text-lg mt-3">Drag your file(s) to start uploading</h1>
 
-        <div className="flex items-center my-2">
-          <div className="flex-1 relative">
+        <div className="flex items-center my-2 w-4/5">
+
+          <div className="flex-1 relative h-4">
             <div className="absolute top-1/2 left-0 right-0 border-t border-transparent">
               <div className="h-px bg-gradient-to-l from-white via-gray-400 to-black"></div>
             </div>
           </div>
+
           <span className="mx-4 text-gray-300">OR</span>
-          <div className="flex-1 relative">
+
+          <div className="flex-1 relative h-4">
             <div className="absolute top-1/2 left-0 right-0 border-t border-transparent">
               <div className="h-px bg-gradient-to-r from-white via-gray-400 to-black"></div>
             </div>
           </div>
+
+
         </div>
 
         <Button variant={"neonOutline"} onClick={triggerFileInput}>
@@ -138,7 +143,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen }) => {
         <p className="text-sm text-gray-400">No files uploaded yet.</p>
       )}
       {isUploading &&
-        <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} />}
+        <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)}/>}
 
       <div className="flex items-center gap-x-4 justify-end mt-4">
         <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>

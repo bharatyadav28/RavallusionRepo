@@ -34,7 +34,7 @@ const VideoPlayer = () => {
     const total = videoRef.current.duration;
     setCurrentTime(current);
     setProgress((current / total) * 100);
-    if(current == total){
+    if (current == total) {
       setIsPlaying(false);
     }
   };
@@ -71,7 +71,7 @@ const VideoPlayer = () => {
   useEffect(() => {
     const durationOfVideo = () => {
       setDuration(videoRef.current.duration);
-      
+
     };
     durationOfVideo();
 
@@ -79,7 +79,9 @@ const VideoPlayer = () => {
 
 
 
-  
+  const handleLoadedMetadata = () => {
+    setDuration(videoRef.current.duration);
+  };
 
   return (
     <div className="relative w-full h-full rounded-md overflow-hidden">
@@ -90,6 +92,7 @@ const VideoPlayer = () => {
         src="https://www.w3schools.com/html/mov_bbb.mp4"
         poster="https://www.w3schools.com/html/pic_trulli.jpg"
         onTimeUpdate={handleProgress}
+        onLoadedMetadata={handleLoadedMetadata}
       >
         Your browser does not support the video tag.
       </video>
@@ -132,10 +135,10 @@ const VideoPlayer = () => {
         {/* Right Controls */}
         <div className="flex items-center space-x-4">
           <button onClick={handleMute} className="hover:text-gray-400">
-            {isMuted ?<VolumeOff />: <Volume2 /> }
+            {isMuted ? <VolumeOff /> : <Volume2 />}
           </button>
           <button onClick={handleFullscreen} className="hover:text-gray-400">
-          <Maximize />
+            <Maximize />
           </button>
         </div>
       </div>
