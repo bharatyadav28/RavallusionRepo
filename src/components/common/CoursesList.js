@@ -30,7 +30,10 @@ const courses = [
     views: "192K",
     likes: "80K",
     imageUrl: "/URL_of_image_for_Colorful_Glitch_Effects.jpeg",
-  },
+  }
+];
+
+const course1 = [
   {
     id: 4,
     title: "FX Console Plugin",
@@ -55,8 +58,9 @@ const courses = [
     likes: "80K",
     imageUrl: "/URL_of_image_for_Cinematic_Title_Design.jpeg",
   },
-
 ];
+
+
 
 const CoursesList = () => {
   const [count, setCount] = useState(2);
@@ -85,6 +89,7 @@ const CoursesList = () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
   });
+
   return (
     <div className="flex-grow relative">
       <CustomSkeleton
@@ -105,6 +110,20 @@ const CoursesList = () => {
           ))}
         </div>
         <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
+          {course1.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+
+      </CarouselWrapper>
+
+      <CarouselWrapper autoScrollInterval={4000} navigation={true}>
+        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0 mt-5">
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0 mt-5">
           {courses.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}

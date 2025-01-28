@@ -7,7 +7,6 @@ import {
   PrevButton,
   usePrevNextButtons,
 } from "./EmblaCarouselArroeButtons";
-import Image from "next/image";
 
 const TWEEN_FACTOR_BASE = 0.52;
 
@@ -18,16 +17,18 @@ const CarouselCard = ({ item }) => {
   return (
     <div className="flex items-center justify-center  ">
       <div className=" relative w-full h-fit self-center ">
-        <div className="p-3 carousel-bg">
-          <Image
+        <div className="p-3 carousel-bg ">
+          {/* <Image
             src="/carousel-1.png"
             width={1000}
             height={1000}
             alt={item._id}
             className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full  "
-          />
+          /> */}
+          <video src="https://videos.pexels.com/video-files/2098989/2098989-uhd_2560_1440_30fps.mp4" playsInline autoPlay loop muted className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full "></video>
+          
         </div>
-        <div className="absolute top-8 sm:top-20 left-2 sm:left-5 2xl:left-7 w-[52%] sm:w-[48%] md:w-[44%] ">
+        {/* <div className="absolute top-8 sm:top-20 left-2 sm:left-5 2xl:left-7 w-[52%] sm:w-[48%] md:w-[44%] ">
           <div className="text-sm sm:text-2xl 2xl:text-3xl font-bold">
             {item.caption}
           </div>
@@ -41,7 +42,7 @@ const CarouselCard = ({ item }) => {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

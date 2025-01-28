@@ -119,16 +119,17 @@ const CarouselCard = ({ item }) => {
   return (
     <div className="flex items-center justify-center  ">
       <div className=" relative ">
-        <div className="p-[0.4rem] carousel-bg !rounded-md">
-          <Image
+        {/* <div className="p-[0.4rem] carousel-bg !rounded-md"> */}
+          {/* <Image
             src="/carousel-1.png"
             width={1000}
             height={1000}
             alt={item._id}
             className="w-[70vw] h-[65vw] md:w-[50vw] md:h-full rounded-sm  "
-          />
-        </div>
-        <div className="absolute top-7 left-3 w-[50%] ">
+          /> */}
+          <video src="https://videos.pexels.com/video-files/2098989/2098989-uhd_2560_1440_30fps.mp4"  playsInline autoPlay loop muted className="w-[70vw] h-[65vw] md:w-[50vw] md:h-full rounded-sm"></video>
+        {/* </div> */}
+        {/* <div className="absolute top-7 left-3 w-[50%] ">
           <div className="text-[0.9rem] font-bold">{item.capyion}</div>
           <div className="text-[0.38rem]   mt-2 w-[5.7rem]">
             {item.description}
@@ -140,7 +141,7 @@ const CarouselCard = ({ item }) => {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

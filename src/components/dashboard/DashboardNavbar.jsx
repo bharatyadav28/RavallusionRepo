@@ -251,26 +251,34 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
   };
 
   return (
-    <div
-      onClick={handleClick}
-      className="px-4 py-3 lg:flex flex-col bg-[#040C19] border border-[var(--neon-purple)] relative cursor-pointer hidden"
-    >
-      <div className="flex justify-between items-center">
-        <div className="flex gap-x-2 items-center">
-          {icon}
-          <span className="text-sm font-semibold">{show && !isOpenBoxDropdown ? "" : title}</span>
-        </div>
 
-        {introductory ? (
-          <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
-        ) : (
-          <div className="cursor-pointer ml-3">
-            {isOpenBoxDropdown ? <ChevronUp /> : <ChevronDown />}
+    <div className="relative hidden lg:block">
+      <div
+        onClick={handleClick}
+        className={`px-4 py-3 flex flex-col bg-[#040C19] border-x border-t ${isOpenBoxDropdown ? '' : 'border-b'
+          } border-[var(--neon-purple)] cursor-pointer relative`}
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex gap-x-2 items-center">
+            {icon}
+            <span className="text-sm font-semibold">
+              {show && !isOpenBoxDropdown ? "" : title}
+            </span>
           </div>
-        )}
 
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center">
-          <NeonElipse />
+          {introductory ? (
+            <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">
+              Free
+            </span>
+          ) : (
+            <div className="cursor-pointer ml-3">
+              {isOpenBoxDropdown ? <ChevronUp /> : <ChevronDown />}
+            </div>
+          )}
+
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center">
+            <NeonElipse />
+          </div>
         </div>
       </div>
 
@@ -279,13 +287,11 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
           href={href}
           title1={title1}
           title2={title2}
-
         />
       )}
     </div>
   );
 };
-
 
 
 const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introductory, title1, title2, show, href }) => {
@@ -306,54 +312,77 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
   };
 
   return (
-    <div onClick={handleClick} className="px-4 py-3 lg:flex flex-col border w-auto bg-[#040C19]  border-[var(--neon-purple)] relative cursor-pointer">
-
-      <div className="flex justify-between items-center">
-        <div className="flex gap-x-2 items-center">
-          {icon}
-          <span className="text-sm font-semibold">{show && !isOpen ? "" : title}</span>
-        </div>
-        {introductory ? (
-          <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
-        ) : (
-          <div className="cursor-pointer ml-3">
-            {isOpen ? <ChevronUp /> : <ChevronDown />}
+    <div className="relative">
+      <div
+        onClick={handleClick}
+        className={`px-4 py-3 flex flex-col bg-[#040C19] border-x border-t ${isOpen ? '' : 'border-b'
+          } border-[var(--neon-purple)] cursor-pointer relative`}
+      >
+        <div className="flex justify-between items-center">
+          <div className="flex gap-x-2 items-center">
+            {icon}
+            <span className="text-sm font-semibold">{show && !isOpen ? "" : title}</span>
           </div>
+          {introductory ? (
+            <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
+          ) : (
+            <div className="cursor-pointer ml-3">
+              {isOpen ? <ChevronUp /> : <ChevronDown />}
+            </div>
+          )}
+        </div>
+
+        <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center'>
+          <NeonElipse />
+        </div>
+
+        {isOpen && (
+          <BoxDropdown className={"relative border-none bg-[#040C19] mt-3 ml-0"} title1={title1} title2={title2} href={href} />
         )}
       </div>
-
-      <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center'>
-        <NeonElipse />
-      </div>
-
-      {isOpen && (
-        <BoxDropdown className={"relative border-none bg-[#040C19] mt-3 ml-0"} title1={title1} title2={title2} href={href} />
-      )}
     </div>
   );
 };
 
+// const BoxDropdown = ({ className = '', title1, title2, href }) => {
 
-const BoxDropdown = ({ className = '', title1, title2, href }) => {
+//   return (
+//     <motion.div
+//       className={`${className} absolute flex flex-col gap-y-2 top-full left-0 right-0 min-w-full -mx-[1px]
+//         border-x-[1px] border-b border-[var(--neon-purple,#C99BFD)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden`}
+//       initial={{ height: 0, opacity: 0 }}
+//       animate={{ height: 'auto', opacity: 1 }}
+//       transition={{ duration: 0.3, ease: 'easeInOut' }}
+//     >
+//       <Link href={href} className="text-xs text-white flex justify-between">
+//         {title1} <ArrowRight size={21} />
+//       </Link>
+//       <Link href={href} className="text-xs text-white flex justify-between">
+//         {title2} <ArrowRight size={21} />
+//       </Link>
+//     </motion.div>
+//   );
+// };
 
+
+const BoxDropdown = ({ title1, title2, href }) => {
   return (
     <motion.div
-      className={`${className} absolute flex flex-col gap-y-2 top-full left-0 right-0 min-w-full -mx-[1px]
-        border-x-[1px] border-b border-[var(--neon-purple,#C99BFD)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden`}
+      className="absolute top-full left-0 w-full border-x border-b border-[var(--neon-purple)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden"
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: 'auto', opacity: 1 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
-      <Link href={href} className="text-xs text-white flex justify-between">
-        {title1} <ArrowRight size={21} />
-      </Link>
-      <Link href={href} className="text-xs text-white flex justify-between">
-        {title2} <ArrowRight size={21} />
-      </Link>
+      <div className="flex flex-col gap-y-2">
+        <Link href={href} className="text-xs text-white flex justify-between items-center">
+          {title1} <ArrowRight size={21} />
+        </Link>
+        <Link href={href} className="text-xs text-white flex justify-between items-center">
+          {title2} <ArrowRight size={21} />
+        </Link>
+      </div>
     </motion.div>
   );
 };
 
-
-
-export default DashboardNavbar
+export default DashboardNavbar;
