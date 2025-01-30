@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import LandingContainer from "../common/LandingContainer";
 import CustomCarousel from "../common/CustomCarousel";
 import { CarouselItem } from "../ui/carousel";
@@ -9,6 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { useEffect, useState } from "react";
 import EmblaCarousel from "../ui/EmblaCarousel";
+import VideoPlayer from "../dashboard/VideoPlayer";
 
 const list = [
   {
@@ -119,29 +119,17 @@ const CarouselCard = ({ item }) => {
   return (
     <div className="flex items-center justify-center  ">
       <div className=" relative ">
-        {/* <div className="p-[0.4rem] carousel-bg !rounded-md"> */}
+        <div className="p-[0.4rem] carousel-bg !rounded-md h-56 mx-2">
           {/* <Image
-            src="/carousel-1.png"
+            src="/carousel-1.png" 
             width={1000}
             height={1000}
             alt={item._id}
             className="w-[70vw] h-[65vw] md:w-[50vw] md:h-full rounded-sm  "
           /> */}
-          <video src="https://videos.pexels.com/video-files/2098989/2098989-uhd_2560_1440_30fps.mp4"  playsInline autoPlay loop muted className="w-[70vw] h-[65vw] md:w-[50vw] md:h-full rounded-sm"></video>
-        {/* </div> */}
-        {/* <div className="absolute top-7 left-3 w-[50%] ">
-          <div className="text-[0.9rem] font-bold">{item.capyion}</div>
-          <div className="text-[0.38rem]   mt-2 w-[5.7rem]">
-            {item.description}
-          </div>
-          <ul className="px-2 list-disc text-[0.38rem]  mt-2 w-[6.8rem]">
-            {item.key_points.map((d) => (
-              <li key={d._id}>
-                <span className="font-bold">{d.title}:</span> {d.explanation}
-              </li>
-            ))}
-          </ul>
-        </div> */}
+          <VideoPlayer source={item.video.videoUrl} poster={item.video.thumbnailUrl}/>
+        </div>
+
       </div>
     </div>
   );
@@ -165,8 +153,8 @@ const MainCarousel = ({ data }) => {
       <LandingContainer className="!px-0 flex items-center justify-center !h-fit py-12 sm:py-40 mt-1  overflow-y-visible-visible">
         {screenWidth < 640 ? (
           <CustomCarousel>
-            {data.map((item) => (
-              <CarouselItem key={item._id} className="basis-[70%]">
+            {data.map((item,index) => (
+              <CarouselItem key={index} className="basis-[70%]">
                 <CarouselCard item={item} />
               </CarouselItem>
             ))}

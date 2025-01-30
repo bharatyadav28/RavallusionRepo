@@ -62,7 +62,6 @@ const MentorsSection = ({ mentor }) => {
           </div>
           <div className="flex gap-5 2xl:gap-6">
             {mentor.networks.map((link, i) => {
-              console.log(link);
               const Icon = icons[i];
               return (
                 <div

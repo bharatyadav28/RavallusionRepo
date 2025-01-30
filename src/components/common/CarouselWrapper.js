@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-const CarouselWrapper = ({ navigation = false, children, autoScrollInterval = 3000 }) => {
+const CarouselWrapper = ({ navigation = false, children, autoScrollInterval = 3000 ,className=""}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const totalSlides = React.Children.count(children);
     const slideRef = useRef(null);
@@ -34,7 +34,7 @@ const CarouselWrapper = ({ navigation = false, children, autoScrollInterval = 30
     };
 
     return (
-        <div className="relative w-full overflow-hidden">
+        <div className={`relative w-full overflow-hidden ${className}`}>
             {/* Slider Container */}
             <div
                 ref={slideRef}

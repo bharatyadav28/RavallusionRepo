@@ -29,8 +29,8 @@ export default function Home() {
     <div>
       <HeroSection data={data.heroSection} />
       <MainCarousel data={data.carousal} />
-      <TutorialsSection />
-      <ModuleSection modules={data.modules} />
+      <TutorialsSection data={data.latestTutorials} />
+      <ModuleSection modules={data.modules} curriculum={data.curriculum} />
       <PlansSection plans={data.plans} />
       <MentorsSection mentor={data.mentor} />
       <CertificateSection certificate={data.certificate} />

@@ -6,9 +6,12 @@ import {
   NextButton,
   PrevButton,
   usePrevNextButtons,
-} from "./EmblaCarouselArroeButtons";
+} from "./EmblaCarouselArrowButtons";
+import VideoPlayer from "../dashboard/VideoPlayer";
 
 const TWEEN_FACTOR_BASE = 0.52;
+
+
 
 const numberWithinRange = (number, min, max) =>
   Math.min(Math.max(number, min), max);
@@ -17,7 +20,7 @@ const CarouselCard = ({ item }) => {
   return (
     <div className="flex items-center justify-center  ">
       <div className=" relative w-full h-fit self-center ">
-        <div className="p-3 carousel-bg ">
+        <div className="p-3 carousel-bg h-96">
           {/* <Image
             src="/carousel-1.png"
             width={1000}
@@ -25,24 +28,8 @@ const CarouselCard = ({ item }) => {
             alt={item._id}
             className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full  "
           /> */}
-          <video src="https://videos.pexels.com/video-files/2098989/2098989-uhd_2560_1440_30fps.mp4" playsInline autoPlay loop muted className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full "></video>
-          
+          <VideoPlayer source={item.video.videoUrl} poster={item.video.thumbnailUrl}/>
         </div>
-        {/* <div className="absolute top-8 sm:top-20 left-2 sm:left-5 2xl:left-7 w-[52%] sm:w-[48%] md:w-[44%] ">
-          <div className="text-sm sm:text-2xl 2xl:text-3xl font-bold">
-            {item.caption}
-          </div>
-          <div className="text-[6px] sm:text-[9px] 2xl:text-xs  mt-2 2xl:w-[80%]">
-            {item.description}
-          </div>
-          <ul className="px-4 list-disc text-[6px] sm:text-[9px] 2xl:text-xs 2xl:w-[86%]  mt-2">
-            {item.key_points.map((d) => (
-              <li key={d._id}>
-                <span className="font-bold">{d.title}:</span> {d.explanation}
-              </li>
-            ))}
-          </ul>
-        </div> */}
       </div>
     </div>
   );
@@ -125,11 +112,12 @@ const EmblaCarousel = (props) => {
   }, [emblaApi, tweenScale]);
 
   return (
+
     <div className="embla relative ">
       <div className="embla__viewport " ref={emblaRef}>
         <div className="embla__container ">
           {slides.map((item, index) => (
-            <div className="embla__slide  p-1" key={item._id}>
+            <div className="embla__slide  p-1" key={index}>
               <div className="embla__slide__number ">
                 <CarouselCard item={item} />
               </div>
