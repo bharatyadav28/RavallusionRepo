@@ -1,11 +1,7 @@
-import { ArrowRight } from "lucide-react";
-import { CustomButton } from "../common/CustomButton";
 import LandingContainer from "../common/LandingContainer";
 import CoursesList from "../common/CoursesList";
-import CarouselWrapper from "../common/CarouselWrapper";
-import CustomCarousel from "../common/CustomCarousel";
 
-const TutorialsSection = () => {
+const TutorialsSection = ({data}) => {
   return (
     <LandingContainer className="!h-fit py-12 pb-14 flex flex-col gap-10 px-8 ">
       <div className="flex justify-between items-center flex-wrap gap-4 ">
@@ -21,7 +17,7 @@ const TutorialsSection = () => {
           Get more videos <ArrowRight />
         </CustomButton> */}
       </div>
-        <CoursesList />
+        <CoursesList data={data} />
     </LandingContainer>
   );
 };

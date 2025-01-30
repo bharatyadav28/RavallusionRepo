@@ -30,10 +30,7 @@ const courses = [
     views: "192K",
     likes: "80K",
     imageUrl: "/URL_of_image_for_Colorful_Glitch_Effects.jpeg",
-  }
-];
-
-const course1 = [
+  },
   {
     id: 4,
     title: "FX Console Plugin",
@@ -58,12 +55,15 @@ const course1 = [
     likes: "80K",
     imageUrl: "/URL_of_image_for_Cinematic_Title_Design.jpeg",
   },
+
 ];
 
 
-
-const CoursesList = () => {
+const CoursesList = ({ data }) => {
   const [count, setCount] = useState(2);
+  const screenWidth = window.innerWidth;
+
+
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
@@ -74,7 +74,7 @@ const CoursesList = () => {
       } else if (screenWidth >= 640) {
         setCount(3);
       } else {
-        setCount(6);
+        setCount(2);
       }
     };
 
@@ -88,7 +88,50 @@ const CoursesList = () => {
     return () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
-  });
+  },[]);
+
+  // const useResponsiveChunks = () => {
+  //   const [chunkSize, setChunkSize] = useState(3);
+
+  //   useEffect(() => {
+  //     const handleResize = () => {
+  //       if (window.innerWidth < 640) {
+  //         setChunkSize(1); // Small screens: 1 item
+  //       } else if (window.innerWidth < 1024) {
+  //         setChunkSize(2); // Medium screens: 2 items
+  //       } else {
+  //         setChunkSize(3); // Large screens: 3 items
+  //       }
+  //     };
+
+  //     handleResize(); // Check on initial render
+  //     window.addEventListener('resize', handleResize);
+
+  //     return () => window.removeEventListener('resize', handleResize);
+  //   }, []);
+
+  //   return chunkSize;
+  // };
+
+  // const chunkArray = (array, size) => {
+  //   const chunks = [];
+  //   for (let i = 0; i < array.length; i += size) {
+  //     chunks.push(array.slice(i, i + size));
+  //   }
+  //   return chunks;
+  // };
+
+
+  // const chunkSize = useResponsiveChunks();
+
+  // const chunkedCourses = chunkArray(courses, chunkSize);
+
+  // const chunkedCourses1 = chunkArray(courses, chunkSize);
+
+  const firstThreeCourses = data.slice(0, 3);
+  const lastThreeCourses = data.slice(3);
+
+
 
   return (
     <div className="flex-grow relative">
@@ -103,33 +146,56 @@ const CoursesList = () => {
         skeletonClass="skeleton-right"
       />
 
-      <CarouselWrapper autoScrollInterval={4000} navigation={true}>
-        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
-        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0">
-          {course1.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
 
-      </CarouselWrapper>
+      {
+        screenWidth < 768 ?
+          (
+            <>
 
-      <CarouselWrapper autoScrollInterval={4000} navigation={true}>
-        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0 mt-5">
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
-        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0 mt-5">
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
-      </CarouselWrapper>
-    </div>
+              <div
+                className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
+              >
+                < CarouselWrapper autoScrollInterval={3000} navigation={true} >
+
+                  {firstThreeCourses.map((course,index) => (
+                    <CourseCard key={index} course={course} />
+                  ))}
+                </CarouselWrapper>
+
+              </div>
+
+
+              <div
+                className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
+              >
+                < CarouselWrapper autoScrollInterval={3000} navigation={true} className="mt-5" >
+
+                  {lastThreeCourses.map((course,index) => (
+                    <CourseCard key={index} course={course} />
+                  ))}
+                </CarouselWrapper>
+
+              </div>
+
+            </>
+
+
+          ) :
+
+          (
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
+            >
+              {data.map((course,index) => (
+                <CourseCard key={index} course={course} />
+              ))}
+            </div>
+          )
+
+      }
+
+
+    </div >
   );
 };
 

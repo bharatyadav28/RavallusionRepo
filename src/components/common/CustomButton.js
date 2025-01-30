@@ -18,7 +18,7 @@ export const CustomButton = ({ children, ...props }) => {
 export const GlowButton = ({ children, ...props }) => {
   const { className, onClick } = props;
 
-  const classes = cn("glow-btn text-base py-6  ", className);
+  const classes = cn("glow-btn text-base py-6", className);
   return (
     <CustomButton {...props} className={classes} onClick={onClick}>
       {children}

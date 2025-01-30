@@ -11,7 +11,7 @@ const page = () => {
       <div className='lg:mr-6 xl:mr-8 w-full lg:w-[70%]'>
 
         <div className='h-[400px] rounded-md'>
-          <VideoPlayer />
+          <VideoPlayer source={'https://videos.pexels.com/video-files/3692634/3692634-hd_1920_1080_30fps.mp4'} poster={'https://img.pikbest.com/origin/10/04/54/34TpIkbEsT4uG.jpg!w700wp'} />
         </div>
 
         <div className='my-[30px] px-4 lg:px-0'>

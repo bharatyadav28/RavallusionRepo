@@ -2,16 +2,17 @@
 
 import Card from "./Card";
 import { CheckIcon, ClockIcon, VideoIcon } from "@/lib/svg_icons";
-import { motion, useTransform } from "framer-motion";
+import { motion, useAnimation, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const data = [
   {
     id: 1,
-    module: "Module 1",
-    title: "Build Your Foundation",
+    name: "Module 1",
+    description: "Build Your Foundation",
     videos: 12,
     time: "4.5 Hours",
-    points: [
+    key_points: [
       "Clearing your fundamentals and unlearning BS",
       "Overcome communication challenges and speak fluently",
       "Common mistakes & roadblocks and how to avoid them",
@@ -19,11 +20,11 @@ const data = [
   },
   {
     id: 2,
-    module: "Module 2",
-    title: "Enhance Your Skills",
+    name: "Module 2",
+    description: "Enhance Your Skills",
     videos: 15,
     time: "5.0 Hours",
-    points: [
+    key_points: [
       "Deep dive into advanced topics",
       "Practice with real-world scenarios",
       "Master new tools and techniques effectively",
@@ -31,37 +32,67 @@ const data = [
   },
   {
     id: 3,
-    module: "Module 3",
-    title: "Achieve Mastery",
+    name: "Module 3",
+    description: "Achieve Mastery",
     videos: 18,
     time: "6.0 Hours",
-    points: [
+    key_points: [
       "Integrating concepts for practical applications",
       "Common pitfalls and troubleshooting techniques",
       "Building confidence and mastering delivery",
     ],
   },
-  {
-    id: 4,
-    module: "Module 3",
-    title: "Achieve Mastery",
-    videos: 18,
-    time: "6.0 Hours",
-    points: [
-      "Integrating concepts for practical applications",
-      "Common pitfalls and troubleshooting techniques",
-      "Building confidence and mastering delivery",
-    ],
-  },
+  // {
+  //   id: 4,
+  //   name: "Module 4",
+  //   description: "Achieve Mastery",
+  //   videos: 18,
+  //   time: "6.0 Hours",
+  //   key_points: [
+  //     "Integrating concepts for practical applications",
+  //     "Common pitfalls and troubleshooting techniques",
+  //     "Building confidence and mastering delivery",
+  //   ],
+  // },
 ];
 
-const ModuleCard = ({ index, item, progress, range, targetScale }) => {
+const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView }) => {
   const scale = useTransform(progress, range, [1, targetScale]);
+  const controls = useAnimation();
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+
+  useEffect(() => {
+    if (isFirst && inView && !hasAnimated) {
+      // Set initial position
+      controls.set({ 
+        y: 100,  // Start from below
+        opacity: 0
+      });
+      
+      // Animate to final position
+      controls.start({
+        y: 0,
+        opacity: 1,
+        transition: {
+          duration: 0.6,
+          ease: "easeOut"
+        }
+      }).then(() => {
+        setHasAnimated(true);
+      });
+    }
+  }, [isFirst, inView, controls, hasAnimated]);
+
+
+
   return (
-    <div className=" cardContainer h-[55vh] sm:[60vh] md:h-[70vh] top-[300px] sm: lg:top-[200px] 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]">
+    <div className={`cardContainer h-[55vh] sm:h-[60vh] md:h-[70vh] ${isFirst?" mt-[350px] md:mt-[300px] top-[150px]" : "top-[150px]" } 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]`}>
       <motion.div
         className="card"
-        style={{ scale: scale, top: `calc( ${index * 25}px)` }}
+        style={{ scale: scale, top: `calc( ${index * 25}px)`}}
+        initial={isFirst ? { y: 200,opacity:0 } : undefined}
+        animate={isFirst ? controls : undefined}
       >
         <Card className=" !h-fit gap-7 flex md:!flex-row justify-between py-7 px-4 md:p-[60px] 2xl:p-[70px] items-start flex-wrap md:flex-nowrap ">
           <div className="text-2xl md:text-[35px] 2xl:text-[2.5rem] min-w-[53%] md:font-bold">
@@ -102,17 +133,24 @@ const ModuleCard = ({ index, item, progress, range, targetScale }) => {
   );
 };
 
-const ModulesList = ({ scrollYProgress, modules }) => {
+const ModulesList = ({ scrollYProgress, modules, inView }) => {
+
   return modules.map((item, index) => {
-    const targetScale = 1.1 - (data.length - index) * 0.05;
+    const targetScale = 1 - (modules.length - index) * 0.05;
+    const range = [
+      index === 0 ? 0 : index * 0.25, // Start of the range
+      index === 0 ? 0.25 : 1, // End of the range
+    ];
     return (
       <ModuleCard
-        key={item._id}
+        key={index}
         item={item}
         index={index}
         progress={scrollYProgress}
-        range={[index * 0.25, 1]}
+        range={[index*0.25,1]}
         targetScale={targetScale}
+        isFirst={index === 0}
+        inView={inView}
       />
     );
   });

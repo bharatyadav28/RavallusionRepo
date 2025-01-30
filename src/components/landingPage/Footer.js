@@ -108,7 +108,11 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <FooterRavallusion className="w-full h-full md:h-[10rem] 2xl:h-[12.5rem] " />
+
+      <div>
+        <FooterRavallusion className="w-full h-full md:h-[11rem] 2xl:h-[12.5rem] " />
+      </div>
+
     </div>
   );
 };

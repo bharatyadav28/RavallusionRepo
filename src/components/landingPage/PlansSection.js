@@ -16,10 +16,7 @@ const PlansSection = ({ plans }) => {
           </div>
         </div>
       </div>
-      <CarouselWrapper navigation={true} autoScrollInterval={5000}>
         <Plans plans2={plans} />
-        <Plans plans2={plans} />
-      </CarouselWrapper>
     </LandingContainer>
   );
 };
