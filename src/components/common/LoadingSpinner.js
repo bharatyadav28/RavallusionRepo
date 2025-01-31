@@ -8,6 +8,7 @@ const LoadingSpinner = ({ className = '' }) => {
         className="animate-spin"
         viewBox="0 0 50 50"
       >
+        
         {/* Outer circle */}
         {/* <circle
           className="stroke-current"
