@@ -128,24 +128,21 @@
     .on-screen-controls .control-icons{
       cursor: pointer;
       color: #fff;
-      font-size: 70%;
+      font-size: 2.4rem;
       opacity: 0.3;
-      /* display: inline-block; */
     }
     .on-screen-controls .play-pause-restart{
   
-      font-size: 70%;
+      font-size: 2.5rem;
     
     }
   
-
     .on-screen-controls  .control-icons:hover{
       color: #fff;
       opacity: 0.9;
   
     }
   
-    
   
     .player-controls {
       position: absolute;
@@ -302,6 +299,7 @@
   .duration-counter{
   
     margin-right: auto !important;
+    font-size: 1rem;
   }
   
   .volume-wrapper{
@@ -313,9 +311,6 @@
      
     }
     
-  
-  
-  
   
     /*progress bar*/
   
@@ -529,12 +524,12 @@
   
       .on-screen-controls .control-icons{
        
-        font-size: 80%;
+        font-size: 2rem;
        
       }
       .on-screen-controls .play-pause-restart{
        
-        font-size: 80%;
+        font-size: 2rem;
        
       }
   

@@ -57,10 +57,10 @@ const DashboardNavbar = () => {
 
   return (
     <div className={`${urlpath == 'dashboard' ? "rounded-none" : "rounded-xl"} bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative`}>
-      {openSidebar && <SideBar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} />}
+      {openSidebar && <SideBar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} urlpath={urlpath} />}
       {show ? (
         <div className='flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2'>
-          <span onClick={() => router.back()}
+          <span className='cursor-pointer' onClick={() => router.back()}
           > <ArrowLeft /></span>
 
           <div className='flex-grow'>
@@ -142,7 +142,7 @@ const DashboardNavbar = () => {
   )
 }
 
-const SideBar = ({ openSidebar, setOpenSidebar }) => {
+const SideBar = ({ openSidebar, setOpenSidebar, urlpath }) => {
   const sidebarVariants = {
     open: {
       x: 0, // Sidebar slides into view
@@ -193,10 +193,10 @@ const SideBar = ({ openSidebar, setOpenSidebar }) => {
 
         <div className='flex flex-col gap-y-4'>
           <BoxComponentMobile href={"/dashboard/player-dashboard"} show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} />
-          <BoxComponentMobile href={"/dashboard/player-dashboard"} show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Photoshop"} />
+          <BoxComponentMobile href={"/dashboard/"} show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Photoshop"} />
           <BoxComponentMobile href={"/dashboard/introductory"} show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
 
-          <BoxComponentMobile setOpenSidebar={setOpenSidebar} profileMobile={true} show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
+          <BoxComponentMobile setOpenSidebar={setOpenSidebar} profileMobile={urlpath === 'profile' ? true : false} show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
             <Image
               src={'/URL_of_image_for_FX_Console_Plugin.jpeg'}
               alt='Profile pic'
@@ -209,6 +209,8 @@ const SideBar = ({ openSidebar, setOpenSidebar }) => {
     </>
   )
 }
+
+
 
 const ProfileComponent = ({ isOpenProfile, setIsOpenProfile, urlpath }) => {
   const dispatch = useDispatch();
@@ -232,12 +234,32 @@ const ProfileComponent = ({ isOpenProfile, setIsOpenProfile, urlpath }) => {
         className="rounded-full"
       />
 
-      {isOpenProfile && urlpath !== 'profile' && (<BoxDropdown href={'/dashboard/profile'} title1={"Advance"} title2={"Beginner"} className={"overflow-visible !-left-28 !top-[54px] border-none px-3 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"} />
+      {isOpenProfile && urlpath !== 'profile' && (<ProfileDropdown href={'/dashboard/profile'} title1={"Advance"} title2={"Beginner"} />
       )}
 
     </div>
   )
 }
+
+const ProfileDropdown = ({ title1, title2, href }) => {
+  return (
+    <motion.div
+      className={"absolute top-14 right-0 overflow-hidden w-36 border-b border-x bg-[#040C19] border-[var(--neon-purple)] px-4 py-2 z-10 before:content-[''] before:absolute before:-top-[9px] before:right-4 before:w-0 before:h-0 before:border-l-[10px] before:border-r-[10px] before:border-b-[10px] before:border-l-transparent before:border-r-transparent before:border-b-[#040C19] before:z-10"}
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: 'auto', opacity: 1 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+    >
+      <div className="flex flex-col gap-y-2">
+        <Link href={href} className="text-xs text-white flex justify-between items-center  gap-x-4">
+          {title1} <ArrowRight size={21} />
+        </Link>
+        <Link href={href} className="text-xs text-white flex justify-between items-center gap-x-4">
+          {title2} <ArrowRight size={21} />
+        </Link>
+      </div>
+    </motion.div>
+  );
+};
 
 const BoxComponent = ({ icon, title, introductory, title1, title2, show, href }) => {
   const [isOpenBoxDropdown, setIsOpenBoxDropdown] = useState(false);
@@ -337,7 +359,7 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
         </div>
 
         {isOpen && (
-          <BoxDropdown className={"relative border-none bg-[#040C19] mt-3 ml-0"} title1={title1} title2={title2} href={href} />
+          <BoxDropdown title1={title1} title2={title2} href={href} setOpenSidebar={setOpenSidebar}/>
         )}
       </div>
     </div>
@@ -365,19 +387,20 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
 // };
 
 
-const BoxDropdown = ({ title1, title2, href }) => {
+const BoxDropdown = ({ title1, title2, href,setOpenSidebar }) => {
   return (
     <motion.div
-      className="absolute top-full left-0 w-full border-x border-b border-[var(--neon-purple)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden"
+      className="absolute top-full left-0 right-0 w-full border-x border-b border-[var(--neon-purple)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden"
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: 'auto', opacity: 1 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <div className="flex flex-col gap-y-2">
-        <Link href={href} className="text-xs text-white flex justify-between items-center">
+        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={()=>setOpenSidebar(false)}>
           {title1} <ArrowRight size={21} />
         </Link>
-        <Link href={href} className="text-xs text-white flex justify-between items-center">
+
+        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={()=>setOpenSidebar(false)}>
           {title2} <ArrowRight size={21} />
         </Link>
       </div>

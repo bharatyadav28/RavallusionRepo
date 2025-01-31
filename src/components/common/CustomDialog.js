@@ -15,7 +15,7 @@ function CustomDialog({
     <Dialog open={open} onOpenChange={close}>
       <DialogTitle className="hidden"></DialogTitle>
       <DialogDescription className="hidden"></DialogDescription>
-      <DialogContent className="h-screen overflow-y-auto border-none w-full">
+      <DialogContent className="h-screen overflow-y-auto border-none w-full outline-none">
         {children}
       </DialogContent>
     </Dialog>

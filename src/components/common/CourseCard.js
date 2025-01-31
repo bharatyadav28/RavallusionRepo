@@ -2,12 +2,15 @@ import { Like, Views } from "@/lib/svg_icons";
 import Image from "next/image";
 import Card from "./Card";
 import VideoPlayer from "../dashboard/VideoPlayer";
+import CustomDialog from "./CustomDialog";
+import { useState } from "react";
 
 const CourseCard = ({ course }) => {
-  const { title, description, videoUrl,thumbnailUrl} = course.video;
+  const [isOpen, setIsOpen] = useState(false);
+  const { title, description, videoUrl, thumbnailUrl } = course.video;
 
   return (
-    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1"}>
+    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1"} onClick={() => setIsOpen(true)}>
       <Image
         src={thumbnailUrl}
         alt={title}
@@ -15,9 +18,16 @@ const CourseCard = ({ course }) => {
         height={1000}
         className="w-full h-40 2xl:!h-48 object-cover rounded-2xl"
       />
-      
-      {/* <VideoPlayer source={videoUrl} poster={thumbnailUrl} /> */}
 
+      {/* <CustomDialog open={isOpen} close={() => setIsOpen(false)}>
+        <div className="flex items-center justify-center">
+
+          <div className="h-96 w-[500px]">
+            <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
+          </div>
+        </div>
+      </CustomDialog> */}
+      
 
       <div className="flex flex-col gap-3 2xl:gap-4">
         <div>
@@ -35,7 +45,6 @@ const CourseCard = ({ course }) => {
           </span> */}
         </div>
       </div>
-
 
     </Card>
   );

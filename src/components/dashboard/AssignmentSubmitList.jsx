@@ -18,7 +18,7 @@ const AssignmentSubmitList = () => {
             {
                 showProfileCard &&
 
-                <PersonalInfoCard />
+                <PersonalInfoCard showProfileCard={showProfileCard} />
             }
 
             <h1 className='text-lg font-semibold mb-4'>Assignment Submission</h1>

@@ -16,8 +16,9 @@ import EditInfo from './EditPersonalInfo';
 import AccountControlCard from './AccountControlCard';
 import { useDispatch } from 'react-redux';
 import { setShowProfileCard } from '@/store/slice/general';
+import { motion } from 'framer-motion';
 
-const PersonalInfoCard = () => {
+const PersonalInfoCard = ({ showProfileCard }) => {
     const dispatch = useDispatch();
 
     const [name, setName] = useState('Ramesh');
@@ -42,11 +43,46 @@ const PersonalInfoCard = () => {
             setProfilePic(imageUrl);
         }
     };
-
+    const variants = {
+        initial: {
+            x: window.innerWidth >= 1024 ? '100%' : '-50%',
+            y: window.innerWidth >= 1024 ? 0 : '100%',
+            left: '50%',
+        },
+        animate: {
+            x: window.innerWidth >= 1024 ? '-38%' : '-50%',
+            y: 0,
+            left: '50%',
+            transition: {
+                duration: 0.8,
+                ease: "easeOut"
+            }
+        },
+        exit: {
+            x: window.innerWidth >= 1024 ? '100%' : '-50%',
+            y: window.innerWidth >= 1024 ? 0 : '100%',
+            left: '50%',
+            transition: {
+                duration: 0.8,
+                ease: "easeIn"
+            }
+        }
+    };
     return (
         <div className='fixed z-10 inset-0 bg-black/20 backdrop-blur-md md:absolute md:backdrop-blur-0 '>
-            <div className="lg:h-96
-        shadow-lg fixed md:absolute w-full left-1/2 transform md:transform-none md:-translate-x-0 -translate-x-1/2 -bottom-1 md:w-2/3 lg:w-4/5 md:left-14 md:-top-6 z-20" style={{
+            <motion.div
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={variants}
+
+                // className="lg:h-96
+                // shadow-lg fixed md:absolute w-full left-1/2 transform md:transform-none md:-translate-x-0 -translate-x-1/2 -bottom-1 md:w-2/3 lg:w-4/5 md:left-14 md:-top-6 z-20"
+                className="lg:h-96 shadow-lg fixed md:absolute w-full
+            md:w-2/3 lg:w-4/5 md:left-14 md:-top-6 z-20
+            bottom-0 md:transform-none"
+                style={{
+
                     backgroundImage: "url('/strap-gradient.png')",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -152,8 +188,8 @@ const PersonalInfoCard = () => {
                         }}
                     />
                 </CustomDialog>
-            </div>
-        </div>
+            </motion.div>
+        </div >
     );
 };
 

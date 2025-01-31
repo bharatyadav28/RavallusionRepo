@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CustomButton } from "../common/CustomButton";
+import { User } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -9,9 +10,10 @@ const Navbar = () => {
         <Link href="/">
           <i className="text-2xl 2xl:text-3xl font-medium">Ravallusion</i>
         </Link>
-        {/* <CustomButton className="mr-5 text-base 2xl:text-xl !m-0">
-          <Link href={'/login'}>
-            Login
+        {/* <CustomButton className="mr-5 px-5 text-base 2xl:text-xl !m-0">
+          <Link href={'/login'} className="flex items-center gap-x-2">
+            <User/>
+            <span className="hidden md:block">Login</span>
           </Link>
         </CustomButton> */}
       </nav>

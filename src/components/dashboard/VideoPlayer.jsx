@@ -28,7 +28,6 @@ import {
   MdReplay,
   MdTune,
 } from "react-icons/md";
-// import ErrorBoundary from "../utils/ErrorBoundary";
 import ErrorBoundary from "@/app/utils/errorBoundaries";
 // import { imgAddr, vidAddr } from "../features/api";
 import { useMediaQuery } from "react-responsive";
@@ -39,15 +38,15 @@ const VideoPlayer = ({
   source,
   poster,
   setIsVideoFullScreen,
-  tooltipView = true,
+  tooltipView = false,
   className = ''
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState(360);
-  const [selectedLang, setSelectedLang] = useState(1);
-  // const [selectedLang, setSelectedLang] = useState(source[0]);
+  // const [selectedLang, setSelectedLang] = useState(1);
+  const [selectedLang, setSelectedLang] = useState([source]);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -89,6 +88,7 @@ const VideoPlayer = ({
   }, [isFullScreen]);
 
   const [isInView, setIsInView] = useState(false);
+
   useEffect(() => {
     if (!(isVideoPage || isFreeVideoPage)) {
       const observer = new IntersectionObserver(
@@ -257,6 +257,7 @@ const VideoPlayer = ({
     const hoverTime = (mouseX / barWidth) * duration;
     setHoveredTime(hoverTime);
 
+
     const tooltip = document.querySelector(".tooltip-progress");
     if (tooltip) {
       const tooltipWidth = tooltip.getBoundingClientRect().width;
@@ -306,11 +307,11 @@ const VideoPlayer = ({
 
   const volumeIcon = () => {
     if (volume === 0) {
-      return <FaVolumeXmark onClick={handleMute} className="volume-button" />;
+      return <FaVolumeXmark onClick={handleMute} className="volume-button" size={18}/>;
     } else if (volume < 0.5) {
-      return <FaVolumeLow onClick={handleMute} className="volume-button" />;
+      return <FaVolumeLow onClick={handleMute} className="volume-button" size={18} />;
     } else {
-      return <FaVolumeHigh onClick={handleMute} className="volume-button" />;
+      return <FaVolumeHigh onClick={handleMute} className="volume-button" size={18}/>;
     }
   };
 
@@ -328,9 +329,9 @@ const VideoPlayer = ({
 
   const fullScreenIcon = () => {
     return screenfull.isFullscreen ? (
-      <FaCompress onClick={toggleFullScreen} className="fullscreen-button" />
+      <FaCompress onClick={toggleFullScreen} className="fullscreen-button" size={18} />
     ) : (
-      <FaExpand onClick={toggleFullScreen} className="fullscreen-button" />
+      <FaExpand onClick={toggleFullScreen} className="fullscreen-button" size={18}/>
     );
   };
   useEffect(() => {
@@ -376,7 +377,8 @@ const VideoPlayer = ({
     // }
     setSelectedQuality(quality);
 
-    const newSrc = `${vidAddr}/${selectedLang?.value}/${quality}p.m3u8`;
+    // const newSrc = `${vidAddr}/${selectedLang?.value}/${quality}p.m3u8`;
+    const newSrc = `${source}`;
     if (newSrc !== src) {
       const currentTime = playerRef.current.getCurrentTime();
       setPlaying(true);
@@ -394,7 +396,8 @@ const VideoPlayer = ({
   const handleLangChange = (lang) => {
     setSelectedLang(lang);
 
-    const newSrc = `${vidAddr}/${lang?.value}/${selectedQuality}p.m3u8`;
+    // const newSrc = `${vidAddr}/${lang?.value}/${selectedQuality}p.m3u8`;
+    const newSrc = `${source}`;
     if (newSrc !== src) {
       const currentTime = playerRef.current.getCurrentTime();
       setPlaying(true);
@@ -408,6 +411,7 @@ const VideoPlayer = ({
     }
     toggleSettings();
   };
+
 
   useEffect(() => {
     resetTimeout();
@@ -498,6 +502,7 @@ const VideoPlayer = ({
       };
     }
   }, []);
+
 
   const settingsMenu = () => {
     return (
@@ -593,19 +598,22 @@ const VideoPlayer = ({
               </>
             )}
             {activeMenu === "language" &&
-              source?.map((item, index) => (
-                <li
-                  key={item?.value}
-                  className={
-                    selectedLang?.language?.name === item?.language?.name
-                      ? "active"
-                      : ""
-                  }
-                  onClick={() => handleLangChange(item)}
-                >
-                  {item?.language?.name}
-                </li>
-              ))}
+              <li>English</li>
+
+              // source?.map((item, index) => (
+              //   <li
+              //     key={item?.value}
+              //     className={
+              //       selectedLang?.language?.name === item?.language?.name
+              //         ? "active"
+              //         : ""
+              //     }
+              //     onClick={() => handleLangChange(item)}
+              //   >
+              //     {item?.language?.name}
+              //   </li>
+              // ))}
+            }
             {activeMenu === "playbackspeed" &&
               playbackOptions?.map((speed, index) => (
                 <li
@@ -684,7 +692,7 @@ const VideoPlayer = ({
           // playIcon={<FaPlay/>}
           light={
             <div
-              className={"d-flex justify-content-center thumbnail-container"}
+              className={"flex justify-center thumbnail-container"}
               style={{
                 height: "100%",
                 width: "100%",
@@ -760,7 +768,7 @@ const VideoPlayer = ({
           <div className="bottom-controls">
 
 
-            <span className="text-white ms-2 duration-counter text-lg">
+            <span className="text-white ms-2 duration-counter">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
 
@@ -774,7 +782,7 @@ const VideoPlayer = ({
             >
               {tooltipView && !isTouchDevice && (
                 <div
-                  className="tooltip-progress hidden"
+                  className="tooltip-progress"
                 //  style={{ left: `${(hoveredTime / duration) * 100}%` }}
                 >
                   <p>{formatTime(hoveredTime)}</p>
@@ -817,7 +825,7 @@ const VideoPlayer = ({
             <div className="quality mx-3" ref={menuRef}>
               {settingsMenu()}
 
-              <FaCog
+              <FaCog size={18}
                 onClick={toggleSettings}
                 className={`settings-button ${showSettings ? "active" : ""}`}
               />
