@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export default function LandingLayout({ children }) {
   return (
-    <section className="h-screen relative">
+    <section className=" h-screen">
       {children}
       <Footer />
       <Toaster />

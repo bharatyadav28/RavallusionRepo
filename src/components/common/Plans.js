@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from "react";
 import CustomSkeleton from "./CustomSkeleton";
-import { ArrowRight, Check, CircleCheck } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
+import { useRouter } from 'next/navigation'
+import { useDispatch } from "react-redux";
+import { setSubDetail } from "@/store/slice/general";
+
 
 const plans = [
   {
@@ -28,7 +32,12 @@ const plans = [
     validity: "One year validity",
   },
 ];
-const Plans = ({ plans2 }) => {
+
+
+const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [count, setCount] = useState(1);
 
   useEffect(() => {
@@ -53,6 +62,7 @@ const Plans = ({ plans2 }) => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
   });
+
   const getValidity = (daysInSeconds) => {
     const days = daysInSeconds / (60 * 60 * 24);
     switch (days) {
@@ -66,20 +76,27 @@ const Plans = ({ plans2 }) => {
         break;
     }
   };
+
   return (
-    <div className="flex-grow flex justify-center  relative ">
-      <CustomSkeleton
-        count={count}
-        className="absolute -left-[1rem] md:-left-[4.5rem]  !w-[10%] sm:!w-[25%] md:!w-[12%] lg:!w-[23%]   !h-full"
-        skeletonClass="skeleton-left"
-      />
-      <CustomSkeleton
-        count={count}
-        className="absolute -right-[1rem] md:-right-[4.5rem] !w-[10%] sm:!w-[25%]  md:!w-[12%] lg:!w-[23%] !h-full"
-        skeletonClass="skeleton-right"
-      />
+    <div className="flex-grow flex justify-center relative ">
+      {showSkeleton && (
+        <>
+          <CustomSkeleton
+            count={count}
+            className="absolute -left-[1rem] md:-left-[4.5rem]  !w-[10%] sm:!w-[25%] md:!w-[12%] lg:!w-[23%]   !h-full"
+            skeletonClass="skeleton-left"
+          />
+          <CustomSkeleton
+            count={count}
+            className="absolute -right-[1rem] md:-right-[4.5rem] !w-[10%] sm:!w-[25%]  md:!w-[12%] lg:!w-[23%] !h-full"
+            skeletonClass="skeleton-right"
+          />
+        </>
+      )}
+
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
-        <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col">
+
+        <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
             {plans2[0].plan_type}
           </h1>
@@ -108,18 +125,23 @@ const Plans = ({ plans2 }) => {
               <span>{plans[0].devices}</span>
             </div>
           </div>
-          <CustomButton className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   ">
+
+          {/* <CustomButton onClick={() => router.push(`/login?plan=${plans[0].id}`)} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   "> */}
+          <CustomButton className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group">
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
                 &#8377; {plans2[0].inr_price}
               </h1>
-              <div className="text-[10px] 2xl:text-sm text-gray-400 font-semibold ">
+              <div className="text-[10px] 2xl:text-sm text-gray-400 font-semibold group-hover:text-white">
                 {getValidity(plans2[0].validity)}
               </div>
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
           </CustomButton>
+
         </div>
+
+
         <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
             {plans2[1].plan_type}
@@ -149,18 +171,20 @@ const Plans = ({ plans2 }) => {
               <span>{plans[1].devices}</span>
             </div>
           </div>
-          <GlowButton className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
+          {/* <GlowButton onClick={() => router.push(`/login?plan=${plans[1].id}`) } className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "> */}
+          <GlowButton className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
                 &#8377; {plans2[1].inr_price}
               </h1>
-              <div className="text-[10px] 2xl:text-sm text-[#D8D8D8] font-semibold ">
+              <div className="text-[10px] 2xl:text-sm text-[#D8D8D8] group-hover:text-white font-semibold ">
                 {getValidity(plans2[1].validity)}
               </div>
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
           </GlowButton>
         </div>
+
       </div>
     </div>
   );

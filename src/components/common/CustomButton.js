@@ -5,7 +5,7 @@ export const CustomButton = ({ children, ...props }) => {
   const { className, onClick } = props;
 
   const classes = cn(
-    "rounded-xl border-[1px] border-[var(--neon-purple)] bg-[var(--button-bg)] p-4 px-10 text-base btn ",
+    "rounded-xl border-[1px] border-[var(--neon-purple)] bg-[var(--button-bg)] p-4 px-10 text-base btn",
     className
   );
   return (
@@ -18,13 +18,14 @@ export const CustomButton = ({ children, ...props }) => {
 export const GlowButton = ({ children, ...props }) => {
   const { className, onClick } = props;
 
-  const classes = cn(" glow-btn text-base py-6  ", className);
+  const classes = cn("glow-btn text-base py-6", className);
   return (
     <CustomButton {...props} className={classes} onClick={onClick}>
       {children}
     </CustomButton>
   );
 };
+
 export const SubmitButton = ({ children, ...props }) => {
   const { className, onClick } = props;
 

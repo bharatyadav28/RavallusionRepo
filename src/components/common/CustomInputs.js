@@ -7,6 +7,7 @@ const { cn } = require("@/lib/utils");
 
 export const TextInput = (props) => {
   const {
+    type = 'text',
     children,
     className,
     onChange,
@@ -30,7 +31,7 @@ export const TextInput = (props) => {
       <div className="flex items-center gap-3 bg-[var(--input)] py-3 px-2 rounded-xl ">
         <span>{icon}</span>
         <input
-          type="text"
+          type={type}
           {...props}
           id={id}
           value={value}
@@ -102,7 +103,7 @@ export const UploadInput = (props) => {
 export const TextArea = (props) => {
   const {
     children,
-    className,
+    className = " ",
     onChange,
     value,
     id,
@@ -142,14 +143,14 @@ export const TextArea = (props) => {
 };
 
 export const CheckBoxInput = (props) => {
-  const { className, onChange, value, id, label, required } = props;
+  const { className, onChange, value, id, label, required, checked } = props;
   const classes = cn(
     "text-sm outline-none border-white border-2 !bg-transparent w-4 h-4",
     className
   );
   return (
     <div className="flex gap-[0.375rem] items-center">
-      <Checkbox {...props} className={classes} id={id} />
+      <Checkbox {...props} className={classes} id={id} checked={checked} onCheckedChange={onChange} />
       <label htmlFor={id} className="text-sm text-white/60 cursor-pointer">
         {label}
         {required && <span className="text-red-700 text-xs"> *</span>}
@@ -157,3 +158,4 @@ export const CheckBoxInput = (props) => {
     </div>
   );
 };
+
