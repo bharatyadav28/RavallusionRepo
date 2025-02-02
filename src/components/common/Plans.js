@@ -5,10 +5,9 @@ import CustomSkeleton from "./CustomSkeleton";
 import { ArrowRight, Check } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setSubDetail } from "@/store/slice/general";
-
 
 const plans = [
   {
@@ -32,7 +31,6 @@ const plans = [
     validity: "One year validity",
   },
 ];
-
 
 const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
   const dispatch = useDispatch();
@@ -62,6 +60,72 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
   });
+
+  // Function to load Razorpay script
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleClick = async (amount) => {
+    // Load Razorpay script if not already loaded
+    const isLoaded = await loadRazorpay();
+    if (!isLoaded) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    // Create order
+    const response = await fetch("http://localhost:4000/api/v1/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ plan: "67852d3616a2cd819a491e7c" }),
+    });
+    const {
+      data: { order },
+    } = await response.json();
+
+    // Fetch Razorpay key
+    const response2 = await fetch("http://localhost:4000/api/v1/order/get-key");
+    const { data } = await response2.json();
+    const key_id = data?.key;
+
+    console.log("Order", order);
+
+    const options = {
+      key: key_id, // Replace with your Razorpay key_id
+      amount: order.inr_price, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "Anand uchiha",
+      description: "Test Transaction",
+      order_id: order.order_id, // This is the order_id created in the backend
+      callback_url: "http://localhost:4000/api/v1/order/verify-payment", // Your success URL
+      prefill: {
+        name: "Sakura anand uchiha",
+        email: "Sarada.uchiha@example.com",
+        contact: "9999999999",
+      },
+      theme: {
+        color: "#b19cd9",
+      },
+    };
+
+    console.log("dsdsd", window.Razorpay);
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
 
   const getValidity = (daysInSeconds) => {
     const days = daysInSeconds / (60 * 60 * 24);
@@ -95,7 +159,6 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
       )}
 
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
-
         <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
             {plans2[0].plan_type}
@@ -127,7 +190,12 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
           </div>
 
           {/* <CustomButton onClick={() => router.push(`/login?plan=${plans[0].id}`)} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5   "> */}
-          <CustomButton onClick={() => { router.push('/login'), dispatch(setSubDetail(true)) }} className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group">
+          <CustomButton
+            onClick={() => {
+              handleClick(plans2[0].inr_price);
+            }}
+            className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group"
+          >
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
                 &#8377; {plans2[0].inr_price}
@@ -138,9 +206,7 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
           </CustomButton>
-
         </div>
-
 
         <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
@@ -172,7 +238,14 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
             </div>
           </div>
           {/* <GlowButton onClick={() => router.push(`/login?plan=${plans[1].id}`) } className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "> */}
-          <GlowButton onClick={() => { router.push('/login'), dispatch(setSubDetail(true)),setCurrentStep(3) }} className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
+          <GlowButton
+            onClick={() => {
+              router.push("/login"),
+                dispatch(setSubDetail(true)),
+                setCurrentStep(3);
+            }}
+            className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "
+          >
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
                 &#8377; {plans2[1].inr_price}
@@ -184,7 +257,6 @@ const Plans = ({ plans2, showSkeleton = true, setCurrentStep }) => {
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
           </GlowButton>
         </div>
-
       </div>
     </div>
   );
