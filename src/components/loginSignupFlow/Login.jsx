@@ -6,20 +6,59 @@ import { SubmitButton } from '../common/CustomButton';
 import { Button } from '../ui/button';
 import SubscriptionDetails from './SubscriptionDetails';
 import { AppleIcon, GoogleIcon } from '@/lib/svg_icons';
-import { useSearchParams } from 'next/navigation'
-import { useSelector } from 'react-redux';
-import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSigninMutation } from '@/store/Api/auth';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { setUserId, setSigninEmail, setIsNewUser, setkeepMeSignedIn } from '@/store/slice/signInStates';
 
-const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced" }) => {
+
+const Login = ({ price = 9999, courseType = "Advanced" }) => {
+    const route = useRouter();
+    const dispatch = useDispatch();
+
     const subsDetail = useSelector((state) => state.general.subDetail);
-
+    const isChecked = useSelector((state) => state.signInState.keepMeSignedIn);
     const [email, setEmail] = useState('');
 
-    // const params = useSearchParams();
-    // console.log(params.get('plan'));
+
+    const [signin, { data, isLoading, error, message, isSuccess }] = useSigninMutation();
+
+
+    const handleSignIn = async () => {
+        try {
+            if (!email) {
+                toast.error("Please enter your email");
+                return;
+            }
+
+            const response = await signin({ email }).unwrap();
+
+            //Save to redux
+            dispatch(setSigninEmail(email));
+            const userId = response?.data?.user?._id;
+            dispatch(setUserId(userId))
+            const isNewUser = response?.data?.isNewUser;
+            dispatch(setIsNewUser(isNewUser));
+
+            const message = response?.message || "Sign-in successful!";
+
+            toast.success(message);
+
+            route.push(`/verify-otp`);
+
+        } catch (err) {
+            console.error("API Call Failed:", err);
+
+            const errorMessage = err?.data?.message || "Something went wrong! Please try again.";
+            toast.error(`Error: ${errorMessage}`);
+        }
+    };
+
+
 
     return (
-        <div className={`w-full sm:w-auto ${subsDetail && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
+        <div className={`w-full lg:min-w-[500px] sm:w-auto ${subsDetail && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
             {
                 subsDetail &&
                 <SubscriptionDetails price={price} courseType={courseType} />
@@ -30,18 +69,22 @@ const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced" }) => {
 
                 <div className='mb-4'>
                     <label className='text-gray-100 text-sm mb-[6px]' htmlFor="email">Your Email Id <span className='text-red-500'>*</span></label>
-                    <Input type={"email"} placeholder="John@gmail.com" name={"email"} className="w-full py-5 px-3 border-2 rounded-[12px] border-gray-500 mt-1 input-shadow" />
+                    <Input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type={"email"} placeholder="John@gmail.com" name={"email"} className="w-full py-5 px-3 border-2 rounded-[12px] border-gray-500 mt-1 input-shadow" />
                 </div>
+ 
 
                 <div className='flex gap-x-2 items-center mb-5'>
-                    <Checkbox className={"border-2 border-[var(--neon-purple,#C99BFD)] data-[state=checked]:text-[var(--neon-purple)]"} />
+                    <Checkbox checked={isChecked} onCheckedChange={() => dispatch(setkeepMeSignedIn(!isChecked))}
+                        className={"border-2 border-[var(--neon-purple,#C99BFD)] data-[state=checked]:bg-[var(--neon-purple)]"} />
                     <p className='text-sm'>Keep me signed in</p>
                 </div>
 
-                    <SubmitButton className={"w-full mb-[30px] text-md"} onClick={()=>setCurrentStep(1)}>
-                        Continue
-                    </SubmitButton>
-
+                <SubmitButton disabled={isLoading} className={"w-full mb-[30px] text-md"} onClick={handleSignIn}>
+                    {isLoading ? "Sending..." : "Continue"}
+                </SubmitButton>
 
 
                 <div className="flex items-center mb-[30px]">
@@ -64,20 +107,19 @@ const Login = ({ setCurrentStep, price = 9999, courseType = "Advanced" }) => {
 
                 <div className='flex md:flex-row gap-x-4 flex-col gap-y-4'>
 
-                    <Button variant={"neonOutline"} className="py-6 rounded-[12px]" >
+                    <Button variant={"neonOutline"} className="py-6 rounded-[12px] w-full" >
 
                         <GoogleIcon />
 
                         Continue with Google
                     </Button>
 
-                    <Button variant={"neonOutline"} className="py-6 rounded-[12px]">
+                    {/* <Button variant={"neonOutline"} className="py-6 rounded-[12px]">
                         <AppleIcon />
 
                         Continue with Apple
-                    </Button>
+                    </Button> */}
                 </div>
-
 
             </div>
 

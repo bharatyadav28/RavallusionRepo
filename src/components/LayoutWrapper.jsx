@@ -8,7 +8,6 @@ const LayoutWrapper = ({ children }) => {
     <Provider store={store}>
       {children}
     </Provider>
-
   )
 }
 export default LayoutWrapper
