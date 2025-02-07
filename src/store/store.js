@@ -1,6 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit'
 import generalReducer from './slice/general'
+import signInState from './slice/signInStates'
+import { authApi } from './Api/auth'
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { homeApi } from './Api/home'
+import { introAndBookmarkApi } from './Api/introAndBookmark'
 
 export const store = configureStore({
-  reducer: { general: generalReducer },
+  reducer: {
+    general: generalReducer,
+    signInState: signInState,
+
+    [authApi.reducerPath]: authApi.reducer,
+    [homeApi.reducerPath]: homeApi.reducer,
+    [introAndBookmarkApi.reducerPath]: introAndBookmarkApi.reducer,
+  },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(authApi.middleware)
+      .concat(homeApi.middleware).concat(introAndBookmarkApi.middleware)
+
 })
+
+setupListeners(store.dispatch)

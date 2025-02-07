@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   showProfileCard: false,
   subDetail: false,
-
+  introductoryVideosCount: 0,
+  BookmarkCount: 0
 }
 
 export const generalSlice = createSlice({
@@ -16,9 +17,15 @@ export const generalSlice = createSlice({
     setSubDetail: (state, actions) => {
       state.subDetail = actions.payload;
     },
+    setIntroductoryVideoscount: (state, actions) => {
+      state.introductoryVideosCount = actions.payload;
+    },
+    setBookmarkCount: (state, actions) => {
+      state.BookmarkCount = actions.payload;
+    },
   },
 })
 
-export const { setShowProfileCard, setSubDetail } = generalSlice.actions
+export const { setShowProfileCard, setSubDetail,setIntroductoryVideoscount,setBookmarkCount } = generalSlice.actions
 
 export default generalSlice.reducer

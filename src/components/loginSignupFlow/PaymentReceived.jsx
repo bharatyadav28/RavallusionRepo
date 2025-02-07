@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { GreenCheck } from '@/lib/svg_icons'
@@ -9,7 +10,7 @@ const PaymentReceived = () => {
   useEffect(() => {
     setTimeout(() => {
       router.push('/dashboard');
-    },1000)
+    },2000)
   },[])
 
   return (
@@ -36,4 +37,4 @@ const PaymentReceived = () => {
   )
 }
 
-export default PaymentReceived
+export default PaymentReceived;

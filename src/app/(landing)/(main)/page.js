@@ -8,33 +8,26 @@ import ModuleSection from "@/components/landingPage/ModuleSection";
 import PlansSection from "@/components/landingPage/PlansSection";
 import MentorsSection from "@/components/landingPage/MentorsSection";
 import CertificateSection from "@/components/landingPage/CertificateSection";
-import { getLandingPageData } from "@/lib/fetchData";
 import { Suspense, useEffect, useState } from "react";
 import PageLoader from "@/components/common/PageLoader";
+import { useGetLandingPageDataQuery } from "@/store/Api/home";
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const { data, error, isLoading } = useGetLandingPageDataQuery();
+  const res = data?.data;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getLandingPageData();
-      if (res.success) setData(res.data);
-    };
-    fetchData();
-  }, []);
-  
-  return !data ? (
+  return isLoading ? (
     <PageLoader />
   ) : (
     <div>
-      <HeroSection data={data.heroSection} />
-      <MainCarousel data={data.carousal} />
-      <TutorialsSection data={data.latestTutorials} />
-      <ModuleSection modules={data.modules} curriculum={data.curriculum} />
-      <PlansSection plans={data.plans} />
-      <MentorsSection mentor={data.mentor} />
-      <CertificateSection certificate={data.certificate} />
-      <FAQSection faqs={data.faqs} />
+      <HeroSection data={res.heroSection} />
+      <MainCarousel data={res.carousal} />
+      <TutorialsSection data={res.latestTutorials} />
+      <ModuleSection modules={res.modules} curriculum={res.curriculum} />
+      <PlansSection plans={res.plans} />
+      <MentorsSection mentor={res.mentor} />
+      <CertificateSection certificate={res.certificate} />
+      <FAQSection faqs={res.faqs} />
     </div>
   );
 }
