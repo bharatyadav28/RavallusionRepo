@@ -2,13 +2,20 @@
 import { BulbIcon, CourseIcon } from '@/lib/svg_icons';
 import { Bookmark } from 'lucide-react';
 import React, { useState } from 'react';
-import LessonModuleList from './LessionModuleList';
+import  { BookmarkedList, IntroductoryList } from './IntroductoryAndBookmarkList';
 import CourseModuleList from './CourseModuleList';
 import { CourseData } from '@/lib/tempData';
 import { LessonData } from '@/lib/tempData';
+import { useGetBookmarkQuery, useGetIntroductoryQuery } from '@/store/Api/introAndBookmark';
 
 const PlayerSidebar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
+
+    const { data, isLoading, error } = useGetBookmarkQuery();
+    const { data: IntroductoryData } = useGetIntroductoryQuery();
+
+    const IntroductoryVideos = IntroductoryData?.data?.introductoryVideos || []
+    const BookmarkedVideos = data?.bookmarks || []
 
     return (
         <>
@@ -40,12 +47,22 @@ const PlayerSidebar = () => {
                     )))
                 }
 
-                {
+                {/* {
                     LessonData.map((items, i) => (
                         activeIndex === i + 1 && (
                             <LessonModuleList key={i} heading={items.heading} subItems={items.subItems} />
                         )
                     ))
+                } */}
+                {
+                    activeIndex === 1 &&
+                    <IntroductoryList heading={"Introductory"} subItems={IntroductoryVideos} />
+
+                }
+                {
+                    activeIndex === 2 &&
+                    <BookmarkedList heading={"Bookmarked videos"} subItems={BookmarkedVideos} />
+
                 }
 
             </div>

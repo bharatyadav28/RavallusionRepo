@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { CrossIcon, MinusIcon } from "@/lib/svg_icons";
-import { LessonCard } from "./LessionModuleList";
+import { LessonCard } from "./IntroductoryAndBookmarkList";
 import { motion } from 'framer-motion';
 
 const CourseModuleList = ({ heading, modules }) => {

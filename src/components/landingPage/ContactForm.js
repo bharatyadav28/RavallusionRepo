@@ -76,7 +76,6 @@ const ContactForm = () => {
     }
   };
 
-
   const handleMobileChange = (data) => {
     if (/^\d{0,10}$/.test(data)) {
       setFormInputs({ ...formInputs, mobile: data });

@@ -53,10 +53,10 @@ const AssignmentSubmitList = () => {
             {
                 isActive === 0 && (
                     <div>
-                        <SubmitAssignment completed={false} ongoing={true} notStarted={true} submited={false} />
-                        <SubmitAssignment completed={true} ongoing={false} notStarted={false} submited={false} />
-                        <SubmitAssignment completed={false} ongoing={false} notStarted={false} submited={true} />
-                        <SubmitAssignment completed={false} ongoing={true} notStarted={true} submited={false} />
+                         <SubmitAssignment completed={true} submited={true} />
+                        <SubmitAssignment completed={true} />
+                        <SubmitAssignment ongoing={true} />
+                        <SubmitAssignment notStarted={true} />
                     </div>
                 )
             }
@@ -64,29 +64,52 @@ const AssignmentSubmitList = () => {
             {
                 isActive === 1 && (
                     <div>
-                        <SubmitAssignment completed={false} ongoing={false} notStarted={false} submited={true} />
-                        <SubmitAssignment completed={true} ongoing={false} notStarted={false} submited={false} />
-                        <SubmitAssignment completed={false} ongoing={true} notStarted={true} submited={false} />
-                        <SubmitAssignment completed={false} ongoing={true} notStarted={true} submited={false} />
+                        <SubmitAssignment completed={true} submited={true} />
+                        <SubmitAssignment completed={true} />
+                        <SubmitAssignment ongoing={true} />
+                        <SubmitAssignment notStarted={true} />
                     </div>
                 )
             }
-
-
-
         </div>
     )
 }
 
 
-const SubmitAssignment = ({ completed, ongoing, notStarted, submited }) => {
+const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = false, submited = false, title = "List of shortcuts used in the course" }) => {
 
     return (
         <div className='py-3 flex items-center justify-between'>
+
             <div>
-                <h1 className='text-sm mb-1 font-semibold'>List of shortcuts used in the course</h1>
-                <p className='text-[11px] text-[var(--yellow)]'>Completed · <span className='text-[#7EFF9A]'>Assignment submitted</span></p>
+                <h1 className='text-sm mb-1 font-semibold'>{title}</h1>
+                {
+                    completed && submited && (
+                        <p className='text-[11px] text-[var(--yellow)]'>Completed · <span className='text-[#7EFF9A]'>Assignment submitted</span></p>
+                    )
+
+                }
+
+                {
+                    completed && !submited && (
+                        <p className='text-[11px] text-[var(--yellow)]'>Completed</p>
+
+                    )
+                }
+                {
+                    ongoing && (
+                        <p className='text-[11px] text-yellow-200'>Ongoing</p>
+
+                    )
+                }
+                {
+                    notStarted && !ongoing && (
+                        <p className='text-[11px] text-gray-300'>Not Started</p>
+
+                    )
+                }
             </div>
+
             <div>
                 {
                     submited && (
@@ -96,10 +119,23 @@ const SubmitAssignment = ({ completed, ongoing, notStarted, submited }) => {
                         </div>
                     )
                 }
-                {completed && (
+                {completed && !submited && (
                     <Button variant="neonOutline">Submit </Button>)}
                 {
-                    ongoing && notStarted && (
+                    ongoing && (
+                        <div className='relative cursor-pointer'>
+                            <Button variant="neonOutline" className={"opacity-50"}>
+                                Submit
+                            </Button>
+                            <div className='absolute top-0 h-full flex items-center justify-center backdrop-blur-xs bg-[#0000001F] w-full'>
+                                <Lock />
+                            </div>
+
+                        </div>
+                    )
+                }
+                {
+                    notStarted && (
                         <div className='relative cursor-pointer'>
                             <Button variant="neonOutline" className={"opacity-50"}>
                                 Submit
@@ -116,7 +152,6 @@ const SubmitAssignment = ({ completed, ongoing, notStarted, submited }) => {
         </div>
     )
 }
-
 
 
 export const CourseProgressBar = ({ percentage = 50, className = '' }) => {

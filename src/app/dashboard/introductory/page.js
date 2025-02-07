@@ -1,17 +1,48 @@
+"use client"
+import PageLoader from '@/components/common/PageLoader';
 import VideoCard from '@/components/dashboard/VideoCard'
-import React from 'react'
+import { useGetIntroductoryQuery } from '@/store/Api/introAndBookmark';
+import { setIntroductoryVideoscount } from '@/store/slice/general';
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 
-const page = () => {
-  return (
-    <div className='py-4 px-4 md:px-0 lg:mt-3 grid grid-cols-12 gap-4'>
+const Introductory = () => {
+  const dispatch = useDispatch();
+  const { data, isLoading, error } = useGetIntroductoryQuery();
 
+
+  const introductoryVideos = data?.data?.introductoryVideos || []
+
+
+  useEffect(() => {
+    if (introductoryVideos?.length) {
+      dispatch(setIntroductoryVideoscount(introductoryVideos.length));
+      console.log(introductoryVideos.length);
+    }
+  }, [introductoryVideos.length, dispatch]);
+
+  return isLoading ? <div className='flex justify-center items-center min-h-[80vh]'><PageLoader /></div> : (
+    <>
+      <div className='py-4 px-4 md:px-0 lg:mt-3 grid grid-cols-12 gap-4'>
+
+        {
+          introductoryVideos.length > 0 &&
+          (introductoryVideos.map((item) => (
+            <VideoCard  key={item?._id} videoId={item?._id} title={item?.title} description={item?.description} thumbnailUrl={item?.thumbnailUrl} />
+          )))
+        }
+      </div>
       {
-        [...Array(8)].map((_, i) => (
-          <VideoCard key={i} />
-        ))
+
+        introductoryVideos.length <= 0 &&
+        (<div className='flex justify-center items-center min-h-[60vh] text-center'>
+          <h5 className='text-2xl font-bold text-[var(--neon-purple)]'>No Introductory Videos Found,
+            </h5>
+        </div>)
       }
-    </div>
+
+    </>
   )
 }
 
-export default page;
+export default Introductory;

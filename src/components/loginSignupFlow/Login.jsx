@@ -11,16 +11,35 @@ import { useSigninMutation } from '@/store/Api/auth';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { setUserId, setSigninEmail, setIsNewUser, setkeepMeSignedIn } from '@/store/slice/signInStates';
-
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Login = ({ price = 9999, courseType = "Advanced" }) => {
     const route = useRouter();
     const dispatch = useDispatch();
 
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (response) => {
+            console.log("response:", response);
+            await fetch("/api/v1/user/google-auth", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ googleToken: response.access_token }),
+            });
+            route.push('/subscription-plan');
+
+        },
+        onError: (error) => {
+            console.log("Login Failed:", error);
+            toast(error.message);
+        }
+        // scope: "profile email phone",
+    });
+
     const subsDetail = useSelector((state) => state.general.subDetail);
     const isChecked = useSelector((state) => state.signInState.keepMeSignedIn);
     const [email, setEmail] = useState('');
-
 
     const [signin, { data, isLoading, error, message, isSuccess }] = useSigninMutation();
 
@@ -54,11 +73,8 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
             toast.error(`Error: ${errorMessage}`);
         }
     };
-
-
-
     return (
-        <div className={`w-full lg:min-w-[500px] sm:w-auto ${subsDetail && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
+        <div className={`w-full sm:min-w-[500px] sm:w-auto ${subsDetail && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
             {
                 subsDetail &&
                 <SubscriptionDetails price={price} courseType={courseType} />
@@ -74,7 +90,7 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
                         onChange={(e) => setEmail(e.target.value)}
                         type={"email"} placeholder="John@gmail.com" name={"email"} className="w-full py-5 px-3 border-2 rounded-[12px] border-gray-500 mt-1 input-shadow" />
                 </div>
- 
+
 
                 <div className='flex gap-x-2 items-center mb-5'>
                     <Checkbox checked={isChecked} onCheckedChange={() => dispatch(setkeepMeSignedIn(!isChecked))}
@@ -107,7 +123,7 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
 
                 <div className='flex md:flex-row gap-x-4 flex-col gap-y-4'>
 
-                    <Button variant={"neonOutline"} className="py-6 rounded-[12px] w-full" >
+                    <Button variant={"neonOutline"} className="py-6 rounded-[12px] w-full" onClick={() => googleLogin()}>
 
                         <GoogleIcon />
 

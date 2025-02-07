@@ -10,7 +10,7 @@ import Link from 'next/link';
 import CustomDialog from '../common/CustomDialog';
 import SearchDialog, { SearchInput } from './SearchDialog';
 import { setShowProfileCard } from '@/store/slice/general';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const DashboardNavbar = () => {
@@ -22,6 +22,8 @@ const DashboardNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [searchDialog, setSearchDialog] = useState(false);
   const [urlpath, setUrlPath] = useState('');
+  const introductoryVideosCount = useSelector((state) => state.general.introductoryVideosCount);
+  const BookmarkCount = useSelector((state) => state.general.BookmarkCount);
 
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const DashboardNavbar = () => {
               urlpath == 'introductory' && (
                 <>
                   <h1 className='text-lg font-semibold mb-1'>Introductory</h1>
-                  <p className='text-xs text-[#CDCED1]'>5 Videos</p>
+                  <p className='text-xs text-[#CDCED1]'>{introductoryVideosCount} Videos</p>
                 </>
               )
             }
@@ -84,7 +86,7 @@ const DashboardNavbar = () => {
               urlpath == 'bookmarked' && (
                 <>
                   <h1 className='text-lg font-semibold mb-1'>Bookmarked videos</h1>
-                  <p className='text-xs text-[#CDCED1]'>16 Videos</p>
+                  <p className='text-xs text-[#CDCED1]'>{BookmarkCount} Videos</p>
                 </>
               )
             }
@@ -359,7 +361,7 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
         </div>
 
         {isOpen && (
-          <BoxDropdown title1={title1} title2={title2} href={href} setOpenSidebar={setOpenSidebar}/>
+          <BoxDropdown title1={title1} title2={title2} href={href} setOpenSidebar={setOpenSidebar} />
         )}
       </div>
     </div>
@@ -387,7 +389,7 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
 // };
 
 
-const BoxDropdown = ({ title1, title2, href,setOpenSidebar }) => {
+const BoxDropdown = ({ title1, title2, href, setOpenSidebar }) => {
   return (
     <motion.div
       className="absolute top-full left-0 right-0 w-full border-x border-b border-[var(--neon-purple)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden"
@@ -396,11 +398,11 @@ const BoxDropdown = ({ title1, title2, href,setOpenSidebar }) => {
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
       <div className="flex flex-col gap-y-2">
-        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={()=>setOpenSidebar(false)}>
+        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={() => setOpenSidebar(false)}>
           {title1} <ArrowRight size={21} />
         </Link>
 
-        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={()=>setOpenSidebar(false)}>
+        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={() => setOpenSidebar(false)}>
           {title2} <ArrowRight size={21} />
         </Link>
       </div>
