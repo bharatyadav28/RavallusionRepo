@@ -68,9 +68,8 @@ const VideoPlayer = ({
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
 
-  const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-  console.log("videoplayersource",source);
+  const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
   // src='https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
   // src='https://d2n9feutzfz8ux.cloudfront.net/mu/720p.m3u8';

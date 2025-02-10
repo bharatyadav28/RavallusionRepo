@@ -4,7 +4,9 @@ import { CrossIcon, MinusIcon } from "@/lib/svg_icons";
 import { LessonCard } from "./IntroductoryAndBookmarkList";
 import { motion } from 'framer-motion';
 
-const CourseModuleList = ({ heading, modules }) => {
+const CourseModuleList = ({  course }) => {
+    const modules = course?.modules;
+    const heading = course?.title
     return (
         <>
             <h1 className='text-lg font-semibold mb-7 px-3'>{heading}</h1>
@@ -12,7 +14,7 @@ const CourseModuleList = ({ heading, modules }) => {
             <div className='flex flex-col gap-y-7'>
                 {
                     modules && modules.map((items, i) => (
-                        <CourseCard title={items.title} videos={items.videos} submodules={items.submodules} img={items.img} key={i} />
+                        <CourseCard title={items.name} videosCount={items.videosCount || 20} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
                     ))
                 }
 
@@ -22,7 +24,8 @@ const CourseModuleList = ({ heading, modules }) => {
 }
 
 
-const CourseCard = ({ title, img, videos, submodules }) => {
+const CourseCard = ({ title, img, videosCount, submodules }) => {
+    // console.log("subsmodule",submodules)
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleExpand = () => {
@@ -38,7 +41,7 @@ const CourseCard = ({ title, img, videos, submodules }) => {
                 >
                     <div className="rounded-xl w-40 h-20 relative">
                         <Image
-                            src={img}
+                            src={'/photoshop.png'}
                             alt="video png"
                             fill
                             style={{ borderRadius: "12px", objectFit: "cover" }}
@@ -50,15 +53,15 @@ const CourseCard = ({ title, img, videos, submodules }) => {
                             }}
                             className="px-1 py-[2px] text-[10px] absolute top-2 right-2 rounded-sm"
                         >
-                            {videos}
+                            {videosCount} videos
                         </span>
                     </div>
 
                     <div className="flex-grow w-32">
                         <h1 className="text-xs font-normal mb-1 ">{title}</h1>
-                        {videos && (
+                        {videosCount && (
                             <p className="text-[10px] truncate whitespace-nowrap">
-                                {videos}
+                                {videosCount} videos
                             </p>
                         )}
                     </div>
@@ -69,7 +72,7 @@ const CourseCard = ({ title, img, videos, submodules }) => {
                     title={title}
                     img={img}
                     submodules={submodules}
-                    videos={videos}
+                    videosCount={videosCount}
                     onCollapse={handleExpand}
                 />
             )}
@@ -78,7 +81,7 @@ const CourseCard = ({ title, img, videos, submodules }) => {
 };
 
 
-const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
+const CourseCardExpand = ({ title, img, videosCount, submodules, onCollapse }) => {
     const [dropdownStates, setDropdownStates] = useState({});
 
     const toggleDropdown = (index) => {
@@ -98,7 +101,7 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
             >
                 <div className="rounded-lg w-16 h-12 relative">
                     <Image
-                        src={img}
+                        src={"/photoshop.png" }
                         alt="video png"
                         fill
                         style={{ borderRadius: "16px", objectFit: "cover" }}
@@ -107,7 +110,7 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
 
                 <div className="flex-grow">
                     <h1 className="text-xs font-normal mb-1 ">{title}</h1>
-                    <p className="text-[8px]">{videos}</p>
+                    <p className="text-[8px]">{videosCount} videos</p>
                 </div>
 
                 <button
@@ -143,7 +146,8 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
 
                                     <div className="rounded-lg w-14 h-10 relative">
                                         <Image
-                                            src={item.img}
+                                            // src={item.thumbnailUrl}
+                                            src={item.thumbnailUrl}
                                             alt="video png"
                                             fill
                                             style={{ borderRadius: "8px", objectFit: "cover" }}
@@ -151,8 +155,8 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
                                     </div>
 
                                     <div className="flex-grow w-32">
-                                        <h1 className="text-xs mb-1">{item.title}</h1>
-                                        <p className="text-[8px] text-gray-300 ">{item.videos}</p>
+                                        <h1 className="text-xs mb-1">{item.name}</h1>
+                                        <p className="text-[8px] text-gray-300 ">{item.videosCount || 10} videos</p>
                                     </div>
 
                                     <button
@@ -171,7 +175,7 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
                                 >
                                     <div className="bg-blue-400 rounded-xl w-40 h-20 relative">
                                         <Image
-                                            src={item.img}
+                                            src={item.thumbnailUrl}
                                             alt="video png"
                                             fill
                                             style={{ borderRadius: "12px", objectFit: "cover" }}
@@ -183,17 +187,17 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
                                             }}
                                             className="px-1 py-[2px] text-[10px] absolute top-2 right-2 rounded-sm"
                                         >
-                                            {item.videos}
+                                            {item.videosCount || 10} videos
                                         </span>
                                     </div>
 
                                     <div className="flex-grow w-32">
                                         <h1 className="text-xs font-normal mb-1">
-                                            {item.title}
+                                            {item.name}
                                         </h1>
-                                        {item.videos && (
+                                        {item.videosCount && (
                                             <p className="text-[10px] truncate whitespace-nowrap">
-                                                {item.videos}
+                                                {item.videosCount || 10 } videos
                                             </p>
                                         )}
                                     </div>
@@ -210,13 +214,14 @@ const CourseCardExpand = ({ title, img, videos, submodules, onCollapse }) => {
                                     transition={{ duration: 0.3 }}
                                     className="flex flex-col gap-y-3"
                                 >
-                                    {item.lessons &&
-                                        item.lessons.map((lesson, j) => (
+                                    {item.videos &&
+                                        item.videos.map((lesson, j) => (
                                             <LessonCard
                                                 key={j}
-                                                title={lesson.title}
-                                                img={lesson.img}
-                                                duration={lesson.duration}
+                                                videoId={lesson._id}
+                                                title={lesson.title || "I am Title"}
+                                                thumbnail={lesson?.thumbnailUrl}
+                                                duration={`${lesson?.duration?.hours}:${lesson?.duration?.minutes}:${lesson?.duration?.seconds}` || "0:20:05"}
                                             />
                                         ))}
                                 </motion.div>

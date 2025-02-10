@@ -1,3 +1,5 @@
+"use client";
+import { toast } from "react-toastify";
 
 const loadRazorpay = () => {
     return new Promise((resolve) => {
@@ -14,6 +16,7 @@ const loadRazorpay = () => {
 };
 
 export const handleClick = async (amount, plansId) => {
+
     console.log("ammoutn", amount, "id", plansId);
     // Load Razorpay script if not already loaded
     const isLoaded = await loadRazorpay();
@@ -30,7 +33,14 @@ export const handleClick = async (amount, plansId) => {
         },
         body: JSON.stringify({ plan: plansId }),
     });
+    if(!response.ok){
+       const res =  await response.json();
+        console.log(res.message);
+        toast(res.message)
+    }
+    
     const {data: { order }} = await response.json();
+    
 
     // Fetch Razorpay key
     const response2 = await fetch("/api/v1/order/get-key");

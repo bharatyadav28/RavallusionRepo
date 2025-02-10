@@ -6,7 +6,9 @@ export async function middleware(request) {
     const refreshToken = request.cookies.get("refreshToken")?.value || "";
     const isLoggedIn = !!refreshToken;
 
-    const restrictedPaths = ["/dashboard", "/subscription-plan"];
+    const restrictedPaths = ["/dashboard", "/dashboard/introductory",
+        "/dashboard/player-dashboard", "/dashboard/bookmarked-videos",
+        "/dashboard/profile", "/dashboard/search", "/subscription-plan"];
     const authPaths = ["/login"];
 
     // Static file handling (skip middleware for these)

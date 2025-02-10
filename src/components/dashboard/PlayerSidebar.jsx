@@ -2,20 +2,25 @@
 import { BulbIcon, CourseIcon } from '@/lib/svg_icons';
 import { Bookmark } from 'lucide-react';
 import React, { useState } from 'react';
-import  { BookmarkedList, IntroductoryList } from './IntroductoryAndBookmarkList';
+import { BookmarkedList, IntroductoryList } from './IntroductoryAndBookmarkList';
 import CourseModuleList from './CourseModuleList';
 import { CourseData } from '@/lib/tempData';
 import { LessonData } from '@/lib/tempData';
 import { useGetBookmarkQuery, useGetIntroductoryQuery } from '@/store/Api/introAndBookmark';
+import { useGetSubscribedPlanCourseQuery}  from '@/store/Api/course';
 
 const PlayerSidebar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const { data, isLoading, error } = useGetBookmarkQuery();
-    const { data: IntroductoryData } = useGetIntroductoryQuery();
+    const { data: introductoryData } = useGetIntroductoryQuery();
+    const { data: subscribedCourseData } = useGetSubscribedPlanCourseQuery();
+    console.log(subscribedCourseData);
 
-    const IntroductoryVideos = IntroductoryData?.data?.introductoryVideos || []
-    const BookmarkedVideos = data?.bookmarks || []
+    const subscribedCourse = subscribedCourseData?.data?.course || [];
+
+    const introductoryVideos = introductoryData?.data?.introductoryVideos || []
+    const bookmarkedVideos = data?.bookmarks || []
 
     return (
         <>
@@ -42,26 +47,19 @@ const PlayerSidebar = () => {
             <div
                 className='py-4 min-h-screen bg-[#181F2B] rounded-2xl'>
                 {
-                    activeIndex === 0 && (CourseData && CourseData.map((items, i) => (
-                        <CourseModuleList heading={items.heading} key={i} modules={items.modules} />
-                    )))
+                    activeIndex === 0 && 
+                        <CourseModuleList course={subscribedCourse} />
                 }
 
-                {/* {
-                    LessonData.map((items, i) => (
-                        activeIndex === i + 1 && (
-                            <LessonModuleList key={i} heading={items.heading} subItems={items.subItems} />
-                        )
-                    ))
-                } */}
+
                 {
                     activeIndex === 1 &&
-                    <IntroductoryList heading={"Introductory"} subItems={IntroductoryVideos} />
+                    <IntroductoryList heading={"Introductory"} subItems={introductoryVideos} />
 
                 }
                 {
                     activeIndex === 2 &&
-                    <BookmarkedList heading={"Bookmarked videos"} subItems={BookmarkedVideos} />
+                    <BookmarkedList heading={"Bookmarked videos"} subItems={bookmarkedVideos} />
 
                 }
 

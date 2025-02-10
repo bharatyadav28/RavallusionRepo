@@ -5,6 +5,7 @@ import { authApi } from './Api/auth'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { homeApi } from './Api/home'
 import { introAndBookmarkApi } from './Api/introAndBookmark'
+import { courseApi } from './Api/course'
 
 export const store = configureStore({
   reducer: {
@@ -14,11 +15,14 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [homeApi.reducerPath]: homeApi.reducer,
     [introAndBookmarkApi.reducerPath]: introAndBookmarkApi.reducer,
+    [courseApi.reducerPath]: courseApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authApi.middleware)
-      .concat(homeApi.middleware).concat(introAndBookmarkApi.middleware)
+      .concat(homeApi.middleware)
+      .concat(introAndBookmarkApi.middleware)
+      .concat(courseApi.middleware)
 
 })
 
