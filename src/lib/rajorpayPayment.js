@@ -17,7 +17,7 @@ const loadRazorpay = () => {
 
 export const handleClick = async (amount, plansId) => {
 
-    console.log("ammoutn", amount, "id", plansId);
+    // console.log("ammoutn", amount, "id", plansId);
     // Load Razorpay script if not already loaded
     const isLoaded = await loadRazorpay();
     if (!isLoaded) {
@@ -33,22 +33,18 @@ export const handleClick = async (amount, plansId) => {
         },
         body: JSON.stringify({ plan: plansId }),
     });
-    if(!response.ok){
-       const res =  await response.json();
-        console.log(res.message);
-        toast(res.message)
+    const res = await response.json();
+    if (!response.ok) {
+        toast.warning(res.message)
+        return;
     }
-    
-    const {data: { order }} = await response.json();
-    
+    const { data: { order } } = res;
 
     // Fetch Razorpay key
     const response2 = await fetch("/api/v1/order/get-key");
     const { data } = await response2.json();
     const key_id = data?.key;
-    console.log("response2", data);
 
-    console.log("Order", order);
 
     const options = {
         key: key_id, // Replace with your Razorpay key_id
@@ -57,7 +53,7 @@ export const handleClick = async (amount, plansId) => {
         name: "Anand uchiha",
         description: "Test Transaction",
         order_id: order.order_id, // This is the order_id created in the backend
-        callback_url: "/verify-payment", // Your success URL
+        callback_url: "/api/v1/order/verify-payment", // You", // Your success URL
         prefill: {
             name: "Sakura anand uchiha",
             email: "Sarada.uchiha@example.com",
@@ -68,7 +64,7 @@ export const handleClick = async (amount, plansId) => {
         },
     };
 
-    console.log("dsdsd", window.Razorpay);
+    // console.log("dsdsd", window.Razorpay);
 
     const rzp = new window.Razorpay(options);
     rzp.open();

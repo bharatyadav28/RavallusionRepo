@@ -10,15 +10,11 @@ const Bookmark = () => {
   const { data, isLoading, error } = useGetBookmarkQuery();
   const dispatch = useDispatch();
 
-  console.log(data);
   const bookmarks = data?.bookmarks || [];
-  console.log(isLoading);
-  console.log(error);
 
   useEffect(() => {
     if (bookmarks?.length) {
       dispatch(setBookmarkCount(bookmarks?.length));
-      console.log(bookmarks.length);
     }
   }, [bookmarks.length, dispatch]);
   return isLoading ? <div className='flex justify-center items-center min-h-[70vh]'><PageLoader /></div> : (
@@ -28,7 +24,12 @@ const Bookmark = () => {
         {
           bookmarks.length > 0 &&
           (bookmarks.map((item) => (
-            <VideoCard isBookmarked={true} key={item?.video?._id} videoId={item?.video?._id} title={item?.video?.title} description={item?.video?.description} thumbnailUrl={item?.video?.thumbnailUrl} />
+            <VideoCard isBookmarked={true}
+             key={item?.video?._id} videoId={item?.video?._id} 
+             title={item?.video?.title} description={item?.video?.description} 
+             thumbnailUrl={item?.video?.thumbnailUrl}
+             duration={`${item?.video?.duration?.hours}:${item?.video?.duration?.minutes}:${item?.video?.duration?.seconds}`}
+             />
           )))
         }
       </div>

@@ -4,7 +4,8 @@ const initialState = {
   showProfileCard: false,
   subDetail: false,
   introductoryVideosCount: 0,
-  BookmarkCount: 0
+  bookmarkCount: 0,
+  submoduleId: null,
 }
 
 export const generalSlice = createSlice({
@@ -21,11 +22,14 @@ export const generalSlice = createSlice({
       state.introductoryVideosCount = actions.payload;
     },
     setBookmarkCount: (state, actions) => {
-      state.BookmarkCount = actions.payload;
+      state.bookmarkCount = actions.payload;
     },
+    setSubmoduleId: (state,action)=>{
+      state.submoduleId = action.payload
+    }
   },
 })
 
-export const { setShowProfileCard, setSubDetail,setIntroductoryVideoscount,setBookmarkCount } = generalSlice.actions
+export const { setShowProfileCard, setSubDetail,setIntroductoryVideoscount,setBookmarkCount ,setSubmoduleId} = generalSlice.actions
 
 export default generalSlice.reducer

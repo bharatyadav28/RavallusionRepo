@@ -4,7 +4,8 @@ const initialState = {
     signinEmail:"",
     userId:"",
     isNewUser:false,
-    keepMeSignedIn:false
+    keepMeSignedIn:false,
+    hasSubscription:false,
 }
 
 export const signInState = createSlice({
@@ -22,10 +23,13 @@ export const signInState = createSlice({
         },
         setkeepMeSignedIn: (state, action) => {
             state.keepMeSignedIn = action.payload;
+        },
+        setHasSubscription: (state,action)=>{
+            state.hasSubscription = action.payload
         }
     }
 })
 
-export const {setSigninEmail,setUserId,setIsNewUser,setkeepMeSignedIn} = signInState.actions;
+export const {setSigninEmail,setUserId,setIsNewUser,setkeepMeSignedIn,setHasSubscription} = signInState.actions;
 
 export default signInState.reducer

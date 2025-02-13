@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect } from 'react'
-import Image from 'next/image'
 import { GreenCheck } from '@/lib/svg_icons'
 import { useRouter } from 'next/navigation'
 
@@ -27,11 +26,11 @@ const PaymentReceived = () => {
         <p className='text-sm text-center'>Your payment is received, please don`t refresh or close this screen</p>
       </div>
 
-      <p className='text-xs text-center mb-3'>Please wait..</p>
+      <p className='text-xs text-center mb-3'>Please wait...</p>
 
-      <div className='py-3 px-6 rounded-[8px] bg-[#1D2636] text-center w-36'>
+      {/* <div className='py-3 px-6 rounded-[8px] bg-[#1D2636] text-center w-36'>
         <span className='text-orange-300 text-lg font-semibold'>06:00 Min</span>
-      </div>
+      </div> */}
 
     </div>
   )

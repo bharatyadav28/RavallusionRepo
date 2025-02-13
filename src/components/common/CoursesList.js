@@ -63,8 +63,6 @@ const CoursesList = ({ data }) => {
   const [count, setCount] = useState(2);
   const screenWidth = window.innerWidth;
 
-
-
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
       const screenWidth = window.innerWidth;
@@ -90,48 +88,9 @@ const CoursesList = ({ data }) => {
     };
   },[]);
 
-  // const useResponsiveChunks = () => {
-  //   const [chunkSize, setChunkSize] = useState(3);
-
-  //   useEffect(() => {
-  //     const handleResize = () => {
-  //       if (window.innerWidth < 640) {
-  //         setChunkSize(1); // Small screens: 1 item
-  //       } else if (window.innerWidth < 1024) {
-  //         setChunkSize(2); // Medium screens: 2 items
-  //       } else {
-  //         setChunkSize(3); // Large screens: 3 items
-  //       }
-  //     };
-
-  //     handleResize(); // Check on initial render
-  //     window.addEventListener('resize', handleResize);
-
-  //     return () => window.removeEventListener('resize', handleResize);
-  //   }, []);
-
-  //   return chunkSize;
-  // };
-
-  // const chunkArray = (array, size) => {
-  //   const chunks = [];
-  //   for (let i = 0; i < array.length; i += size) {
-  //     chunks.push(array.slice(i, i + size));
-  //   }
-  //   return chunks;
-  // };
-
-
-  // const chunkSize = useResponsiveChunks();
-
-  // const chunkedCourses = chunkArray(courses, chunkSize);
-
-  // const chunkedCourses1 = chunkArray(courses, chunkSize);
 
   const firstThreeCourses = data.slice(0, 3);
   const lastThreeCourses = data.slice(3);
-
-
 
   return (
     <div className="flex-grow relative">
@@ -146,12 +105,10 @@ const CoursesList = ({ data }) => {
         skeletonClass="skeleton-right"
       />
 
-
       {
         screenWidth < 768 ?
           (
             <>
-
               <div
                 className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
               >
@@ -163,8 +120,7 @@ const CoursesList = ({ data }) => {
                 </CarouselWrapper>
 
               </div>
-
-
+              
               <div
                 className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
               >

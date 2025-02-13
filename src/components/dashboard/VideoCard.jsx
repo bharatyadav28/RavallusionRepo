@@ -1,38 +1,66 @@
-"use client"
-import { Bookmarked } from '@/lib/svg_icons'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+"use client";
 
-const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId }) => {
-    const route = useRouter();
+import { Bookmarked } from "@/lib/svg_icons";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import React from "react";
+
+const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId, duration }) => {
+    const router = useRouter();
+
     const fetchVideo = () => {
-        route.push(`/dashboard/player-dashboard?videoId=${videoId}`);
-    }
+        router.push(`/dashboard/player-dashboard?videoId=${videoId}`);
+    };
+
     return (
-        <div className='p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 lg:col-span-3 h-72 cursor-pointer' onClick={fetchVideo}>
+        <motion.div
+            className="p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 lg:col-span-3 h-72 cursor-pointer shadow-md"
+            whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)",y:-10}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+            {/* Video Thumbnail */}
+            <motion.div
+                className="relative h-36 w-full rounded-lg mb-2"
+                onClick={fetchVideo}
+                whileTap={{ scale: 0.95 }}
+            >
+                <Image
+                    src={thumbnailUrl}
+                    alt="Video thumbnail"
+                    sizes="100"
+                    priority={true}
+                    fill
+                    style={{ objectFit: "cover", borderRadius: 8 }}
+                />
+                <span className="absolute top-2 right-2 rounded-lg px-2 py-1 video-timeline-bg text-xs text-center">
+                    {duration}
+                </span>
+            </motion.div>
 
-            <div className='relative h-36 w-full rounded-lg mb-2'>
-                <Image src={thumbnailUrl} alt="Introductory videos thumbnail" sizes='100' priority={true} fill style={{ objectFit: "cover", borderRadius: 8 }} />
-                <span className='absolute top-2 right-2 rounded-lg px-3 py-1 video-timeline-bg text-xs text-center'>20:30</span>
-            </div>
-
+            {/* Video Details */}
             <div>
-                <div className='flex justify-between mb-1'>
-                    <h1 className='text-lg font-medium'>{title}</h1>
-                    {
-                        isBookmarked && (
-                            <div className='mx-2 mt-2'>
-                                <Bookmarked />
-                            </div>
-                        )
-                    }
+                <div className="flex justify-between mb-1">
+                    <h1 className="text-lg font-medium truncate w-4/5">{title}</h1>
+
+                    {isBookmarked && (
+                        <motion.div
+                            className="mx-2 mt-2"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                        >
+                            <Bookmarked width={18} height={18} />
+                        </motion.div>
+                    )}
                 </div>
-                <p className='text-xs text-gray-400'>{description}</p>
+
+                <p className="text-xs text-gray-400 line-clamp-2">{description}</p>
             </div>
+        </motion.div>
+    );
+};
 
-        </div>
-    )
-}
-
-export default VideoCard
+export default VideoCard;

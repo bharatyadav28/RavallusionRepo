@@ -17,7 +17,7 @@ const Introductory = () => {
   useEffect(() => {
     if (introductoryVideos?.length) {
       dispatch(setIntroductoryVideoscount(introductoryVideos.length));
-      console.log(introductoryVideos.length);
+      // console.log(introductoryVideos.length);
     }
   }, [introductoryVideos.length, dispatch]);
 
@@ -28,7 +28,11 @@ const Introductory = () => {
         {
           introductoryVideos.length > 0 &&
           (introductoryVideos.map((item) => (
-            <VideoCard  key={item?._id} videoId={item?._id} title={item?.title} description={item?.description} thumbnailUrl={item?.thumbnailUrl} />
+            <VideoCard key={item?._id}
+              duration={`${item?.duration?.hours}:${item?.duration?.minutes}:${item?.duration?.seconds}`}
+              videoId={item?._id} title={item?.title}
+              description={item?.description}
+              thumbnailUrl={item?.thumbnailUrl} />
           )))
         }
       </div>
@@ -37,7 +41,7 @@ const Introductory = () => {
         introductoryVideos.length <= 0 &&
         (<div className='flex justify-center items-center min-h-[60vh] text-center'>
           <h5 className='text-2xl font-bold text-[var(--neon-purple)]'>No Introductory Videos Found,
-            </h5>
+          </h5>
         </div>)
       }
 

@@ -546,7 +546,7 @@ const VideoPlayer = ({
                 </li>
 
 
-
+{/* 
                 <li
                   onClick={() => handleMenuChange("language")}
                   className="my-2 flex items-center justify-between"
@@ -559,7 +559,7 @@ const VideoPlayer = ({
                   <span className="flex items-center">
                     {selectedLang?.language?.name || "English"} <FaAngleRight />
                   </span>
-                </li>
+                </li> */}
 
                 <li
                   onClick={() => handleMenuChange("playbackspeed")}
@@ -598,7 +598,7 @@ const VideoPlayer = ({
                 </li>
               </>
             )}
-            {activeMenu === "language" &&
+            {/* {activeMenu === "language" &&
               <li>English</li>
 
               // source?.map((item, index) => (
@@ -614,7 +614,7 @@ const VideoPlayer = ({
               //     {item?.language?.name}
               //   </li>
               // ))}
-            }
+            } */}
             {activeMenu === "playbackspeed" &&
               playbackOptions?.map((speed, index) => (
                 <li

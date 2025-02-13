@@ -5,20 +5,22 @@ import SubmitAssignment from './SubmitAssignment';
 import CustomDialog from '../common/CustomDialog';
 import AttendQuiz from './AttendQuiz';
 import { useAddBookmarkMutation, useDeleteBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAndBookmark';
+import { useDownloadResourceQuery, useLazyDownloadResourceQuery } from '@/store/Api/course';
+import { useSelector } from 'react-redux';
 
 
 const VideoDescription = ({ videoId, title, description }) => {
   const [addToBookmark] = useAddBookmarkMutation();
   const [deleteFromBookmark] = useDeleteBookmarkMutation();
   const { data: getdata, refetch } = useGetBookmarkQuery();
-
+  const [triggerDownload, { data: downloadResourceData, isLoading }] = useLazyDownloadResourceQuery();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAssignmentOpen, setIsAssignmentOpen] = useState(false);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkedId, setBookmarkId] = useState(null);
+  const { submoduleId } = useSelector((state) => state.general);
 
-  // console.log("videoId in description",videoId);
 
   useEffect(() => {
     if (getdata?.bookmarks) {
@@ -64,16 +66,70 @@ const VideoDescription = ({ videoId, title, description }) => {
     }
   }, [isBookmarked, bookmarkedId, videoId, addToBookmark, deleteFromBookmark, refetch]);
 
+
+  const downloadFile = async () => {
+    // Direct file URL 
+    const fileUrl = "https://test-prod-buck.s3.ap-south-1.amazonaws.com/resources/1739263137044-users-1738215800786-fullstack_CV_Abhimanyu.pdf";
+
+    try {
+      // Fetch the file first
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+
+      // Create blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Create link and trigger download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "fullstack_CV_Abhimanyu.pdf"; // Set your desired filename
+
+      // Trigger download
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
+
+  const handleDownloadResource = async () => {
+    // setResourceId("679f66eee6c5403a1db2b821"); 
+    const res = await triggerDownload("679f66eee6c5403a1db2b821");
+    const resources = res.data?.data?.resources || [];
+    console.log(resources);
+    console.log(resources[0].url);
+
+    if (resources.length === 0) {
+      alert("No resources available to download.");
+      return;
+    }
+
+    // Loop through each resource and trigger download
+    // resources.forEach((resource) => {
+    //   setTimeout(() => downloadFile(resource.url), 500); // Small delay to prevent browser restrictions
+    // });
+  };
+
   const handleToggle = () => setIsExpanded(!isExpanded);
+
+  const truncatedText = description?.length > 100
+    ? description?.slice(0, 100) + "..."
+    : description;
 
   return (
     <div className="text-white">
-      <div className="flex items-center justify-between mb-3">
+
+      <div className="flex justify-between mb-3">
         <h1 className="text-xl font-semibold">{title}</h1>
         {
-          title && (
-            <div className='p-3 rounded-full bg-[#181F2B] cursor-pointer' onClick={handleBookmark}>
-              {isBookmarked ? <Bookmarked /> : <BookMark />}
+          title && !isBookmarked && (
+            <div className='p-3 rounded-full bg-[#181F2B] cursor-pointer -mb-3' onClick={handleBookmark}>
+              {/* {isBookmarked ? <Bookmarked /> : <BookMark />} */}
+              {!isBookmarked && <BookMark />}
             </div>
           )
         }
@@ -81,26 +137,27 @@ const VideoDescription = ({ videoId, title, description }) => {
       </div>
 
       <div className="mb-4">
-        {/* <p className="text-sm">
-          {isExpanded ? (
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum earum veritatis odio nihil cumque quis soluta, repellat quidem molestiae quod harum odit recusandae voluptas, sit facere sunt molestias quas veniam. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi."
-          ) : (
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum earum veritatis odio nihil cumque quis soluta, repellat quidem molestiae quod harum odit recusandae..."
-          )}
-          <span
-            onClick={handleToggle}
-            className="text-orange-300 cursor-pointer font-semibold"
-          >
-            {isExpanded ? ' Read less' : ' Read more'}
-          </span>
-        </p> */}
         <p className="text-sm">
-          {description}
+          {isExpanded ? (
+            description
+          ) : (
+            truncatedText
+          )}
+          {description?.length > 100 && (
+            <span
+              onClick={handleToggle}
+              className="text-orange-300 cursor-pointer font-semibold"
+            >
+              {isExpanded ? " Read less" : " Read more"}
+            </span>
+          )}
         </p>
+
       </div>
 
       <div className="flex gap-y-2 lg:gap-y-2 xl:gap-y-0 lg:gap-x-4 flex-col lg:flex-row items-center flex-wrap">
-        <TextIconBox title="Download Resources" icon={<DownloadIcon />} />
+        {/* <TextIconBox title="Download Resources" icon={<DownloadIcon />} onClick={handleDownloadResource} /> */}
+        <TextIconBox title="Download Resources" icon={<DownloadIcon />} onClick={downloadFile} />
         <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={() => setIsAssignmentOpen(true)} />
         <TextIconBox title="Attend Quiz" icon={<Quiz />} onClick={() => setIsQuizOpen(true)} />
       </div>

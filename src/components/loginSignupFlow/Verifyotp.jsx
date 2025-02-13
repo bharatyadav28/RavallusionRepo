@@ -5,12 +5,17 @@ import { SubmitButton } from "../common/CustomButton";
 import { Button } from "../ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useSigninMutation, useVerifyUserMutation } from "@/store/Api/auth";
+import { useSigninMutation, useSwitchDeviceMutation, useVerifyUserMutation } from "@/store/Api/auth";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import CustomDialog from "../common/CustomDialog";
+import LogoutDialog from "./LogoutDialog";
 
 const VerifyOtp = () => {
-    const { signinEmail, userId, isNewUser,keepMeSignedIn } = useSelector((state) => state.signInState);
+    const { signinEmail, userId, isNewUser, keepMeSignedIn, hasSubscription } = useSelector((state) => state.signInState);
+    console.log("hassubscription", hasSubscription);
+    const [isOpenLogout, setIsOpenLogout] = useState(false);
+    const route = useRouter();
 
     const router = useRouter();
     const [otp, setOtp] = useState("");
@@ -19,6 +24,7 @@ const VerifyOtp = () => {
 
     const [verifyUser, { isLoading }] = useVerifyUserMutation();
     const [signin, { isLoading: isResending }] = useSigninMutation();
+    const [switchDevice, { isLoading: switchDeviceLoading }] = useSwitchDeviceMutation();
 
     // Countdown timer logic
     useEffect(() => {
@@ -37,72 +43,91 @@ const VerifyOtp = () => {
             toast.error("Please enter a valid 6-digit OTP");
             return;
         }
-
         try {
 
             const type = isNewUser ? "account_verification" : "two_step_auth";
 
-            const response = await verifyUser({ otp, email:signinEmail, type, userId,keepMeSignedIn }).unwrap();
+            const response = await verifyUser({ otp, email: signinEmail, type, userId, keepMeSignedIn }).unwrap();
             console.log(response);
 
-            toast.success(response.message || "Verification successful!",{autoClose: 2000});
-
-            router.push("/subscription-plan");
+            toast(response.message || "Verification successful!", { autoClose: 2000 });
+            if (hasSubscription) {
+                router.push("/dashboard");
+            }
+            else {
+                router.push("/subscription-plan");
+            }
 
         } catch (err) {
             console.error("API Call Failed:", err);
-
+            console.log(err?.status)
+            if (err?.status == 409) {
+                setIsOpenLogout(true);
+            }
             const errorMessage = err?.data?.message || "Something went wrong! Please try again.";
-            toast.error(`Error: ${errorMessage}`);
+            toast(`Error: ${errorMessage}`);
         }
     };
 
+    const handleSwitchDevice = async () => {
+        const res = await switchDevice().unwrap();
+        console.log("switchDevice", res);
+        setIsOpenLogout(false);
+        route.push('/login');
+    }
 
     const handleResendOtp = async () => {
         try {
             setTimer(90); // Reset timer
             setCanResend(false);
-            await signin({ email:signinEmail }).unwrap();
+            await signin({ email: signinEmail }).unwrap();
         } catch (error) {
             console.error("Resend OTP Failed:", error);
         }
     };
 
     return (
-        <div className="mx-4 p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg">
-            <Button variant="default" className="bg-transparent hover:bg-[var(--navy-blue)] mb-[30px] -ml-4" onClick={() => router.push("/login")}>
-                <ArrowLeft /> Back
-            </Button>
-            <h2 className="text-center text-3xl font-bold mb-[30px]">Verify OTP</h2>
+        <>
+            <div className="mx-4 p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg">
+                <Button variant="default" className="bg-transparent hover:bg-[var(--navy-blue)] mb-[30px] -ml-4" onClick={() => router.push("/login")}>
+                    <ArrowLeft /> Back
+                </Button>
+                <h2 className="text-center text-3xl font-bold mb-[30px]">Verify OTP</h2>
 
-            <div className="mb-[30px]">
-                <p className="text-sm text-center">Please enter the OTP code sent to your email</p>
-                <p className="text-sm text-center">
-                    {signinEmail}
-                    <span className="text-orange-300 underline ml-2 cursor-pointer" onClick={() => router.push("/login")}>
-                        Change
-                    </span>
+                <div className="mb-[30px]">
+                    <p className="text-sm text-center">Please enter the OTP code sent to your email</p>
+                    <p className="text-sm text-center">
+                        {signinEmail}
+                        <span className="text-orange-300 underline ml-2 cursor-pointer" onClick={() => router.push("/login")}>
+                            Change
+                        </span>
+                    </p>
+                </div>
+
+                <OTPInput onComplete={(otp) => setOtp(otp)} />
+
+                <p className="text-center text-sm my-[30px]">
+                    {timer > 0 && !isResending ? (
+                        <>
+                            <span className="text-orange-300 ">Resend in</span>  {String(Math.floor(timer / 60)).padStart(2, "0")}:{String(timer % 60).padStart(2, "0")}
+                        </>
+                    ) : (
+                        <span className="underline text-orange-300 ml-1 cursor-pointer" onClick={handleResendOtp} disabled={!canResend || isResending}>
+                            {isResending ? "Resending..." : "Resend"}
+                        </span>
+                    )}
                 </p>
-            </div>
 
-            <OTPInput onComplete={(otp) => setOtp(otp)} />
+                <SubmitButton className={"w-full rounded-[12px] text-md"} onClick={handleVerifyUser} disabled={!otp || isLoading}>
+                    {isLoading ? "Verifying..." : "Verify OTP"}
+                </SubmitButton>
 
-            <p className="text-center text-sm my-[30px]">
-                {timer > 0 && !isResending ? (
-                    <>
-                        <span className="text-orange-300 ">Resend in</span>  {String(Math.floor(timer / 60)).padStart(2, "0")}:{String(timer % 60).padStart(2, "0")}
-                    </>
-                ) : (
-                    <span className="underline text-orange-300 ml-1 cursor-pointer" onClick={handleResendOtp} disabled={!canResend || isResending}>
-                        {isResending ? "Resending..." : "Resend"}
-                    </span>
-                )}
-            </p>
 
-            <SubmitButton className={"w-full rounded-[12px] text-md"} onClick={handleVerifyUser} disabled={!otp || isLoading}>
-                {isLoading ? "Verifying..." : "Verify OTP"}
-            </SubmitButton>
-        </div>
+                <CustomDialog open={isOpenLogout} close={() => setIsOpenLogout(false)}>
+                    <LogoutDialog setIsOpenLogout={setIsOpenLogout} onClick={handleSwitchDevice} switchDeviceLoading={switchDeviceLoading} />
+                </CustomDialog>
+            </div >
+        </>
     );
 };
 

@@ -25,7 +25,6 @@ export default function AuthLayout({ children }) {
                 }}
             >
                 <div className="w-full h-full"></div>
-                <ToastContainer closeOnClick={true}/>
 
             </div>
 

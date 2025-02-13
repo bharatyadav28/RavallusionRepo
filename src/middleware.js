@@ -33,31 +33,5 @@ export async function middleware(request) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
-    // If logged in, check subscription status
-    if (isLoggedIn) {
-        try {
-            // Fetch user subscription status (Example API request)
-            // const response = await fetch(`${request.nextUrl.origin}/api/user/subscription`, {
-            //     headers: { Cookie: `refreshToken=${refreshToken}` },
-            // });
-
-            // const { hasSubscription } = await response.json();
-            const hasSubscription = false;
-
-            // If the user doesn't have a subscription, redirect to subscription page
-            // if (!hasSubscription && pathname !== "/subscription-plan") {
-            //     return NextResponse.redirect(new URL("/subscription-plan", request.url));
-            // }
-
-            // If user has a subscription and tries to access subscription page, redirect to dashboard
-            if (hasSubscription && pathname === "/subscription-plan") {
-                return NextResponse.redirect(new URL("/dashboard", request.url));
-            }
-        } catch (error) {
-            console.error("Error checking subscription:", error);
-            return NextResponse.redirect(new URL("/login", request.url));
-        }
-    }
-
     return NextResponse.next();
 }

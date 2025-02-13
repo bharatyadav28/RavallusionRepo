@@ -55,7 +55,7 @@ const VideoDashboard = () => {
             />
           )}
         </div>
-        <div className='my-[30px] px-4 lg:px-0'>
+        <div className='my-[20px] px-4 lg:px-0'>
           <VideoDescription
             videoId={videoId}
             title={data?.data?.video?.title}

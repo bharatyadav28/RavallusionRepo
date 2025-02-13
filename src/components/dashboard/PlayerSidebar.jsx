@@ -12,10 +12,10 @@ import { useGetSubscribedPlanCourseQuery}  from '@/store/Api/course';
 const PlayerSidebar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const { data, isLoading, error } = useGetBookmarkQuery();
+    const { data } = useGetBookmarkQuery();
     const { data: introductoryData } = useGetIntroductoryQuery();
-    const { data: subscribedCourseData } = useGetSubscribedPlanCourseQuery();
-    console.log(subscribedCourseData);
+    const { data: subscribedCourseData,isLoading } = useGetSubscribedPlanCourseQuery();
+    // console.log(subscribedCourseData);
 
     const subscribedCourse = subscribedCourseData?.data?.course || [];
 
@@ -48,13 +48,11 @@ const PlayerSidebar = () => {
                 className='py-4 min-h-screen bg-[#181F2B] rounded-2xl'>
                 {
                     activeIndex === 0 && 
-                        <CourseModuleList course={subscribedCourse} />
+                        <CourseModuleList course={subscribedCourse} isLoading={isLoading} />
                 }
-
-
                 {
                     activeIndex === 1 &&
-                    <IntroductoryList heading={"Introductory"} subItems={introductoryVideos} />
+                    <IntroductoryList heading={"Introductory videos"} subItems={introductoryVideos} />
 
                 }
                 {

@@ -4,9 +4,11 @@ import React, { Suspense } from 'react'
 
 const page = () => {
   return (
-    <Suspense fallback={<PageLoader />}>
-      <VideoDashboard />
-    </Suspense>
+    <div className='h-screen w-full'>
+      <Suspense fallback={<PageLoader />}>
+        <VideoDashboard />
+      </Suspense>
+    </div>
   )
 }
 

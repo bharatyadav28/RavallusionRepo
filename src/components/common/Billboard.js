@@ -13,7 +13,7 @@ const BillboardWrapper = ({ children, speed = 20 }) => {
           {children}
         </div>
         {/* Second clone for smoother transition */}
-        <div className="flex min-w-full">
+        <div className="flex min-w-full relative"> 
           {children}
         </div>
       </div>

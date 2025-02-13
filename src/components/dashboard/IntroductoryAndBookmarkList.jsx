@@ -25,12 +25,17 @@ export const BookmarkedList = ({ heading, subItems }) => {
 
             <div className='flex flex-col gap-y-7'>
                 {
-                    subItems && subItems.map((items) => {
+                    subItems.length>0 ? subItems.map((items) => {
                         const timeDuration = items?.video?.duration
                         return (
                             < LessonCard key={items?.video?._id} videoId={items?.video?._id} thumbnail={items?.video?.thumbnailUrl} title={items?.video?.title} duration={`${timeDuration?.hours}:${timeDuration?.minutes}:${timeDuration?.seconds}`} description={items?.video?.description} />
                         )
-                    })
+                    }) :
+                        (
+                            <div className="flex flex-col items-center px-10 text-center">
+                                <p className="text-red-500">Nothing to show in bookmark , please add to bookmark</p>
+                            </div>
+                        )
                 }
             </div>
         </>

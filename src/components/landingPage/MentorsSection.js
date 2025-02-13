@@ -85,7 +85,7 @@ const MentorsSection = ({ mentor }) => {
 
           <div className="flex bg-[var(--card)] p-5 gap-3 overflow-hidden rounded-[6px] relative featured">
             <BillboardWrapper speed={10}>
-              <div className="flex gap-4">
+              <div className="flex gap-4 h-14">
                 {images.map((image, i) => (
                   <Image
                     key={i}

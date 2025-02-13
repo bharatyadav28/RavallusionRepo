@@ -23,7 +23,7 @@ const DashboardNavbar = () => {
   const [searchDialog, setSearchDialog] = useState(false);
   const [urlpath, setUrlPath] = useState('');
   const introductoryVideosCount = useSelector((state) => state.general.introductoryVideosCount);
-  const BookmarkCount = useSelector((state) => state.general.BookmarkCount);
+  const bookmarkCount = useSelector((state) => state.general.bookmarkCount);
 
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const DashboardNavbar = () => {
             {
               urlpath == 'introductory' && (
                 <>
-                  <h1 className='text-lg font-semibold mb-1'>Introductory</h1>
+                  <h1 className='text-lg font-semibold mb-1'>Introductory videos</h1>
                   <p className='text-xs text-[#CDCED1]'>{introductoryVideosCount} Videos</p>
                 </>
               )
@@ -86,7 +86,7 @@ const DashboardNavbar = () => {
               urlpath == 'bookmarked' && (
                 <>
                   <h1 className='text-lg font-semibold mb-1'>Bookmarked videos</h1>
-                  <p className='text-xs text-[#CDCED1]'>{BookmarkCount} Videos</p>
+                  <p className='text-xs text-[#CDCED1]'>{bookmarkCount} Videos</p>
                 </>
               )
             }
