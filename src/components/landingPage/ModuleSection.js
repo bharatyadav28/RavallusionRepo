@@ -56,14 +56,16 @@ const ModuleSection = ({ modules, curriculum }) => {
             <CustomButton className="!p-5 !py-6 !text-base 2xl:!text-lg !rounded-lg" onClick={handleDownload} download>
               Download Curriculum <DownloadIcon />
             </CustomButton>
-           
+
           </div>
         </LandingContainer>
       </div>
-      <ModulesList modules={modules}
-        scrollYProgress={scrollYProgress}
-        inView={isInView}
-      />
+      <div className="pb-14">
+        <ModulesList modules={modules}
+          scrollYProgress={scrollYProgress}
+          inView={isInView}
+        />
+      </div>
     </div>
   );
 };

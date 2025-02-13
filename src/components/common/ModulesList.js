@@ -65,11 +65,11 @@ const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView
   useEffect(() => {
     if (isFirst && inView && !hasAnimated) {
       // Set initial position
-      controls.set({ 
+      controls.set({
         y: 100,  // Start from below
         opacity: 0
       });
-      
+
       // Animate to final position
       controls.start({
         y: 0,
@@ -87,11 +87,11 @@ const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView
 
 
   return (
-    <div className={`cardContainer h-[55vh] sm:h-[60vh] md:h-[70vh] ${isFirst?" mt-[350px] md:mt-[250px] top-[100px]" : "top-[100px]" } 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]`}>
+    <div className={`cardContainer h-[55vh] sm:h-[60vh] md:h-[70vh] ${isFirst ? " mt-[350px] md:mt-[280px] top-[100px]" : "top-[100px]"} 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]`}>
       <motion.div
         className="card"
-        style={{ scale: scale, top: `calc( ${index * 25}px)`}}
-        initial={isFirst ? { y: 200,opacity:0 } : undefined}
+        style={{ scale: scale, top: `calc( ${index * 25}px)` }}
+        initial={isFirst ? { y: 200, opacity: 0 } : undefined}
         animate={isFirst ? controls : undefined}
       >
         <Card className=" !h-fit gap-7 flex md:!flex-row justify-between py-7 px-4 md:p-[60px] 2xl:p-[70px] items-start flex-wrap md:flex-nowrap ">
@@ -136,22 +136,23 @@ const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView
 const ModulesList = ({ scrollYProgress, modules, inView }) => {
 
   return modules.map((item, index) => {
-    const targetScale = 1 - (modules.length - index) * 0.05;
+    const targetScale = 1.1 - (modules.length - index) * 0.03;
     const range = [
       index === 0 ? 0 : index * 0.25, // Start of the range
       index === 0 ? 0.25 : 1, // End of the range
     ];
     return (
-      <ModuleCard
-        key={index}
-        item={item}
-        index={index}
-        progress={scrollYProgress}
-        range={[index*0.25,1]}
-        targetScale={targetScale}
-        isFirst={index === 0}
-        inView={inView}
-      />
+        <ModuleCard
+          key={index}
+          item={item}
+          index={index}
+          progress={scrollYProgress}
+          range={[index * 0.25, 1]}
+          targetScale={targetScale}
+          isFirst={index === 0}
+          inView={inView}
+        />
+    
     );
   });
 };
