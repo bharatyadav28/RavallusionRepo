@@ -10,15 +10,17 @@ const Navbar = () => {
         <Link href="/">
           <i className="text-2xl 2xl:text-3xl font-medium">Ravallusion</i>
         </Link>
-        <CustomButton className="mr-5 px-5 text-base 2xl:text-xl !m-0">
-          <Link href={'/login'} className="flex items-center gap-x-2">
-            <User/>
-            <span className="hidden md:block">Login</span>
-          </Link>
-        </CustomButton>
+
+        <Link href={'/login'}>
+          <CustomButton className="mr-5 px-4 text-base 2xl:text-xl !m-0">
+            <User className=" !w-[23px] !h-[23px]" />
+            <span className="hidden md:block text-sm">Login</span>
+          </CustomButton>
+        </Link>
+
       </nav>
       <div className="h-[1px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div>
-    </div>
+    </div >
   );
 };
 

@@ -10,7 +10,7 @@ const CourseCard = ({ course }) => {
   const { title, description, videoUrl, thumbnailUrl } = course.video;
 
   return (
-    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1"} onClick={() => setIsOpen(true)}>
+    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[310px]"} onClick={() => setIsOpen(true)}>
       <Image
         src={thumbnailUrl}
         alt={title}
@@ -27,26 +27,46 @@ const CourseCard = ({ course }) => {
           </div>
         </div>
       </CustomDialog> */}
-      
 
-      <div className="flex flex-col gap-3 2xl:gap-4">
+
+      <div className="flex flex-col gap-2 2xl:gap-4 h-auto">
+
         <div>
-          <h3 className="text-lg 2xl:text-2xl font-bold">{title}</h3>
-          <p className="text-gray-400 text-xs 2xl:text-base">{description}</p>
+          <div className="h-auto">
+            <h3 className="text-lg 2xl:text-2xl font-bold leading-tight line-clamp-2">{title}</h3>
+          </div>
+
+          <div className="mt-2">
+            <p className="text-gray-400 text-xs 2xl:text-base line-clamp-2">{description}</p>
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-gray-400 text-xs ">
-          <span className="flex items-center space-x-1 text-xs 2xl:text-sm">
+
+
+        <div className="absolute bottom-3">
+          <span className="flex items-center space-x-1 text-xs 2xl:text-sm text-gray-400">
             <Views />
             <span>{"270k"}</span>
           </span>
-          {/* <span className="flex items-center space-x-1">
+        </div>
+
+
+
+
+        {/* <div className="flex items-center gap-2  absolute bottom-0">
+          <span className="flex items-center space-x-1 text-xs 2xl:text-sm ">
+            <Views />
+            <span>{"270k"}</span>
+          </span>
+         <span className="flex items-center space-x-1">
             <Like />
             <span>{likes}</span>
-          </span> */}
-        </div>
+          </span> 
+      </div>
+      */}
+
       </div>
 
-    </Card>
+    </Card >
   );
 };
 

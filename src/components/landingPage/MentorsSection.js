@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import LandingContainer from "../common/LandingContainer";
 import Image from "next/image";
 import { FacebookBig, InstagramBig, LinkedinBig, Vinod } from "@/lib/svg_icons";
@@ -27,7 +27,59 @@ const images = [
 
 
 ];
+
+const AnimatedCount = ({ value, isInView  }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+
+    // Reset count to 0 when element goes out of view
+    if (!isInView) {
+      setCount(0);
+      return;
+    }
+    let current = 0;
+    const end = parseInt(value);
+    const duration = 2000;
+    const increment = end / (duration / 16);
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current > end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, 16);
+
+    return () => clearInterval(timer);
+  }, [value, isInView]);
+
+  return count.toLocaleString();
+};
+
 const MentorsSection = ({ mentor }) => {
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.2
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <LandingContainer className="py-[35px] !flex-col !h-fit ">
       <div className=" h-full grid grid-cols-1 lg:grid-cols-2 gap-7 2xl:gap-8 ">
@@ -60,7 +112,8 @@ const MentorsSection = ({ mentor }) => {
               </div>
             </div>
           </div>
-          <div className="flex gap-5 2xl:gap-6">
+
+          <div ref={ref} className="flex gap-5 2xl:gap-6">
             {mentor.networks.map((link, i) => {
               const Icon = icons[i];
               return (
@@ -73,7 +126,8 @@ const MentorsSection = ({ mentor }) => {
                     {link.platform}
                   </div>
                   <div className="text-lg 2xl:text-xl font-bold">
-                    {link.followers}
+                    <AnimatedCount value={link.followers} isInView={isInView}  />
+                    K
                   </div>
                 </div>
               );

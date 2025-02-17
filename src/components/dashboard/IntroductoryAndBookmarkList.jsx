@@ -1,4 +1,4 @@
-import { OrangePlay } from "@/lib/svg_icons";
+import { Bookmarked, OrangePlay } from "@/lib/svg_icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -18,6 +18,7 @@ export const IntroductoryList = ({ heading, subItems }) => {
         </>
     )
 }
+
 export const BookmarkedList = ({ heading, subItems }) => {
     return (
         <>
@@ -28,7 +29,7 @@ export const BookmarkedList = ({ heading, subItems }) => {
                     subItems.length>0 ? subItems.map((items) => {
                         const timeDuration = items?.video?.duration
                         return (
-                            < LessonCard key={items?.video?._id} videoId={items?.video?._id} thumbnail={items?.video?.thumbnailUrl} title={items?.video?.title} duration={`${timeDuration?.hours}:${timeDuration?.minutes}:${timeDuration?.seconds}`} description={items?.video?.description} />
+                            < LessonCard key={items?.video?._id} bookmark={true} videoId={items?.video?._id} thumbnail={items?.video?.thumbnailUrl} title={items?.video?.title} duration={`${timeDuration?.hours}:${timeDuration?.minutes}:${timeDuration?.seconds}`} description={items?.video?.description} />
                         )
                     }) :
                         (
@@ -44,7 +45,7 @@ export const BookmarkedList = ({ heading, subItems }) => {
 
 
 
-export const LessonCard = ({ videoId, thumbnail, title, description, duration, isplaying }) => {
+export const LessonCard = ({ videoId, thumbnail, title, description, duration, isplaying ,bookmark=false}) => {
     const route = useRouter();
 
     const fetchVideo = () => {
@@ -78,6 +79,11 @@ export const LessonCard = ({ videoId, thumbnail, title, description, duration, i
                     {isplaying ? "" : description}
                 </p>
             </div>
+            {
+                bookmark && (
+                    <Bookmarked width="16" height="16"/>
+                )
+            }
         </div>
 
     )

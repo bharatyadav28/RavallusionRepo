@@ -4,9 +4,9 @@ import { ToastContainer } from 'react-toastify'
 
 const page = () => {
   return (
-    <>
+  
       <Verifyotp />
-    </>
+  
   )
 }
 

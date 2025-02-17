@@ -69,12 +69,18 @@ const VerifyOtp = () => {
         }
     };
 
-    const handleSwitchDevice = async () => {
-        const res = await switchDevice().unwrap();
-        console.log("switchDevice", res);
-        setIsOpenLogout(false);
-        route.push('/login');
-    }
+   
+     const handleSwitchDevice = async () => {
+            try {
+                const res = await switchDevice()
+                setIsOpenLogout(false);  
+                route.push('/login');
+        
+            } catch (error) {
+                console.error("Error switching device:", error);
+                toast.error("Failed to switch device. Please try again.");
+            }
+        };
 
     const handleResendOtp = async () => {
         try {

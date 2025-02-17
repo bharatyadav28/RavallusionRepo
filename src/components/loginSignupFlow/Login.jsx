@@ -106,7 +106,7 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
         try {
             const res = await switchDevice()
             setIsOpenLogout(false);  
-            route.replace('/login');
+            route.push('/login');
     
         } catch (error) {
             console.error("Error switching device:", error);

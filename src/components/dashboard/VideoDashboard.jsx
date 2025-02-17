@@ -41,7 +41,7 @@ const VideoDashboard = () => {
             <SimpleLoader />
           ) : videoUrl ? (
             <VideoPlayer
-              key={videoPlayerKey}  
+              key={videoPlayerKey}
               source={videoUrl}
               poster={thumbnailUrl}
             />
@@ -62,9 +62,16 @@ const VideoDashboard = () => {
             description={data?.data?.video?.description}
           />
         </div>
-        <div className='px-4 lg:px-0'>
-          <Comments />
-        </div>
+
+        {
+          videoId &&
+           (
+            <div className='px-4 lg:px-0'>
+              <Comments videoId={videoId} />
+            </div>
+          )
+        }
+
       </div>
       <div className='lg:my-0 lg:w-[30%] px-4 lg:px-0 mt-8 lg:mt-0 rounded-md'>
         <PlayerSidebar />

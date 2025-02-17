@@ -6,6 +6,7 @@ import { useGetUserDetailQuery } from '@/store/Api/auth';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SimpleLoader } from '../common/LoadingSpinner';
 import useSmallScreen from '@/hooks/detectScreen';
+import { useCreateCommentMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
 
 const commentData = [
     {
@@ -19,22 +20,55 @@ const commentData = [
     },
 ]
 
-const Comments = () => {
+const Comments = ({ videoId }) => {
+    const { data, isLoading, error, refetch } = useGetVideoCommentsQuery(videoId);
+    const [createComment, { isLoading: isCreating }] = useCreateCommentMutation();
+    const [commentBody, setCommentBody] = useState("");
+
+    const comments = data?.data?.comments || [];
+    const handleCreateComment = async () => {
+        if (!commentBody.trim()) return
+        try {
+            const res = await createComment({ body: { comment: commentBody }, videoId }).unwrap();
+            if (res?.success) {
+                setCommentBody("");
+            }
+            else {
+                toast.error(res?.message)
+            }
+        } catch (error) {
+            console.error("Error creating comment:", error);
+        }
+    };
+
     return (
         <>
-            <h1 className='text-lg font-semibold '>Comments</h1>
+            <h1 className='text-lg font-semibold '>{comments.length} Comments</h1>
 
             <div className='relative my-4'>
-                <Input className="px-4 py-3 rounded-3xl border border-gray-500" placeholder="Write Comments" />
-                <div className='absolute right-5 top-2 cursor-pointer'>
+                <Input
+                    type="text"
+                    value={commentBody}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            handleCreateComment();
+                        }
+                    }}
+                    onChange={(e) => setCommentBody(e.target.value)}
+                    className="px-4 py-3 rounded-3xl border border-gray-500" placeholder="Write Comments" />
+                <div className='absolute right-5 top-2 cursor-pointer' onClick={handleCreateComment}>
                     <Send />
                 </div>
             </div>
 
             <div className='flex flex-col gap-y-4'>
                 {
-                    commentData.map((items, i) => (
-                        <Comment key={i} title={items.title} />
+                    [...comments].reverse().map((items, i) => (
+                        <Comment key={i} comment={items?.comment}
+                            reply={items?.reply}
+                            userName={items?.user?.name}
+                            avatar={items?.user?.avatar}
+                        />
                     ))
                 }
             </div>
@@ -44,9 +78,8 @@ const Comments = () => {
 
 
 
-const Comment = ({ title }) => {
+const Comment = ({ comment, reply, userName, avatar }) => {
     const { data, isLoading, error } = useGetUserDetailQuery();
-    // console.log("data",data);
     const [showReplies, setShowReplies] = useState(false);
     const [replies, setReplies] = useState(["Great point!"]);
     const inputRef = useRef(null); // Reference for scrolling to input
@@ -60,7 +93,7 @@ const Comment = ({ title }) => {
         }
     }, [showReplies]);
 
-    const userName = data?.data?.user?.name || "Anonymous";
+    // const userName = data?.data?.user?.name || "Anonymous";
 
     // Toggle replies visibility
     const toggleReplies = () => setShowReplies(!showReplies);
@@ -92,23 +125,20 @@ const Comment = ({ title }) => {
 
                 <div>
                     <p className="text-[10px] text-gray-300">{userName}</p>
-                    <p className="text-xs mb-1 font-semibold">{title}</p>
-
-                    <div className="flex items-center gap-x-3">
-                        <p
-                            className="text-[var(--neon-purple)] text-[10px] font-semibold cursor-pointer"
-                            onClick={toggleReplies}
-                        >
-                            {showReplies ? "Hide Replies" : `View Replies`}
-                        </p>
-
-                        {/* <p
-                            className="text-orange-300 mr-2 cursor-pointer text-[10px]"
-                            onClick={() => setAddReply(!addReply)}
-                        >
-                            Reply
-                        </p> */}
-                    </div>
+                    <p className="text-xs mb-1 font-semibold">{comment}</p>
+                    {
+                        reply &&
+                        (
+                            <div className="flex items-center gap-x-3">
+                                <p
+                                    className="text-[var(--neon-purple)] text-[10px] font-semibold cursor-pointer"
+                                    onClick={toggleReplies}
+                                >
+                                    {showReplies ? "Hide Replies" : `View Replies`}
+                                </p>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 
@@ -121,10 +151,10 @@ const Comment = ({ title }) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
                         transition={{ duration: 0.4 }}
-                        className="ml-10 mt-2 overflow-hidden"
+                        className=" mt-2 overflow-hidden"
                     >
                         <div className="flex gap-x-2 mb-2">
-                            <div className="w-4 h-4 rounded-full bg-red-300 relative">
+                            <div className="w-8 h-8 rounded-full bg-red-300 relative">
                                 <Image
                                     src="/thumbnail3.png"
                                     alt="user"
@@ -132,14 +162,21 @@ const Comment = ({ title }) => {
                                     style={{ borderRadius: "100%", objectFit: "cover" }}
                                 />
                             </div>
-                            <p className="text-[10px] text-gray-300">Admin</p>
+                            <div className='flex flex-col'>
+                                <p className="text-[10px] text-gray-300">Admin</p>
+                                <p className="text-xs text-gray-100 ">
+                                    {reply}
+                                </p>
+                            </div>
+
                         </div>
 
-                        {replies.map((reply, index) => (
+                        {/* {replies.map((reply, index) => (
                             <p key={index} className="text-xs text-gray-100 ">
                                 {reply}
                             </p>
-                        ))}
+                        ))} */}
+
                     </motion.div>
                 )}
             </AnimatePresence>

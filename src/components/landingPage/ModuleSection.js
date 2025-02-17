@@ -60,7 +60,7 @@ const ModuleSection = ({ modules, curriculum }) => {
           </div>
         </LandingContainer>
       </div>
-      <div className="pb-14">
+      <div className="mb-14">
         <ModulesList modules={modules}
           scrollYProgress={scrollYProgress}
           inView={isInView}

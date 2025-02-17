@@ -87,7 +87,7 @@ const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView
 
 
   return (
-    <div className={`cardContainer h-[55vh] sm:h-[60vh] md:h-[70vh] ${isFirst ? " mt-[350px] md:mt-[280px] top-[100px]" : "top-[100px]"} 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]`}>
+    <div className={`cardContainer ${isFirst ? " mt-[350px] md:mt-[280px] top-[100px]" : "top-[100px]"} 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]`}>
       <motion.div
         className="card"
         style={{ scale: scale, top: `calc( ${index * 25}px)` }}

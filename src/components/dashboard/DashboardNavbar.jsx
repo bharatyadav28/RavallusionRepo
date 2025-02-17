@@ -390,19 +390,22 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
 
 
 const BoxDropdown = ({ title1, title2, href, setOpenSidebar }) => {
+  const handleCloseSidebar = () => {
+      setOpenSidebar(false);
+  }
   return (
     <motion.div
       className="absolute top-full left-0 right-0 w-full border-x border-b border-[var(--neon-purple)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden"
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: 'auto', opacity: 1 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div className="flex flex-col gap-y-2">
-        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={() => setOpenSidebar(false)}>
+        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={handleCloseSidebar}>
           {title1} <ArrowRight size={21} />
         </Link>
 
-        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={() => setOpenSidebar(false)}>
+        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={handleCloseSidebar}>
           {title2} <ArrowRight size={21} />
         </Link>
       </div>
