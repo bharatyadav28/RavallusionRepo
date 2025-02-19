@@ -74,7 +74,7 @@ const VerifyOtp = () => {
             try {
                 const res = await switchDevice()
                 setIsOpenLogout(false);  
-                route.push('/login');
+                route.refresh('/login');
         
             } catch (error) {
                 console.error("Error switching device:", error);

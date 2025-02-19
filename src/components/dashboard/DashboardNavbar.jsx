@@ -62,8 +62,8 @@ const DashboardNavbar = () => {
       {openSidebar && <SideBar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} urlpath={urlpath} />}
       {show ? (
         <div className='flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2'>
-          <span className='cursor-pointer' onClick={() => router.back()}
-          > <ArrowLeft /></span>
+          <button className='cursor-pointer' onClick={() => router.back()}
+          > <ArrowLeft /></button>
 
           <div className='flex-grow'>
             {
@@ -121,7 +121,7 @@ const DashboardNavbar = () => {
         <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard'} />
 
 
-        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard'} />
+        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard'} />
 
 
         <BoxComponent show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} href={'/dashboard/introductory'} />
@@ -213,7 +213,6 @@ const SideBar = ({ openSidebar, setOpenSidebar, urlpath }) => {
 }
 
 
-
 const ProfileComponent = ({ isOpenProfile, setIsOpenProfile, urlpath }) => {
   const dispatch = useDispatch();
 
@@ -263,12 +262,14 @@ const ProfileDropdown = ({ title1, title2, href }) => {
   );
 };
 
+
 const BoxComponent = ({ icon, title, introductory, title1, title2, show, href }) => {
   const [isOpenBoxDropdown, setIsOpenBoxDropdown] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     if (introductory) {
-      window.location.href = href;
+      router.push('/dashboard/introductory');
     } else {
       setIsOpenBoxDropdown((prev) => !prev);
     }
@@ -311,6 +312,7 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
           href={href}
           title1={title1}
           title2={title2}
+          setIsOpenBoxDropdown={setIsOpenBoxDropdown} 
         />
       )}
     </div>
@@ -320,11 +322,12 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
 
 const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
   const dispatch = useDispatch();
 
   const handleClick = () => {
     if (introductory) {
-      window.location.href = href;
+      router.push('/dashboard/introductory');
     }
     else if (profileMobile) {
       dispatch(setShowProfileCard());
@@ -389,9 +392,14 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
 // };
 
 
-const BoxDropdown = ({ title1, title2, href, setOpenSidebar }) => {
+const BoxDropdown = ({ title1, title2, href, setOpenSidebar,setIsOpenBoxDropdown }) => {
+  const router = useRouter();
   const handleCloseSidebar = () => {
-      setOpenSidebar(false);
+    setOpenSidebar(false);
+  }
+  const handleClick = ()=>{
+    router.push(href);
+    setIsOpenBoxDropdown(false);
   }
   return (
     <motion.div
@@ -401,13 +409,13 @@ const BoxDropdown = ({ title1, title2, href, setOpenSidebar }) => {
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div className="flex flex-col gap-y-2">
-        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={handleCloseSidebar}>
+        <button className="text-xs text-white flex justify-between items-center" onClick={handleClick}>
           {title1} <ArrowRight size={21} />
-        </Link>
+        </button>
 
-        <Link href={href} className="text-xs text-white flex justify-between items-center" onClick={handleCloseSidebar}>
+        <button className="text-xs text-white flex justify-between items-center"  onClick={handleClick}>
           {title2} <ArrowRight size={21} />
-        </Link>
+        </button>
       </div>
     </motion.div>
   );

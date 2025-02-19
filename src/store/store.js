@@ -7,6 +7,7 @@ import { homeApi } from './Api/home'
 import { introAndBookmarkApi } from './Api/introAndBookmark'
 import { courseApi } from './Api/course'
 import { commentsApi } from './Api/comments'
+import { primaryDashboardApi } from './Api/primaryDashboard'
 
 export const store = configureStore({
   reducer: {
@@ -17,15 +18,16 @@ export const store = configureStore({
     [homeApi.reducerPath]: homeApi.reducer,
     [introAndBookmarkApi.reducerPath]: introAndBookmarkApi.reducer,
     [courseApi.reducerPath]: courseApi.reducer,
-    [commentsApi.reducerPath]: commentsApi.reducer
+    [commentsApi.reducerPath]: commentsApi.reducer,
+    [primaryDashboardApi.reducerPath]: primaryDashboardApi.reducer
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authApi.middleware)
       .concat(homeApi.middleware)
       .concat(introAndBookmarkApi.middleware)
-      .concat(courseApi.middleware).concat(commentsApi.middleware),
-
+      .concat(courseApi.middleware).concat(commentsApi.middleware)
+      .concat(primaryDashboardApi.middleware),
 })
 
 setupListeners(store.dispatch)

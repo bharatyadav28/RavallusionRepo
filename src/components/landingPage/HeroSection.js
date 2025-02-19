@@ -27,10 +27,13 @@ const HeroSection = ({ data }) => {
           {data.description}
         </div>
 
-        <GlowButton className="text-xl 2xl:text-2xl self-start mt-2 md:mt-0 px-14 2xl:px-16 py-7 2xl:py-8 w-40">
+        {/* <GlowButton className="text-xl 2xl:text-2xl self-start mt-2 md:mt-0 px-14 2xl:px-16 py-7 2xl:py-8 w-40">
           <Link href="/login" className="flex items-center gap-x-2">
             Enroll Now
           </Link>
+        </GlowButton> */}
+        <GlowButton className="text-xl 2xl:text-2xl self-start mt-2 md:mt-0 px-14 2xl:px-16 py-7 2xl:py-8 w-40">
+            Enroll Now
         </GlowButton>
       </div>
       <div className="md:absolute overflow-hidden md:right-[10rem] md:top-[9rem] w-full md:w-fit flex items-center justify-center z-[1000] ">

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CrossIcon, MinusIcon } from "@/lib/svg_icons";
 import { LessonCard } from "./IntroductoryAndBookmarkList";
 import { motion } from 'framer-motion';
@@ -7,9 +7,11 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { CustomButton } from "../common/CustomButton";
 import { SimpleLoader } from "../common/LoadingSpinner";
+import { useSearchParams } from "next/navigation";
 
-const CourseModuleList = ({ course, isLoading }) => {
+const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId }) => {
     const modules = course?.modules;
+    console.log(modules)
     const heading = course?.title || "Course";
     return isLoading ? <SimpleLoader /> : (
         <>
@@ -18,7 +20,10 @@ const CourseModuleList = ({ course, isLoading }) => {
             <div className='flex flex-col gap-y-7'>
                 {
                     modules ? modules.map((items, i) => (
-                        <CourseCard title={items.name} videoCount={items.videoCount || 20} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
+                        <CourseCard
+                            playingVideoId={playingVideoId}
+                            setPlayingVideoId={setPlayingVideoId}
+                            title={items.name} videoCount={items.videoCount || 20} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
                     )) :
                         (
                             <div className="flex flex-col items-center gap-y-3 h-60 px-10 text-center">
@@ -37,7 +42,7 @@ const CourseModuleList = ({ course, isLoading }) => {
 }
 
 
-const CourseCard = ({ title, img, videoCount, submodules }) => {
+const CourseCard = ({ title, img, videoCount, submodules, playingVideoId, setPlayingVideoId }) => {
     // console.log("subsmodule",submodules)
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -54,7 +59,7 @@ const CourseCard = ({ title, img, videoCount, submodules }) => {
                 >
                     <div className="rounded-xl w-40 h-20 relative">
                         <Image
-                            src={'/photoshop.png'}
+                            src={img}
                             alt="video png"
                             fill
                             style={{ borderRadius: "12px", objectFit: "cover" }}
@@ -87,6 +92,8 @@ const CourseCard = ({ title, img, videoCount, submodules }) => {
                     submodules={submodules}
                     videoCount={videoCount}
                     onCollapse={handleExpand}
+                    playingVideoId={playingVideoId}
+                    setPlayingVideoId={setPlayingVideoId}
                 />
             )}
         </>
@@ -94,9 +101,16 @@ const CourseCard = ({ title, img, videoCount, submodules }) => {
 };
 
 
-const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse }) => {
+const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setPlayingVideoId, playingVideoId }) => {
+    const params = useSearchParams();
+    const videoId = params.get("videoId");
     const [dropdownStates, setDropdownStates] = useState({});
-    // console.log("submodule", submodules);
+
+    useEffect(() => {
+        if (videoId) {
+            setPlayingVideoId(videoId);
+        }
+    }, [videoId])
 
     const toggleDropdown = (index) => {
 
@@ -112,11 +126,11 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse }) =>
 
             <div
                 style={{ background: "linear-gradient(180deg, rgba(201, 155, 253, 0.49) 0%, rgba(133, 116, 246, 0.49) 100%)" }}
-                className="flex gap-x-2 items-center cursor-pointer px-3 py-2 mb-4"
+                className="flex gap-x-2 items-center cursor-pointer px-3 py-2"
             >
                 <div className="rounded-lg w-16 h-12 relative">
                     <Image
-                        src={"/photoshop.png"}
+                        src={img}
                         alt="video png"
                         fill
                         style={{ borderRadius: "16px", objectFit: "cover" }}
@@ -157,7 +171,7 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse }) =>
                             {dropdownStates[item._id] ? (
 
                                 // Submodule headings
-                                <div className="flex gap-x-2 mb-4 items-center cursor-pointer px-2 pb-2 border-b border-gray-700">
+                                <div className="flex gap-x-2 my-4 items-center cursor-pointer px-2 pb-2 border-b border-gray-700">
 
                                     <div className="rounded-lg w-14 h-10 relative">
                                         <Image
@@ -231,6 +245,8 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse }) =>
                                         item?.videos.map((lesson, j) => (
                                             <LessonCard
                                                 key={j}
+                                                isplaying={playingVideoId === lesson?._id}
+                                                onPlay={() => setPlayingVideoId(lesson?._id)}
                                                 videoId={lesson._id}
                                                 title={lesson.title || "I am Title"}
                                                 thumbnail={lesson?.thumbnailUrl}
@@ -245,9 +261,6 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse }) =>
         </div >
     );
 };
-
-
-
 
 
 

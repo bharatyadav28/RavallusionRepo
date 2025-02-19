@@ -1,6 +1,7 @@
 'use client'
 import PrimaryDashboard from "@/components/dashboard/PrimaryDashboard";
 import TutorialCards from "@/components/dashboard/TutorialCards";
+import { useGetModuleOnPrimaryDashboardQuery } from "@/store/Api/primaryDashboard";
 import React from "react";
 
 const cardTitle = [
@@ -57,17 +58,19 @@ const cardTitle = [
 ];
 
 
-const page = () => {
+const Page = () => {
+  const {data,isLoading} = useGetModuleOnPrimaryDashboardQuery();
+  console.log(data?.data?.content);
+  const videoData = data?.data?.content;
   return <>
     <PrimaryDashboard />
-
     {
-      cardTitle && cardTitle.map((item, i) => (
-        <TutorialCards key={i} title={item.title} subItems={item.subItems} />
+      videoData && videoData.map((item, i) => (
+        <TutorialCards key={i} title={item?.name} subItems={item?.videos} />
       ))
     }
 
   </>
 };
 
-export default page;
+export default Page;

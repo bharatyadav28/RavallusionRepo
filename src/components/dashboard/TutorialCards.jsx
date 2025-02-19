@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import { motion } from 'framer-motion';
 
 const TutorialCards = ({ title, subItems }) => {
     return (
@@ -12,7 +13,13 @@ const TutorialCards = ({ title, subItems }) => {
             <div className='grid grid-cols-12 px-2 md:px-0 gap-x-1'>
                 {
                     subItems.map((items, i) => (
-                        <VideoCard key={i} img={items.img} heading={items.heading} description={items.description} />
+                        <VideoCard key={items._id}
+                            videoId={items._id}
+                            img={items.thumbnailUrl}
+                            heading={items.title}
+                            description={items.description}
+                            duration={`${items.duration.hours}:${items.duration.minutes}:${items.duration.seconds}`}
+                        />
                     ))
                 }
             </div>
@@ -20,13 +27,22 @@ const TutorialCards = ({ title, subItems }) => {
     )
 }
 
-const VideoCard = ({img, heading, description }) => {
+const VideoCard = ({ img, heading, description, duration, videoId }) => {
     return (
-        <div className='py-3 px-1 h-auto bg-black-300 col-span-12 sm:col-span-6 lg:col-span-3'>
-            <div className=' h-[130px] mb-2 relative'>
-                <Image src={img} alt='img vdo png' fill style={{objectFit:"cover"}}/>
-                <span className='absolute top-2 right-2 rounded-lg px-3 py-1 video-timeline-bg text-xs text-center'>20:30</span>
-            </div>
+        <motion.div
+            whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)", y: -10 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+
+            className='py-3 px-1 h-auto bg-black-300 col-span-12 sm:col-span-6 lg:col-span-3 cursor-pointer'>
+            <motion.div
+                whileTap={{ scale: 0.95 }}
+                className=' h-[130px] mb-2 relative'>
+                {/* <Image src={img} alt='img vdo png' fill style={{ objectFit: "cover" }} /> */}
+                <Image src={"/thumbnail3.png"} alt='img vdo png' fill style={{ objectFit: "cover" }} />
+                <span className='absolute top-2 right-2 rounded-lg px-3 py-1 video-timeline-bg text-xs text-center'>{duration}</span>
+            </motion.div>
 
             <div>
                 <h1 className='text-lg mb-1 font-semibold'>
@@ -35,7 +51,7 @@ const VideoCard = ({img, heading, description }) => {
                 <p className='text-[10px] text-gray-300 font-medium'>{description}</p>
             </div>
 
-        </div>
+        </motion.div>
     )
 }
 

@@ -6,32 +6,46 @@ import spaceEffect2 from "../../../public/space-effect.png";
 import spaceEffect3 from "../../../public/space-effect.png";
 import prismatic from "../../../public/prismatic.png";
 import Image from "next/image";
+import { useGetCarouselImgQuery } from "@/store/Api/primaryDashboard";
+import { motion } from 'framer-motion';
+import { SimpleLoader } from "../common/LoadingSpinner";
 
 const PrimaryDashboard = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { data, isLoading } = useGetCarouselImgQuery();
+
+  // isLoading && <SimpleLoader />
+  // console.log(data?.data?.carousal[0]?.image);
+  // console.log(data?.data?.carousal);
+
   // List of images for the carousel
-  const carouselImages = [spaceEffect1, spaceEffect2, spaceEffect3];
+  // const carouselImages = [spaceEffect1, spaceEffect2, spaceEffect3];
+  const carouselImages = data?.data?.carousal?.map((item) => item?.image) || [spaceEffect1];
 
   // Auto-moving carousel using useEffect
   useEffect(() => {
+    if (carouselImages.length === 0) return; // Avoid running interval if there are no images
+
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
-    }, 3000); // Change image every 3 seconds
+    }, 3000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, [carouselImages.length]);
 
   return (
     <div className="grid grid-cols-12 gap-0 lg:gap-2 h-96 lg:h-80">
 
       {/* Fire effect */}
-      <div className="bg-pink-200 lg:col-span-3 col-span-6 relative order-1 lg:order-0">
+      <motion.div
+        whileHover={{ scale: .95 }}
+        className="bg-pink-200 lg:col-span-3 col-span-6 relative order-1 lg:order-0">
         <h1 className="lg:text-[44px] text-[32px] absolute z-10 bottom-2 left-3 font-alexandria w-40 leading-tight font-extrabold">
           Fire effect
         </h1>
         <Image src={fireEffectimg} alt={"Fire effect img"} fill style={{ objectFit: "cover" }} />
-      </div>
+      </motion.div>
 
       {/* Space effect with carousel */}
       <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center order-0 lg:order-1">
@@ -49,21 +63,22 @@ const PrimaryDashboard = () => {
 
         {/* Dots for the carousel */}
         <div className="absolute bottom-3 flex justify-center w-full gap-1 z-10">
-          {carouselImages.map((_, index) => (
+          {carouselImages?.map((_, index) => (
             <div
               key={index}
-              className={`w-[6px] h-[6px] rounded-full ${
-                currentIndex === index ? "bg-[var(--neon-purple)]" : "bg-gray-500"
-              }`}
+              className={`w-[6px] h-[6px] rounded-full ${currentIndex === index ? "bg-[var(--neon-purple)]" : "bg-gray-500"
+                }`}
             />
           ))}
         </div>
       </div>
 
       {/* Prismatic effect */}
-      <div className="bg-blue-200 col-span-6 lg:col-span-3 relative order-2">
+      <motion.div
+        whileHover={{ scale: 0.95 }}
+        className="bg-blue-200 col-span-6 lg:col-span-3 relative order-2">
         <Image src={prismatic} alt={"Prismatic img"} fill style={{ objectFit: "cover" }} />
-      </div>
+      </motion.div>
     </div>
   );
 };

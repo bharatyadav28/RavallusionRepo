@@ -23,16 +23,16 @@ export const introAndBookmarkApi = createApi({
                 method: "POST",
                 credentials: "include",
                 body,
-                invalidatesTags: [{ type: "Bookmark", id: "LIST" }],
-            })
+            }),
+            invalidatesTags: [{ type: "Bookmark", id: "LIST" }],
         }),
         deleteBookmark: builder.mutation({
             query: ({ bookmarkedId }) => ({
                 url: `bookmark/${bookmarkedId}`,
                 method: "DELETE",
                 credentials: "include",
-                invalidatesTags: [{ type: "Bookmark", id: "LIST" }],
-            })
+            }),
+            invalidatesTags: [{ type: "Bookmark", id: "LIST" }],
         }),
     }),
 });

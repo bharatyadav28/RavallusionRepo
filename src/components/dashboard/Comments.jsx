@@ -81,9 +81,7 @@ const Comments = ({ videoId }) => {
 const Comment = ({ comment, reply, userName, avatar }) => {
     const { data, isLoading, error } = useGetUserDetailQuery();
     const [showReplies, setShowReplies] = useState(false);
-    const [replies, setReplies] = useState(["Great point!"]);
-    const inputRef = useRef(null); // Reference for scrolling to input
-    const screenWidth = useSmallScreen();
+    const inputRef = useRef(null);
 
     // Scroll to input when addReply is true
 
@@ -93,22 +91,9 @@ const Comment = ({ comment, reply, userName, avatar }) => {
         }
     }, [showReplies]);
 
-    // const userName = data?.data?.user?.name || "Anonymous";
-
     // Toggle replies visibility
     const toggleReplies = () => setShowReplies(!showReplies);
 
-    // Add a new reply
-    const handleAddReply = () => {
-        if (newReply.trim()) {
-            setReplies([...replies, newReply]);
-            setNewReply("");
-            setAddReply(false);
-        }
-    };
-
-    if (isLoading) return <p className="text-gray-300 text-xs">Loading...</p>
-    if (error) return <p className="text-red-500 text-xs">Error loading user</p>
 
     return (
         <div className=" pb-3">
@@ -126,19 +111,26 @@ const Comment = ({ comment, reply, userName, avatar }) => {
                 <div>
                     <p className="text-[10px] text-gray-300">{userName}</p>
                     <p className="text-xs mb-1 font-semibold">{comment}</p>
-                    {
-                        reply &&
-                        (
-                            <div className="flex items-center gap-x-3">
-                                <p
-                                    className="text-[var(--neon-purple)] text-[10px] font-semibold cursor-pointer"
-                                    onClick={toggleReplies}
-                                >
-                                    {showReplies ? "Hide Replies" : `View Replies`}
-                                </p>
+                    <div className='flex gap-x-3 items-center'>
+                        {
+                            <div>
+                                <p className='text-yellow-400 text-[10px] font-semibold cursor-pointer'>Reply</p>
                             </div>
-                        )
-                    }
+                        }
+                        {
+                            reply &&
+                            (
+                                <div className="flex items-center gap-x-3">
+                                    <p
+                                        className="text-[var(--neon-purple)] text-[10px] font-semibold cursor-pointer"
+                                        onClick={toggleReplies}
+                                    >
+                                        {showReplies ? "Hide Replies" : `View Replies`}
+                                    </p>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
 

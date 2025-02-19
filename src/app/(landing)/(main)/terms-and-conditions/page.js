@@ -32,7 +32,7 @@ const GetData = async () => {
   );
 
   return (
-    <LandingContainer className="flex flex-col items-center !h-fit" bg2={true}>
+    <LandingContainer className="flex flex-col items-center !h-fit " bg2={true}>
       <StaticHeader list={list} heading={heading} subHeading={subHeading} />
       <ParsedData data={data[0].description} />
     </LandingContainer>

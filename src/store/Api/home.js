@@ -8,6 +8,9 @@ export const homeApi = createApi({
         getLandingPageData: builder.query({
             query: () => `user/home`
         }),
+        getPlanData: builder.query({
+            query: ()=> `content/plan`
+        }),
         getStaticData: builder.query({
             query: () => `content/page`
         })
@@ -15,4 +18,4 @@ export const homeApi = createApi({
 })
 
 
-export const { useGetLandingPageDataQuery, useGetStaticDataQuery } = homeApi;
+export const { useGetLandingPageDataQuery, useGetStaticDataQuery,useGetPlanDataQuery } = homeApi;

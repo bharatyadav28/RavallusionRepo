@@ -7,15 +7,17 @@ import CourseModuleList from './CourseModuleList';
 import { CourseData } from '@/lib/tempData';
 import { LessonData } from '@/lib/tempData';
 import { useGetBookmarkQuery, useGetIntroductoryQuery } from '@/store/Api/introAndBookmark';
-import { useGetSubscribedPlanCourseQuery}  from '@/store/Api/course';
+import { useGetSubscribedPlanCourseQuery } from '@/store/Api/course';
+import { useGetPlanDataQuery } from '@/store/Api/home';
 
 const PlayerSidebar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-
+    const [playingVideoId, setPlayingVideoId] = useState(null);
+    const { data: plansData } = useGetPlanDataQuery();
+    console.log(plansData?.data?.plans[0]?._id);
     const { data } = useGetBookmarkQuery();
     const { data: introductoryData } = useGetIntroductoryQuery();
-    const { data: subscribedCourseData,isLoading } = useGetSubscribedPlanCourseQuery();
-    // console.log(subscribedCourseData);
+    const { data: subscribedCourseData, isLoading } = useGetSubscribedPlanCourseQuery();
 
     const subscribedCourse = subscribedCourseData?.data?.course || [];
 
@@ -47,18 +49,17 @@ const PlayerSidebar = () => {
             <div
                 className='py-4 min-h-screen bg-[#181F2B] rounded-2xl'>
                 {
-                    activeIndex === 0 && 
-                        <CourseModuleList course={subscribedCourse} isLoading={isLoading} />
+                    activeIndex === 0 &&
+                    <CourseModuleList course={subscribedCourse} isLoading={isLoading} playingVideoId={playingVideoId} setPlayingVideoId={setPlayingVideoId} />
                 }
                 {
                     activeIndex === 1 &&
-                    <IntroductoryList heading={"Introductory videos"} subItems={introductoryVideos} />
+                    <IntroductoryList heading={"Introductory videos"} subItems={introductoryVideos} playingVideoId={playingVideoId} setPlayingVideoId={setPlayingVideoId} />
 
                 }
                 {
                     activeIndex === 2 &&
-                    <BookmarkedList heading={"Bookmarked videos"} subItems={bookmarkedVideos} />
-
+                    <BookmarkedList heading={"Bookmarked videos"} subItems={bookmarkedVideos} playingVideoId={playingVideoId} setPlayingVideoId={setPlayingVideoId} />
                 }
 
             </div>

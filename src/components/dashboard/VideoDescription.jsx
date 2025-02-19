@@ -1,5 +1,5 @@
 "use client"
-import { Assignment, DownloadIcon, BookMark, Quiz, Bookmarked } from '@/lib/svg_icons';
+import { Assignment, DownloadIcon, BookMark, Quiz, Bookmarked, Resources } from '@/lib/svg_icons';
 import React, { useEffect, useState, useCallback } from 'react';
 import SubmitAssignment from './SubmitAssignment';
 import CustomDialog from '../common/CustomDialog';
@@ -7,6 +7,7 @@ import AttendQuiz from './AttendQuiz';
 import { useAddBookmarkMutation, useDeleteBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAndBookmark';
 import { useDownloadResourceQuery, useLazyDownloadResourceQuery } from '@/store/Api/course';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 const VideoDescription = ({ videoId, title, description }) => {
@@ -43,28 +44,31 @@ const VideoDescription = ({ videoId, title, description }) => {
           return;
         }
 
-        const response = await deleteFromBookmark({ bookmarkedId }).unwrap();
-        setIsBookmarked(false);
-        setBookmarkId(null);
-        return;
+        // const response = await deleteFromBookmark({ bookmarkedId }).unwrap();
+        // setIsBookmarked(false);
+        // setBookmarkId(null);
+        // return;
       }
 
       const response = await addToBookmark({ videoId }).unwrap();
+      console.log(response);
+      toast(response.message || "Video bookmarked successfully");
       setIsBookmarked(true);
 
       // Refetch to get the bookmark ID
-      const updatedData = await refetch();
-      const newBookmark = updatedData?.data?.bookmarks?.find(
-        (b) => b.video._id === videoId
-      );
+      // const updatedData = await refetch();
+      // const newBookmark = updatedData?.data?.bookmarks?.find(
+      //   (b) => b.video._id === videoId
+      // );
 
-      if (newBookmark?._id) {
-        setBookmarkId(newBookmark._id);
-      }
+      // if (newBookmark?._id) {
+      //   setBookmarkId(newBookmark._id);
+      // }
     } catch (error) {
       console.error("Error while API call:", error);
     }
-  }, [isBookmarked, bookmarkedId, videoId, addToBookmark, deleteFromBookmark, refetch]);
+    // }, [isBookmarked, bookmarkedId, videoId, addToBookmark, deleteFromBookmark, refetch]);
+  }, [isBookmarked, bookmarkedId, videoId, addToBookmark]);
 
 
   const downloadFile = async () => {
@@ -155,11 +159,12 @@ const VideoDescription = ({ videoId, title, description }) => {
 
       </div>
 
-      <div className="flex gap-y-2 lg:gap-y-2 xl:gap-y-0 lg:gap-x-4 flex-col lg:flex-row items-center flex-wrap">
+      <div className="flex gap-y-2 lg:gap-y-2 xl:gap-y-2 lg:gap-x-4 flex-col lg:flex-row items-center flex-wrap">
         {/* <TextIconBox title="Download Resources" icon={<DownloadIcon />} onClick={handleDownloadResource} /> */}
-        <TextIconBox title="Download Resources" icon={<DownloadIcon />} onClick={downloadFile} />
         <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={() => setIsAssignmentOpen(true)} />
+        <TextIconBox title="Download assignment" icon={<DownloadIcon />} onClick={() => setIsAssignmentOpen(true)} />
         <TextIconBox title="Attend Quiz" icon={<Quiz />} onClick={() => setIsQuizOpen(true)} />
+        <TextIconBox title="Resources" icon={<Resources />} onClick={downloadFile} />
       </div>
 
       <CustomDialog open={isAssignmentOpen} close={() => setIsAssignmentOpen(false)}>
@@ -174,7 +179,7 @@ const VideoDescription = ({ videoId, title, description }) => {
 };
 
 const TextIconBox = ({ title, icon, onClick }) => (
-  <div onClick={onClick} className='cursor-pointer flex items-center justify-center gap-x-2 rounded-[8px] px-4 py-2 w-full lg:w-52 border border-[var(--neon-purple)]'>
+  <div onClick={onClick} className='cursor-pointer flex items-center justify-center gap-x-2 rounded-[8px] px-5 py-2 w-full md:w-auto border border-[var(--neon-purple)]'>
     <h1 className='text-sm font-semibold'>{title}</h1>
     {icon}
   </div>
