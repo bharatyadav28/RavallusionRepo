@@ -2,9 +2,8 @@
 import LandingContainer from "@/components/common/LandingContainer";
 import PageLoader from "@/components/common/PageLoader";
 import StaticHeader from "@/components/landingPage/StaticHeader";
-import { getStaticData } from "@/lib/fetchData";
 import ParsedData from "../../../../components/common/ParsedData";
-import { useGetPricingPolicyQuery } from "@/store/Api/home";
+import { useGetAboutUsQuery } from "@/store/Api/home";
 
 const list = [
   {
@@ -12,19 +11,19 @@ const list = [
     link: "/",
   },
   {
-    name: "Pricing Policy",
-    link: "/pricing-policy",
+    name: "About us",
+    link: "/about-us",
   },
 ];
 
-const PricingPolicyPage = () => {
-  const { data, isLoading } = useGetPricingPolicyQuery();
+const AboutUs = () => {
+  const { data, isLoading } = useGetAboutUsQuery();
 
   const heading = data?.data?.page?.title
   const description = data?.data?.page?.description
 
   const subHeading = (
-    <>Everything you need to know about the Platform and billing.</>
+    <>Get to know more about us</>
   );
   return isLoading ? <PageLoader /> : (
     <LandingContainer className="flex flex-col items-center !h-fit" bg2={true}>
@@ -34,4 +33,4 @@ const PricingPolicyPage = () => {
   );
 };
 
-export default PricingPolicyPage;
+export default AboutUs;

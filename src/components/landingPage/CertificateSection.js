@@ -17,15 +17,18 @@ const CertificateSection = ({ certificate }) => {
   return (
     <LandingContainer className="!h-fit py-[60px] !flex !flex-row justify-center">
       <div className="flex gap-10 items-center w-full flex-wrap">
-        <div className=" p-5 py-[60px] rounded-2xl certificate">
+
+        <div className="p-5 py-[30px] rounded-2xl certificate">
           <Image
-            src={certificate.image} //to do : need to ask to bharat to give access for the images
+            src={certificate.image} 
             width={10000}
             height={10000}
             alt="certificate"
-            className="w-[326px] h-[230px] md:w-[450px] md:h-[318px] xl:w-[32.5rem] 2xl:w-[34.5rem] xl:h-[24rem] 2xl:h-[26rem] rounded-xl "
+            className="w-[326px] h-[230px] md:w-[450px] md:h-[300px] xl:w-[30rem] 2xl:w-[32rem] xl:h-[20rem] 2xl:h-[22rem] rounded-xl "
           />
         </div>
+
+
         <div className="flex flex-col gap-4">
           <div className="text-[34px] md:text-5xl xl:text-6xl font-bold">
             {certificate.caption}
@@ -40,6 +43,7 @@ const CertificateSection = ({ certificate }) => {
             </div>
           ))}
         </div>
+
       </div>
     </LandingContainer>
   );

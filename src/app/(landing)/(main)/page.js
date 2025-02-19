@@ -8,36 +8,54 @@ import ModuleSection from "@/components/landingPage/ModuleSection";
 import PlansSection from "@/components/landingPage/PlansSection";
 import MentorsSection from "@/components/landingPage/MentorsSection";
 import CertificateSection from "@/components/landingPage/CertificateSection";
-import { Suspense, useEffect, useState } from "react";
 import PageLoader from "@/components/common/PageLoader";
-import { useGetLandingPageDataQuery } from "@/store/Api/home";
+import {
+  useGetCertificateQuery, useGetCurriculumQuery,
+  useGetFaqQuery, useGetHeroSectionQuery, useGetLandingCarouselQuery,
+  useGetLandingPageDataQuery,
+  useGetLatestTutorialQuery, useGetMentorDataQuery,
+  useGetModuleQuery, useGetPlanDataQuery
+} from "@/store/Api/home";
 
 export default function Home() {
-  const { data, error, isLoading } = useGetLandingPageDataQuery();
-  const res = data?.data;
+
+  // const { data: heroSection, isLoading: heroLoading } = useGetHeroSectionQuery();
+  // const { data: carouselSection, isLoading: carouselLoading } = useGetLandingCarouselQuery();
+  // const { data: latestTutorialSection, isLoading: latestTutorialLoading } = useGetLatestTutorialQuery();
+  // const { data: curriculumSection, isLoading: curriculumLoading } = useGetCurriculumQuery();
+  // const { data: moduleSection, isloading: moduleLoading } = useGetModuleQuery();
+  // const { data: planSection, isLoading: planLoading } = useGetPlanDataQuery();
+  // const { data: mentorSection, isLoading: mentorLoading } = useGetMentorDataQuery();
+  // const { data: certificateSection, isLoading: certificateLoading } = useGetCertificateQuery();
+  // const { data: faqSection, isLoading: faqLoading } = useGetFaqQuery();
+
+  // const loading = heroLoading || faqLoading || certificateLoading || mentorLoading || planLoading || moduleLoading || curriculumLoading || latestTutorialLoading || carouselLoading
+
+  const { data: res, isLoading } = useGetLandingPageDataQuery();
 
   return isLoading ? (
     <PageLoader />
   ) : (
+    // <div>
+    //   <HeroSection data={heroSection?.data?.heroSection} />
+    //   <MainCarousel data={carouselSection?.data?.carousals} />
+    //   <TutorialsSection data={latestTutorialSection?.data?.tutorials} />
+    //   <ModuleSection modules={moduleSection?.data?.modules} curriculum={curriculumSection?.data?.curriculum} />
+    //   <PlansSection plans={planSection?.data?.plans} />
+    //   <MentorsSection mentor={mentorSection?.data?.mentor} />
+    //   <CertificateSection certificate={certificateSection?.data?.certificate} />
+    //   <FAQSection faqs={faqSection?.data?.faqs} />
+    // </div>
+
     <div>
-      <HeroSection data={res.heroSection} />
-      <MainCarousel data={res.carousal} />
-      <TutorialsSection data={res.latestTutorials} />
-      <ModuleSection modules={res.modules} curriculum={res.curriculum} />
-      <PlansSection plans={res.plans} />
-      <MentorsSection mentor={res.mentor} />
-      <CertificateSection certificate={res.certificate} />
-      <FAQSection faqs={res.faqs} />
+      <HeroSection data={res?.data?.heroSection} />
+      <MainCarousel data={res?.data?.carousal} />
+      <TutorialsSection data={res?.data?.latestTutorials} />
+      <ModuleSection modules={res?.data?.modules} curriculum={res?.data?.curriculum} />
+      <PlansSection plans={res?.data?.plans} />
+      <MentorsSection mentor={res?.data?.mentor} />
+      <CertificateSection certificate={res?.data?.certificate} />
+      <FAQSection faqs={res?.data?.faqs} />
     </div>
   );
 }
-
-// async function HomeComponent() {
-//   const data = await getLandingPageData();
-//   // const { heroSection, carousal, certificates, faqs, mentor, modules, plans } =
-//   //   data?.data;
-
-//   return (
-
-//   );
-// }

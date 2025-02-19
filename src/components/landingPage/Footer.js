@@ -58,6 +58,10 @@ const quickLinks = [
     title: "Contact us",
     link: "/contact-us",
   },
+  {
+    title: "About us",
+    link: "/about-us",
+  },
 ];
 const Footer = () => {
   return (
@@ -95,7 +99,7 @@ const Footer = () => {
         </div>
         <div className="flex flex-col gap-5">
           <div className="text-[22px] 2xl:text-3xl font-bold">Quick Links</div>
-          <div className="flex flex-col gap-3 items-left justify-center">
+          <div className="flex flex-col gap-3 !items-end justify-center">
             {quickLinks.map((item) => (
               <Link
                 key={item.title}

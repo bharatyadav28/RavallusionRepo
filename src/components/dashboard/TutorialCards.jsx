@@ -28,6 +28,7 @@ const TutorialCards = ({ title, subItems }) => {
 }
 
 const VideoCard = ({ img, heading, description, duration, videoId }) => {
+    console.log(img);
     return (
         <motion.div
             whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)", y: -10 }}

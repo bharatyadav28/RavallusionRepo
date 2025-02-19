@@ -1,9 +1,9 @@
+"use client";
 import LandingContainer from "@/components/common/LandingContainer";
 import PageLoader from "@/components/common/PageLoader";
 import StaticHeader from "@/components/landingPage/StaticHeader";
-import { getStaticData } from "@/lib/fetchData";
-import { Suspense } from "react";
 import ParsedData from "../../../../components/common/ParsedData";
+import { useGetTermsAndConditionQuery } from "@/store/Api/home";
 
 const list = [
   {
@@ -16,13 +16,12 @@ const list = [
   },
 ];
 
-const GetData = async () => {
-  const res = await getStaticData();
-  const data = res?.data?.pages?.filter(
-    (item) => item.title.trim() === "Terms and Conditions"
-  );
 
-  const heading = <>Terms and Condition</>;
+const TermsPage = () => {
+  const { data, isLoading } = useGetTermsAndConditionQuery();
+
+  const heading = data?.data?.page?.title;
+  const description = data?.data?.page?.description;
   const subHeading = (
     <>
       By accessing our website, you are agreeing to be bound by these terms of
@@ -30,19 +29,11 @@ const GetData = async () => {
       responsible for compliance with any applicable local laws.
     </>
   );
-
-  return (
+  return isLoading ? <PageLoader /> : (
     <LandingContainer className="flex flex-col items-center !h-fit " bg2={true}>
       <StaticHeader list={list} heading={heading} subHeading={subHeading} />
-      <ParsedData data={data[0].description} />
+      <ParsedData data={description} />
     </LandingContainer>
-  );
-};
-const TermsPage = () => {
-  return (
-    <Suspense fallback={<PageLoader />}>
-      <GetData />
-    </Suspense>
   );
 };
 

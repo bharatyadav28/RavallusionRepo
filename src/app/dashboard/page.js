@@ -34,22 +34,22 @@ const cardTitle = [
     title: "Premiere Pro",
     subItems: [
       {
-        img:"/thumbnail1.png",
+        img: "/thumbnail1.png",
         heading: "Editing Tips",
         description: "Learn the best practices for video editing.",
       },
       {
-        img:"/thumbnail2.png",
+        img: "/thumbnail2.png",
         heading: "Editing Tips",
         description: "Learn the best practices for video editing.",
       },
       {
-        img:"/thumbnail1.png",
+        img: "/thumbnail1.png",
         heading: "Editing Tips",
         description: "Learn the best practices for video editing.",
       },
       {
-        img:"/thumbnail3.png",
+        img: "/thumbnail3.png",
         heading: "Editing Tips",
         description: "Learn the best practices for video editing.",
       },
@@ -59,7 +59,7 @@ const cardTitle = [
 
 
 const Page = () => {
-  const {data,isLoading} = useGetModuleOnPrimaryDashboardQuery();
+  const { data, isLoading } = useGetModuleOnPrimaryDashboardQuery();
   console.log(data?.data?.content);
   const videoData = data?.data?.content;
   return <>
@@ -69,7 +69,6 @@ const Page = () => {
         <TutorialCards key={i} title={item?.name} subItems={item?.videos} />
       ))
     }
-
   </>
 };
 

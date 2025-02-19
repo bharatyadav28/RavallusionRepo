@@ -1,9 +1,10 @@
+"use client";
+
 import LandingContainer from "@/components/common/LandingContainer";
 import PageLoader from "@/components/common/PageLoader";
 import StaticHeader from "@/components/landingPage/StaticHeader";
-import { getStaticData } from "@/lib/fetchData";
-import { Suspense } from "react";
 import ParsedData from "../../../../components/common/ParsedData";
+import { useGetRefundPolicyQuery } from "@/store/Api/home";
 
 const list = [
   {
@@ -16,27 +17,19 @@ const list = [
   },
 ];
 
-const GetData = async () => {
-  const res = await getStaticData();
-  const data = res?.data?.pages?.filter(
-    (item) => item.title.trim() === "Refund Policy"
-  );
-  const heading = <>Refund Policy</>;
+const RefundPolicyPage = () => {
+  const { data, isLoading } = useGetRefundPolicyQuery();
+
+  const heading = data?.data?.page?.title;
+  const description = data?.data?.page?.description;
   const subHeading = (
     <>Everything you need to know about the Platform and billing.</>
   );
-  return (
+  return isLoading ? <PageLoader /> : (
     <LandingContainer className="flex flex-col items-center !h-fit" bg2={true}>
       <StaticHeader list={list} heading={heading} subHeading={subHeading} />
-      <ParsedData data={data[0].description} />
+      <ParsedData data={description} />
     </LandingContainer>
-  );
-};
-const RefundPolicyPage = () => {
-  return (
-    <Suspense fallback={<PageLoader />}>
-      <GetData />
-    </Suspense>
   );
 };
 

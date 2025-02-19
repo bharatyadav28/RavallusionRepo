@@ -15,13 +15,17 @@ const StaticHeader = ({ list, heading, subHeading, className }) => {
           {heading}
         </div>
         {subHeading && (
+          // <div
+          //   className={`text-base md:text-lg !text-center text-[var(--light-gray)] px-8 sm:px-20 xl:px-36  
+          //       ${
+          //         heading.props.children === "Terms and Condition"
+          //           ? "  !px-0"
+          //           : ""
+          //       }`
+          //     }
+          // >
           <div
-            className={`text-base md:text-lg !text-center text-[var(--light-gray)] px-8 sm:px-20 xl:px-36  
-                ${
-                  heading.props.children === "Terms and Condition"
-                    ? "  !px-0"
-                    : ""
-                }`}
+            className={`text-base md:text-lg !text-center text-[var(--light-gray)] px-8 sm:px-20 xl:px-36`}
           >
             {subHeading}
           </div>
