@@ -1,7 +1,7 @@
 import { Bookmarked, OrangePlay } from "@/lib/svg_icons";
 import { useDeleteBookmarkMutation } from "@/store/Api/introAndBookmark";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 
@@ -84,8 +84,12 @@ export const LessonCard = ({ videoId, thumbnail,
     const route = useRouter();
     const [deleteBookmark, { data }] = useDeleteBookmarkMutation();
 
+
+    const path = usePathname();
+    console.log(path);
     const fetchVideo = () => {
-        route.push(`/dashboard/player-dashboard?videoId=${videoId}`);
+        const level = path.includes("beginner") ? "beginner" : "advanced";
+        route.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
         onPlay();
     }
     const removeBookmark = async () => {

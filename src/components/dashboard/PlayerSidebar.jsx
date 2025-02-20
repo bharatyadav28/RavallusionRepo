@@ -1,7 +1,7 @@
 'use client'
 import { BulbIcon, CourseIcon } from '@/lib/svg_icons';
 import { Bookmark } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BookmarkedList, IntroductoryList } from './IntroductoryAndBookmarkList';
 import CourseModuleList from './CourseModuleList';
 import { CourseData } from '@/lib/tempData';
@@ -9,20 +9,33 @@ import { LessonData } from '@/lib/tempData';
 import { useGetBookmarkQuery, useGetIntroductoryQuery } from '@/store/Api/introAndBookmark';
 import { useGetSubscribedPlanCourseQuery } from '@/store/Api/course';
 import { useGetPlanDataQuery } from '@/store/Api/home';
+import { usePathname } from 'next/navigation';
 
 const PlayerSidebar = () => {
+    const [planId, setPlanId] = useState(null);
+    const path = usePathname();
     const [activeIndex, setActiveIndex] = useState(0);
     const [playingVideoId, setPlayingVideoId] = useState(null);
     const { data: plansData } = useGetPlanDataQuery();
-    console.log(plansData?.data?.plans[0]?._id);
     const { data } = useGetBookmarkQuery();
     const { data: introductoryData } = useGetIntroductoryQuery();
-    const { data: subscribedCourseData, isLoading } = useGetSubscribedPlanCourseQuery();
+    const { data: subscribedCourseData, isLoading } = useGetSubscribedPlanCourseQuery(planId);
 
     const subscribedCourse = subscribedCourseData?.data?.course || [];
 
     const introductoryVideos = introductoryData?.data?.introductoryVideos || []
     const bookmarkedVideos = data?.bookmarks || []
+
+
+    useEffect(() => {
+        if (path.includes('beginner')) {
+            setPlanId(plansData?.data?.plans[0]?._id)
+        }
+        else {
+            setPlanId(plansData?.data?.plans[1]?._id)
+        }
+    }, [path, plansData])
+
 
     return (
         <>

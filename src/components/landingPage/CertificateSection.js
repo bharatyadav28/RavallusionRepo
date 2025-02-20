@@ -21,8 +21,8 @@ const CertificateSection = ({ certificate }) => {
         <div className="p-5 py-[30px] rounded-2xl certificate">
           <Image
             src={certificate.image} 
-            width={10000}
-            height={10000}
+            width={1000}
+            height={1000}
             alt="certificate"
             className="w-[326px] h-[230px] md:w-[450px] md:h-[300px] xl:w-[30rem] 2xl:w-[32rem] xl:h-[20rem] 2xl:h-[22rem] rounded-xl "
           />

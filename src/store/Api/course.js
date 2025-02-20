@@ -7,7 +7,7 @@ export const courseApi = createApi({
 
     endpoints: (builder) => ({
         getSubscribedPlanCourse: builder.query({
-            query: () => "course/getSubscribedPlanCourse/67852d0116a2cd819a491e6b"
+            query: (planId) => `course/getSubscribedPlanCourse/${planId}`
         }),
         downloadResource: builder.query({
             query: (submoduleId) => `course/submodule/${submoduleId}/resource`

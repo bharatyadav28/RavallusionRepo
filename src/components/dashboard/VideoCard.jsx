@@ -2,21 +2,23 @@
 
 import { Bookmarked } from "@/lib/svg_icons";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import React from "react";
 
 const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId, duration }) => {
     const router = useRouter();
+    const path = usePathname();
 
     const fetchVideo = () => {
-        router.push(`/dashboard/player-dashboard?videoId=${videoId}`);
+        const level = path.includes("beginner") ? "beginner" : "advanced";
+        router.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
     };
 
     return (
         <motion.div
             className="p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 lg:col-span-3 h-72 cursor-pointer shadow-md"
-            whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)",y:-10}}
+            whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)", y: -10 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}

@@ -39,7 +39,11 @@ const socialHandles = [
 
 const quickLinks = [
   {
-    title: "Terms and condition",
+    title: "About us",
+    link: "/about-us",
+  },
+  {
+    title: "Terms & condition",
     link: "/terms-and-conditions",
   },
   {
@@ -58,10 +62,7 @@ const quickLinks = [
     title: "Contact us",
     link: "/contact-us",
   },
-  {
-    title: "About us",
-    link: "/about-us",
-  },
+
 ];
 const Footer = () => {
   return (
@@ -113,7 +114,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div>
+      <div className="px-3">
         <FooterRavallusion className="w-full h-full md:h-[11rem] 2xl:h-[12.5rem] " />
       </div>
 

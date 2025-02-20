@@ -19,43 +19,30 @@ import {
 
 export default function Home() {
 
-  // const { data: heroSection, isLoading: heroLoading } = useGetHeroSectionQuery();
-  // const { data: carouselSection, isLoading: carouselLoading } = useGetLandingCarouselQuery();
-  // const { data: latestTutorialSection, isLoading: latestTutorialLoading } = useGetLatestTutorialQuery();
-  // const { data: curriculumSection, isLoading: curriculumLoading } = useGetCurriculumQuery();
-  // const { data: moduleSection, isloading: moduleLoading } = useGetModuleQuery();
-  // const { data: planSection, isLoading: planLoading } = useGetPlanDataQuery();
-  // const { data: mentorSection, isLoading: mentorLoading } = useGetMentorDataQuery();
-  // const { data: certificateSection, isLoading: certificateLoading } = useGetCertificateQuery();
-  // const { data: faqSection, isLoading: faqLoading } = useGetFaqQuery();
+  const { data: heroSection, isLoading: heroLoading } = useGetHeroSectionQuery();
+  const { data: carouselSection, isLoading: carouselLoading } = useGetLandingCarouselQuery();
+  const { data: latestTutorialSection, isLoading: latestTutorialLoading } = useGetLatestTutorialQuery();
+  const { data: curriculumSection, isLoading: curriculumLoading } = useGetCurriculumQuery();
+  const { data: moduleSection, isloading: moduleLoading } = useGetModuleQuery();
+  const { data: planSection, isLoading: planLoading } = useGetPlanDataQuery();
+  const { data: mentorSection, isLoading: mentorLoading } = useGetMentorDataQuery();
+  const { data: certificateSection, isLoading: certificateLoading } = useGetCertificateQuery();
+  const { data: faqSection, isLoading: faqLoading } = useGetFaqQuery();
 
-  // const loading = heroLoading || faqLoading || certificateLoading || mentorLoading || planLoading || moduleLoading || curriculumLoading || latestTutorialLoading || carouselLoading
+  const loading = heroLoading || faqLoading || certificateLoading || mentorLoading || planLoading || moduleLoading || curriculumLoading || latestTutorialLoading || carouselLoading
 
-  const { data: res, isLoading } = useGetLandingPageDataQuery();
-
-  return isLoading ? (
+  return loading ? (
     <PageLoader />
   ) : (
-    // <div>
-    //   <HeroSection data={heroSection?.data?.heroSection} />
-    //   <MainCarousel data={carouselSection?.data?.carousals} />
-    //   <TutorialsSection data={latestTutorialSection?.data?.tutorials} />
-    //   <ModuleSection modules={moduleSection?.data?.modules} curriculum={curriculumSection?.data?.curriculum} />
-    //   <PlansSection plans={planSection?.data?.plans} />
-    //   <MentorsSection mentor={mentorSection?.data?.mentor} />
-    //   <CertificateSection certificate={certificateSection?.data?.certificate} />
-    //   <FAQSection faqs={faqSection?.data?.faqs} />
-    // </div>
-
     <div>
-      <HeroSection data={res?.data?.heroSection} />
-      <MainCarousel data={res?.data?.carousal} />
-      <TutorialsSection data={res?.data?.latestTutorials} />
-      <ModuleSection modules={res?.data?.modules} curriculum={res?.data?.curriculum} />
-      <PlansSection plans={res?.data?.plans} />
-      <MentorsSection mentor={res?.data?.mentor} />
-      <CertificateSection certificate={res?.data?.certificate} />
-      <FAQSection faqs={res?.data?.faqs} />
+      <HeroSection data={heroSection?.data?.heroSection} />
+      <MainCarousel data={carouselSection?.data?.carousals} />
+      <TutorialsSection data={latestTutorialSection?.data?.tutorials} />
+      <ModuleSection modules={moduleSection?.data?.modules} curriculum={curriculumSection?.data?.curriculum} />
+      <PlansSection plans={planSection?.data?.plans} />
+      <MentorsSection mentor={mentorSection?.data?.mentor} />
+      <CertificateSection certificate={certificateSection?.data?.certificate} />
+      <FAQSection faqs={faqSection?.data?.faqs} />
     </div>
   );
 }

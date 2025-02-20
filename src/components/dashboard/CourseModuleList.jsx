@@ -23,7 +23,7 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
                         <CourseCard
                             playingVideoId={playingVideoId}
                             setPlayingVideoId={setPlayingVideoId}
-                            title={items.name} videoCount={items.videoCount || 20} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
+                            title={items.name} videoCount={items.videoCount || 0} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
                     )) :
                         (
                             <div className="flex flex-col items-center gap-y-3 h-60 px-10 text-center">
@@ -77,11 +77,9 @@ const CourseCard = ({ title, img, videoCount, submodules, playingVideoId, setPla
 
                     <div className="flex-grow w-32">
                         <h1 className="text-xs font-normal mb-1 ">{title}</h1>
-                        {videoCount && (
                             <p className="text-[10px] truncate whitespace-nowrap">
                                 {videoCount} videos
                             </p>
-                        )}
                     </div>
 
                 </div>
@@ -153,7 +151,6 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
 
 
             {/* Submodule */}
-
             {/* <div className="flex flex-col gap-y-7"> */}
             <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -250,7 +247,7 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
                                                 videoId={lesson._id}
                                                 title={lesson.title || "I am Title"}
                                                 thumbnail={lesson?.thumbnailUrl}
-                                                duration={`${lesson?.duration?.hours}:${lesson?.duration?.minutes}:${lesson?.duration?.seconds}` || "0:20:05"}
+                                                duration={`${lesson?.duration?.hours}:${lesson?.duration?.minutes}:${lesson?.duration?.seconds}` || "00:00:00"}
                                             />
                                         ))}
                                 </motion.div>

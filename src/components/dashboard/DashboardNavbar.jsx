@@ -35,7 +35,7 @@ const DashboardNavbar = () => {
       setShow(true);
       setUrlPath('introductory')
     }
-    else if (pathname == '/dashboard/player-dashboard') {
+    else if (pathname == '/dashboard/player-dashboard/advanced' || '/dashboard/player-dashboard/beginner') {
       setShow(true);
       setUrlPath('playerDashboard')
     }
@@ -118,10 +118,10 @@ const DashboardNavbar = () => {
           <SearchIcon size={24} />
         </div>
 
-        <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard'} />
+        <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard/advanced'} />
 
 
-        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard'} />
+        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard/beginner'} />
 
 
         <BoxComponent show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} href={'/dashboard/introductory'} />

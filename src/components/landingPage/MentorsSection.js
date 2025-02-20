@@ -28,7 +28,7 @@ const images = [
 
 ];
 
-const AnimatedCount = ({ value, isInView  }) => {
+const AnimatedCount = ({ value, isInView }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -85,13 +85,15 @@ const MentorsSection = ({ mentor }) => {
       <div className=" h-full grid grid-cols-1 lg:grid-cols-2 gap-7 2xl:gap-8 ">
         <div className="relative h-[32rem] md:h-[40rem] lg:h-full rounded-xl vinod-card overflow-hidden">
           <Vinod className="absolute top-5 w-full px-5" />
-          <Image
-            src="/vinod.png"
-            width={1000}
-            height={1000}
-            alt="Vinod"
-            className="absolute w-[200vw] md:w-[140vw] md:-left-[65%] lg:w-[62rem] 2xl:!w-[75rem] max-w-none -left-[100%] lg:-left-[27rem] 2xl:!-left-[32rem] h-[31rem] md:h-[41rem] 2xl:h-[49rem] bottom-0  !right-0 "
-          />
+          
+          <div className="absolute w-[200vw] md:w-[140vw] md:-left-[65%] lg:w-[62rem] 2xl:!w-[75rem] max-w-none -left-[100%] lg:-left-[27rem] 2xl:!-left-[32rem] h-[31rem] md:h-[41rem] 2xl:h-[49rem] bottom-0  !right-0 "
+          >
+            <Image
+              src="/vinod.png"
+              fill
+              alt="Vinod"
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-5 self-center py-3">
           <div className="flex flex-col gap-3">
@@ -126,7 +128,7 @@ const MentorsSection = ({ mentor }) => {
                     {link.platform}
                   </div>
                   <div className="text-lg 2xl:text-xl font-bold">
-                    <AnimatedCount value={link.followers} isInView={isInView}  />
+                    <AnimatedCount value={link.followers} isInView={isInView} />
                     K
                   </div>
                 </div>
