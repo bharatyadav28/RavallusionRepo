@@ -85,6 +85,7 @@ const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView
   }, [isFirst, inView, controls, hasAnimated]);
 
   return (
+
     // <div className={`cardContainer ${isFirst ? "mt-[350px] md:mt-[280px] top-[100px] sticky" : "top-[100px]"} sticky 2xl:top-[15rem] px-5 md:px-[7%] 2xl:px-[8%]`}>
     <div className={`cardContainer px-5 md:px-[4%] lg:px-[8%]  ${isFirst ? "mt-[95%] md:mt-[42%] lg:mt-[30%] xl:mt-[20%] top-[6rem] 2xl:top-[12rem]" : "top-[6rem]"}  2xl:top-[12rem]`}>
       <motion.div
@@ -146,6 +147,7 @@ const ModulesList = ({ scrollYProgress, modules, inView }) => {
         targetScale={targetScale}
         isFirst={index === 0}
         inView={inView}
+        
       />
 
     );
