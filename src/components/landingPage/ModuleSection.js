@@ -39,8 +39,8 @@ const ModuleSection = ({ modules, curriculum }) => {
   return (
     <div ref={container}>
       <div ref={inViewRef} className="w-full h-1">
-        <LandingContainer className="pt-12 h-fit  flex flex-col gap-7 sticky top-10 ">
-          <LearnSvg className="absolute px-5 left-[50%] -translate-x-[50%] bottom-0 -z-10  w-full 2xl:h-[21rem]  " />
+        <LandingContainer className="pt-12 h-fit  flex flex-col gap-7 fixed top-10 ">
+          {/* <LearnSvg className="absolute px-5 left-[50%] -translate-x-[50%] bottom-0 -z-10  w-full 2xl:h-[21rem]  " /> */}
           <div className="flex justify-between items-center flex-wrap gap-4   ">
             <div className="md:max-w-[60%]">
               <div className="text-3xl md:text-5xl 2xl:text-6xl font-bold mb-2">
@@ -60,7 +60,7 @@ const ModuleSection = ({ modules, curriculum }) => {
           </div>
         </LandingContainer>
       </div>
-      <div className="mb-14">
+      <div className="mb-10">
         <ModulesList modules={modules}
           scrollYProgress={scrollYProgress}
           inView={isInView}
