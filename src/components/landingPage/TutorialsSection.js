@@ -3,7 +3,7 @@ import CoursesList from "../common/CoursesList";
 
 const TutorialsSection = ({data}) => {
   return (
-    <LandingContainer className="!h-fit py-12 pb-14 flex flex-col gap-10 px-8 ">
+    <LandingContainer className="!h-fit flex flex-col gap-10 px-8 sm:mt-[-30px]">
       <div className="flex justify-between items-center flex-wrap gap-4 ">
         <div>
           <div className="text-3xl md:text-5xl 2xl:text-6xl font-bold">

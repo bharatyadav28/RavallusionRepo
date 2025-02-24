@@ -150,7 +150,7 @@ const MainCarousel = ({ data }) => {
   // console.log(screenWidth);
   return (
     <>
-      <LandingContainer className="!px-0 flex items-center justify-center !h-fit py-12 sm:py-40 mt-1  overflow-y-visible-visible">
+      <LandingContainer className="!px-0 flex items-center justify-center !h-fit py-12 sm:py-56 mt-1">
         {screenWidth < 640 ? (
           <CustomCarousel>
             {data.map((item,index) => (

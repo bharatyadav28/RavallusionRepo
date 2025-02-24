@@ -88,7 +88,7 @@ const Footer = () => {
               <Link
                 key={index}
                 href={item.link}
-                className="w-10 h-10 bg-white/10 rounded-full flex justify-center items-center"
+                className="w-10 h-10 bg-white/10 rounded-full flex justify-center items-center hover:bg-[var(--neon-purple)]"
               >
                 <item.Icon />
               </Link>

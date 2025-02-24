@@ -39,7 +39,7 @@ const ModuleSection = ({ modules, curriculum }) => {
   return (
     <div ref={container}>
       <div ref={inViewRef} className="w-full h-1">
-        <LandingContainer className="pt-12 h-fit  flex flex-col gap-7 fixed top-10 ">
+        <LandingContainer className="py-8 sm:py-[4.5rem] h-fit flex flex-col gap-7 fixed top-10 ">
           {/* <LearnSvg className="absolute px-5 left-[50%] -translate-x-[50%] bottom-0 -z-10  w-full 2xl:h-[21rem]  " /> */}
           <div className="flex justify-between items-center flex-wrap gap-4   ">
             <div className="md:max-w-[60%]">

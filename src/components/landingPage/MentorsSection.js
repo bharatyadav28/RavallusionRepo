@@ -81,7 +81,7 @@ const MentorsSection = ({ mentor }) => {
   }, []);
 
   return (
-    <LandingContainer className="py-[35px] !flex-col !h-fit ">
+    <LandingContainer className="pt-12 sm:pt-[7.5rem] !flex-col !h-fit ">
       <div className=" h-full grid grid-cols-1 lg:grid-cols-2 gap-7 2xl:gap-8 ">
         <div className="relative h-[32rem] md:h-[40rem] lg:h-full rounded-xl vinod-card overflow-hidden">
           <Vinod className="absolute top-5 w-full px-5" />

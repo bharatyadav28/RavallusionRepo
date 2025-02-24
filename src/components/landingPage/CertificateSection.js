@@ -15,7 +15,7 @@ const data = {
 };
 const CertificateSection = ({ certificate }) => {
   return (
-    <LandingContainer className="!h-fit py-[60px] !flex !flex-row justify-center">
+    <LandingContainer className="!h-fit pt-12 sm:pt-[7.5rem] !flex !flex-row justify-center">
       <div className="flex gap-10 items-center w-full flex-wrap">
 
         <div className="p-5 py-[30px] rounded-2xl certificate">
