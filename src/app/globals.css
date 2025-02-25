@@ -589,7 +589,7 @@ input[type="number"] {
   backdrop-filter: blur(35.20000076293945px);
 }
 
-.gradient-instagram:hover {
+.gradient-instagram {
   background: linear-gradient(60deg,
       #feda75,
       #fa7e1e,
@@ -598,11 +598,19 @@ input[type="number"] {
       #4f5bd5);
 }
 
-.gradient-facebook:hover {
+.gradient-instagram:hover{
+  background:var(--card);
+}
+
+.gradient-facebook {
   background: linear-gradient(60deg,
       #1877F2,
       #4A90E2,
       #0B5ED7);
+}
+
+.gradient-facebook:hover{
+  background:var(--card);
 }
 
 

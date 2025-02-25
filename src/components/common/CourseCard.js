@@ -8,6 +8,7 @@ import { useState } from "react";
 const CourseCard = ({ course }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { title, description, videoUrl, thumbnailUrl } = course.video;
+  console.log(videoUrl);
 
   return (
     <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[310px]"} onClick={() => setIsOpen(true)}>
@@ -19,14 +20,14 @@ const CourseCard = ({ course }) => {
         className="w-full h-40 2xl:!h-48 object-cover rounded-2xl"
       />
 
-      {/* <CustomDialog open={isOpen} close={() => setIsOpen(false)}>
-        <div className="flex items-center justify-center">
+      <CustomDialog open={isOpen} close={() => setIsOpen(false)}>
+        <div className="flex items-center justify-center ">
 
-          <div className="h-96 w-[500px]">
+          <div className="w-[300px] md:w-[600px] h-auto">
             <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
           </div>
         </div>
-      </CustomDialog> */}
+      </CustomDialog>
 
 
       <div className="flex flex-col gap-2 2xl:gap-4 h-auto">

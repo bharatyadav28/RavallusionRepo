@@ -40,7 +40,7 @@ const FAQSection = ({ faqs }) => {
         <div className="text-4xl md:text-5xl 2xl:text-6xl font-bold">
           Frequently asked Questions
         </div>
-        <div className="text-base 2xl:text-lg text-[var(--light-gray)] w-[80%]">
+        <div className="text-base 2xl:text-lg text-[var(--light-gray)] w-[75%]">
           Here are answers to some frequently asked questions that we hope will
           help you.
         </div>

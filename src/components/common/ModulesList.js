@@ -135,7 +135,7 @@ const ModuleCard = ({ index, item, progress, range, targetScale, isFirst, inView
 
 const ModulesList = ({ scrollYProgress, modules, inView }) => {
 
-  return modules.map((item, index) => {
+  return modules && modules.map((item, index) => {
     const targetScale = 1 - (modules.length - index) * 0.01;
     return (
       <ModuleCard
@@ -147,7 +147,7 @@ const ModulesList = ({ scrollYProgress, modules, inView }) => {
         targetScale={targetScale}
         isFirst={index === 0}
         inView={inView}
-        
+
       />
 
     );

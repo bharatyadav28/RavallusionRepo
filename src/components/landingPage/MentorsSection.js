@@ -7,25 +7,21 @@ import BillboardEffect from "../common/Billboard";
 import BillboardWrapper from "../common/Billboard";
 
 
-const icons = [LinkedinBig, FacebookBig, InstagramBig];
+const icons = [LinkedinBig, InstagramBig, FacebookBig];
 
 const images = [
   "/Frame-1 1.png",
-  "/Frame-1 1.png",
   "/Frame-2 2.png",
-  "/Frame-2 2.png",
-  "/Frame-2 2.png",
-  "/Frame-2 2.png",
-  "/Frame-2 2.png",
-  "/Frame-3 1.png",
-  "/Frame-3 1.png",
   "/Frame-3 1.png",
   "/Frame-1 1.png",
   "/Frame-2 2.png",
-  "/Frame-1 1.png",
   "/Frame-3 1.png",
-
-
+  "/Frame-1 1.png",
+  "/Frame-2 2.png",
+  "/Frame-3 1.png",
+  "/Frame-1 1.png",
+  "/Frame-2 2.png",
+  "/Frame-3 1.png",
 ];
 
 const AnimatedCount = ({ value, isInView }) => {
@@ -85,7 +81,7 @@ const MentorsSection = ({ mentor }) => {
       <div className=" h-full grid grid-cols-1 lg:grid-cols-2 gap-7 2xl:gap-8 ">
         <div className="relative h-[32rem] md:h-[40rem] lg:h-full rounded-xl vinod-card overflow-hidden">
           <Vinod className="absolute top-5 w-full px-5" />
-          
+
           <div className="absolute w-[200vw] md:w-[140vw] md:-left-[65%] lg:w-[62rem] 2xl:!w-[75rem] max-w-none -left-[100%] lg:-left-[27rem] 2xl:!-left-[32rem] h-[31rem] md:h-[41rem] 2xl:h-[49rem] bottom-0  !right-0 "
           >
             <Image
@@ -121,7 +117,7 @@ const MentorsSection = ({ mentor }) => {
               return (
                 <div
                   key={link._id}
-                  className={`${link.platform == "Instagram" && 'gradient-instagram'} ${link.platform == "Facebook" && "gradient-facebook"} ${link.platform == 'Linkedin' && "hover:bg-[#0073B1]"} bg-[var(--card)] px-[0.9rem] py-[0.6rem] 2xl:px-[1rem] 2xl:py-[0.7rem] w-[9.35rem] h-[6.85rem] 2xl:w-[12rem] 2xl:h-[8rem] flex flex-col justify-end rounded-md relative`}
+                  className={`${link.platform == "Instagram" && 'gradient-instagram'} ${link.platform == "Facebook" && "gradient-facebook"} ${link.platform == 'Linkedin' && "bg-[#0073B1]"} hover:bg-[var(--card)] px-[0.9rem] py-[0.6rem] 2xl:px-[1rem] 2xl:py-[0.7rem] w-[9.35rem] h-[6.85rem] 2xl:w-[12rem] 2xl:h-[8rem] flex flex-col justify-end rounded-md relative`}
                 >
                   <Icon className=" absolute top-0 right-0 rounded-tr-md 2xl:w-[6rem] 2xl:h-[6rem] " />
                   <div className="text-xs 2xl:text-sm text-[var(--light-gray)] z-10">
