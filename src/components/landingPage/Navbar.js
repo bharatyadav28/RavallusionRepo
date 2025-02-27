@@ -11,12 +11,12 @@ const Navbar = () => {
           <i className="text-2xl 2xl:text-3xl font-medium">Ravallusion</i>
         </Link>
 
-        {/* <Link href={'/login'}>
+        <Link href={'/login'}>
           <CustomButton className="mr-5 px-4 text-base 2xl:text-xl !m-0">
             <User className=" !w-[18px] !h-[18px]" />
             <span className="hidden md:block text-sm">Login</span>
           </CustomButton>
-        </Link> */}
+        </Link>
 
       </nav>
       {/* <div className="h-[1px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div> */}

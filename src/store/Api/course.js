@@ -9,10 +9,24 @@ export const courseApi = createApi({
         getSubscribedPlanCourse: builder.query({
             query: (planId) => `course/getSubscribedPlanCourse/${planId}`
         }),
-        downloadResource: builder.query({
-            query: (submoduleId) => `course/submodule/${submoduleId}/resource`
+        assignmentSubmit : builder.mutation({
+            query: (body) => ({
+                url: "submitted-assignment",
+                method: "POST",
+                credentials: "include",
+                body,
+            }),
+        }),
+        uploadFile: builder.mutation({
+            query: (body) => ({
+                url: "submitted-assignment/upload-answer",
+                method: "POST",
+                credentials: "include",
+                body,
+            }),
         })
+       
     }),
 })
 
-export const { useGetSubscribedPlanCourseQuery,useDownloadResourceQuery ,useLazyDownloadResourceQuery} = courseApi;
+export const { useGetSubscribedPlanCourseQuery,useAssignmentSubmitMutation,useUploadFileMutation} = courseApi;

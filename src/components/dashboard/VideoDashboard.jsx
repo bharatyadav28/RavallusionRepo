@@ -57,6 +57,8 @@ const VideoDashboard = () => {
         </div>
         <div className='my-[20px] px-4 lg:px-0'>
           <VideoDescription
+            downloadResource={data?.data?.video?.resource}
+            downloadAssignment={data?.data?.video?.assignment}
             videoId={videoId}
             title={data?.data?.video?.title}
             description={data?.data?.video?.description}
@@ -65,7 +67,7 @@ const VideoDashboard = () => {
 
         {
           videoId &&
-           (
+          (
             <div className='px-4 lg:px-0'>
               <Comments videoId={videoId} />
             </div>

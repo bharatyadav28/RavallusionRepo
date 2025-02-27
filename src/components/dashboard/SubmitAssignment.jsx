@@ -3,26 +3,47 @@ import { CrossIcon, RoundCross, RoundCrossFill, RoundPause, UploadIcon } from '@
 import React, { useState, useRef } from 'react';
 import { Button } from '../ui/button';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+import { useAssignmentSubmitMutation, useUploadFileMutation } from '@/store/Api/course';
 
-const SubmitAssignment = ({ setIsAssignmentOpen }) => {
-  const [files, setFiles] = useState([]);
+const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
+  const [files, setFiles] = useState();
+  const [filesUrl, setFilesUrl] = useState();
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0); // Percentage
-  const [timeRemaining, setTimeRemaining] = useState(40); // Seconds
-  const fileInputRef = useRef(null); // Create a ref for the file input
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(40);
+  const fileInputRef = useRef(null);
+  const [submitAssignment] = useAssignmentSubmitMutation();
+  const [uploadFile] = useUploadFileMutation();
 
-  const handleFileChange = (event) => {
-    const selectedFiles = Array.from(event.target.files).map((file) => ({
-      name: file.name,
-      size: (file.size / 1024 / 1024).toFixed(2), // Convert size to MB
-    }));
-    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0]; // Get only the first selected file
+    if (!file) return;
 
-    console.log('Selected files:', selectedFiles);
+    setIsUploading(true);
+    setUploadProgress(0);
 
-    // Simulate file upload
-    startUpload();
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const response = await uploadFile(formData).unwrap();
+      const uploadedFile = {
+        name: file.name,
+        size: (file.size / 1024 / 1024).toFixed(2),
+        url: response?.data?.fileUrl, // Store URL from backend response
+      };
+
+      setFilesUrl(response?.data?.fileUrl); // Replace previous file (only one allowed)
+      setFiles(uploadedFile);
+      toast.success("File uploaded successfully!");
+    } catch (error) {
+      console("Upload error:", error);
+      toast.error(error.data.message);
+    } finally {
+      setIsUploading(false);
+    }
   };
+
 
   const startUpload = () => {
     setIsUploading(true);
@@ -68,10 +89,32 @@ const SubmitAssignment = ({ setIsAssignmentOpen }) => {
     }
   };
 
-  const removeFile = (index) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  const removeFile = () => {
+    setFiles(null);
   };
 
+
+  const handleSubmitAssignment = async () => {
+    if (filesUrl.length === 0) {
+      toast.error("No files uploaded!");
+      return;
+    }
+    console.log("videoid", videoId);
+    console.log("filesurl", filesUrl);
+    try {
+      const res = await submitAssignment({
+        videoId,
+        submittedFileUrl: filesUrl
+      }).unwrap();
+
+      console.log(res);
+      toast.success(res.message);
+      setIsAssignmentOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
+  }
   return (
     <div className="p-6 bg-[#181F2B] w-full rounded-2xl ">
       <div className="flex items-center justify-between">
@@ -119,35 +162,31 @@ const SubmitAssignment = ({ setIsAssignmentOpen }) => {
         <input
           id="fileInput"
           type="file"
-          multiple
           className="hidden"
           ref={fileInputRef} // Attach the ref here
           onChange={handleFileChange}
         />
       </div>
 
-      <p className="text-sm">Only support .jpg, .png, .svg, and .zip files</p>
+      <p className="text-sm">Only support .rar files</p>
 
       <h1 className="text-md font-semibold my-4">Uploaded Files</h1>
 
-      {files.length > 0 ? (
-        files.map((file, index) => (
-          <FileToUpload
-            key={index}
-            filename={file.name}
-            size={file.size}
-            onRemove={() => removeFile(index)}
-          />
-        ))
+      {files ? (
+        <FileToUpload
+          filename={files.name}
+          size={files.size}
+          onRemove={() => removeFile()}
+        />
       ) : (
         <p className="text-sm text-gray-400">No files uploaded yet.</p>
       )}
       {isUploading &&
-        <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)}/>}
+        <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)} />}
 
       <div className="flex items-center gap-x-4 justify-end mt-4">
         <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
-        <Button className="bg-[var(--neon-purple)] py-5">Submit</Button>
+        <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>Submit</Button>
       </div>
     </div>
   );

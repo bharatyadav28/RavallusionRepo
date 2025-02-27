@@ -5,16 +5,14 @@ import SubmitAssignment from './SubmitAssignment';
 import CustomDialog from '../common/CustomDialog';
 import AttendQuiz from './AttendQuiz';
 import { useAddBookmarkMutation, useDeleteBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAndBookmark';
-import { useDownloadResourceQuery, useLazyDownloadResourceQuery } from '@/store/Api/course';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 
-const VideoDescription = ({ videoId, title, description }) => {
+const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment }) => {
   const [addToBookmark] = useAddBookmarkMutation();
   const [deleteFromBookmark] = useDeleteBookmarkMutation();
   const { data: getdata, refetch } = useGetBookmarkQuery();
-  const [triggerDownload, { data: downloadResourceData, isLoading }] = useLazyDownloadResourceQuery();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAssignmentOpen, setIsAssignmentOpen] = useState(false);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
@@ -71,52 +69,6 @@ const VideoDescription = ({ videoId, title, description }) => {
   }, [isBookmarked, bookmarkedId, videoId, addToBookmark]);
 
 
-  const downloadFile = async () => {
-    // Direct file URL 
-    const fileUrl = "https://test-prod-buck.s3.ap-south-1.amazonaws.com/resources/1739263137044-users-1738215800786-fullstack_CV_Abhimanyu.pdf";
-
-    try {
-      // Fetch the file first
-      const response = await fetch(fileUrl);
-      const blob = await response.blob();
-
-      // Create blob URL
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      // Create link and trigger download
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = "fullstack_CV_Abhimanyu.pdf"; // Set your desired filename
-
-      // Trigger download
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
-  };
-
-  const handleDownloadResource = async () => {
-    // setResourceId("679f66eee6c5403a1db2b821"); 
-    const res = await triggerDownload("679f66eee6c5403a1db2b821");
-    const resources = res.data?.data?.resources || [];
-    console.log(resources);
-    console.log(resources[0].url);
-
-    if (resources.length === 0) {
-      alert("No resources available to download.");
-      return;
-    }
-
-    // Loop through each resource and trigger download
-    // resources.forEach((resource) => {
-    //   setTimeout(() => downloadFile(resource.url), 500); // Small delay to prevent browser restrictions
-    // });
-  };
 
   const handleToggle = () => setIsExpanded(!isExpanded);
 
@@ -124,6 +76,29 @@ const VideoDescription = ({ videoId, title, description }) => {
     ? description?.slice(0, 100) + "..."
     : description;
 
+  const handleResource = () => {
+    if (!downloadResource) {
+      toast.warning("Resource not found")
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = downloadResource;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  const handleDownloadAssignment = () => {
+    if (!downloadAssignment) {
+      toast.warning("Assignment not found")
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = downloadAssignment;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+ 
   return (
     <div className="text-white">
 
@@ -161,14 +136,13 @@ const VideoDescription = ({ videoId, title, description }) => {
 
       <div className="flex gap-y-2 lg:gap-y-2 xl:gap-y-2 lg:gap-x-4 flex-col lg:flex-row items-center flex-wrap">
         {/* <TextIconBox title="Download Resources" icon={<DownloadIcon />} onClick={handleDownloadResource} /> */}
-        <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={() => setIsAssignmentOpen(true)} />
-        <TextIconBox title="Download assignment" icon={<DownloadIcon />} onClick={() => setIsAssignmentOpen(true)} />
-        <TextIconBox title="Attend Quiz" icon={<Quiz />} onClick={() => setIsQuizOpen(true)} />
-        <TextIconBox title="Resources" icon={<Resources />} onClick={downloadFile} />
+        <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={()=>setIsAssignmentOpen(true)} />
+        <TextIconBox title="Download assignment" icon={<DownloadIcon />} onClick={handleDownloadAssignment} />
+        <TextIconBox title="Download resources" icon={<Resources />} onClick={handleResource} />
       </div>
 
       <CustomDialog open={isAssignmentOpen} close={() => setIsAssignmentOpen(false)}>
-        <SubmitAssignment setIsAssignmentOpen={setIsAssignmentOpen} />
+        <SubmitAssignment videoId={videoId} setIsAssignmentOpen={setIsAssignmentOpen} />
       </CustomDialog>
 
       <CustomDialog open={isQuizOpen}>
@@ -179,8 +153,8 @@ const VideoDescription = ({ videoId, title, description }) => {
 };
 
 const TextIconBox = ({ title, icon, onClick }) => (
-  <div onClick={onClick} className='cursor-pointer flex items-center justify-center gap-x-2 rounded-[8px] px-5 py-2 w-full md:w-auto border border-[var(--neon-purple)]'>
-    <h1 className='text-sm font-semibold'>{title}</h1>
+  <div onClick={onClick} className='cursor-pointer flex items-center justify-center gap-x-4 rounded-[8px] px-7 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]'>
+    <h1 className='text-xs font-semibold'>{title}</h1>
     {icon}
   </div>
 );

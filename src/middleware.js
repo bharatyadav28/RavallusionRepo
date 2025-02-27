@@ -24,9 +24,11 @@ export async function middleware(request) {
         return NextResponse.next();
     }
 
-    if (!isLoggedIn && restrictedPaths.includes(pathname)) {
+
+    if (!isLoggedIn && restrictedPaths.some(restrictedPaths => pathname.includes(restrictedPaths))) {
         return NextResponse.redirect(new URL("/login", request.url));
     }
+    
 
     // If logged in, prevent access to the login page
     if (isLoggedIn && authPaths.includes(pathname)) {

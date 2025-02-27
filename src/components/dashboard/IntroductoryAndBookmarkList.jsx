@@ -105,8 +105,8 @@ export const LessonCard = ({ videoId, thumbnail,
     return (
         <div className="flex gap-x-3 items-center cursor-pointer px-3" >
 
-            <div className="rounded-xl w-36 h-20 relative" onClick={fetchVideo}>
-                <Image src={thumbnail} alt="video" fill style={{ borderRadius: "12px", objectFit: "cover" }} className={`${isplaying && 'brightness-50'}`} />
+            <div className=" rounded-t-xl rounded-b-lg w-36 h-20 relative" onClick={fetchVideo}>
+                <Image src={thumbnail} alt="video" fill className={`rounded-t-xl rounded-b-lg ${isplaying && 'brightness-50'}`} />
                 <span style={{
                     background: 'rgba(0, 0, 0, 0.50)',
                     backdropFilter: 'blur(5.400000095367432px)'
@@ -119,6 +119,10 @@ export const LessonCard = ({ videoId, thumbnail,
 
                     )
                 }
+                {/* Progress Bar */}
+                <div className="absolute rounded-t-xl z-50 bottom-0 w-full h-[6px] bg-gray-300 rounded-full mt-1 overflow-hidden">
+                    <div className="h-full bg-orange-300" style={{ width: `${50}%` }}></div>
+                </div>
             </div>
 
             <div className="flex-grow w-32">
