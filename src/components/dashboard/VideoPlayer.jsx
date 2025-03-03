@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
@@ -39,7 +39,8 @@ const VideoPlayer = ({
   poster,
   setIsVideoFullScreen,
   tooltipView = false,
-  className = ''
+  className = "",
+  setWatchTime,
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -61,13 +62,13 @@ const VideoPlayer = ({
   const [showRestartButton, setShowRestartButton] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const isMobileDevice = useMediaQuery({ maxWidth: 600 });
+  const [intervalId, setIntervalId] = useState(null);
 
   const playerRef = useRef(null);
   const progressRef = useRef(null);
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
-
 
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -246,8 +247,9 @@ const VideoPlayer = ({
 
     const progressBar = progressRef.current;
     if (progressBar) {
-      const progressColor = `linear-gradient(to right, #CAA257 ${progressPercentage + 0.1
-        }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
+      const progressColor = `linear-gradient(to right, #CAA257 ${
+        progressPercentage + 0.1
+      }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
       progressBar.style.background = progressColor;
     }
   };
@@ -257,7 +259,6 @@ const VideoPlayer = ({
     const mouseX = e.clientX - progressRef.current.getBoundingClientRect().left;
     const hoverTime = (mouseX / barWidth) * duration;
     setHoveredTime(hoverTime);
-
 
     const tooltip = document.querySelector(".tooltip-progress");
     if (tooltip) {
@@ -308,11 +309,25 @@ const VideoPlayer = ({
 
   const volumeIcon = () => {
     if (volume === 0) {
-      return <FaVolumeXmark onClick={handleMute} className="volume-button" size={18}/>;
+      return (
+        <FaVolumeXmark
+          onClick={handleMute}
+          className="volume-button"
+          size={18}
+        />
+      );
     } else if (volume < 0.5) {
-      return <FaVolumeLow onClick={handleMute} className="volume-button" size={18} />;
+      return (
+        <FaVolumeLow onClick={handleMute} className="volume-button" size={18} />
+      );
     } else {
-      return <FaVolumeHigh onClick={handleMute} className="volume-button" size={18}/>;
+      return (
+        <FaVolumeHigh
+          onClick={handleMute}
+          className="volume-button"
+          size={18}
+        />
+      );
     }
   };
 
@@ -330,9 +345,17 @@ const VideoPlayer = ({
 
   const fullScreenIcon = () => {
     return screenfull.isFullscreen ? (
-      <FaCompress onClick={toggleFullScreen} className="fullscreen-button" size={18} />
+      <FaCompress
+        onClick={toggleFullScreen}
+        className="fullscreen-button"
+        size={18}
+      />
     ) : (
-      <FaExpand onClick={toggleFullScreen} className="fullscreen-button" size={18}/>
+      <FaExpand
+        onClick={toggleFullScreen}
+        className="fullscreen-button"
+        size={18}
+      />
     );
   };
   useEffect(() => {
@@ -413,7 +436,6 @@ const VideoPlayer = ({
     toggleSettings();
   };
 
-
   useEffect(() => {
     resetTimeout();
   }, [showSettings]);
@@ -446,7 +468,7 @@ const VideoPlayer = ({
           videoElement.webkitEnterFullscreen();
           setIsFullScreen(true);
           window.screen.orientation &&
-            window.screen.orientation.lock("landscape").catch(() => { });
+            window.screen.orientation.lock("landscape").catch(() => {});
         } else {
           videoElement.webkitExitFullscreen();
           setIsFullScreen(false);
@@ -459,7 +481,7 @@ const VideoPlayer = ({
           screenfull.request(containerRef.current);
           setIsFullScreen(true);
           window.screen.orientation &&
-            window.screen.orientation.lock("landscape").catch(() => { });
+            window.screen.orientation.lock("landscape").catch(() => {});
         } else {
           screenfull.exit();
           setIsFullScreen(false);
@@ -504,7 +526,6 @@ const VideoPlayer = ({
     }
   }, []);
 
-
   const settingsMenu = () => {
     return (
       <div className={`settings-wrapper  ${showSettings ? "show" : ""}`}>
@@ -520,10 +541,10 @@ const VideoPlayer = ({
               {activeMenu === "main"
                 ? "Settings"
                 : activeMenu === "quality"
-                  ? "Quality"
-                  : activeMenu === "language"
-                    ? "Language"
-                    : "Playback Rate"}
+                ? "Quality"
+                : activeMenu === "language"
+                ? "Language"
+                : "Playback Rate"}
             </span>
           </div>
           <ul className="menu-items">
@@ -535,9 +556,7 @@ const VideoPlayer = ({
                 >
                   <span className="flex items-center">
                     <MdTune className="me-1" />
-                    <p>
-                      Quality:
-                    </p>
+                    <p>Quality:</p>
                   </span>
 
                   <span className="flex items-center">
@@ -545,8 +564,7 @@ const VideoPlayer = ({
                   </span>
                 </li>
 
-
-{/* 
+                {/* 
                 <li
                   onClick={() => handleMenuChange("language")}
                   className="my-2 flex items-center justify-between"
@@ -631,9 +649,20 @@ const VideoPlayer = ({
     );
   };
 
+  // Cleanup the interval when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [intervalId]);
+
   return (
     <div
-      className={`video-container ${playing ? "playing" : "paused"} !z-0 !${className}`}
+      className={`video-container ${
+        playing ? "playing" : "paused"
+      } !z-0 !${className}`}
       ref={containerRef}
       onMouseMove={() => {
         containerRef.current.classList.add("show-controls");
@@ -674,11 +703,11 @@ const VideoPlayer = ({
 
       <div
         className="video-player"
-      // onClick={() => {
-      //   if (showControls) {
-      //     handlePlayPause();
-      //   }
-      // }}
+        // onClick={() => {
+        //   if (showControls) {
+        //     handlePlayPause();
+        //   }
+        // }}
       >
         <ReactPlayer
           ref={playerRef}
@@ -727,8 +756,24 @@ const VideoPlayer = ({
           onBuffer={handleBuffer}
           onError={handleError}
           onBufferEnd={handleBufferEnd}
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
+          onPlay={() => {
+            setPlaying(true);
+            const id = setInterval(() => {
+              if (playerRef.current && setWatchTime) {
+                const currentTime = playerRef.current.getCurrentTime();
+                console.log("Hi", currentTime);
+                setWatchTime(currentTime);
+              }
+            }, 2000); // 2000 ms = 2 seconds
+            setIntervalId(id);
+          }}
+          onPause={() => {
+            setPlaying(false);
+            if (intervalId) {
+              clearInterval(intervalId);
+              setIntervalId(null);
+            }
+          }}
           config={{
             hls: {
               forceHLS: true,
@@ -741,8 +786,9 @@ const VideoPlayer = ({
       </div>
       {!firstPlay && (
         <div
-          className={`player-controls ${isFullScreen ? "fullscreen-controls" : ""
-            } `}
+          className={`player-controls ${
+            isFullScreen ? "fullscreen-controls" : ""
+          } `}
         >
           <div className="on-screen-controls">
             <GrBackTen className="control-icons" onClick={handleBackward} />
@@ -767,13 +813,9 @@ const VideoPlayer = ({
           </div>
 
           <div className="bottom-controls">
-
-
             <span className="text-white ms-2 duration-counter">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
-
-
 
             {/* tooltip  */}
             <div
@@ -784,7 +826,7 @@ const VideoPlayer = ({
               {tooltipView && !isTouchDevice && (
                 <div
                   className="tooltip-progress"
-                //  style={{ left: `${(hoveredTime / duration) * 100}%` }}
+                  //  style={{ left: `${(hoveredTime / duration) * 100}%` }}
                 >
                   <p>{formatTime(hoveredTime)}</p>
                 </div>
@@ -803,7 +845,6 @@ const VideoPlayer = ({
               />
             </div>
 
-
             <div className="volume-wrapper flex items-center ">
               {volumeIcon()}
               {isTouchDevice ? null : (
@@ -811,8 +852,9 @@ const VideoPlayer = ({
                   type="range"
                   className="volume-track"
                   style={{
-                    background: `linear-gradient(to right, #CAA257 ${volume * 100
-                      }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
+                    background: `linear-gradient(to right, #CAA257 ${
+                      volume * 100
+                    }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
                   }}
                   min={0}
                   max={1}
@@ -826,7 +868,8 @@ const VideoPlayer = ({
             <div className="quality mx-3" ref={menuRef}>
               {settingsMenu()}
 
-              <FaCog size={18}
+              <FaCog
+                size={18}
                 onClick={toggleSettings}
                 className={`settings-button ${showSettings ? "active" : ""}`}
               />
@@ -841,4 +884,3 @@ const VideoPlayer = ({
 };
 
 export default VideoPlayer;
-
