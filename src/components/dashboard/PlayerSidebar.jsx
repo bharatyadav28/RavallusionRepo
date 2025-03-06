@@ -10,9 +10,12 @@ import { useGetBookmarkQuery, useGetIntroductoryQuery } from '@/store/Api/introA
 import { useGetSubscribedPlanCourseQuery } from '@/store/Api/course';
 import { useGetPlanDataQuery } from '@/store/Api/home';
 import { usePathname } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setCourseId } from '@/store/slice/general';
 
 const PlayerSidebar = () => {
     const [planId, setPlanId] = useState(null);
+    const dispatch = useDispatch();
     const path = usePathname();
     const [activeIndex, setActiveIndex] = useState(0);
     const [playingVideoId, setPlayingVideoId] = useState(null);
@@ -26,6 +29,14 @@ const PlayerSidebar = () => {
     const introductoryVideos = introductoryData?.data?.introductoryVideos || []
     const bookmarkedVideos = data?.bookmarks || []
 
+    // console.log("subscourseid",subscribedCourseData?.data?.course?._id);
+    useEffect(() => {
+        const courseId = subscribedCourseData?.data?.course?._id
+        
+        if(courseId){
+            dispatch(setCourseId(courseId));
+        }
+    }, [subscribedCourseData, dispatch])
 
     useEffect(() => {
         if (path.includes('beginner')) {

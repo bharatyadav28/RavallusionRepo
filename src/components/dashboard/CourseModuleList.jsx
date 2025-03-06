@@ -7,12 +7,29 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { CustomButton } from "../common/CustomButton";
 import { SimpleLoader } from "../common/LoadingSpinner";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId }) => {
     const modules = course?.modules;
-    console.log(modules)
+    const path = usePathname();
+    const route = useRouter();
+    // console.log(modules[0]?.submodules[0]?.videos[0]?._id);
+    // const id = modules[0]?.submodules[0]?.videos[0]?._id;
     const heading = course?.title || "Course";
+
+    console.log(modules); // Check if modules exist
+    // console.log(modules[0]); // Check the first module
+    // console.log(modules[0]?.submodules); // Check submodules array
+    // console.log(modules[0]?.submodules[0]?.videos); // Check videos array
+    // console.log(modules[0]?.submodules[0]?.videos[0]?._id); // Final access
+
+
+    useEffect(() => {
+        if (!modules || modules.length === 0) return;
+        const level = path.includes("beginner") ? "beginner" : "advanced";
+        route.replace(`/dashboard/player-dashboard/${level}?videoId=${modules[0]?.submodules?.[0]?.videos?.[0]?._id || "679f66b0e6c5403a1db2b7d1"}`);
+    },[course])
+
     return isLoading ? <SimpleLoader /> : (
         <>
             <h1 className='text-lg font-semibold mb-7 px-3'>{heading}</h1>
@@ -27,7 +44,7 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
                     )) :
                         (
                             <div className="flex flex-col items-center gap-y-3 h-60 px-10 text-center">
-                                <p className="text-red-500">You do not have any Plan, please purchase any plan</p>
+                                <p className="text-red-500">You do not have this Plan, please purchase the plan</p>
 
                                 <CustomButton className="mr-5 px-5 text-base 2xl:text-xl !m-0">
                                     <Link href={'/subscription-plan'}>Buy a Plan</Link>
@@ -77,9 +94,9 @@ const CourseCard = ({ title, img, videoCount, submodules, playingVideoId, setPla
 
                     <div className="flex-grow w-32">
                         <h1 className="text-xs font-normal mb-1 ">{title}</h1>
-                            <p className="text-[10px] truncate whitespace-nowrap">
-                                {videoCount} videos
-                            </p>
+                        <p className="text-[10px] truncate whitespace-nowrap">
+                            {videoCount} videos
+                        </p>
                     </div>
 
                 </div>
@@ -151,7 +168,6 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
 
 
             {/* Submodule */}
-            {/* <div className="flex flex-col gap-y-7"> */}
             <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -159,8 +175,6 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
                 transition={{ duration: 0.3 }}
                 className="flex flex-col"
             >
-
-
                 {submodules &&
                     submodules.map((item, i) => (
 
@@ -247,8 +261,9 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
                                                 videoId={lesson._id}
                                                 title={lesson.title || "I am Title"}
                                                 thumbnail={lesson?.thumbnailUrl}
-                                                duration={`${lesson?.duration?.hours}:${lesson?.duration?.minutes}:${lesson?.duration?.seconds}` || "00:00:00"}
+                                                duration={`${String(lesson?.duration?.hours ?? 0).padStart(2, "0")}:${String(lesson?.duration?.minutes ?? 0).padStart(2, "0")}:${String(lesson?.duration?.seconds ?? 0).padStart(2, "0")}`}
                                             />
+
                                         ))}
                                 </motion.div>
                             )}

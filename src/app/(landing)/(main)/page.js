@@ -12,7 +12,6 @@ import PageLoader from "@/components/common/PageLoader";
 import {
   useGetCertificateQuery, useGetCurriculumQuery,
   useGetFaqQuery, useGetHeroSectionQuery, useGetLandingCarouselQuery,
-  useGetLandingPageDataQuery,
   useGetLatestTutorialQuery, useGetMentorDataQuery,
   useGetModuleQuery, useGetPlanDataQuery
 } from "@/store/Api/home";

@@ -11,17 +11,26 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
   const [filesUrl, setFilesUrl] = useState();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(40);
+  const [timeRemaining, setTimeRemaining] = useState(0);
   const fileInputRef = useRef(null);
   const [submitAssignment] = useAssignmentSubmitMutation();
   const [uploadFile] = useUploadFileMutation();
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0]; // Get only the first selected file
+
+  const selectedFile = async (event) => {
+    let file;
+
+    // Check if event is from file input or drag-and-drop
+    if (event.target && event.target.files) {
+      file = event.target.files[0]; // File input
+    } else if (event.dataTransfer && event.dataTransfer.files) {
+      file = event.dataTransfer.files[0]; // Drag-and-drop
+    }
+
     if (!file) return;
 
-    setIsUploading(true);
-    setUploadProgress(0);
+
+    startUpload();
 
     const formData = new FormData();
     formData.append("file", file);
@@ -30,10 +39,10 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
       const uploadedFile = {
         name: file.name,
         size: (file.size / 1024 / 1024).toFixed(2),
-        url: response?.data?.fileUrl, // Store URL from backend response
+        url: response?.data?.fileUrl,
       };
 
-      setFilesUrl(response?.data?.fileUrl); // Replace previous file (only one allowed)
+      setFilesUrl(response?.data?.fileUrl);
       setFiles(uploadedFile);
       toast.success("File uploaded successfully!");
     } catch (error) {
@@ -42,8 +51,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
     } finally {
       setIsUploading(false);
     }
-  };
-
+  }
 
   const startUpload = () => {
     setIsUploading(true);
@@ -53,30 +61,24 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
     const interval = setInterval(() => {
       setUploadProgress((prev) => {
         const newProgress = prev + 10.33; // Increment by 10.33%
-        if (newProgress >= 100) {
+        if (newProgress >= 95) {
           clearInterval(interval);
-          setIsUploading(false); // Stop uploading
-          return 100;
+          return 95;
         }
         return newProgress;
       });
 
       setTimeRemaining((prev) => {
-        const newTime = prev - 3; // Decrease time by 3 seconds
-        if (newTime <= 0) return 0;
+        const newTime = prev - 5; 
+        if (newTime <= 0) return 2;
         return newTime;
       });
-    }, 1000);
+    }, 500);
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
-    const droppedFiles = Array.from(event.dataTransfer.files).map((file) => ({
-      name: file.name,
-      size: (file.size / 1024 / 1024).toFixed(2), // Convert size to MB
-    }));
-    setFiles((prevFiles) => [...prevFiles, ...droppedFiles]);
-    console.log('Dropped files:', droppedFiles);
+    selectedFile(event);
   };
 
   const handleDragOver = (event) => {
@@ -85,29 +87,31 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
 
   const triggerFileInput = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click(); // Use the ref to trigger the click
+      fileInputRef.current.click();
     }
   };
 
   const removeFile = () => {
     setFiles(null);
+    setFilesUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
 
   const handleSubmitAssignment = async () => {
-    if (filesUrl.length === 0) {
+    if (!filesUrl) {
       toast.error("No files uploaded!");
       return;
     }
-    console.log("videoid", videoId);
-    console.log("filesurl", filesUrl);
+
     try {
       const res = await submitAssignment({
         videoId,
         submittedFileUrl: filesUrl
       }).unwrap();
 
-      console.log(res);
       toast.success(res.message);
       setIsAssignmentOpen(false);
     } catch (error) {
@@ -163,8 +167,8 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
           id="fileInput"
           type="file"
           className="hidden"
-          ref={fileInputRef} // Attach the ref here
-          onChange={handleFileChange}
+          ref={fileInputRef}
+          onChange={selectedFile}
         />
       </div>
 
@@ -179,16 +183,20 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
           onRemove={() => removeFile()}
         />
       ) : (
-        <p className="text-sm text-gray-400">No files uploaded yet.</p>
-      )}
-      {isUploading &&
-        <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)} />}
+        !isUploading && 
+        < p className="text-sm text-gray-400">No files uploaded yet.</p>
+  )
+}
+{
+  isUploading &&
+  <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)} />
+}
 
-      <div className="flex items-center gap-x-4 justify-end mt-4">
-        <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
-        <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>Submit</Button>
-      </div>
-    </div>
+<div className="flex items-center gap-x-4 justify-end mt-4">
+  <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
+  <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>Submit</Button>
+</div>
+    </div >
   );
 };
 

@@ -38,6 +38,8 @@ export const introAndBookmarkApi = createApi({
 });
 
 export const { useGetIntroductoryQuery,
-    useGetVideoQuery, useGetBookmarkQuery,
+    useGetVideoQuery, 
+    useLazyGetVideoQuery,
+    useGetBookmarkQuery,
     useAddBookmarkMutation,
     useDeleteBookmarkMutation } = introAndBookmarkApi; 

@@ -11,7 +11,6 @@ import { toast } from 'react-toastify';
 
 const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment }) => {
   const [addToBookmark] = useAddBookmarkMutation();
-  const [deleteFromBookmark] = useDeleteBookmarkMutation();
   const { data: getdata, refetch } = useGetBookmarkQuery();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAssignmentOpen, setIsAssignmentOpen] = useState(false);
@@ -134,8 +133,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
 
       </div>
 
-      <div className="flex gap-y-2 lg:gap-y-2 xl:gap-y-2 lg:gap-x-4 flex-col lg:flex-row items-center flex-wrap">
-        {/* <TextIconBox title="Download Resources" icon={<DownloadIcon />} onClick={handleDownloadResource} /> */}
+      <div className="flex gap-y-2 md:gap-y-2 md:gap-x-4 flex-col md:flex-row items-center flex-wrap">
         <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={()=>setIsAssignmentOpen(true)} />
         <TextIconBox title="Download assignment" icon={<DownloadIcon />} onClick={handleDownloadAssignment} />
         <TextIconBox title="Download resources" icon={<Resources />} onClick={handleResource} />
@@ -153,10 +151,10 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
 };
 
 const TextIconBox = ({ title, icon, onClick }) => (
-  <div onClick={onClick} className='cursor-pointer flex items-center justify-center gap-x-4 rounded-[8px] px-7 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]'>
+  <div onClick={onClick} className='cursor-pointer flex-1 flex items-center justify-center gap-x-4 rounded-[8px] px-5 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]'>
     <h1 className='text-xs font-semibold'>{title}</h1>
     {icon}
   </div>
 );
 
-export default VideoDescription;
+export default VideoDescription;  

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
@@ -33,19 +33,23 @@ import ErrorBoundary from "@/app/utils/errorBoundaries";
 import { useMediaQuery } from "react-responsive";
 
 import { usePathname } from "next/navigation";
+import { toast } from "react-toastify";
 
 const VideoPlayer = ({
   source,
   poster,
   setIsVideoFullScreen,
   tooltipView = false,
-  className = ''
+  className = "",
+  setWatchTime,
+  courseProgress,
+  videoId,
+  watchTime,
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState(360);
-  // const [selectedLang, setSelectedLang] = useState(1);
   const [selectedLang, setSelectedLang] = useState([source]);
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -61,13 +65,15 @@ const VideoPlayer = ({
   const [showRestartButton, setShowRestartButton] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const isMobileDevice = useMediaQuery({ maxWidth: 600 });
+  const [intervalId, setIntervalId] = useState(null);
+  const [isVideoCompleted, setIsVideoCompleted] = useState(false);
+  const [lastPositon, setLastPosition] = useState(0);
 
   const playerRef = useRef(null);
   const progressRef = useRef(null);
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
-
 
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -83,6 +89,15 @@ const VideoPlayer = ({
   const isFreeVideoPage = pathname.includes("/free-video");
   // const [src, setSrc] = useState(` ${vidAddr}/${source[0]?.value}/360p.m3u8`);
   const [src, setSrc] = useState(source);
+
+
+  useEffect(() => {
+    const foundVideo = courseProgress?.data?.courseProgress?.find((v) => v.video === videoId);
+    setIsVideoCompleted(foundVideo?.isCompleted);
+    // console.log("foun", foundVideo?.lastPosition);
+    setLastPosition(foundVideo?.lastPosition);
+  }, [])
+
 
   useEffect(() => {
     setIsVideoFullScreen && setIsVideoFullScreen(isFullScreen);
@@ -210,6 +225,10 @@ const VideoPlayer = ({
   };
 
   const handleForward = () => {
+    if (isVideoCompleted === false) {
+      toast.error("Complete the video to seek forward");
+      return;
+    }
     if (playerRef.current) {
       playerRef.current.seekTo(
         playerRef.current.getCurrentTime() + 10,
@@ -219,6 +238,11 @@ const VideoPlayer = ({
   };
 
   const handleSeekChange = (e) => {
+    if (!isVideoCompleted) {
+      e.target.value = played; // Prevents seeking forward
+      toast.error("Complete the video to seek forward");
+      return;
+    }
     const value = parseFloat(e.target.value);
     setPlayed(value);
     setShowRestartButton(false);
@@ -227,7 +251,12 @@ const VideoPlayer = ({
     }
   };
 
-  const handleSeekMouseDown = () => {
+  const handleSeekMouseDown = (e) => {
+    if (!isVideoCompleted) {
+      e.preventDefault();
+      toast.error("Complete the video to seek forward");
+      return;
+    }
     if (playerRef.current) {
       playerRef.current.seekTo(progressRef.current.value / 100, "fraction");
     }
@@ -257,7 +286,6 @@ const VideoPlayer = ({
     const mouseX = e.clientX - progressRef.current.getBoundingClientRect().left;
     const hoverTime = (mouseX / barWidth) * duration;
     setHoveredTime(hoverTime);
-
 
     const tooltip = document.querySelector(".tooltip-progress");
     if (tooltip) {
@@ -308,11 +336,25 @@ const VideoPlayer = ({
 
   const volumeIcon = () => {
     if (volume === 0) {
-      return <FaVolumeXmark onClick={handleMute} className="volume-button" size={18}/>;
+      return (
+        <FaVolumeXmark
+          onClick={handleMute}
+          className="volume-button"
+          size={18}
+        />
+      );
     } else if (volume < 0.5) {
-      return <FaVolumeLow onClick={handleMute} className="volume-button" size={18} />;
+      return (
+        <FaVolumeLow onClick={handleMute} className="volume-button" size={18} />
+      );
     } else {
-      return <FaVolumeHigh onClick={handleMute} className="volume-button" size={18}/>;
+      return (
+        <FaVolumeHigh
+          onClick={handleMute}
+          className="volume-button"
+          size={18}
+        />
+      );
     }
   };
 
@@ -330,9 +372,17 @@ const VideoPlayer = ({
 
   const fullScreenIcon = () => {
     return screenfull.isFullscreen ? (
-      <FaCompress onClick={toggleFullScreen} className="fullscreen-button" size={18} />
+      <FaCompress
+        onClick={toggleFullScreen}
+        className="fullscreen-button"
+        size={18}
+      />
     ) : (
-      <FaExpand onClick={toggleFullScreen} className="fullscreen-button" size={18}/>
+      <FaExpand
+        onClick={toggleFullScreen}
+        className="fullscreen-button"
+        size={18}
+      />
     );
   };
   useEffect(() => {
@@ -412,7 +462,6 @@ const VideoPlayer = ({
     }
     toggleSettings();
   };
-
 
   useEffect(() => {
     resetTimeout();
@@ -504,7 +553,6 @@ const VideoPlayer = ({
     }
   }, []);
 
-
   const settingsMenu = () => {
     return (
       <div className={`settings-wrapper  ${showSettings ? "show" : ""}`}>
@@ -535,9 +583,7 @@ const VideoPlayer = ({
                 >
                   <span className="flex items-center">
                     <MdTune className="me-1" />
-                    <p>
-                      Quality:
-                    </p>
+                    <p>Quality:</p>
                   </span>
 
                   <span className="flex items-center">
@@ -545,8 +591,7 @@ const VideoPlayer = ({
                   </span>
                 </li>
 
-
-{/* 
+                {/* 
                 <li
                   onClick={() => handleMenuChange("language")}
                   className="my-2 flex items-center justify-between"
@@ -631,9 +676,19 @@ const VideoPlayer = ({
     );
   };
 
+  // Cleanup the interval when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [intervalId]);
+
   return (
     <div
-      className={`video-container ${playing ? "playing" : "paused"} !z-0 !${className}`}
+      className={`video-container ${playing ? "playing" : "paused"
+        } !z-0 !${className}`}
       ref={containerRef}
       onMouseMove={() => {
         containerRef.current.classList.add("show-controls");
@@ -720,15 +775,37 @@ const VideoPlayer = ({
             setLoading(true);
             handlePlayPause();
           }}
-          onStart={() => setPlaying(true)}
+          // onStart={() => setPlaying(true)}
+          onStart={() => {
+            setPlaying(true);
+            if (playerRef.current) {
+              playerRef.current.seekTo(lastPositon, "seconds"); 
+            }
+          }
+          }
           onProgress={handleProgress}
           onDuration={handleDuration}
           onEnded={handleEnded}
           onBuffer={handleBuffer}
           onError={handleError}
           onBufferEnd={handleBufferEnd}
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
+          onPlay={() => {
+            setPlaying(true);
+            const id = setInterval(() => {
+              if (playerRef.current && setWatchTime) {
+                const currentTime = playerRef.current.getCurrentTime();
+                setWatchTime(currentTime);
+              }
+            }, 2000); //Todo:  need to change in 1 minutes
+            setIntervalId(id);
+          }}
+          onPause={() => {
+            setPlaying(false);
+            if (intervalId) {
+              clearInterval(intervalId);
+              setIntervalId(null);
+            }
+          }}
           config={{
             hls: {
               forceHLS: true,
@@ -763,17 +840,13 @@ const VideoPlayer = ({
                 onClick={handlePlayPause}
               />
             )}
-            <GrForwardTen className="control-icons" onClick={handleForward} />
+            <GrForwardTen className={`control-icons`} onClick={handleForward} />
           </div>
 
           <div className="bottom-controls">
-
-
             <span className="text-white ms-2 duration-counter">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
-
-
 
             {/* tooltip  */}
             <div
@@ -803,7 +876,6 @@ const VideoPlayer = ({
               />
             </div>
 
-
             <div className="volume-wrapper flex items-center ">
               {volumeIcon()}
               {isTouchDevice ? null : (
@@ -826,7 +898,8 @@ const VideoPlayer = ({
             <div className="quality mx-3" ref={menuRef}>
               {settingsMenu()}
 
-              <FaCog size={18}
+              <FaCog
+                size={18}
                 onClick={toggleSettings}
                 className={`settings-button ${showSettings ? "active" : ""}`}
               />
@@ -841,4 +914,3 @@ const VideoPlayer = ({
 };
 
 export default VideoPlayer;
-
