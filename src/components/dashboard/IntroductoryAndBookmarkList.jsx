@@ -1,6 +1,10 @@
+import { mapToObject, objectToMap } from "@/lib/functions";
 import { Bookmarked, OrangePlay } from "@/lib/svg_icons";
 import { useDeleteBookmarkMutation } from "@/store/Api/introAndBookmark";
-import { useGetCourseProgressQuery, useGetVideoProgressQuery } from "@/store/Api/videoProgress";
+import {
+  useGetCourseProgressQuery,
+  useGetVideoProgressQuery,
+} from "@/store/Api/videoProgress";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +38,13 @@ export const IntroductoryList = ({
               onPlay={() => setPlayingVideoId(items?._id)}
               thumbnail={items.thumbnailUrl}
               title={items.title}
-              duration={`${String(items?.duration?.hours ?? 0).padStart(2, "0")}:${String(items?.duration?.minutes ?? 0).padStart(2, "0")}:${String(items?.duration?.seconds ?? 0).padStart(2, "0")}`}
+              duration={`${String(items?.duration?.hours ?? 0).padStart(
+                2,
+                "0"
+              )}:${String(items?.duration?.minutes ?? 0).padStart(
+                2,
+                "0"
+              )}:${String(items?.duration?.seconds ?? 0).padStart(2, "0")}`}
               description={items.description}
             />
           ))}
@@ -73,7 +83,13 @@ export const BookmarkedList = ({
                 videoId={items?.video?._id}
                 thumbnail={items?.video?.thumbnailUrl}
                 title={items?.video?.title}
-                duration={`${String(timeDuration?.hours ?? 0).padStart(2, "0")}:${String(timeDuration?.minutes ?? 0).padStart(2, "0")}:${String(timeDuration?.seconds ?? 0).padStart(2, "0")}`}                
+                duration={`${String(timeDuration?.hours ?? 0).padStart(
+                  2,
+                  "0"
+                )}:${String(timeDuration?.minutes ?? 0).padStart(
+                  2,
+                  "0"
+                )}:${String(timeDuration?.seconds ?? 0).padStart(2, "0")}`}
                 description={items?.video?.description}
                 isplaying={playingVideoId === items?.video?._id}
                 onPlay={() => setPlayingVideoId(items?.video?._id)}
@@ -107,30 +123,46 @@ export const LessonCard = ({
   const [progress, setProgress] = useState(0);
 
   const [deleteBookmark] = useDeleteBookmarkMutation();
-  const { courseId, updatedPercentageWatched, videoIdOfCurrentVideo } = useSelector((state) => state.general);
+  const { courseId, updatedPercentageWatched, videoIdOfCurrentVideo } =
+    useSelector((state) => state.general);
+
+  const videos = useSelector((state) => state.course.videos);
+
+  const MapVideos = objectToMap(videos);
+  const currentVideoData = MapVideos.get(videoId);
+
+  const currentVideoIndex = [...MapVideos.keys()].indexOf(videoId);
+  const previousVideoData = [...MapVideos.values()][currentVideoIndex - 1];
+  console.log("Previous Video Data", previousVideoData);
+
+  const isVideoUnlocked =
+    currentVideoData.isCompleted || previousVideoData?.isCompleted;
 
   const { data: courseProgress } = useGetCourseProgressQuery(courseId);
+
   // 1 - zero progress - to 1 show kar do 1st video unlock kro bas baki lock
-  // 2 - last video is i-1 isComplete true to next unlock kro 
-  // 3 - check last video of previous submodule isComplete or not 
+  // 2 - last video is i-1 isComplete true to next unlock kro
+  // 3 - check last video of previous submodule isComplete or not
   // 4 - same for modules 3 case
 
   useEffect(() => {
-    const foundVideo = courseProgress?.data?.courseProgress?.find((video) => video.video === videoId);
+    const foundVideo = courseProgress?.data?.courseProgress?.find(
+      (video) => video.video === videoId
+    );
     console.log(foundVideo);
     if (foundVideo) {
       setProgress(foundVideo?.percentageWatched);
     }
-  }, [])
+  }, []);
   useEffect(() => {
     if (updatedPercentageWatched && videoId === videoIdOfCurrentVideo) {
-      setProgress(updatedPercentageWatched)
+      setProgress(updatedPercentageWatched);
     }
-  }, [updatedPercentageWatched, videoId, videoIdOfCurrentVideo])
-
+  }, [updatedPercentageWatched, videoId, videoIdOfCurrentVideo]);
 
   const path = usePathname();
   const fetchVideo = () => {
+    if (!isVideoUnlocked) return;
     const level = path.includes("beginner") ? "beginner" : "advanced";
     route.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
     onPlay();
@@ -144,16 +176,23 @@ export const LessonCard = ({
     }
   };
   return (
-    <div className="flex gap-x-3 items-center cursor-pointer px-3">
+    <div
+      className="flex gap-x-3 items-center cursor-pointer px-3 
+      "
+    >
       <div
-        className=" rounded-t-xl rounded-b-lg w-36 h-20 relative"
+        className={` rounded-t-xl rounded-b-lg w-36 h-20 relative ${
+          !isVideoUnlocked ? "opacity-80 cursor-not-allowed" : ""
+        }`}
         onClick={fetchVideo}
       >
         <Image
           src={thumbnail}
           alt="video"
           fill
-          className={`rounded-t-xl rounded-b-lg ${isplaying && "brightness-50"}`}
+          className={`rounded-t-xl rounded-b-lg ${
+            isplaying && "brightness-50"
+          }`}
         />
         <span
           style={{

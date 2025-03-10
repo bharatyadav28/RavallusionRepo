@@ -5,17 +5,24 @@ import Comments from "@/components/dashboard/Comments";
 import PlayerSidebar from "@/components/dashboard/PlayerSidebar";
 import VideoDescription from "@/components/dashboard/VideoDescription";
 import VideoPlayer from "@/components/dashboard/VideoPlayer";
-import { useGetVideoQuery, useLazyGetVideoQuery } from "@/store/Api/introAndBookmark";
+import {
+  useGetVideoQuery,
+  useLazyGetVideoQuery,
+} from "@/store/Api/introAndBookmark";
 import {
   useGetCourseProgressQuery,
   useGetVideoProgressQuery,
   useUpdateVideoProgressMutation,
 } from "@/store/Api/videoProgress";
-import { setUpdatedPercentageWatched, setVideoIdOfcurrentVideo } from "@/store/slice/general";
+import {
+  setUpdatedPercentageWatched,
+  setVideoIdOfcurrentVideo,
+} from "@/store/slice/general";
 import { current } from "@reduxjs/toolkit";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setVideos, updateVideo } from "@/store/slice/course";
 
 const VideoDashboard = () => {
   const searchParams = useSearchParams();
@@ -33,7 +40,10 @@ const VideoDashboard = () => {
 
   const [updateProgress] = useUpdateVideoProgressMutation();
 
-  const { data: courseProgress, isLoading: courseProgressLoading } = useGetCourseProgressQuery(courseId);
+  const { data: courseProgress, isLoading: courseProgressLoading } =
+    useGetCourseProgressQuery(courseId, {
+      skip: !courseId,
+    });
   const latestWatchedVideo =
     courseProgress?.data?.courseProgress.length > 0
       ? courseProgress.data.courseProgress[0]?.video
@@ -43,7 +53,6 @@ const VideoDashboard = () => {
   const { data, isLoading, error } = useGetVideoQuery(videoId, {
     skip: !videoId,
   });
-
 
   // Reset states when videoId changes
   useEffect(() => {
@@ -62,9 +71,9 @@ const VideoDashboard = () => {
   useEffect(() => {
     console.log("latest andar", latestWatchedVideo);
     if (latestWatchedVideo) {
-      route.push(`?videoId=${latestWatchedVideo}`)
+      route.push(`?videoId=${latestWatchedVideo}`);
     }
-  }, [latestWatchedVideo])
+  }, [latestWatchedVideo]);
 
   useEffect(() => {
     if (id) {
@@ -72,18 +81,27 @@ const VideoDashboard = () => {
     }
   }, [id]);
 
-
   useEffect(() => {
     // console.log("watch time", watchTime);
     const progressUpdate = async () => {
       if (watchTime) {
         const res = await updateProgress({ id: videoId, watchTime }).unwrap();
-        dispatch(setUpdatedPercentageWatched(res?.videoProgress?.percentageWatched));
+        dispatch(
+          setUpdatedPercentageWatched(res?.videoProgress?.percentageWatched)
+        );
         dispatch(setVideoIdOfcurrentVideo(videoId));
+
+        dispatch(updateVideo(res.videoProgress));
       }
-    }
+    };
     progressUpdate();
   }, [watchTime]);
+
+  useEffect(() => {
+    if (courseProgress) {
+      dispatch(setVideos(courseProgress?.data?.courseProgress));
+    }
+  }, [courseProgress]);
 
   // Force video player to remount when videoUrl changes
   const videoPlayerKey = videoUrl || "no-video";

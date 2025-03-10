@@ -90,14 +90,17 @@ const VideoPlayer = ({
   // const [src, setSrc] = useState(` ${vidAddr}/${source[0]?.value}/360p.m3u8`);
   const [src, setSrc] = useState(source);
 
-
   useEffect(() => {
-    const foundVideo = courseProgress?.data?.courseProgress?.find((v) => v.video === videoId);
+    const foundVideo = courseProgress?.data?.courseProgress?.find(
+      (v) => v.video === videoId
+    );
     setIsVideoCompleted(foundVideo?.isCompleted);
-    // console.log("foun", foundVideo?.lastPosition);
-    setLastPosition(foundVideo?.lastPosition);
-  }, [])
+    const lastPosition = foundVideo?.lastPosition;
 
+    if (lastPosition) {
+      setLastPosition(foundVideo?.lastPosition);
+    }
+  }, [courseProgress]);
 
   useEffect(() => {
     setIsVideoFullScreen && setIsVideoFullScreen(isFullScreen);
@@ -275,8 +278,9 @@ const VideoPlayer = ({
 
     const progressBar = progressRef.current;
     if (progressBar) {
-      const progressColor = `linear-gradient(to right, #CAA257 ${progressPercentage + 0.1
-        }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
+      const progressColor = `linear-gradient(to right, #CAA257 ${
+        progressPercentage + 0.1
+      }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
       progressBar.style.background = progressColor;
     }
   };
@@ -495,7 +499,7 @@ const VideoPlayer = ({
           videoElement.webkitEnterFullscreen();
           setIsFullScreen(true);
           window.screen.orientation &&
-            window.screen.orientation.lock("landscape").catch(() => { });
+            window.screen.orientation.lock("landscape").catch(() => {});
         } else {
           videoElement.webkitExitFullscreen();
           setIsFullScreen(false);
@@ -508,7 +512,7 @@ const VideoPlayer = ({
           screenfull.request(containerRef.current);
           setIsFullScreen(true);
           window.screen.orientation &&
-            window.screen.orientation.lock("landscape").catch(() => { });
+            window.screen.orientation.lock("landscape").catch(() => {});
         } else {
           screenfull.exit();
           setIsFullScreen(false);
@@ -568,10 +572,10 @@ const VideoPlayer = ({
               {activeMenu === "main"
                 ? "Settings"
                 : activeMenu === "quality"
-                  ? "Quality"
-                  : activeMenu === "language"
-                    ? "Language"
-                    : "Playback Rate"}
+                ? "Quality"
+                : activeMenu === "language"
+                ? "Language"
+                : "Playback Rate"}
             </span>
           </div>
           <ul className="menu-items">
@@ -687,8 +691,9 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={`video-container ${playing ? "playing" : "paused"
-        } !z-0 !${className}`}
+      className={`video-container ${
+        playing ? "playing" : "paused"
+      } !z-0 !${className}`}
       ref={containerRef}
       onMouseMove={() => {
         containerRef.current.classList.add("show-controls");
@@ -729,11 +734,11 @@ const VideoPlayer = ({
 
       <div
         className="video-player"
-      // onClick={() => {
-      //   if (showControls) {
-      //     handlePlayPause();
-      //   }
-      // }}
+        // onClick={() => {
+        //   if (showControls) {
+        //     handlePlayPause();
+        //   }
+        // }}
       >
         <ReactPlayer
           ref={playerRef}
@@ -779,10 +784,9 @@ const VideoPlayer = ({
           onStart={() => {
             setPlaying(true);
             if (playerRef.current) {
-              playerRef.current.seekTo(lastPositon, "seconds"); 
+              playerRef.current.seekTo(lastPositon, "seconds");
             }
-          }
-          }
+          }}
           onProgress={handleProgress}
           onDuration={handleDuration}
           onEnded={handleEnded}
@@ -818,8 +822,9 @@ const VideoPlayer = ({
       </div>
       {!firstPlay && (
         <div
-          className={`player-controls ${isFullScreen ? "fullscreen-controls" : ""
-            } `}
+          className={`player-controls ${
+            isFullScreen ? "fullscreen-controls" : ""
+          } `}
         >
           <div className="on-screen-controls">
             <GrBackTen className="control-icons" onClick={handleBackward} />
@@ -857,7 +862,7 @@ const VideoPlayer = ({
               {tooltipView && !isTouchDevice && (
                 <div
                   className="tooltip-progress"
-                //  style={{ left: `${(hoveredTime / duration) * 100}%` }}
+                  //  style={{ left: `${(hoveredTime / duration) * 100}%` }}
                 >
                   <p>{formatTime(hoveredTime)}</p>
                 </div>
@@ -883,8 +888,9 @@ const VideoPlayer = ({
                   type="range"
                   className="volume-track"
                   style={{
-                    background: `linear-gradient(to right, #CAA257 ${volume * 100
-                      }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
+                    background: `linear-gradient(to right, #CAA257 ${
+                      volume * 100
+                    }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
                   }}
                   min={0}
                   max={1}
