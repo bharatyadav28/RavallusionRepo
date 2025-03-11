@@ -1,5 +1,5 @@
 import { mapToObject, objectToMap } from "@/lib/functions";
-import { Bookmarked, OrangePlay } from "@/lib/svg_icons";
+import { Bookmarked, Lock, OrangePlay } from "@/lib/svg_icons";
 import { useDeleteBookmarkMutation } from "@/store/Api/introAndBookmark";
 import {
   useGetCourseProgressQuery,
@@ -136,7 +136,7 @@ export const LessonCard = ({
   console.log("Previous Video Data", previousVideoData);
 
   const isVideoUnlocked =
-    currentVideoData.isCompleted || previousVideoData?.isCompleted;
+    currentVideoData?.isCompleted || previousVideoData?.isCompleted;
 
   const { data: courseProgress } = useGetCourseProgressQuery(courseId);
 
@@ -177,22 +177,27 @@ export const LessonCard = ({
   };
   return (
     <div
-      className="flex gap-x-3 items-center cursor-pointer px-3 
-      "
+      className="flex gap-x-3 items-center cursor-pointer px-3"
     >
       <div
-        className={` rounded-t-xl rounded-b-lg w-36 h-20 relative ${
-          !isVideoUnlocked ? "opacity-80 cursor-not-allowed" : ""
-        }`}
+        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked ? "brightness-30 cursor-not-allowed" : ""
+          }`}
         onClick={fetchVideo}
       >
+        {
+          !isVideoUnlocked ? (
+            <div className='z-50 absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-full flex items-center justify-center backdrop-blur-sm bg-[#0000001F] w-full'>
+              <Lock width={30} height={30} />
+            </div>
+          ) : ""
+        }
+
         <Image
           src={thumbnail}
           alt="video"
           fill
-          className={`rounded-t-xl rounded-b-lg ${
-            isplaying && "brightness-50"
-          }`}
+          className={`rounded-t-xl rounded-b-lg ${isplaying && "brightness-50"
+            }`}
         />
         <span
           style={{
@@ -203,6 +208,9 @@ export const LessonCard = ({
         >
           {duration || "00:00:00"}
         </span>
+
+
+
         {isplaying && (
           <span className="absolute font-semibold text-orange-300 text-[10px] bottom-2 left-1 flex gap-x-1 items-center">
             <span>
@@ -211,8 +219,8 @@ export const LessonCard = ({
             Now Playing
           </span>
         )}
-        {/* Progress Bar */}
 
+        {/* Progress Bar */}
         <div className="absolute rounded-t-xl z-50 bottom-0 w-full h-[6px] bg-gray-300 rounded-full mt-1 overflow-hidden">
           <div
             className="h-full bg-orange-300"
@@ -221,6 +229,7 @@ export const LessonCard = ({
             }}
           ></div>
         </div>
+
       </div>
 
       <div className="flex-grow w-32">

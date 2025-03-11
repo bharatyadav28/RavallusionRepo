@@ -7,8 +7,7 @@ import {
   IntroductoryList,
 } from "./IntroductoryAndBookmarkList";
 import CourseModuleList from "./CourseModuleList";
-import { CourseData } from "@/lib/tempData";
-import { LessonData } from "@/lib/tempData";
+
 import {
   useGetBookmarkQuery,
   useGetIntroductoryQuery,
@@ -17,7 +16,7 @@ import { useGetSubscribedPlanCourseQuery } from "@/store/Api/course";
 import { useGetPlanDataQuery } from "@/store/Api/home";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { setCourseId } from "@/store/slice/general";
+import { setCourseId, setFirstVideoId } from "@/store/slice/general";
 import { course, setCourse } from "@/store/slice/course";
 
 const PlayerSidebar = () => {
@@ -37,13 +36,15 @@ const PlayerSidebar = () => {
   const introductoryVideos = introductoryData?.data?.introductoryVideos || [];
   const bookmarkedVideos = data?.bookmarks || [];
 
-  // console.log("subscourseid",subscribedCourseData?.data?.course?._id);
   useEffect(() => {
     const courseData = subscribedCourseData?.data?.course;
 
     if (courseData) {
       dispatch(setCourseId(courseData?._id));
       dispatch(setCourse(courseData));
+    }
+    if(subscribedCourse?.modules?.[0].submodules?.[0].videos?.[0]._id){
+      dispatch(setFirstVideoId(subscribedCourse?.modules?.[0].submodules?.[0].videos?.[0]._id));
     }
   }, [subscribedCourseData, dispatch]);
 

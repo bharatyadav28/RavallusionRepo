@@ -7,12 +7,11 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { CustomButton } from "../common/CustomButton";
 import { SimpleLoader } from "../common/LoadingSpinner";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 
 const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId }) => {
     const modules = course?.modules;
-    const path = usePathname();
-    const route = useRouter();
+
     // console.log(modules[0]?.submodules[0]?.videos[0]?._id);
     // const id = modules[0]?.submodules[0]?.videos[0]?._id;
     const heading = course?.title || "Course";
@@ -22,13 +21,6 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
     // console.log(modules[0]?.submodules); // Check submodules array
     // console.log(modules[0]?.submodules[0]?.videos); // Check videos array
     // console.log(modules[0]?.submodules[0]?.videos[0]?._id); // Final access
-
-
-    useEffect(() => {
-        if (!modules || modules.length === 0) return;
-        const level = path.includes("beginner") ? "beginner" : "advanced";
-        route.replace(`/dashboard/player-dashboard/${level}?videoId=${modules[0]?.submodules?.[0]?.videos?.[0]?._id || "679f66b0e6c5403a1db2b7d1"}`);
-    },[course])
 
     return isLoading ? <SimpleLoader /> : (
         <>

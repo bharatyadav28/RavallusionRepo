@@ -9,6 +9,7 @@ const initialState = {
   courseId: null,
   updatedPercentageWatched: 0,
   videoIdOfCurrentVideo: null,
+  firstVideoId: null
 }
 
 export const generalSlice = createSlice({
@@ -38,13 +39,17 @@ export const generalSlice = createSlice({
     },
     setVideoIdOfcurrentVideo: (state, action) => {
       state.videoIdOfCurrentVideo = action.payload
-    }
+    },
+    setFirstVideoId: (state, action) => {
+      state.firstVideoId = action.payload
+    },
   },
 })
 
 export const { setVideoIdOfcurrentVideo,
   setUpdatedPercentageWatched,
   setCourseId,
+  setFirstVideoId,
   setShowProfileCard, setSubDetail, setIntroductoryVideoscount,
   setBookmarkCount, setSubmoduleId } = generalSlice.actions
 

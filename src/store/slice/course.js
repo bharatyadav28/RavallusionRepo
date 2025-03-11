@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   course: {},
   videos: {},
+  
 };
 export const course = createSlice({
   name: "course",

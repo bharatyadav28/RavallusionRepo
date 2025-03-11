@@ -29,7 +29,7 @@ const VideoDashboard = () => {
   const dispatch = useDispatch();
   const route = useRouter();
   const id = searchParams.get("videoId");
-  const courseId = useSelector((state) => state.general.courseId);
+  const {courseId,firstVideoId} = useSelector((state) => state.general);
 
   // const [getVideoQuery, { isLoading: loading }] = useLazyGetVideoQuery();
 
@@ -69,9 +69,11 @@ const VideoDashboard = () => {
   // console.log("latest bhar ", latestWatchedVideo);
 
   useEffect(() => {
-    console.log("latest andar", latestWatchedVideo);
     if (latestWatchedVideo) {
       route.push(`?videoId=${latestWatchedVideo}`);
+    }
+    else if(firstVideoId){
+      route.push(`?videoId=${firstVideoId}`);
     }
   }, [latestWatchedVideo]);
 

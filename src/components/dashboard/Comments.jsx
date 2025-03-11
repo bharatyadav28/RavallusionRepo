@@ -6,7 +6,8 @@ import { useGetUserDetailQuery } from '@/store/Api/auth';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SimpleLoader } from '../common/LoadingSpinner';
 import useSmallScreen from '@/hooks/detectScreen';
-import { useCreateCommentMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
+import { useCreateCommentMutation, useCreateReplyMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
+import { toast } from 'react-toastify';
 
 const commentData = [
     {
@@ -64,7 +65,10 @@ const Comments = ({ videoId }) => {
             <div className='flex flex-col gap-y-4'>
                 {
                     [...comments].reverse().map((items, i) => (
-                        <Comment key={i} comment={items?.comment}
+                        <Comment
+                            key={i}
+                            comment={items?.comment}
+                            commentId={items?._id}
                             reply={items?.reply}
                             userName={items?.user?.name}
                             avatar={items?.user?.avatar}
@@ -78,13 +82,16 @@ const Comments = ({ videoId }) => {
 
 
 
-const Comment = ({ comment, reply, userName, avatar }) => {
+const Comment = ({ comment, reply, userName, commentId,avatar }) => {
     const { data, isLoading, error } = useGetUserDetailQuery();
+    const [createReply] = useCreateReplyMutation();
+    const role = data?.data?.user?.role
     const [showReplies, setShowReplies] = useState(false);
+    const [addReply, setAddReply] = useState(false);
+    const [replyBody, setReplyBody] = useState("");
     const inputRef = useRef(null);
 
     // Scroll to input when addReply is true
-
     useEffect(() => {
         if (window.innerWidth >= 1024 && showReplies && inputRef.current) {
             inputRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -94,6 +101,18 @@ const Comment = ({ comment, reply, userName, avatar }) => {
     // Toggle replies visibility
     const toggleReplies = () => setShowReplies(!showReplies);
 
+    const handleCreateReply = async () => {
+        if (!replyBody.trim()) return
+        try {
+            const res = await createReply({ body: { reply: replyBody }, commentId }).unwrap();
+            if (res?.success) {
+                setReplyBody("");
+            }
+        } catch (error) {
+            console.error("Error creating comment:", error);
+            toast.error(error?.data?.message)
+        }
+    };
 
     return (
         <div className=" pb-3">
@@ -101,7 +120,7 @@ const Comment = ({ comment, reply, userName, avatar }) => {
             <div className="flex gap-x-2">
                 <div className="w-8 h-8 rounded-full bg-red-300 relative">
                     <Image
-                        src="/prismatic.png"
+                        src={"/prismatic.png"}
                         alt="user"
                         fill
                         style={{ borderRadius: "100%", objectFit: "cover" }}
@@ -111,10 +130,28 @@ const Comment = ({ comment, reply, userName, avatar }) => {
                 <div>
                     <p className="text-[10px] text-gray-300">{userName}</p>
                     <p className="text-xs mb-1 font-semibold">{comment}</p>
-                    <div className='flex gap-x-3 items-center'>
-                        {
-                            <div>
+                    <div className='flex flex-col gap-x-3 items-start'>
+                        {role == "admin" &&
+                            <div onClick={() => setAddReply(!addReply)}>
                                 <p className='text-yellow-400 text-[10px] font-semibold cursor-pointer'>Reply</p>
+                            </div>
+                        }
+                        {
+                            addReply &&
+                            <div className='relative my-4 w-96'>
+                                <Input
+                                    type="text"
+                                    value={replyBody}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            handleCreateReply();
+                                        }
+                                    }}
+                                    onChange={(e) => setReplyBody(e.target.value)}
+                                    className="px-4 py-3 rounded-3xl border border-gray-500 " placeholder="reply.." />
+                                <div className='absolute right-5 top-2 cursor-pointer' onClick={handleCreateReply}>
+                                    <Send />
+                                </div>
                             </div>
                         }
                         {

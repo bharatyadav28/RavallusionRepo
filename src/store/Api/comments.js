@@ -18,7 +18,15 @@ export const commentsApi = createApi({
             }),
             invalidatesTags: (_, __, { videoId }) => [{ type: "comments", id: videoId }]
         }),
+        createReply: builder.mutation({
+            query: ({ body, commentId }) => ({
+                url: `comment/${commentId}/reply`,
+                method: "PUT",
+                body,
+            }),
+            invalidatesTags: (_, __, { commentId }) => [{ type: "comments", id: commentId }]
+        }),
     }),
 })
 
-export const { useGetVideoCommentsQuery, useCreateCommentMutation } = commentsApi;
+export const {useCreateReplyMutation, useGetVideoCommentsQuery, useCreateCommentMutation } = commentsApi;
