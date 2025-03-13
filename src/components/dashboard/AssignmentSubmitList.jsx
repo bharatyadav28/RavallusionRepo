@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 
 const AssignmentSubmitList = () => {
     const [isActive, setIsActive] = useState(0);
-    const courseComplete = false;
 
     const showProfileCard = useSelector((state) => state.general.showProfileCard)
     console.log(showProfileCard)
@@ -21,8 +20,7 @@ const AssignmentSubmitList = () => {
                 <PersonalInfoCard showProfileCard={showProfileCard} />
             }
 
-            <h1 className='text-lg font-semibold mb-4'>Assignment Submission</h1>
-            {
+            {/* {
                 courseComplete && (
                     <div className='p-3 bg-[#3A3537] rounded-lg'>
                         <h1 className='text-sm mb-1 font-semibold'>🥳 Congrats! Your Course is completed</h1>
@@ -33,7 +31,7 @@ const AssignmentSubmitList = () => {
                         </div>
                     </div>
                 )
-            }
+            } */}
 
             <div className='mb-2'>
                 <div className='flex items-center gap-x-4 mb-3'>
@@ -42,10 +40,10 @@ const AssignmentSubmitList = () => {
                 </div>
 
                 {isActive === 0 && (
-                    <CourseProgressBar percentage={50} className="h-1" />
+                    <CourseProgressBar percentage={50} />
                 )}
                 {isActive === 1 && (
-                    <CourseProgressBar percentage={20} className="h-1" />
+                    <CourseProgressBar percentage={20} />
                 )}
 
             </div>
@@ -156,7 +154,7 @@ const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = fal
 
 export const CourseProgressBar = ({ percentage = 50, className = '' }) => {
     return (
-        <div className={`w-full bg-black h-2 rounded-xl overflow-hidden ${className}`}>
+        <div className={`w-full bg-black h-1 rounded-xl overflow-hidden ${className}`}>
             <div
                 className="h-full transition-all duration-300 ease-in-out"
                 style={{ width: `${percentage}%`, background: "var(--neon-purple, linear-gradient(180deg, #C99BFD 0%, #8574F6 100%))" }}

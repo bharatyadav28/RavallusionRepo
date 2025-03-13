@@ -31,25 +31,21 @@ const DashboardNavbar = () => {
       setShow(false);
       setUrlPath('dashboard')
     }
-    else if (pathname == '/dashboard/introductory') {
+    else if (pathname === '/dashboard/introductory') {
       setShow(true);
       setUrlPath('introductory')
     }
-    else if (pathname == '/dashboard/player-dashboard/advanced' || '/dashboard/player-dashboard/beginner') {
+    else if (pathname === '/dashboard/profile') {
       setShow(true);
-      setUrlPath('playerDashboard')
+      setUrlPath('profile')
     }
-    else if (pathname == '/dashboard/bookmarked-videos') {
-      setShow(true);
-      setUrlPath('bookmarked')
-    }
-    else if (pathname == '/dashboard/search') {
+    else if (pathname === '/dashboard/search') {
       setShow(true);
       setUrlPath('search')
     }
-    else if (pathname == '/dashboard/profile') {
+    else if (pathname === '/dashboard/player-dashboard/[advanced]' || '/dashboard/player-dashboard/[beginner]') {
       setShow(true);
-      setUrlPath('profile')
+      setUrlPath('playerDashboard')
     }
     else {
       setShow(true)
@@ -58,16 +54,23 @@ const DashboardNavbar = () => {
 
 
   return (
-    <div className={`${urlpath == 'dashboard' ? "rounded-none" : "rounded-xl"} bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative`}>
+    <div className={`${urlpath == 'dashboard' ? "rounded-none" : "rounded-none md:rounded-xl"} bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative`}>
       {openSidebar && <SideBar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} urlpath={urlpath} />}
       {show ? (
         <div className='flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2'>
-          <button className='cursor-pointer' onClick={() => router.back()}
-          > <ArrowLeft /></button>
+
+          <button className='cursor-pointer' onClick={() => router.back()}>
+            <ArrowLeft />
+          </button>
 
           <div className='flex-grow'>
             {
-              urlpath == 'introductory' && (
+              urlpath === 'profile' && (
+                <h1 className='text-lg font-semibold  '>Profile</h1>
+              )
+            }
+            {
+              urlpath === 'introductory' && (
                 <>
                   <h1 className='text-lg font-semibold mb-1'>Introductory videos</h1>
                   <p className='text-xs text-[#CDCED1]'>{introductoryVideosCount} Videos</p>
@@ -75,36 +78,22 @@ const DashboardNavbar = () => {
               )
             }
             {
-              urlpath == 'playerDashboard' && (
+              urlpath === 'playerDashboard' && (
                 <>
                   <h1 className='text-lg font-semibold mb-1'>Opening file</h1>
                   <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p>
                 </>
               )
             }
+
             {
-              urlpath == 'bookmarked' && (
-                <>
-                  <h1 className='text-lg font-semibold mb-1'>Bookmarked videos</h1>
-                  <p className='text-xs text-[#CDCED1]'>{bookmarkCount} Videos</p>
-                </>
-              )
-            }
-            {
-              urlpath == 'profile' && (
-                <>
-                  <h1 className='text-lg font-semibold mb-1'>Profile</h1>
-                  <p className='text-xs text-[#CDCED1]'>Advanced</p>
-                </>
-              )
-            }
-            {
-              urlpath == 'search' && (
+              urlpath === 'search' && (
                 <SearchInput />
               )
             }
 
           </div>
+
         </div>
       ) :
         (<h1 className='text-2xl italic font-bold'>Ravallusion</h1>)
@@ -127,7 +116,7 @@ const DashboardNavbar = () => {
         <BoxComponent show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} href={'/dashboard/introductory'} />
 
 
-        <ProfileComponent urlpath={urlpath} />
+        <ProfileComponent show={show} href={'/dashboard/profile'} />
 
 
         <div onClick={() => setOpenSidebar(true)} className='p-3 border relative cursor-pointer lg:hidden border-[var(--neon-purple)] bg-[#040C19] '>
@@ -196,16 +185,18 @@ const SideBar = ({ openSidebar, setOpenSidebar, urlpath }) => {
         <div className='flex flex-col gap-y-4'>
           <BoxComponentMobile href={"/dashboard/player-dashboard/advanced"} show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} />
           <BoxComponentMobile href={"/dashboard/player-dashboard/beginner"} show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Photoshop"} />
-          <BoxComponentMobile href={"/dashboard/introductory"} show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
+          <BoxComponentMobile setOpenSidebar={setOpenSidebar} href={"/dashboard/introductory"} show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
+          <BoxComponentMobile setOpenSidebar={setOpenSidebar} href={"/dashboard/profile"} show={show}
+            icon={<div className='bg-gray-300  rounded-full w-6 h-6 relative'>
+              <Image
+                src={'/profilepic.jpeg'}
+                alt='Profile pic'
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              /> </div>}
+            title={"Profile"} profileMobile={true} />
 
-          <BoxComponentMobile setOpenSidebar={setOpenSidebar} profileMobile={urlpath === 'profile' ? true : false} show={show} icon={<div className='bg-gray-300 rounded-full w-7 h-7 relative'>
-            <Image
-              src={'/URL_of_image_for_FX_Console_Plugin.jpeg'}
-              alt='Profile pic'
-              layout="fill"
-              objectFit="cover"
-              className="rounded-full"
-            /> </div>} title={"Profile"} title1={"Advance"} title2={"Beginner"} href={"/dashboard/profile"} />
         </div>
       </motion.div>
     </>
@@ -213,19 +204,13 @@ const SideBar = ({ openSidebar, setOpenSidebar, urlpath }) => {
 }
 
 
-const ProfileComponent = ({ urlpath }) => {
-  const dispatch = useDispatch();
+const ProfileComponent = ({ href }) => {
   const router = useRouter();
 
   return (
     <div className='ml-3 bg-gray-300 rounded-full w-11 h-11 relative hidden lg:block cursor-pointer'
       onClick={() => {
-        if (urlpath !== 'profile') {
-          router.push('/dashboard/profile');
-        }
-        else {
-          dispatch(setShowProfileCard())
-        }
+        router.push(href)
       }}
     >
       <Image
@@ -235,8 +220,6 @@ const ProfileComponent = ({ urlpath }) => {
         objectFit="cover"
         className="rounded-full"
       />
-
-
     </div>
   )
 }
@@ -311,7 +294,7 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
           href={href}
           title1={title1}
           title2={title2}
-          setIsOpenBoxDropdown={setIsOpenBoxDropdown} 
+          setIsOpenBoxDropdown={setIsOpenBoxDropdown}
         />
       )}
     </div>
@@ -322,14 +305,14 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
 const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter()
-  const dispatch = useDispatch();
 
   const handleClick = () => {
     if (introductory) {
       router.push('/dashboard/introductory');
+      setOpenSidebar(false);
     }
     else if (profileMobile) {
-      dispatch(setShowProfileCard());
+      router.push('/dashboard/profile')
       setOpenSidebar(false);
     }
     else {
@@ -351,7 +334,7 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
           </div>
           {introductory ? (
             <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">Free</span>
-          ) : (
+          ) : !profileMobile && (
             <div className="cursor-pointer ml-3">
               {isOpen ? <ChevronUp /> : <ChevronDown />}
             </div>
@@ -391,12 +374,12 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
 // };
 
 
-const BoxDropdown = ({ title1, title2, href, setOpenSidebar,setIsOpenBoxDropdown }) => {
+const BoxDropdown = ({ title1, title2, href, setOpenSidebar, setIsOpenBoxDropdown }) => {
   const router = useRouter();
   const handleCloseSidebar = () => {
     setOpenSidebar(false);
   }
-  const handleClick = ()=>{
+  const handleClick = () => {
     router.push(href);
     setIsOpenBoxDropdown(false);
   }
@@ -412,7 +395,7 @@ const BoxDropdown = ({ title1, title2, href, setOpenSidebar,setIsOpenBoxDropdown
           {title1} <ArrowRight size={21} />
         </button>
 
-        <button className="text-xs text-white flex justify-between items-center"  onClick={handleClick}>
+        <button className="text-xs text-white flex justify-between items-center" onClick={handleClick}>
           {title2} <ArrowRight size={21} />
         </button>
       </div>

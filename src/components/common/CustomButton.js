@@ -10,7 +10,7 @@ export const CustomButton = ({ children, disabled, ...props }) => {
   );
   return (
     <Button {...props} className={classes} onClick={onClick} disabled={disabled}>
-      {children}
+      {children}  
     </Button>
   );
 };

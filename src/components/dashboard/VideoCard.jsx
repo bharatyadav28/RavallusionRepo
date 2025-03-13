@@ -17,7 +17,7 @@ const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, vid
 
     return (
         <motion.div
-            className="p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 lg:col-span-3 h-72 cursor-pointer shadow-md"
+            className="p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 lg:col-span-4 h-72 cursor-pointer shadow-md"
             whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)", y: -10 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

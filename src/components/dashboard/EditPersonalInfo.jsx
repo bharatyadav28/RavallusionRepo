@@ -13,7 +13,7 @@ const EditInfo = ({ label, content, onClick, onSave ,type='text'}) => {
     return (
         <div className="flex items-center justify-center">
             <div
-                className="w-4/5 p-10 rounded-[28px]"
+                className="w-full md:w-4/5 p-10 rounded-[28px]"
                 style={{
                     background: "rgba(13, 33, 61, 0.35)",
                     backdropFilter: "blur(104.0999984741211px)",

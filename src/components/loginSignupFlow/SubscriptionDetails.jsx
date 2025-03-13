@@ -18,7 +18,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
   };
 
   return (
-    <div className={`mx-4 p-4 rounded-[17px] bg-[var(--navy-blue)] ${profile && "w-full !bg-[var(--card)] mx-0"}`}>
+    <div className={` ${!profile && "mx-4"} p-4 rounded-[17px] bg-[var(--navy-blue)] ${profile && "w-full !bg-[var(--card)] mx-0"}`}>
       {/* Header Section */}
       <div className='flex justify-between items-center'>
         <h2 className='text-white font-semibold text-sm  md:text-lg'>Subscription details</h2>

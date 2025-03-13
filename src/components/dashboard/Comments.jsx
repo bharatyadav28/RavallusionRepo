@@ -4,25 +4,12 @@ import { Send } from '@/lib/svg_icons';
 import Image from 'next/image';
 import { useGetUserDetailQuery } from '@/store/Api/auth';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SimpleLoader } from '../common/LoadingSpinner';
-import useSmallScreen from '@/hooks/detectScreen';
-import { useCreateCommentMutation, useCreateReplyMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
+import { useCreateCommentMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
 import { toast } from 'react-toastify';
 
-const commentData = [
-    {
-        title: "Hello this is comment 1",
-    },
-    {
-        title: "Hello this is comment 1",
-    },
-    {
-        title: "Hello this is comment 1",
-    },
-]
 
 const Comments = ({ videoId }) => {
-    const { data, isLoading, error, refetch } = useGetVideoCommentsQuery(videoId);
+    const { data } = useGetVideoCommentsQuery(videoId);
     const [createComment, { isLoading: isCreating }] = useCreateCommentMutation();
     const [commentBody, setCommentBody] = useState("");
 
@@ -34,11 +21,9 @@ const Comments = ({ videoId }) => {
             if (res?.success) {
                 setCommentBody("");
             }
-            else {
-                toast.error(res?.message)
-            }
         } catch (error) {
             console.error("Error creating comment:", error);
+            toast.error(error?.data?.message || "Error while comment")
         }
     };
 
@@ -80,15 +65,8 @@ const Comments = ({ videoId }) => {
     )
 }
 
-
-
-const Comment = ({ comment, reply, userName, commentId,avatar }) => {
-    const { data, isLoading, error } = useGetUserDetailQuery();
-    const [createReply] = useCreateReplyMutation();
-    const role = data?.data?.user?.role
+const Comment = ({ comment, reply, userName, commentId, avatar }) => {
     const [showReplies, setShowReplies] = useState(false);
-    const [addReply, setAddReply] = useState(false);
-    const [replyBody, setReplyBody] = useState("");
     const inputRef = useRef(null);
 
     // Scroll to input when addReply is true
@@ -107,6 +85,7 @@ const Comment = ({ comment, reply, userName, commentId,avatar }) => {
             const res = await createReply({ body: { reply: replyBody }, commentId }).unwrap();
             if (res?.success) {
                 setReplyBody("");
+                setAddReply(false);
             }
         } catch (error) {
             console.error("Error creating comment:", error);
@@ -130,30 +109,9 @@ const Comment = ({ comment, reply, userName, commentId,avatar }) => {
                 <div>
                     <p className="text-[10px] text-gray-300">{userName}</p>
                     <p className="text-xs mb-1 font-semibold">{comment}</p>
-                    <div className='flex flex-col gap-x-3 items-start'>
-                        {role == "admin" &&
-                            <div onClick={() => setAddReply(!addReply)}>
-                                <p className='text-yellow-400 text-[10px] font-semibold cursor-pointer'>Reply</p>
-                            </div>
-                        }
-                        {
-                            addReply &&
-                            <div className='relative my-4 w-96'>
-                                <Input
-                                    type="text"
-                                    value={replyBody}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                            handleCreateReply();
-                                        }
-                                    }}
-                                    onChange={(e) => setReplyBody(e.target.value)}
-                                    className="px-4 py-3 rounded-3xl border border-gray-500 " placeholder="reply.." />
-                                <div className='absolute right-5 top-2 cursor-pointer' onClick={handleCreateReply}>
-                                    <Send />
-                                </div>
-                            </div>
-                        }
+
+                    <div className='flex gap-x-3'>
+
                         {
                             reply &&
                             (
@@ -167,7 +125,10 @@ const Comment = ({ comment, reply, userName, commentId,avatar }) => {
                                 </div>
                             )
                         }
+
                     </div>
+
+
                 </div>
             </div>
 
@@ -199,12 +160,6 @@ const Comment = ({ comment, reply, userName, commentId,avatar }) => {
                             </div>
 
                         </div>
-
-                        {/* {replies.map((reply, index) => (
-                            <p key={index} className="text-xs text-gray-100 ">
-                                {reply}
-                            </p>
-                        ))} */}
 
                     </motion.div>
                 )}
