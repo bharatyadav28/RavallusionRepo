@@ -4,10 +4,14 @@ import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import PersonalInfoCard from './PersonalInfoCard';
 import { useSelector } from 'react-redux';
+import { useGetSubmittedAssignmetQuery } from '@/store/Api/course';
+import CustomDialog from '../common/CustomDialog';
 
 
 const AssignmentSubmitList = () => {
     const [isActive, setIsActive] = useState(0);
+    const { data } = useGetSubmittedAssignmetQuery();
+    console.log("data", data);
 
     const showProfileCard = useSelector((state) => state.general.showProfileCard)
     console.log(showProfileCard)
@@ -51,7 +55,7 @@ const AssignmentSubmitList = () => {
             {
                 isActive === 0 && (
                     <div>
-                         <SubmitAssignment completed={true} submited={true} />
+                        <SubmitAssignment completed={true} submited={true} />
                         <SubmitAssignment completed={true} />
                         <SubmitAssignment ongoing={true} />
                         <SubmitAssignment notStarted={true} />
@@ -75,6 +79,7 @@ const AssignmentSubmitList = () => {
 
 
 const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = false, submited = false, title = "List of shortcuts used in the course" }) => {
+    const [showSubmitAssignment, setShowSubmitAssignment] = useState(false);
 
     return (
         <div className='py-3 flex items-center justify-between'>
@@ -118,7 +123,7 @@ const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = fal
                     )
                 }
                 {completed && !submited && (
-                    <Button variant="neonOutline">Submit </Button>)}
+                    <Button onClick={() => setShowSubmitAssignment(true)} variant="neonOutline">Submit </Button>)}
                 {
                     ongoing && (
                         <div className='relative cursor-pointer'>
@@ -146,6 +151,10 @@ const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = fal
                     )
                 }
             </div>
+
+            {/* <CustomDialog close={() => setShowSubmitAssignment(false)} open={showSubmitAssignment}>
+                
+            </CustomDialog> */}
 
         </div>
     )

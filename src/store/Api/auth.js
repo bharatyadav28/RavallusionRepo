@@ -5,6 +5,7 @@ export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/' }),
 
+    tagTypes: ['user'],
     endpoints: (builder) => ({
         signin: builder.mutation({
             query: (body) => ({
@@ -39,14 +40,43 @@ export const authApi = createApi({
             })
         }),
         getUserDetail: builder.query({
-            query: () => "user/send-me"
+            query: () => "user/send-me",
+            providesTags: ["user"]
         }),
 
+        updateName: builder.mutation({
+            query: (body) => ({
+                url: "user/name",
+                method: "PUT",
+                body
+            }),
+            invalidatesTags: ["user"]
+        }),
+
+        updateMobile: builder.mutation({
+            query: (body) => ({
+                url: "user/mobile",
+                method: "PUT",
+                body
+            }),
+            invalidatesTags: ["user"]
+        }),
+        updateAvatar: builder.mutation({
+            query: (body) => ({
+                url: "user/avatar",
+                method: "PUT",
+                body
+            }),
+            invalidatesTags: ["user"]
+        }),
     })
 })
 
 
 export const { useSigninMutation,
+    useUpdateMobileMutation,
+    useUpdateNameMutation,
+    useUpdateAvatarMutation,
     useVerifyUserMutation,
     useLogoutMutation,
     useSwitchDeviceMutation,

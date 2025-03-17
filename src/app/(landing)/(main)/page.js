@@ -29,7 +29,7 @@ export default function Home() {
   const { data: faqSection, isLoading: faqLoading } = useGetFaqQuery();
 
   const loading = heroLoading || faqLoading || certificateLoading || mentorLoading || planLoading || moduleLoading || curriculumLoading || latestTutorialLoading || carouselLoading
-
+  console.log(planSection?.data?.plans)
   return loading ? (
     <PageLoader />
   ) : (

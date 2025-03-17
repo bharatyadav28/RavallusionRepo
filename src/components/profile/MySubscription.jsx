@@ -1,6 +1,7 @@
 import { CrownIcon } from '@/lib/svg_icons'
 import React from 'react'
 import SubscriptionDetails from '../loginSignupFlow/SubscriptionDetails'
+import Link from 'next/link'
 
 const MySubscription = () => {
     return (
@@ -41,7 +42,7 @@ const UpgradePlan = () => {
             </div>
 
             <div className=' bg-[var(--Surface)] backdrop-blur-lg border border-[var(--neon-purple)] px-5 py-2 rounded-lg flex items-center justify-center'>
-                <p className='text-sm md:text-lg font-medium'>Upgrade</p>
+                <Link href={'/subscription-plan'} className='text-sm md:text-lg font-medium'>Upgrade</Link>
             </div>
 
         </div >

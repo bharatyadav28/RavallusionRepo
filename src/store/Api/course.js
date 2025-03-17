@@ -9,7 +9,10 @@ export const courseApi = createApi({
         getSubscribedPlanCourse: builder.query({
             query: (planId) => `course/getSubscribedPlanCourse/${planId}`
         }),
-        assignmentSubmit : builder.mutation({
+        getSubscriptionDetail: builder.query({
+            query: () => `order/my-subscription`
+        }),
+        assignmentSubmit: builder.mutation({
             query: (body) => ({
                 url: "submitted-assignment",
                 method: "POST",
@@ -24,9 +27,13 @@ export const courseApi = createApi({
                 credentials: "include",
                 body,
             }),
-        })
-       
+        }),
+        getSubmittedAssignmet: builder.query({
+            query: () => `submitted-assignment/subscribed-course-assignments`
+        }),
+
     }),
 })
 
-export const { useGetSubscribedPlanCourseQuery,useAssignmentSubmitMutation,useUploadFileMutation} = courseApi;
+export const { useGetSubmittedAssignmetQuery,useGetSubscribedPlanCourseQuery,
+    useGetSubscriptionDetailQuery, useAssignmentSubmitMutation, useUploadFileMutation } = courseApi;

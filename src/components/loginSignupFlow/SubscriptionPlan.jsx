@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Plans from '../common/Plans'
-import { useGetLandingPageDataQuery } from '@/store/Api/home';
+import { useGetLandingPageDataQuery, useGetPlanDataQuery } from '@/store/Api/home';
 import PageLoader from '../common/PageLoader';
 
 // const plans = [
@@ -31,7 +31,7 @@ import PageLoader from '../common/PageLoader';
 
 const SubscriptionPlan = () => {
 
-    const { data, isLoading, error } = useGetLandingPageDataQuery();
+    const { data, isLoading, error } = useGetPlanDataQuery();
 
     const plans = data?.data.plans || [];
 

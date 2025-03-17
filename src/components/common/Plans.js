@@ -37,7 +37,7 @@ import Cookies from "js-cookie";
 
 
 const Plans = ({ plans, showSkeleton = true }) => {
-
+console.log(plans);
 
   // console.log(plans);
   const dispatch = useDispatch();

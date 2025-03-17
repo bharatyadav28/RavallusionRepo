@@ -1,34 +1,34 @@
 'use client';
-
-import { X } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import {
-    Delete,
-    DeleteCard,
-    Logout,
-    LogoutCard,
     OutlinePencil,
     YellowPencil,
 } from '@/lib/svg_icons';
 import CustomDialog from '../common/CustomDialog';
 import EditInfo from './EditPersonalInfo';
-import AccountControlCard from './AccountControlCard';
 import { useDispatch } from 'react-redux';
-import { setShowProfileCard } from '@/store/slice/general';
-import { motion } from 'framer-motion';
+import { useGetUserDetailQuery, useUpdateAvatarMutation, useUpdateMobileMutation, useUpdateNameMutation } from '@/store/Api/auth';
+import { toast } from 'react-toastify';
+import { SimpleLoader } from '../common/LoadingSpinner';
 
-const PersonalInfoCard = ({ showProfileCard }) => {
+const PersonalInfoCard = () => {
     const dispatch = useDispatch();
+    const { data } = useGetUserDetailQuery();
+    const [updateName, { isLoading }] = useUpdateNameMutation();
+    const [updateMobile, { isLoading: isLoadingMobile }] = useUpdateMobileMutation();
+    const [updateAvatar, { isLoading: isLoadingAvatar }] = useUpdateAvatarMutation();
 
-    const [name, setName] = useState('Ramesh');
-    const [phone, setPhone] = useState('9369680068');
-    const [profilePic, setProfilePic] = useState('/profilepic.jpeg');
+    const userName = data?.data?.user?.name || "Ravallusion";
+    const email = data?.data?.user?.email || "ravallusion@gmail.com";
+    const avatar = data?.data?.user?.avatar || '/profilepic.jpeg';
+    const mobileNumber = data?.data?.user?.mobile || '+910000000000';
+
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
 
     const [isOpenName, setIsOpenName] = useState(false);
     const [isOpenPhone, setIsOpenPhone] = useState(false);
-    const [isOpenDelete, setIsOpenDelete] = useState(false);
-    const [isOpenLogout, setIsOpenLogout] = useState(false);
 
     // Function to handle saving updated name or phone
     const handleSave = (field, value) => {
@@ -36,13 +36,49 @@ const PersonalInfoCard = ({ showProfileCard }) => {
         if (field === 'phone') setPhone(value);
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setProfilePic(imageUrl);
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await updateAvatar(formData).unwrap();
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message || "Failed to upload image");
         }
     };
+
+    const handleUpdateName = async (value) => {
+        handleSave('name', value);
+        try {
+            const res = await updateName({ name: value }).unwrap();
+            console.log("name", res);
+
+        } catch (error) {
+            console.log("error while Updating name", error)
+            toast.error(error?.data?.message);
+        }
+        finally {
+            setIsOpenName(false);
+        }
+    }
+    const handleUpdateMobile = async (value) => {
+        handleSave('phone', value);
+        console.log("phone", value);
+        try {
+            const res = await updateMobile({ mobile: value }).unwrap();
+            console.log("phone", res);
+        } catch (error) {
+            console.log("error while Updating phone", error)
+            toast.error(error?.data?.message);
+        }
+        finally {
+            setIsOpenPhone(false);
+        }
+    }
     // const variants = {
     //     initial: {
     //         x: window.innerWidth >= 1024 ? '100%' : '-50%',
@@ -71,34 +107,26 @@ const PersonalInfoCard = ({ showProfileCard }) => {
     return (
         <div
             className=" w-full z-20"
-            // style={{
-            //     backgroundImage: "url('/strap-gradient.png')",
-            //     backgroundSize: "cover",
-            //     backgroundRepeat: "no-repeat",
-            //     backgroundPosition: "center",
-            //     borderRadius: "12px"
-            // }}
-            
-            >
 
+        >
             <div className='pt-4 md:pt-0'>
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-semibold">Personal Information</h1>
-                    {/* <div className="cursor-pointer p-1 rounded-full border border-gray-500" onClick={() => dispatch(setShowProfileCard())}>
-                        <X size={19} />
-                    </div> */}
                 </div>
 
                 <div className="p-5">
                     <div className="flex items-center justify-center">
 
                         <div className="relative w-32 h-32 rounded-full">
-                            <Image
-                                src={profilePic}
-                                alt="profilepic"
-                                fill
-                                style={{ objectFit: 'cover', borderRadius: '50%' }}
-                            />
+                            {isLoadingAvatar ? <SimpleLoader /> :
+                                <Image
+                                    src={avatar || '/profilepic.jpeg'}
+                                    alt="profilepic"
+                                    fill
+                                    style={{ objectFit: 'cover', borderRadius: '50%' }}
+                                />
+                            }
+
                             <div className="absolute bottom-1 right-0 cursor-pointer">
                                 <input
                                     type="file"
@@ -116,33 +144,33 @@ const PersonalInfoCard = ({ showProfileCard }) => {
             </div>
 
             <div className='p-4'>
-                <PersonalInfo label="Name" content={name} onClick={() => setIsOpenName(true)} />
-                <PersonalInfo label="Phone number" content={phone} onClick={() => setIsOpenPhone(true)} />
-                <PersonalInfo label="Email id" content="Kishore@gmail.com" />
+                <PersonalInfo label="Name" content={userName} onClick={() => setIsOpenName(true)} />
+                <PersonalInfo label="Phone number" content={mobileNumber} onClick={() => setIsOpenPhone(true)} />
+                <PersonalInfo label="Email id" content={email} />
             </div>
 
 
             <CustomDialog open={isOpenName} close={() => setIsOpenName(false)}>
                 <EditInfo
+                    isLoading={isLoading}
                     label="Name"
                     content={name}
                     onClick={() => setIsOpenName(false)}
                     onSave={(value) => {
-                        handleSave('name', value);
-                        setIsOpenName(false);
+                        handleUpdateName(value);
                     }}
                 />
             </CustomDialog>
 
             <CustomDialog open={isOpenPhone} close={() => setIsOpenPhone(false)}>
                 <EditInfo
+                    isLoading={isLoadingMobile}
                     label="Phone"
-                    type='number'
+                    type='text'
                     content={phone}
                     onClick={() => setIsOpenPhone(false)}
                     onSave={(value) => {
-                        handleSave('phone', value);
-                        setIsOpenPhone(false);
+                        handleUpdateMobile(value);
                     }}
                 />
             </CustomDialog>
@@ -169,17 +197,17 @@ const PersonalInfo = ({ label, content, onClick }) => {
 };
 
 
-const AccountControl = ({ icon, title, onClick }) => {
-    return (
-        <div
-            onClick={onClick}
-            className={`py-3 flex items-center gap-x-3 cursor-pointer ${title === 'Logout' && 'text-red-600'
-                }`}
-        >
-            {icon}
-            <p className="text-sm font-semibold">{title}</p>
-        </div>
-    );
-};
+// const AccountControl = ({ icon, title, onClick }) => {
+//     return (
+//         <div
+//             onClick={onClick}
+//             className={`py-3 flex items-center gap-x-3 cursor-pointer ${title === 'Logout' && 'text-red-600'
+//                 }`}
+//         >
+//             {icon}
+//             <p className="text-sm font-semibold">{title}</p>
+//         </div>
+//     );
+// };
 
 export default PersonalInfoCard;
