@@ -24,7 +24,9 @@ const HeroSection = ({ data }) => {
         </p>
 
         <GlowButton className="text-lg 2xl:text-2xl mt-4 px-14 2xl:px-16 py-7 2xl:py-8 w-40">
-          Enroll Now
+          <Link href={'/login'}>
+            Enroll Now
+          </Link>
         </GlowButton>
       </div>
 
@@ -36,7 +38,7 @@ const HeroSection = ({ data }) => {
               src="/Hero section image - Mobile res.png"
               fill
               alt="Hero Background"
-              style={{ objectFit: "cover",filter:"brightness(0.7)" }}
+              style={{ objectFit: "cover", filter: "brightness(0.7)" }}
             />
           ) : (<Image
             src="/hero-image.png"
