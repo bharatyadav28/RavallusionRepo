@@ -3,24 +3,35 @@ import { ChevronRight } from 'lucide-react'
 import React, { useState } from 'react'
 import CustomDialog from '../common/CustomDialog'
 import AccountControlCard from '../dashboard/AccountControlCard'
+import { useDeleteAccountMutation } from '@/store/Api/auth'
+import { toast } from 'react-toastify'
 
 const Settings = () => {
-    const [isOpenDelete,setIsOpenDelete] = useState(false);
+    const [isOpenDelete, setIsOpenDelete] = useState(false);
+    const [deleteAccount, { isLoading }] = useDeleteAccountMutation();
 
-    const handleDeleteAccount = ()=>{
-        alert("Account deleted successfully")
-        setIsOpenDelete(false)
+    const handleDeleteAccount = async () => {
+        try {
+            const res = await deleteAccount().unwrap();
+            if (res.success) {
+                route.push("/login");
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.data?.message || "Failed to delete account")
+        }
     }
     return (
         <div className='pt-4 md:pt-0'>
             <h1 className='text-lg font-semibold mb-7'>Settings</h1>
 
-            <Setting icon={<Delete />} title={"Delete Account"} onClick={() => setIsOpenDelete(true)}/>
+            <Setting icon={<Delete />} title={"Delete Account"} onClick={() => setIsOpenDelete(true)} />
 
             <CustomDialog open={isOpenDelete} close={() => setIsOpenDelete(false)}>
                 <AccountControlCard
                     onClick={handleDeleteAccount}
-                    onCancel={()=>setIsOpenDelete(false)}
+                    isLoading={isLoading}
+                    onCancel={() => setIsOpenDelete(false)}
                     icon={<DeleteCard />}
                     title="Delete account"
                     text="Are you sure you want to delete your account ?"
@@ -32,10 +43,10 @@ const Settings = () => {
 }
 
 
-const Setting = ({ icon, title,onClick }) => {
+const Setting = ({ icon, title, onClick }) => {
     return (
         <div
-          onClick={onClick}
+            onClick={onClick}
             className='cursor-pointer p-6 flex items-center justify-between bg-[var(--card)] rounded-xl'>
             <div className='flex items-center gap-x-3'>
                 <div>

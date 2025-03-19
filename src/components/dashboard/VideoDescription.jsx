@@ -37,7 +37,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     try {
       if (isBookmarked) {
         if (!bookmarkedId) {
-          console.error("Error: bookmarkId is undefined");
+          toast.error('bookmarkId is undefined')
           return;
         }
 
@@ -48,8 +48,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
       }
 
       const response = await addToBookmark({ videoId }).unwrap();
-      console.log(response);
-      toast(response.message || "Video bookmarked successfully");
+      toast(response?.message || "Video bookmarked successfully");
       setIsBookmarked(true);
 
       // Refetch to get the bookmark ID
@@ -62,7 +61,8 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
       //   setBookmarkId(newBookmark._id);
       // }
     } catch (error) {
-      console.error("Error while API call:", error);
+      console.error(error);
+      toast.error(error?.data?.message || "Error while bookmarking video");
     }
     // }, [isBookmarked, bookmarkedId, videoId, addToBookmark, deleteFromBookmark, refetch]);
   }, [isBookmarked, bookmarkedId, videoId, addToBookmark]);
@@ -105,8 +105,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
         <h1 className="text-xl font-semibold">{title}</h1>
         {
           title && !isBookmarked && (
-            <div className='p-3 rounded-full bg-[#181F2B] cursor-pointer -mb-3' onClick={handleBookmark}>
-              {/* {isBookmarked ? <Bookmarked /> : <BookMark />} */}
+            <div className='p-3 rounded-full sm:bg-[#181F2B] cursor-pointer -mb-3' onClick={handleBookmark}>
               {!isBookmarked && <BookMark />}
             </div>
           )
@@ -143,9 +142,6 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
         <SubmitAssignment videoId={videoId} setIsAssignmentOpen={setIsAssignmentOpen} />
       </CustomDialog>
 
-      <CustomDialog open={isQuizOpen}>
-        <AttendQuiz setIsQuizOpen={setIsQuizOpen} />
-      </CustomDialog>
     </div>
   );
 };

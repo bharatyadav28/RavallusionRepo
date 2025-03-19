@@ -5,10 +5,11 @@ import { useGetBookmarkQuery } from '@/store/Api/introAndBookmark'
 import { setBookmarkCount } from '@/store/slice/general'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { SimpleLoader } from '../common/LoadingSpinner'
 
 const BookmarkVideos = () => {
   const bookmarkCount = useSelector((state) => state.general.bookmarkCount);
-  const { data, isLoading, error } = useGetBookmarkQuery();
+  const { data, isLoading } = useGetBookmarkQuery();
   const dispatch = useDispatch();
 
   const bookmarks = data?.bookmarks || [];
@@ -18,7 +19,7 @@ const BookmarkVideos = () => {
       dispatch(setBookmarkCount(bookmarks?.length));
     }
   }, [bookmarks.length, dispatch]);
-  return isLoading ? <div className='flex justify-center items-center min-h-[70vh]'><PageLoader /></div> : (
+  return isLoading ? <div className='flex justify-center items-center min-h-[70vh]'><SimpleLoader /></div> : (
     <div className='pt-4 md:pt-0'>
       <h1 className='text-lg font-semibold mb-7'>Bookmarked videos <span className='text-gray-300'>({bookmarkCount})</span></h1>
 
@@ -27,11 +28,12 @@ const BookmarkVideos = () => {
         {
           bookmarks.length > 0 &&
           (bookmarks.map((item) => (
-            <VideoCard isBookmarked={true}
+            <VideoCard
+              isBookmarked={true}
               key={item?.video?._id} videoId={item?.video?._id}
               title={item?.video?.title} description={item?.video?.description}
               thumbnailUrl={item?.video?.thumbnailUrl}
-              duration={`${item?.video?.duration?.hours}:${item?.video?.duration?.minutes}:${item?.video?.duration?.seconds}`}
+              duration={`${String(item?.video?.duration?.hours ?? 0).padStart(2, "0")}:${String(item?.video?.duration?.minutes ?? 0).padStart(2, "0")}:${String(item?.video?.duration?.seconds ?? 0).padStart(2, "0")}`}
             />
           )))
         }

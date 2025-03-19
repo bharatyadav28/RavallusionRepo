@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Input } from '../ui/input';
 import { Send } from '@/lib/svg_icons';
 import Image from 'next/image';
-import { useGetUserDetailQuery } from '@/store/Api/auth';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCreateCommentMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
 import { toast } from 'react-toastify';
@@ -69,6 +68,8 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
     const [showReplies, setShowReplies] = useState(false);
     const inputRef = useRef(null);
 
+    const src = !avatar ? "/thumbnail3.png" : avatar;
+
     // Scroll to input when addReply is true
     useEffect(() => {
         if (window.innerWidth >= 1024 && showReplies && inputRef.current) {
@@ -79,27 +80,13 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
     // Toggle replies visibility
     const toggleReplies = () => setShowReplies(!showReplies);
 
-    const handleCreateReply = async () => {
-        if (!replyBody.trim()) return
-        try {
-            const res = await createReply({ body: { reply: replyBody }, commentId }).unwrap();
-            if (res?.success) {
-                setReplyBody("");
-                setAddReply(false);
-            }
-        } catch (error) {
-            console.error("Error creating comment:", error);
-            toast.error(error?.data?.message)
-        }
-    };
-
     return (
         <div className=" pb-3">
             {/* Comment Section */}
             <div className="flex gap-x-2">
                 <div className="w-8 h-8 rounded-full bg-red-300 relative">
                     <Image
-                        src={"/prismatic.png"}
+                        src={src}
                         alt="user"
                         fill
                         style={{ borderRadius: "100%", objectFit: "cover" }}
@@ -132,7 +119,7 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
                 </div>
             </div>
 
-            {/* Replies Section (Animated) */}
+            {/* show Replies Section (Animated) */}
             <AnimatePresence>
                 {showReplies && (
                     <motion.div
@@ -153,7 +140,7 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
                                 />
                             </div>
                             <div className='flex flex-col'>
-                                <p className="text-[10px] text-gray-300">Admin</p>
+                                <p className="text-[10px] text-gray-300">Ravallusion</p>
                                 <p className="text-xs text-gray-100 ">
                                     {reply}
                                 </p>

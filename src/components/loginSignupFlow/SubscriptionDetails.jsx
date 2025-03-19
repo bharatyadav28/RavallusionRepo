@@ -5,15 +5,16 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { DevicesIcon, VideoIcon, Check } from '@/lib/svg_icons';
 import useSmallScreen from '@/hooks/detectScreen';
 import { useGetSubscriptionDetailQuery } from '@/store/Api/course';
+import { SimpleLoader } from '../common/LoadingSpinner';
 
 const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile = false }) => {
   const isSmallScreen = useSmallScreen();
 
-  const { data } = useGetSubscriptionDetailQuery();
+  const { data, isLoading } = useGetSubscriptionDetailQuery();
 
   const paidOn = data?.data?.subscriptionDetails?.paidOn;
   const remainingDays = data?.data?.subscriptionDetails?.remainingDays;
-  const planType = data?.data?.subscriptionDetails?.plan;
+  const planType = data?.data?.subscriptionDetails?.planType;
 
   const [dropdown, setDropdown] = useState(profile && !isSmallScreen);
   // const [dropdown, setDropdown] = useState(profile);
@@ -99,6 +100,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
 
       </div>
 
+
       {/* Dropdown Section */}
       <motion.div
         initial="hidden"
@@ -112,15 +114,15 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
           <div className='flex justify-between items-center'>
             <div>
               <p className='text-[12px]'>Current plan</p>
-              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{planType || "Beginner"}</h2>
+              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{isLoading ? "Loading.." : planType || "Beginner"}</h2>
             </div>
 
             <div>
               {
                 profile ? (
                   <>
-                    <p className='text-[12px] text-end'>Paid on {paidOn}</p>
-                    <h2 className='text-lg md:text-2xl font-semibold'>{remainingDays} days remaining</h2>
+                    <p className='text-[12px] text-end'>Paid on {isLoading ? "Loading.." : paidOn || "08/04/2025"}</p>
+                    <h2 className='text-lg md:text-2xl font-semibold'>{isLoading?"Loading..": remainingDays || 5} days remaining</h2>
                   </>
                 ) :
                   (
@@ -173,6 +175,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
           </div>
         </div>
       </motion.div>
+
     </div >
   );
 };

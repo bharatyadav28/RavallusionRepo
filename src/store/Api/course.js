@@ -4,7 +4,7 @@ export const courseApi = createApi({
     reducerPath: "courseApi",
     baseQuery: fetchBaseQuery({ baseUrl: "/api/v1/" }),
 
-
+    tagTypes: ["assignment"],
     endpoints: (builder) => ({
         getSubscribedPlanCourse: builder.query({
             query: (planId) => `course/getSubscribedPlanCourse/${planId}`
@@ -19,6 +19,7 @@ export const courseApi = createApi({
                 credentials: "include",
                 body,
             }),
+            invalidatesTags: (result) => [{ type: "assignment", id: "LIST" }],
         }),
         uploadFile: builder.mutation({
             query: (body) => ({
@@ -29,11 +30,21 @@ export const courseApi = createApi({
             }),
         }),
         getSubmittedAssignmet: builder.query({
-            query: () => `submitted-assignment/subscribed-course-assignments`
+            query: () => `submitted-assignment/subscribed-course-assignments`,
+            providesTags: (result) =>
+                result?.data?.assignments
+                    ? [
+                        ...result?.data?.assignments.map(({ _id }) => ({
+                            type: "assignment",
+                            id: _id,
+                        })),
+                        { type: "assignment", id: "LIST" }, // For refreshing all if needed
+                    ]
+                    : [{ type: "assignment", id: "LIST" }],
         }),
 
     }),
 })
 
-export const { useGetSubmittedAssignmetQuery,useGetSubscribedPlanCourseQuery,
+export const { useGetSubmittedAssignmetQuery, useGetSubscribedPlanCourseQuery,
     useGetSubscriptionDetailQuery, useAssignmentSubmitMutation, useUploadFileMutation } = courseApi;

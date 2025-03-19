@@ -1,28 +1,26 @@
 'use client'
-import { Lock, YellowDownload } from '@/lib/svg_icons'
+import { Lock } from '@/lib/svg_icons'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import PersonalInfoCard from './PersonalInfoCard';
-import { useSelector } from 'react-redux';
 import { useGetSubmittedAssignmetQuery } from '@/store/Api/course';
 import CustomDialog from '../common/CustomDialog';
+import SubmitAssignment from './SubmitAssignment';
+import { SimpleLoader } from '../common/LoadingSpinner';
 
 
 const AssignmentSubmitList = () => {
     const [isActive, setIsActive] = useState(0);
-    const { data } = useGetSubmittedAssignmetQuery();
-    console.log("data", data);
+    const { data, isLoading } = useGetSubmittedAssignmetQuery();
 
-    const showProfileCard = useSelector((state) => state.general.showProfileCard)
-    console.log(showProfileCard)
+    const moduleName1 = data?.data?.assigments?.[0]?.moduleName;
+    const moduleName2 = data?.data?.assigments?.[1]?.moduleName;
 
-    return (
+    const module1Video = data?.data?.assigments?.[0]?.videos;
+    const module2Video = data?.data?.assigments?.[1]?.videos;
+
+    return isLoading ? <div className='flex items-center justify-center min-h-[60vh]'><SimpleLoader /> </div> : (
         <div className='my-2 lg:my-0 col-span-12 py-4 px-4 lg:col-span-4 rounded-2xl bg-[var(--card)] relative'>
-            {
-                showProfileCard &&
 
-                <PersonalInfoCard showProfileCard={showProfileCard} />
-            }
 
             {/* {
                 courseComplete && (
@@ -39,8 +37,8 @@ const AssignmentSubmitList = () => {
 
             <div className='mb-2'>
                 <div className='flex items-center gap-x-4 mb-3'>
-                    <h1 className='text-sm font-semibold cursor-pointer' onClick={() => setIsActive(0)}>Photoshop</h1>
-                    <h1 className='text-sm font-semibold cursor-pointer' onClick={() => setIsActive(1)}>Premier pro</h1>
+                    <h1 className='text-sm font-semibold cursor-pointer' onClick={() => setIsActive(0)}>{moduleName1}</h1>
+                    <h1 className='text-sm font-semibold cursor-pointer' onClick={() => setIsActive(1)}>{moduleName2}</h1>
                 </div>
 
                 {isActive === 0 && (
@@ -51,25 +49,41 @@ const AssignmentSubmitList = () => {
                 )}
 
             </div>
-
             {
                 isActive === 0 && (
                     <div>
-                        <SubmitAssignment completed={true} submited={true} />
-                        <SubmitAssignment completed={true} />
-                        <SubmitAssignment ongoing={true} />
-                        <SubmitAssignment notStarted={true} />
+                        {
+                            module1Video && module1Video.map((video, index) => (
+                                <SubmitAssignmentCard
+                                    key={index}
+                                    videoId={video._id}
+                                    score={video.score}
+                                    title={video.title}
+                                    percentageWatched={video.percentageWatched}
+                                    isCompleted={video.isCompleted}
+                                    hasSubmitted={video.hasSubmitted}
+                                />
+                            ))
+                        }
                     </div>
                 )
             }
-
             {
                 isActive === 1 && (
                     <div>
-                        <SubmitAssignment completed={true} submited={true} />
-                        <SubmitAssignment completed={true} />
-                        <SubmitAssignment ongoing={true} />
-                        <SubmitAssignment notStarted={true} />
+                        {
+                            module2Video && module2Video.map((video, index) => (
+                                <SubmitAssignmentCard
+                                    key={index}
+                                    videoId={video._id}
+                                    score={video.score}
+                                    percentageWatched={video.percentageWatched}
+                                    title={video.title}
+                                    isCompleted={video.isCompleted}
+                                    hasSubmitted={video.hasSubmitted}
+                                />
+                            ))
+                        }
                     </div>
                 )
             }
@@ -78,25 +92,24 @@ const AssignmentSubmitList = () => {
 }
 
 
-const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = false, submited = false, title = "List of shortcuts used in the course" }) => {
-    const [showSubmitAssignment, setShowSubmitAssignment] = useState(false);
-
+const SubmitAssignmentCard = ({ isCompleted, percentageWatched, videoId, score, hasSubmitted, title }) => {
+    const [isAssignmentOpen, setIsAssignmentOpen] = useState(false);
+    const ongoing = percentageWatched > 0 && !isCompleted;
+    const notStarted = percentageWatched === 0 && !ongoing;
     return (
         <div className='py-3 flex items-center justify-between'>
 
             <div>
                 <h1 className='text-sm mb-1 font-semibold'>{title}</h1>
                 {
-                    completed && submited && (
+                    isCompleted && hasSubmitted && (
                         <p className='text-[11px] text-[var(--yellow)]'>Completed · <span className='text-[#7EFF9A]'>Assignment submitted</span></p>
                     )
-
                 }
 
                 {
-                    completed && !submited && (
+                    isCompleted && !hasSubmitted && (
                         <p className='text-[11px] text-[var(--yellow)]'>Completed</p>
-
                     )
                 }
                 {
@@ -106,27 +119,28 @@ const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = fal
                     )
                 }
                 {
-                    notStarted && !ongoing && (
+                    notStarted && (
                         <p className='text-[11px] text-gray-300'>Not Started</p>
 
                     )
                 }
             </div>
 
+
+            {/* Right Side */}
             <div>
                 {
-                    submited && (
+                    isCompleted && !hasSubmitted ? (
+                        <Button onClick={() => setIsAssignmentOpen(true)} variant="neonOutline">Submit </Button>
+
+                    ) : isCompleted && hasSubmitted ? (
                         <div className='py-2 px-3 w-20 rounded-lg text-center' style={{ background: "linear-gradient(0deg, rgba(163, 127, 255, 0.25) 0%, rgba(163, 127, 255, 0.25) 100%), #030A14" }}>
                             <p className='text-[6px]'>Score</p>
-                            <h1 className='text-sm font-bold' style={{ color: "var(--neon-purple, linear-gradient(180deg, #C99BFD 0%, #8574F6 100%))" }}>75%</h1>
+                            <h1 className='text-sm font-bold' style={{ color: "var(--neon-purple, linear-gradient(180deg, #C99BFD 0%, #8574F6 100%))" }}>{score || "75%"}</h1>
                         </div>
-                    )
-                }
-                {completed && !submited && (
-                    <Button onClick={() => setShowSubmitAssignment(true)} variant="neonOutline">Submit </Button>)}
-                {
-                    ongoing && (
-                        <div className='relative cursor-pointer'>
+
+                    ) : (
+                        <div className='relative cursor-not-allowed'>
                             <Button variant="neonOutline" className={"opacity-50"}>
                                 Submit
                             </Button>
@@ -136,8 +150,11 @@ const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = fal
 
                         </div>
                     )
+
                 }
-                {
+
+
+                {/* {
                     notStarted && (
                         <div className='relative cursor-pointer'>
                             <Button variant="neonOutline" className={"opacity-50"}>
@@ -149,17 +166,16 @@ const SubmitAssignment = ({ completed = false, ongoing = false, notStarted = fal
 
                         </div>
                     )
-                }
+                } */}
             </div>
 
-            {/* <CustomDialog close={() => setShowSubmitAssignment(false)} open={showSubmitAssignment}>
-                
-            </CustomDialog> */}
+            <CustomDialog close={() => setIsAssignmentOpen(false)} open={isAssignmentOpen}>
+                <SubmitAssignment videoId={videoId} setIsAssignmentOpen={setIsAssignmentOpen} />
+            </CustomDialog>
 
         </div>
     )
 }
-
 
 export const CourseProgressBar = ({ percentage = 50, className = '' }) => {
     return (

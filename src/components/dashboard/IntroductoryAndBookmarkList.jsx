@@ -133,7 +133,7 @@ export const LessonCard = ({
 
   const currentVideoIndex = [...MapVideos.keys()].indexOf(videoId);
   const previousVideoData = [...MapVideos.values()][currentVideoIndex - 1];
-  console.log("Previous Video Data", previousVideoData);
+  // console.log("Previous Video Data", previousVideoData);
 
   const isVideoUnlocked =
     currentVideoData?.isCompleted || previousVideoData?.isCompleted;

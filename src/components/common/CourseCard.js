@@ -1,4 +1,4 @@
-import { Like, Views } from "@/lib/svg_icons";
+import { CrossIcon, Like, Views } from "@/lib/svg_icons";
 import Image from "next/image";
 import Card from "./Card";
 import VideoPlayer from "../dashboard/VideoPlayer";
@@ -7,8 +7,7 @@ import { useState } from "react";
 
 const CourseCard = ({ course }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { title, description, videoUrl, thumbnailUrl } = course.video;
-  console.log(videoUrl);
+  const { title, description, videoUrl, thumbnailUrl } = course?.video;
 
   return (
     <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[310px]"} onClick={() => setIsOpen(true)}>
@@ -21,17 +20,11 @@ const CourseCard = ({ course }) => {
       />
 
       <CustomDialog open={isOpen} close={() => setIsOpen(false)}>
-        <div className="flex items-center justify-center ">
-
-          <div className="w-[300px] md:w-[600px] h-auto">
-            <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
-          </div>
-        </div>
+        <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsOpen={setIsOpen} isOpen={isOpen} />
       </CustomDialog>
 
 
       <div className="flex flex-col gap-2 2xl:gap-4 h-auto">
-
         <div>
           <div className="h-auto">
             <h3 className="text-lg 2xl:text-2xl font-bold leading-tight line-clamp-2">{title}</h3>
@@ -42,16 +35,12 @@ const CourseCard = ({ course }) => {
           </div>
         </div>
 
-
         <div className="absolute bottom-3">
           <span className="flex items-center space-x-1 text-xs 2xl:text-sm text-gray-400">
             <Views />
             <span>{"270k"}</span>
           </span>
         </div>
-
-
-
 
         {/* <div className="flex items-center gap-2  absolute bottom-0">
           <span className="flex items-center space-x-1 text-xs 2xl:text-sm ">
@@ -70,5 +59,18 @@ const CourseCard = ({ course }) => {
     </Card >
   );
 };
+
+const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsOpen, isOpen }) => {
+  return (
+    <div className="relative w-full flex items-center justify-center">
+      <button className="absolute top-20 right-4 z-50" onClick={(e) => { setIsOpen(false); e.stopPropagation() }}>
+        <CrossIcon />
+      </button>
+      <div className="w-[300px] md:w-[600px] h-auto relative">
+        <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
+      </div>
+    </div>
+  )
+}
 
 export default CourseCard;

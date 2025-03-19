@@ -19,7 +19,7 @@ const TutorialCards = ({ title, subItems }) => {
                             img={items.thumbnailUrl}
                             heading={items.title}
                             description={items.description}
-                            duration={`${items.duration.hours}:${items.duration.minutes}:${items.duration.seconds}`}
+                            duration={`${String(items.duration.hours ?? 0).padStart(2, "0")}:${String(items.duration.minutes ?? 0).padStart(2, "0")}:${String(items.duration.seconds ?? 0).padStart(2, "0")}`}
                         />
                     ))
                 }

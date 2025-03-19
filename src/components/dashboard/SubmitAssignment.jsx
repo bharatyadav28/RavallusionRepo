@@ -13,7 +13,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const fileInputRef = useRef(null);
-  const [submitAssignment] = useAssignmentSubmitMutation();
+  const [submitAssignment, { isLoading }] = useAssignmentSubmitMutation();
   const [uploadFile] = useUploadFileMutation();
 
 
@@ -44,7 +44,6 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
 
       setFilesUrl(response?.data?.fileUrl);
       setFiles(uploadedFile);
-      toast.success("File uploaded successfully!");
     } catch (error) {
       console("Upload error:", error);
       toast.error(error.data.message);
@@ -69,7 +68,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
       });
 
       setTimeRemaining((prev) => {
-        const newTime = prev - 5; 
+        const newTime = prev - 5;
         if (newTime <= 0) return 2;
         return newTime;
       });
@@ -111,8 +110,6 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
         videoId,
         submittedFileUrl: filesUrl
       }).unwrap();
-
-      toast.success(res.message);
       setIsAssignmentOpen(false);
     } catch (error) {
       console.log(error);
@@ -183,19 +180,19 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
           onRemove={() => removeFile()}
         />
       ) : (
-        !isUploading && 
+        !isUploading &&
         < p className="text-sm text-gray-400">No files uploaded yet.</p>
-  )
-}
-{
-  isUploading &&
-  <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)} />
-}
+      )
+      }
+      {
+        isUploading &&
+        <UploadingSimulation uploadProgress={uploadProgress} timeRemaining={timeRemaining} onRemove={() => removeFile(index)} />
+      }
 
-<div className="flex items-center gap-x-4 justify-end mt-4">
-  <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
-  <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>Submit</Button>
-</div>
+      <div className="flex items-center gap-x-4 justify-end mt-4">
+        <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
+        <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>{isLoading ? 'Please wait...' : 'Submit'}</Button>
+      </div>
     </div >
   );
 };

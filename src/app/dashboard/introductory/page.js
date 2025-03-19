@@ -29,7 +29,7 @@ const Introductory = () => {
           introductoryVideos.length > 0 &&
           (introductoryVideos.map((item) => (
             <VideoCard key={item?._id}
-              duration={`${item?.duration?.hours}:${item?.duration?.minutes}:${item?.duration?.seconds}`}
+              duration={`${String(item?.duration?.hours ?? 0).padStart(2, "0")}:${String(item?.duration?.minutes ?? 0).padStart(2, "0")}:${String(item?.duration?.seconds ?? 0).padStart(2, "0")}`}
               videoId={item?._id} title={item?.title}
               description={item?.description}
               thumbnailUrl={item?.thumbnailUrl} />

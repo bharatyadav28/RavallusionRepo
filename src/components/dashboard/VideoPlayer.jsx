@@ -94,7 +94,9 @@ const VideoPlayer = ({
     const foundVideo = courseProgress?.data?.courseProgress?.find(
       (v) => v.video === videoId
     );
+    
     setIsVideoCompleted(foundVideo?.isCompleted);
+
     const lastPosition = foundVideo?.lastPosition;
 
     if (lastPosition) {

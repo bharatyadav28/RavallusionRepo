@@ -18,9 +18,11 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourseId, setFirstVideoId } from "@/store/slice/general";
 import { course, setCourse } from "@/store/slice/course";
+import { useRouter } from "next/navigation";
 
 const PlayerSidebar = () => {
   const [planId, setPlanId] = useState(null);
+  const route = useRouter();
   const dispatch = useDispatch();
   const path = usePathname();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -35,7 +37,6 @@ const PlayerSidebar = () => {
 
   const introductoryVideos = introductoryData?.data?.introductoryVideos || [];
   const bookmarkedVideos = data?.bookmarks || [];
-
   useEffect(() => {
     const courseData = subscribedCourseData?.data?.course;
 
@@ -43,9 +44,19 @@ const PlayerSidebar = () => {
       dispatch(setCourseId(courseData?._id));
       dispatch(setCourse(courseData));
     }
-    if(subscribedCourse?.modules?.[0].submodules?.[0].videos?.[0]._id){
-      dispatch(setFirstVideoId(subscribedCourse?.modules?.[0].submodules?.[0].videos?.[0]._id));
+    if (subscribedCourse?.modules) {
+      const level = path.includes("beginner") ? "beginner" : "advanced";
+      if (level === "beginner") {
+        const id = subscribedCourse?.modules?.[0].submodules?.[0].videos[0]._id;
+        dispatch(setFirstVideoId(id));
+        route.push(`/dashboard/player-dashboard/${level}?videoId=${id}`);
+      } else {
+        const id = subscribedCourse?.modules?.[0].submodules?.[0].videos[0]._id;
+        dispatch(setFirstVideoId(id));
+        route.push(`/dashboard/player-dashboard/${level}?videoId=${id}`);
+      }
     }
+
   }, [subscribedCourseData, dispatch]);
 
   useEffect(() => {

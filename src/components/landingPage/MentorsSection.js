@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import LandingContainer from "../common/LandingContainer";
 import Image from "next/image";
 import { FacebookBig, InstagramBig, LinkedinBig, Vinod } from "@/lib/svg_icons";
-import CarouselWrapper from "../common/CarouselWrapper";
-import BillboardEffect from "../common/Billboard";
 import BillboardWrapper from "../common/Billboard";
 
 

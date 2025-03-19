@@ -13,8 +13,7 @@ import { toast } from 'react-toastify';
 import { SimpleLoader } from '../common/LoadingSpinner';
 
 const PersonalInfoCard = () => {
-    const dispatch = useDispatch();
-    const { data } = useGetUserDetailQuery();
+    const { data, isLoading: loading } = useGetUserDetailQuery();
     const [updateName, { isLoading }] = useUpdateNameMutation();
     const [updateMobile, { isLoading: isLoadingMobile }] = useUpdateMobileMutation();
     const [updateAvatar, { isLoading: isLoadingAvatar }] = useUpdateAvatarMutation();
@@ -104,7 +103,7 @@ const PersonalInfoCard = () => {
     //         }
     //     }
     // };
-    return (
+    return (loading ? <div className='flex items-center justify-center min-h-[60vh]'> <SimpleLoader /></div> :
         <div
             className=" w-full z-20"
 
