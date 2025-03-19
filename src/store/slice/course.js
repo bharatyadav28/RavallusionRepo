@@ -13,7 +13,6 @@ export const course = createSlice({
     setCourse: (state, action) => {
       const courseData = action.payload;
       state.course = courseData;
-      console.log("video progress course", courseData);
     },
 
     setVideos: (state, action) => {
@@ -22,7 +21,6 @@ export const course = createSlice({
       if (!state.course?._id) {
         return;
       }
-      console.log("video progress: ", videoProgress);
       const progressMap = new Map();
 
       let sequence = 0;

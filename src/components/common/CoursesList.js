@@ -61,11 +61,12 @@ import CarouselWrapper from "./CarouselWrapper";
 
 const CoursesList = ({ data }) => {
   const [count, setCount] = useState(2);
-  const screenWidth = window.innerWidth;
+  const [screenWidth,setScreenWidth] = useState();
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
-      const screenWidth = window.innerWidth;
+      const width = window.innerWidth;
+      setScreenWidth(width);
 
       if (screenWidth >= 1024) {
         setCount(2);
@@ -86,7 +87,7 @@ const CoursesList = ({ data }) => {
     return () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
-  },[]);
+  },[window.innerWidth]);
 
 
   const firstThreeCourses = data.slice(0, 3);

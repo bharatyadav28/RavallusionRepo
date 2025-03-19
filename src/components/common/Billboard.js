@@ -1,6 +1,7 @@
-import React from 'react';
+"use client"
 
-const BillboardWrapper = ({ children, speed = 20 }) => {
+const BillboardWrapper = ({ children}) => {
+
   return (
     <div className="relative w-full overflow-hidden">
       <div className="animate-scroll flex items-center">
@@ -13,31 +14,10 @@ const BillboardWrapper = ({ children, speed = 20 }) => {
           {children}
         </div>
         {/* Second clone for smoother transition */}
-        <div className="flex min-w-full relative"> 
+        <div className="flex min-w-full relative">
           {children}
         </div>
       </div>
-
-      <style jsx>{`
-        .animate-scroll {
-          animation: scroll ${speed}s linear infinite;
-          width: 300%; /* Make room for three sets */
-        }
-
-        @keyframes scroll {
-          0% {
-            transform: translateX(-33.33%);
-          }
-          100% {
-            transform: translateX(0%);
-          }
-        }
-
-        /* Pause animation on hover */
-        .animate-scroll:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </div>
   );
 };

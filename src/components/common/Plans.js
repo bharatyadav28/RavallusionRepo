@@ -9,7 +9,7 @@ import { handleClick } from "@/lib/rajorpayPayment";
 
 
 const Plans = ({ plans, showSkeleton = false }) => {
-
+  const [isClient,setIsClient] = useState(false);
   const [count, setCount] = useState(1);
 
   useEffect(() => {
@@ -23,6 +23,8 @@ const Plans = ({ plans, showSkeleton = false }) => {
       }
     };
 
+   
+
     // Run the function on initial render
     updateCountBasedOnScreenSize();
 
@@ -33,7 +35,11 @@ const Plans = ({ plans, showSkeleton = false }) => {
     return () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
-  });
+  },[]);
+
+  useEffect(()=>{
+    setIsClient(true);
+  },[])
 
   const getValidity = (daysInSeconds) => {
     const days = daysInSeconds / (60 * 60 * 24);
@@ -105,7 +111,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
 
           <CustomButton
             onClick={() => {
-              handleClick(plans[0].inr_price, plans[0]._id)
+              handleClick(plans[0].inr_price, plans[0]._id,isClient)
             }
             }
 
@@ -158,7 +164,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
             </div>
           </div>
           <GlowButton
-            onClick={() => handleClick(plans[1].inr_price, plans[1]._id)}
+            onClick={() => handleClick(plans[1].inr_price, plans[1]._id,isClient)}
             className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">

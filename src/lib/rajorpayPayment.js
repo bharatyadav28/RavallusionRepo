@@ -15,9 +15,8 @@ const loadRazorpay = () => {
     });
 };
 
-export const handleClick = async (amount, plansId) => {
+export const handleClick = async (amount, plansId, isClient) => {
 
-    // console.log("ammoutn", amount, "id", plansId);
     // Load Razorpay script if not already loaded
     const isLoaded = await loadRazorpay();
     if (!isLoaded) {
@@ -64,8 +63,8 @@ export const handleClick = async (amount, plansId) => {
         },
     };
 
-    // console.log("dsdsd", window.Razorpay);
-
-    const rzp = new window.Razorpay(options);
+    if (isClient) {
+        const rzp = new window.Razorpay(options);
+    }
     rzp.open();
 };

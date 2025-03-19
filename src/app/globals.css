@@ -617,3 +617,26 @@ input[type="number"] {
 .background-popover {
   background: #0B5ED7 !important;
 }
+
+
+
+
+
+/*  Billboard animation css*/
+.animate-scroll {
+  animation: scroll 10s linear infinite;
+  width: 300%;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(-33.33%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}

@@ -4,12 +4,14 @@ import { CustomButton } from "../common/CustomButton";
 import LandingContainer from "../common/LandingContainer";
 import { DownloadIcon, LearnSvg } from "@/lib/svg_icons";
 import ModulesList from "../common/ModulesList";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView, useScroll } from "framer-motion";
 
 const ModuleSection = ({ modules, curriculum }) => {
   const container = useRef(null);
   const inViewRef = useRef(null);
+  const [isClient, setIsClient] = useState(false);
+
   const isInView = useInView(inViewRef, {
     once: false,
     margin: "0px 0px -200px 0px"
@@ -21,8 +23,13 @@ const ModuleSection = ({ modules, curriculum }) => {
     offset: ["start start", "end end"],
   });
 
+  useEffect(() => {
+    setIsClient(true);
+  }, [])
   const handleDownload = () => {
-    window.open(curriculum, "_blank");
+    if (isClient) {
+      window.open(curriculum, "_blank");
+    }
   };
 
 

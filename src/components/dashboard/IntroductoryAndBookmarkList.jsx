@@ -133,7 +133,6 @@ export const LessonCard = ({
 
   const currentVideoIndex = [...MapVideos.keys()].indexOf(videoId);
   const previousVideoData = [...MapVideos.values()][currentVideoIndex - 1];
-  // console.log("Previous Video Data", previousVideoData);
 
   const isVideoUnlocked =
     currentVideoData?.isCompleted || previousVideoData?.isCompleted;
@@ -149,7 +148,6 @@ export const LessonCard = ({
     const foundVideo = courseProgress?.data?.courseProgress?.find(
       (video) => video.video === videoId
     );
-    console.log(foundVideo);
     if (foundVideo) {
       setProgress(foundVideo?.percentageWatched);
     }
@@ -173,6 +171,7 @@ export const LessonCard = ({
       toast(res.message);
     } catch (error) {
       console.log(error);
+      toast.error(error?.data?.message || "Error while removing bookmark");
     }
   };
   return (

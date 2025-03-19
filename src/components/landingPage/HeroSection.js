@@ -1,15 +1,20 @@
 import Image from "next/image";
 import LandingContainer from "../common/LandingContainer";
 import { GlowButton } from "../common/CustomButton";
-import { createMarkup } from "@/lib/functions";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const HeroSection = ({ data }) => {
   const caption = data.caption.replace(/<\/?p>/g, "");
   const words = caption.split(" ");
   const firstPart = words.slice(0, -1).join(" ");
   const lastPart = words[words.length - 1];
-  const isMobile = window.innerWidth < 640
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mobileWidth = window.innerWidth < 640
+    setIsMobile(mobileWidth);
+  }, [])
   return (
     <LandingContainer className=" relative w-full !h-screen flex items-center md:px-[7rem] 2xl:px-[10rem]">
       {/* Text Content */}

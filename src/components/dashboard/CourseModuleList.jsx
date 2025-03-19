@@ -12,15 +12,8 @@ import {  useSearchParams } from "next/navigation";
 const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId }) => {
     const modules = course?.modules;
 
-    // console.log(modules[0]?.submodules[0]?.videos[0]?._id);
-    // const id = modules[0]?.submodules[0]?.videos[0]?._id;
+   
     const heading = course?.title || "Course";
-
-    console.log(modules); // Check if modules exist
-    // console.log(modules[0]); // Check the first module
-    // console.log(modules[0]?.submodules); // Check submodules array
-    // console.log(modules[0]?.submodules[0]?.videos); // Check videos array
-    // console.log(modules[0]?.submodules[0]?.videos[0]?._id); // Final access
 
     return isLoading ? <SimpleLoader /> : (
         <>
@@ -52,7 +45,6 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
 
 
 const CourseCard = ({ title, img, videoCount, submodules, playingVideoId, setPlayingVideoId }) => {
-    // console.log("subsmodule",submodules)
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleExpand = () => {

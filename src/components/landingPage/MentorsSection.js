@@ -134,7 +134,7 @@ const MentorsSection = ({ mentor }) => {
           <div className="text-lg font-bold">Featured in</div>
 
           <div className="flex bg-[var(--card)] p-5 gap-3 overflow-hidden rounded-[6px] relative featured">
-            <BillboardWrapper speed={10}>
+            <BillboardWrapper>
               <div className="flex gap-4 h-14">
                 {images.map((image, i) => (
                   <Image

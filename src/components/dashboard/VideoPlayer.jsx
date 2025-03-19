@@ -44,7 +44,6 @@ const VideoPlayer = ({
   setWatchTime,
   courseProgress,
   videoId,
-  watchTime,
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -68,12 +67,13 @@ const VideoPlayer = ({
   const [intervalId, setIntervalId] = useState(null);
   const [isVideoCompleted, setIsVideoCompleted] = useState(false);
   const [lastPositon, setLastPosition] = useState(0);
-
+  const [isClient, setIsClient] = useState(null);
   const playerRef = useRef(null);
   const progressRef = useRef(null);
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
+  const [isInView, setIsInView] = useState(false);
 
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -90,11 +90,89 @@ const VideoPlayer = ({
   // const [src, setSrc] = useState(` ${vidAddr}/${source[0]?.value}/360p.m3u8`);
   const [src, setSrc] = useState(source);
 
+  const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && isClient && !window.MSStream;
+  };
+
+  const resetTimeout = () => {
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+
+    if (!showSettings) {
+      timeoutId.current = setTimeout(() => {
+        if (containerRef?.current?.classList?.contains("show-controls")) {
+          containerRef?.current?.classList.remove("show-controls");
+          setShowControls(false);
+        }
+      }, 4000);
+    }
+  };
+
+  const toggleFullScreen = () => {
+    const videoElement = playerRef.current.getInternalPlayer();
+
+    if (isIOS()) {
+      if (videoElement.webkitEnterFullscreen && isClient) {
+        if (!isFullScreen) {
+          videoElement.webkitEnterFullscreen();
+          setIsFullScreen(true);
+          isClient && window.screen.orientation &&
+            window.screen.orientation.lock("landscape").catch(() => { });
+        } else {
+          videoElement.webkitExitFullscreen();
+          setIsFullScreen(false);
+          isClient && window.screen.orientation && window.screen.orientation.unlock();
+        }
+      }
+    } else {
+      if (screenfull.isEnabled && isClient) {
+        if (!isFullScreen) {
+          screenfull.request(containerRef.current);
+          setIsFullScreen(true);
+          isClient && window.screen.orientation &&
+            window.screen.orientation.lock("landscape").catch(() => { });
+        } else {
+          screenfull.exit();
+          setIsFullScreen(false);
+          isClient && window.screen.orientation && window.screen.orientation.unlock();
+        }
+      }
+    }
+  };
+
+  const fullScreenIcon = () => {
+    return screenfull.isFullscreen ? (
+      <FaCompress
+        onClick={toggleFullScreen}
+        className="fullscreen-button"
+        size={18}
+      />
+    ) : (
+      <FaExpand
+        onClick={toggleFullScreen}
+        className="fullscreen-button"
+        size={18}
+      />
+    );
+  };
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setShowSettings(false);
+    }
+  };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, [])
+
+
   useEffect(() => {
     const foundVideo = courseProgress?.data?.courseProgress?.find(
       (v) => v.video === videoId
     );
-    
+
     setIsVideoCompleted(foundVideo?.isCompleted);
 
     const lastPosition = foundVideo?.lastPosition;
@@ -108,7 +186,6 @@ const VideoPlayer = ({
     setIsVideoFullScreen && setIsVideoFullScreen(isFullScreen);
   }, [isFullScreen]);
 
-  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     if (!(isVideoPage || isFreeVideoPage)) {
@@ -153,6 +230,42 @@ const VideoPlayer = ({
     };
   }, []);
 
+
+  useEffect(() => {
+    if (!isIOS()) {
+      const handleFullScreenChange = () => {
+        setIsFullScreen(screenfull.isFullscreen);
+        if (isClient && !screenfull.isFullscreen && window.screen.orientation) {
+          window.screen.orientation.unlock();
+        }
+      };
+
+      if (screenfull.isEnabled) {
+        screenfull.on("change", handleFullScreenChange);
+
+        return () => {
+          screenfull.off("change", handleFullScreenChange);
+        };
+      }
+    } else {
+      const handleFullScreenChange = () => {
+        setIsFullScreen(document.fullscreenElement != null);
+        if (isClient && !document.fullscreenElement && window.screen.orientation) {
+          window.screen.orientation.unlock();
+        }
+      };
+
+      document.addEventListener("fullscreenchange", handleFullScreenChange);
+
+      return () => {
+        document.removeEventListener(
+          "fullscreenchange",
+          handleFullScreenChange
+        );
+      };
+    }
+  }, []);
+
   useEffect(() => {
     if (isVideoPage || isFreeVideoPage) {
       const handleKeyDown = (e) => {
@@ -181,10 +294,62 @@ const VideoPlayer = ({
     }
   }, [playing]);
 
-  const handleReady = () => {
-    setLoading(false);
-    // setPlaying(true);
-  };
+  useEffect(() => {
+    if (!playing) {
+      setShowControls(true);
+    }
+  }, [playing]);
+
+  useEffect(() => {
+    if (screenfull.isEnabled) {
+      screenfull.on("change", () => {
+        setIsFullScreen(screenfull.isFullscreen);
+      });
+
+      return () => {
+        screenfull.off("change");
+      };
+    }
+  }, []);
+
+
+  useEffect(() => {
+    resetTimeout();
+  }, [showSettings]);
+
+  useEffect(() => {
+    fullScreenIcon();
+  }, [screenfull.isFullscreen]);
+
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+  // Cleanup the interval when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [intervalId]);
+
+
+
+
+
+  //Functions.......................
+
+
+  // const handleReady = () => {
+  //   setLoading(false);
+  //   // setPlaying(true);
+  // };
 
   const handleBuffer = () => {
     setLoading(true);
@@ -199,12 +364,6 @@ const VideoPlayer = ({
     setPlaying((prevPlaying) => !prevPlaying);
     setShowRestartButton(false);
   };
-
-  useEffect(() => {
-    if (!playing) {
-      setShowControls(true);
-    }
-  }, [playing]);
 
   const handleEnded = () => {
     setPlaying(false);
@@ -231,7 +390,6 @@ const VideoPlayer = ({
 
   const handleForward = () => {
     if (isVideoCompleted === false) {
-      toast.error("Complete the video to seek forward");
       return;
     }
     if (playerRef.current) {
@@ -245,7 +403,6 @@ const VideoPlayer = ({
   const handleSeekChange = (e) => {
     if (!isVideoCompleted) {
       e.target.value = played; // Prevents seeking forward
-      toast.error("Complete the video to seek forward");
       return;
     }
     const value = parseFloat(e.target.value);
@@ -259,7 +416,6 @@ const VideoPlayer = ({
   const handleSeekMouseDown = (e) => {
     if (!isVideoCompleted) {
       e.preventDefault();
-      toast.error("Complete the video to seek forward");
       return;
     }
     if (playerRef.current) {
@@ -280,9 +436,8 @@ const VideoPlayer = ({
 
     const progressBar = progressRef.current;
     if (progressBar) {
-      const progressColor = `linear-gradient(to right, #CAA257 ${
-        progressPercentage + 0.1
-      }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
+      const progressColor = `linear-gradient(to right, #CAA257 ${progressPercentage + 0.1
+        }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
       progressBar.style.background = progressColor;
     }
   };
@@ -364,54 +519,16 @@ const VideoPlayer = ({
     }
   };
 
-  useEffect(() => {
-    if (screenfull.isEnabled) {
-      screenfull.on("change", () => {
-        setIsFullScreen(screenfull.isFullscreen);
-      });
 
-      return () => {
-        screenfull.off("change");
-      };
-    }
-  }, []);
-
-  const fullScreenIcon = () => {
-    return screenfull.isFullscreen ? (
-      <FaCompress
-        onClick={toggleFullScreen}
-        className="fullscreen-button"
-        size={18}
-      />
-    ) : (
-      <FaExpand
-        onClick={toggleFullScreen}
-        className="fullscreen-button"
-        size={18}
-      />
-    );
-  };
-  useEffect(() => {
-    fullScreenIcon();
-  }, [screenfull.isFullscreen]);
 
   const toggleSettings = () => {
     setActiveMenu("main");
     setShowSettings(!showSettings);
   };
 
-  const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setShowSettings(false);
-    }
-  };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+
+
 
   const handleMenuChange = (menu) => {
     setActiveMenu(menu);
@@ -424,6 +541,7 @@ const VideoPlayer = ({
 
   const handleError = (error) => {
     console.error("An error occurred while loading the video:", error);
+    toast.error("An error occurred while loading the video");
   };
 
   const handleQualityChange = (quality) => {
@@ -450,114 +568,34 @@ const VideoPlayer = ({
     toggleSettings();
   };
 
-  const handleLangChange = (lang) => {
-    setSelectedLang(lang);
+  // const handleLangChange = (lang) => {
+  //   setSelectedLang(lang);
 
-    // const newSrc = `${vidAddr}/${lang?.value}/${selectedQuality}p.m3u8`;
-    const newSrc = `${source}`;
-    if (newSrc !== src) {
-      const currentTime = playerRef.current.getCurrentTime();
-      setPlaying(true);
-      setSrc(newSrc);
+  //   // const newSrc = `${vidAddr}/${lang?.value}/${selectedQuality}p.m3u8`;
+  //   const newSrc = `${source}`;
+  //   if (newSrc !== src) {
+  //     const currentTime = playerRef.current.getCurrentTime();
+  //     setPlaying(true);
+  //     setSrc(newSrc);
 
-      setTimeout(() => {
-        if (playerRef.current) {
-          playerRef.current.seekTo(currentTime);
-        }
-      }, 500);
-    }
-    toggleSettings();
-  };
+  //     setTimeout(() => {
+  //       if (playerRef.current) {
+  //         playerRef.current.seekTo(currentTime);
+  //       }
+  //     }, 500);
+  //   }
+  //   toggleSettings();
+  // };
 
-  useEffect(() => {
-    resetTimeout();
-  }, [showSettings]);
-
-  const resetTimeout = () => {
-    if (timeoutId.current) {
-      clearTimeout(timeoutId.current);
-    }
-
-    if (!showSettings) {
-      timeoutId.current = setTimeout(() => {
-        if (containerRef?.current?.classList?.contains("show-controls")) {
-          containerRef?.current?.classList.remove("show-controls");
-          setShowControls(false);
-        }
-      }, 4000);
-    }
-  };
-
-  const isIOS = () => {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  };
-
-  const toggleFullScreen = () => {
-    const videoElement = playerRef.current.getInternalPlayer();
-
-    if (isIOS()) {
-      if (videoElement.webkitEnterFullscreen) {
-        if (!isFullScreen) {
-          videoElement.webkitEnterFullscreen();
-          setIsFullScreen(true);
-          window.screen.orientation &&
-            window.screen.orientation.lock("landscape").catch(() => {});
-        } else {
-          videoElement.webkitExitFullscreen();
-          setIsFullScreen(false);
-          window.screen.orientation && window.screen.orientation.unlock();
-        }
-      }
-    } else {
-      if (screenfull.isEnabled) {
-        if (!isFullScreen) {
-          screenfull.request(containerRef.current);
-          setIsFullScreen(true);
-          window.screen.orientation &&
-            window.screen.orientation.lock("landscape").catch(() => {});
-        } else {
-          screenfull.exit();
-          setIsFullScreen(false);
-          window.screen.orientation && window.screen.orientation.unlock();
-        }
-      }
-    }
-  };
 
   useEffect(() => {
-    if (!isIOS()) {
-      const handleFullScreenChange = () => {
-        setIsFullScreen(screenfull.isFullscreen);
-        if (!screenfull.isFullscreen && window.screen.orientation) {
-          window.screen.orientation.unlock();
-        }
-      };
-
-      if (screenfull.isEnabled) {
-        screenfull.on("change", handleFullScreenChange);
-
-        return () => {
-          screenfull.off("change", handleFullScreenChange);
-        };
-      }
-    } else {
-      const handleFullScreenChange = () => {
-        setIsFullScreen(document.fullscreenElement != null);
-        if (!document.fullscreenElement && window.screen.orientation) {
-          window.screen.orientation.unlock();
-        }
-      };
-
-      document.addEventListener("fullscreenchange", handleFullScreenChange);
-
-      return () => {
-        document.removeEventListener(
-          "fullscreenchange",
-          handleFullScreenChange
-        );
-      };
-    }
+    console.log("VideoPlayer mounted!");
+    return () => {
+      console.log("VideoPlayer unmounted!");
+    };
   }, []);
+
+
 
   const settingsMenu = () => {
     return (
@@ -574,10 +612,10 @@ const VideoPlayer = ({
               {activeMenu === "main"
                 ? "Settings"
                 : activeMenu === "quality"
-                ? "Quality"
-                : activeMenu === "language"
-                ? "Language"
-                : "Playback Rate"}
+                  ? "Quality"
+                  : activeMenu === "language"
+                    ? "Language"
+                    : "Playback Rate"}
             </span>
           </div>
           <ul className="menu-items">
@@ -587,10 +625,10 @@ const VideoPlayer = ({
                   onClick={() => handleMenuChange("quality")}
                   className="my-2 flex items-center justify-between"
                 >
-                  <span className="flex items-center">
+                  <div className="flex items-center">
                     <MdTune className="me-1" />
                     <p>Quality:</p>
-                  </span>
+                  </div>
 
                   <span className="flex items-center">
                     {selectedQuality}p <FaAngleRight />
@@ -682,20 +720,14 @@ const VideoPlayer = ({
     );
   };
 
-  // Cleanup the interval when the component unmounts
-  useEffect(() => {
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [intervalId]);
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div
-      className={`video-container ${
-        playing ? "playing" : "paused"
-      } !z-0 !${className}`}
+      className={`video-container ${playing ? "playing" : "paused"
+        } !z-0 !${className}`}
       ref={containerRef}
       onMouseMove={() => {
         containerRef.current.classList.add("show-controls");
@@ -736,11 +768,11 @@ const VideoPlayer = ({
 
       <div
         className="video-player"
-        // onClick={() => {
-        //   if (showControls) {
-        //     handlePlayPause();
-        //   }
-        // }}
+      // onClick={() => {
+      //   if (showControls) {
+      //     handlePlayPause();
+      //   }
+      // }}
       >
         <ReactPlayer
           ref={playerRef}
@@ -824,9 +856,8 @@ const VideoPlayer = ({
       </div>
       {!firstPlay && (
         <div
-          className={`player-controls ${
-            isFullScreen ? "fullscreen-controls" : ""
-          } `}
+          className={`player-controls ${isFullScreen ? "fullscreen-controls" : ""
+            } `}
         >
           <div className="on-screen-controls">
             <GrBackTen className="control-icons" onClick={handleBackward} />
@@ -864,7 +895,6 @@ const VideoPlayer = ({
               {tooltipView && !isTouchDevice && (
                 <div
                   className="tooltip-progress"
-                  //  style={{ left: `${(hoveredTime / duration) * 100}%` }}
                 >
                   <p>{formatTime(hoveredTime)}</p>
                 </div>
@@ -890,9 +920,8 @@ const VideoPlayer = ({
                   type="range"
                   className="volume-track"
                   style={{
-                    background: `linear-gradient(to right, #CAA257 ${
-                      volume * 100
-                    }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
+                    background: `linear-gradient(to right, #CAA257 ${volume * 100
+                      }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
                   }}
                   min={0}
                   max={1}

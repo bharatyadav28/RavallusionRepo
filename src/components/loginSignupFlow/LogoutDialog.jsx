@@ -6,7 +6,7 @@ const LogoutDialog = ({setIsOpenLogout,onClick,switchDeviceLoading}) => {
     return (
           <div className='flex items-center justify-center'>
                     <div
-                        className="w-5/6 mx-4 p-10 rounded-[28px] flex items-center justify-center flex-col backdrop-blur-lg"
+                        className="w-full md:w-5/6 mx-4 p-10 rounded-[28px] flex items-center justify-center flex-col backdrop-blur-lg"
                         style={{
                             background:
                                 "radial-gradient(circle at top, #D94004 -120%, transparent 50%), #091926",

@@ -60,14 +60,16 @@ const CourseCard = ({ course }) => {
   );
 };
 
-const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsOpen, isOpen }) => {
+const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsOpen }) => {
   return (
-    <div className="relative w-full flex items-center justify-center">
-      <button className="absolute top-20 right-4 z-50" onClick={(e) => { setIsOpen(false); e.stopPropagation() }}>
-        <CrossIcon />
-      </button>
-      <div className="w-[300px] md:w-[600px] h-auto relative">
-        <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
+    <div className="flex items-center justify-center">
+      <div className="relative w-full flex items-center justify-center border border-gray-500 backdrop-blur-lg rounded-xl py-9">
+        <button className="flex items-center justify-center outline-none absolute top-2 right-2 z-50 rounded-full border border-gray-300" onClick={(e) => { setIsOpen(false); e.stopPropagation() }}>
+          <CrossIcon width={24} height={24} />
+        </button>
+        <div className="w-[300px] md:w-[600px] h-auto relative">
+          <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
+        </div>
       </div>
     </div>
   )

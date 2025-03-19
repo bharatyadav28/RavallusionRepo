@@ -18,7 +18,11 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkedId, setBookmarkId] = useState(null);
   const { submoduleId } = useSelector((state) => state.general);
+  const [isClient,setIsClient] = useState(null);
 
+  useEffect(()=>{
+    setIsClient(true)
+  },[])
 
   useEffect(() => {
     if (getdata?.bookmarks) {
@@ -67,8 +71,6 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     // }, [isBookmarked, bookmarkedId, videoId, addToBookmark, deleteFromBookmark, refetch]);
   }, [isBookmarked, bookmarkedId, videoId, addToBookmark]);
 
-
-
   const handleToggle = () => setIsExpanded(!isExpanded);
 
   const truncatedText = description?.length > 100
@@ -97,6 +99,8 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     a.click();
     document.body.removeChild(a);
   }
+
+  if(!isClient) return null;
  
   return (
     <div className="text-white">

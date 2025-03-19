@@ -145,7 +145,7 @@ const MainCarousel = ({ data }) => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  });
+  },[]);
 
   // console.log(screenWidth);
   return (
