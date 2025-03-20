@@ -60,7 +60,6 @@ const cardTitle = [
 
 const Page = () => {
   const { data, isLoading } = useGetModuleOnPrimaryDashboardQuery();
-  console.log(data?.data?.content);
   const videoData = data?.data?.content;
   return <>
     <PrimaryDashboard />

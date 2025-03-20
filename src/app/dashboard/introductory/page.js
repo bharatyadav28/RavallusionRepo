@@ -37,7 +37,6 @@ const Introductory = () => {
         }
       </div>
       {
-
         introductoryVideos.length <= 0 &&
         (<div className='flex justify-center items-center min-h-[60vh] text-center'>
           <h5 className='text-2xl font-bold text-[var(--neon-purple)]'>No Introductory Videos Found,

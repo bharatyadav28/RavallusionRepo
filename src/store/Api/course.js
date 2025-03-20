@@ -42,9 +42,12 @@ export const courseApi = createApi({
                     ]
                     : [{ type: "assignment", id: "LIST" }],
         }),
+        getSearchedVideos: builder.query({
+            query: (search) => `video/search?search=${search}`,
+        })
 
     }),
 })
 
-export const { useGetSubmittedAssignmetQuery, useGetSubscribedPlanCourseQuery,
+export const { useGetSearchedVideosQuery,useLazyGetSearchedVideosQuery,useGetSubmittedAssignmetQuery, useGetSubscribedPlanCourseQuery,
     useGetSubscriptionDetailQuery, useAssignmentSubmitMutation, useUploadFileMutation } = courseApi;

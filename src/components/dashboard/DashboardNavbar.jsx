@@ -10,17 +10,21 @@ import CustomDialog from '../common/CustomDialog';
 import SearchDialog, { SearchInput } from './SearchDialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetUserDetailQuery } from '@/store/Api/auth';
+import { setSearchValue } from '@/store/slice/general';
+import { setSearchHistory } from '@/store/slice/general';
 
 
 const DashboardNavbar = () => {
 
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [searchDialog, setSearchDialog] = useState(false);
   const [urlpath, setUrlPath] = useState('');
   const introductoryVideosCount = useSelector((state) => state.general.introductoryVideosCount);
+  const {searchValue, searchHistory} = useSelector((state) => state.general);
   const { data } = useGetUserDetailQuery();
   const avatar = data?.data?.user?.avatar;
 
@@ -87,7 +91,11 @@ const DashboardNavbar = () => {
 
             {
               urlpath === 'search' && (
-                <SearchInput />
+                <SearchInput 
+                 searchValue={searchValue}
+                 searchHistory={searchHistory}
+                 setSearchHistory={setSearchHistory}
+                  setSearchValue={setSearchValue} headerSearch={true}/>
               )
             }
 
@@ -99,11 +107,15 @@ const DashboardNavbar = () => {
       }
 
       <div className='flex gap-x-2 items-center'>
+        {
+          urlpath != "search" && (
+            <div className='p-3 border border-gray-600 relative cursor-pointer' onClick={() => {setSearchDialog(true) ,dispatch(setSearchValue(""))}}>
+              <EllipseOfSearch />
+              <SearchIcon size={24} />
+            </div>
+          )
+        }
 
-        <div className='p-3 border border-gray-600 relative cursor-pointer' onClick={() => setSearchDialog(true)}>
-          <EllipseOfSearch />
-          <SearchIcon size={24} />
-        </div>
 
         <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard/advanced'} />
 

@@ -9,7 +9,9 @@ const initialState = {
   courseId: null,
   updatedPercentageWatched: 0,
   videoIdOfCurrentVideo: null,
-  firstVideoId: null
+  firstVideoId: null,
+  searchValue:" ",
+  searchHistory: [],
 }
 
 export const generalSlice = createSlice({
@@ -43,10 +45,18 @@ export const generalSlice = createSlice({
     setFirstVideoId: (state, action) => {
       state.firstVideoId = action.payload
     },
+    setSearchValue: (state, action) => {
+      state.searchValue = action.payload
+    },
+    setSearchHistory: (state, action) => {
+      state.searchHistory = action.payload
+    },
   },
 })
 
 export const { setVideoIdOfcurrentVideo,
+  setSearchValue,
+  setSearchHistory,
   setUpdatedPercentageWatched,
   setCourseId,
   setFirstVideoId,

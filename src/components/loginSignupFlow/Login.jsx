@@ -33,7 +33,6 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
 
     const googleLogin = useGoogleLogin({
         onSuccess: async (response) => {
-            // console.log("response:", response);
 
             const res = await fetch("/api/v1/user/google-auth", {
                 method: "POST",
