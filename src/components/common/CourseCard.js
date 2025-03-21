@@ -10,7 +10,7 @@ const CourseCard = ({ course }) => {
   const { title, description, videoUrl, thumbnailUrl } = course?.video;
 
   return (
-    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[310px]"} onClick={() => setIsOpen(true)}>
+    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[310px] 2xl:h-[360px]"} onClick={() => setIsOpen(true)}>
       <Image
         src={thumbnailUrl}
         alt={title}
@@ -36,7 +36,7 @@ const CourseCard = ({ course }) => {
         </div>
 
         <div className="absolute bottom-3">
-          <span className="flex items-center space-x-1 text-xs 2xl:text-sm text-gray-400">
+          <span className="flex items-center space-x-1 text-xs 2xl:text-base text-gray-400">
             <Views />
             <span>{"270k"}</span>
           </span>

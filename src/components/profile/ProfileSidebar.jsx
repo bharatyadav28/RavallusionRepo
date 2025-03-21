@@ -16,7 +16,7 @@ const ProfileSidebar = ({ setActiveItem, activeItem, setIsOpenLogout, isOpenLogo
             const res = await logout().unwrap();
             const { success } = res;
             if (success) {
-                route.push('/login');
+                route.push('/');
             }
 
         } catch (error) {

@@ -11,13 +11,19 @@ const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, vid
     const path = usePathname();
 
     const fetchVideo = () => {
-        const level = path.includes("beginner") ? "beginner" : "advanced";
-        router.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
+        if (!isBookmarked) {
+            router.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
+        }
+        else {
+            const level = path.includes("beginner") ? "beginner" : "advanced";
+            router.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
+        }
+
     };
 
     return (
         <motion.div
-            className={`p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 ${isBookmarked?"lg:col-span-4":"lg:col-span-3"} h-72 cursor-pointer shadow-md`}
+            className={`p-3 rounded-xl bg-[var(--card)] col-span-12 sm:col-span-6 ${isBookmarked ? "lg:col-span-4" : "lg:col-span-3"} h-72 cursor-pointer shadow-md`}
             whileHover={{ scale: 1.05, boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)", y: -10 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

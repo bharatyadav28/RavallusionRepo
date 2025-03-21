@@ -49,11 +49,9 @@ const PlayerSidebar = () => {
       if (level === "beginner") {
         const id = subscribedCourse?.modules?.[0].submodules?.[0].videos[0]?._id;
         dispatch(setFirstVideoId(id));
-        route.push(`/dashboard/player-dashboard/${level}?videoId=${id}`);
       } else {
         const id = subscribedCourse?.modules?.[0].submodules?.[0].videos[0]?._id;
         dispatch(setFirstVideoId(id));
-        route.push(`/dashboard/player-dashboard/${level}?videoId=${id}`);
       }
     }
 

@@ -136,15 +136,12 @@ export const LessonCard = ({
   // Get the first element from the Map
   const firstEntry = MapVideos.entries().next().value;
 
-  console.log("firstid", firstEntry[0]);
-
   const currentVideoIndex = [...MapVideos.keys()].indexOf(videoId);
   const previousVideoData = [...MapVideos.values()][currentVideoIndex - 1];
 
-  const isVideoUnlocked = firstEntry[0] === videoId || currentVideoData?.isCompleted || previousVideoData?.isCompleted;
+  const isVideoUnlocked = firstEntry?.[0] === videoId || currentVideoData?.isCompleted || previousVideoData?.isCompleted;
 
   const { data: courseProgress } = useGetCourseProgressQuery(courseId);
-
 
   useEffect(() => {
     const foundVideo = courseProgress?.data?.courseProgress?.find(
@@ -162,7 +159,7 @@ export const LessonCard = ({
 
   const path = usePathname();
   const fetchVideo = () => {
-    if (!isVideoUnlocked && !introductory) return;
+    if (!isVideoUnlocked && !introductory && !bookmark) return;
     const level = path.includes("beginner") ? "beginner" : "advanced";
     route.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
     onPlay();
@@ -181,12 +178,12 @@ export const LessonCard = ({
       className="flex gap-x-3 items-center cursor-pointer px-3"
     >
       <div
-        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked  && !introductory? "brightness-30 cursor-not-allowed" : ""
+        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked  && !introductory && !bookmark ? "brightness-30 cursor-not-allowed" : ""
           }`}
         onClick={fetchVideo}
       >
         {
-          !isVideoUnlocked && !introductory ? (
+          !isVideoUnlocked && !introductory && !bookmark ? (
             <div className='z-50 absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-full flex items-center justify-center backdrop-blur-sm bg-[#0000001F] w-full'>
               <Lock width={30} height={30} />
             </div>

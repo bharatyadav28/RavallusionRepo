@@ -17,7 +17,7 @@ const Settings = () => {
         try {
             const res = await deleteAccount().unwrap();
             if (res.success) {
-                router.push('/login');
+                router.push('/');
             }
         } catch (error) {
             console.log(error);
