@@ -6,11 +6,18 @@ import { ArrowRight, Check } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
 import { handleClick } from "@/lib/rajorpayPayment";
+import { useGetUserDetailQuery } from "@/store/Api/auth";
 
 
 const Plans = ({ plans, showSkeleton = false }) => {
   const [isClient,setIsClient] = useState(false);
   const [count, setCount] = useState(1);
+  const {data} = useGetUserDetailQuery();
+
+  const name = data?.data?.user?.name;
+  const email = data?.data?.user?.email;
+  const mobile = data?.data?.user?.mobile;
+
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
@@ -111,7 +118,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
 
           <CustomButton
             onClick={() => {
-              handleClick(plans[0].inr_price, plans[0]._id,isClient)
+              handleClick(plans[0]._id,isClient)
             }
             }
 
@@ -164,7 +171,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
             </div>
           </div>
           <GlowButton
-            onClick={() => handleClick(plans[1].inr_price, plans[1]._id,isClient)}
+            onClick={() => handleClick( plans[1]._id,isClient)}
             className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">

@@ -63,7 +63,7 @@ export const SearchInput = ({ setSearchDialog, searchValue, setSearchValue, head
 
     const handleSearch = () => {
         router.push(`/dashboard/search?search=${searchValue}`);
-        if (!searchHistory.find((item) => item === searchValue)) {
+        if (!searchHistory.find((item) => item === searchValue) && searchValue?.trim() !== '') {
             addToSearchHistory(searchValue);
         }
         if (!headerSearch) {

@@ -15,7 +15,7 @@ const loadRazorpay = () => {
     });
 };
 
-export const handleClick = async (amount, plansId, isClient) => {
+export const handleClick = async ( plansId, isClient) => {
 
     // Load Razorpay script if not already loaded
     const isLoaded = await loadRazorpay();
@@ -46,25 +46,19 @@ export const handleClick = async (amount, plansId, isClient) => {
 
 
     const options = {
-        key: key_id, // Replace with your Razorpay key_id
-        amount: order.inr_price, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        key: key_id,
+        amount: order.inr_price,
         currency: "INR",
-        name: "Anand uchiha",
-        description: "Test Transaction",
-        order_id: order.order_id, // This is the order_id created in the backend
-        callback_url: "/api/v1/order/verify-payment", // You", // Your success URL
-        prefill: {
-            name: "Sakura anand uchiha",
-            email: "Sarada.uchiha@example.com",
-            contact: "9999999999",
-        },
+        name: "Ravallusion",
+        description: "This is the test transaction",
+        order_id: order.order_id,
+        callback_url: "/api/v1/order/verify-payment",
         theme: {
-            color: "#b19cd9",
+            color: "#C99BFD",
         },
     };
 
-    if (isClient) {
-        const rzp = new window.Razorpay(options);
-    }
+
+    const rzp = isClient && new window.Razorpay(options);
     rzp.open();
 };

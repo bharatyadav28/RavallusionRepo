@@ -1,20 +1,23 @@
+"use client";
 import { Delete, DeleteCard } from '@/lib/svg_icons'
 import { ChevronRight } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomDialog from '../common/CustomDialog'
 import AccountControlCard from '../dashboard/AccountControlCard'
 import { useDeleteAccountMutation } from '@/store/Api/auth'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 const Settings = () => {
+    const router = useRouter();
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [deleteAccount, { isLoading }] = useDeleteAccountMutation();
-
+    
     const handleDeleteAccount = async () => {
         try {
             const res = await deleteAccount().unwrap();
             if (res.success) {
-                route.push("/login");
+                router.push('/login');
             }
         } catch (error) {
             console.log(error);

@@ -33,6 +33,7 @@ export const IntroductoryList = ({
           subItems.map((items) => (
             <LessonCard
               key={items._id}
+              introductory={true}
               videoId={items._id}
               isplaying={playingVideoId === items?._id}
               onPlay={() => setPlayingVideoId(items?._id)}
@@ -117,6 +118,7 @@ export const LessonCard = ({
   isplaying,
   bookmarkedId,
   bookmark = false,
+  introductory = false,
   onPlay,
 }) => {
   const route = useRouter();
@@ -131,18 +133,18 @@ export const LessonCard = ({
   const MapVideos = objectToMap(videos);
   const currentVideoData = MapVideos.get(videoId);
 
+  // Get the first element from the Map
+  const firstEntry = MapVideos.entries().next().value;
+
+  console.log("firstid", firstEntry[0]);
+
   const currentVideoIndex = [...MapVideos.keys()].indexOf(videoId);
   const previousVideoData = [...MapVideos.values()][currentVideoIndex - 1];
 
-  const isVideoUnlocked =
-    currentVideoData?.isCompleted || previousVideoData?.isCompleted;
+  const isVideoUnlocked = firstEntry[0] === videoId || currentVideoData?.isCompleted || previousVideoData?.isCompleted;
 
   const { data: courseProgress } = useGetCourseProgressQuery(courseId);
 
-  // 1 - zero progress - to 1 show kar do 1st video unlock kro bas baki lock
-  // 2 - last video is i-1 isComplete true to next unlock kro
-  // 3 - check last video of previous submodule isComplete or not
-  // 4 - same for modules 3 case
 
   useEffect(() => {
     const foundVideo = courseProgress?.data?.courseProgress?.find(
@@ -160,7 +162,7 @@ export const LessonCard = ({
 
   const path = usePathname();
   const fetchVideo = () => {
-    if (!isVideoUnlocked) return;
+    if (!isVideoUnlocked && !introductory) return;
     const level = path.includes("beginner") ? "beginner" : "advanced";
     route.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
     onPlay();
@@ -179,12 +181,12 @@ export const LessonCard = ({
       className="flex gap-x-3 items-center cursor-pointer px-3"
     >
       <div
-        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked ? "brightness-30 cursor-not-allowed" : ""
+        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked  && !introductory? "brightness-30 cursor-not-allowed" : ""
           }`}
         onClick={fetchVideo}
       >
         {
-          !isVideoUnlocked ? (
+          !isVideoUnlocked && !introductory ? (
             <div className='z-50 absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-full flex items-center justify-center backdrop-blur-sm bg-[#0000001F] w-full'>
               <Lock width={30} height={30} />
             </div>

@@ -29,12 +29,13 @@ const VideoDashboard = () => {
   const dispatch = useDispatch();
   const route = useRouter();
   const id = searchParams.get("videoId");
-  const {courseId,firstVideoId} = useSelector((state) => state.general);
+  const { courseId, firstVideoId } = useSelector((state) => state.general);
 
   // const [getVideoQuery, { isLoading: loading }] = useLazyGetVideoQuery();
 
   const [videoUrl, setVideoUrl] = useState(null);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
+  const [videoId, setVideoId] = useState(null);
 
   const [watchTime, setWatchTime] = useState(0);
 
@@ -48,7 +49,6 @@ const VideoDashboard = () => {
     courseProgress?.data?.courseProgress.length > 0
       ? courseProgress.data.courseProgress[0]?.video
       : null;
-  const [videoId, setVideoId] = useState(null);
 
   const { data, isLoading, error } = useGetVideoQuery(videoId, {
     skip: !videoId,
@@ -68,10 +68,13 @@ const VideoDashboard = () => {
   }, [data, videoId]); // Added videoId as dependency
 
   useEffect(() => {
-    if (latestWatchedVideo) {
+    if (id) {
+      return;
+    }
+    else if (latestWatchedVideo) {
       route.push(`?videoId=${latestWatchedVideo}`);
     }
-    else if(firstVideoId){
+    else if (firstVideoId) {
       route.push(`?videoId=${firstVideoId}`);
     }
   }, [latestWatchedVideo]);

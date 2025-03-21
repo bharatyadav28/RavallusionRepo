@@ -401,8 +401,7 @@ const VideoPlayer = ({
   };
 
   const handleSeekChange = (e) => {
-    if (!isVideoCompleted) {
-      e.target.value = played; // Prevents seeking forward
+    if (isVideoCompleted === false) {
       return;
     }
     const value = parseFloat(e.target.value);
@@ -414,8 +413,7 @@ const VideoPlayer = ({
   };
 
   const handleSeekMouseDown = (e) => {
-    if (!isVideoCompleted) {
-      e.preventDefault();
+    if (isVideoCompleted === false) {
       return;
     }
     if (playerRef.current) {
@@ -586,14 +584,6 @@ const VideoPlayer = ({
   //   }
   //   toggleSettings();
   // };
-
-
-  useEffect(() => {
-    console.log("VideoPlayer mounted!");
-    return () => {
-      console.log("VideoPlayer unmounted!");
-    };
-  }, []);
 
 
 
