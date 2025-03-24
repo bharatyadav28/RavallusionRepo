@@ -1,9 +1,12 @@
+import { SimpleLoader } from '@/components/common/LoadingSpinner'
 import MyCart from '@/components/loginSignupFlow/MyCart'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const page = () => {
     return (
-        <MyCart />
+        <Suspense fallback={<SimpleLoader />}>
+            <MyCart />
+        </Suspense>
     )
 }
 
