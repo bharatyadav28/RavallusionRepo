@@ -15,14 +15,15 @@ import { useGoogleLogin } from '@react-oauth/google';
 import CustomDialog from '../common/CustomDialog';
 import LogoutDialog from './LogoutDialog';
 
-const Login = ({ price = 9999, courseType = "Advanced" }) => {
+const Login = () => {
     const route = useRouter();
     const dispatch = useDispatch();
-    const [isOpenLogout, setIsOpenLogout] = useState(false);
-    const subsDetail = useSelector((state) => state.general.subDetail);
-    const isChecked = useSelector((state) => state.signInState.keepMeSignedIn);
     const [email, setEmail] = useState('');
+    const [isOpenLogout, setIsOpenLogout] = useState(false);
 
+    const { planId, planType, planPrice } = useSelector((state) => state.general);
+
+    const isChecked = useSelector((state) => state.signInState.keepMeSignedIn);
     const [hasSubscription] = useLazyHasSubscriptionQuery();
 
     const [signin, { data, isLoading }] = useSigninMutation();
@@ -55,8 +56,12 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
             if (hasPlan) {
                 route.push('/dashboard');
             }
+            else if (!hasPlan && planId) {
+
+                route.push(`/mycart?planId=${planId}&planType=${planType}&price=${planPrice}`);
+            }
             else {
-                route.push('/subscription-plan');
+                route.push(`/subscription-plan`)
             }
 
         },
@@ -85,7 +90,7 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
             const isNewUser = response?.data?.isNewUser;
             dispatch(setIsNewUser(isNewUser));
 
-            const message = response?.message || "Sign-in successful!";
+            const message = response?.message;
             const subs = await hasSubscription(userId);
             const hasPlan = subs?.data?.data?.hasSubscription;
             dispatch(setHasSubscription(hasPlan));
@@ -100,27 +105,27 @@ const Login = ({ price = 9999, courseType = "Advanced" }) => {
             toast.error(`Error: ${errorMessage}`);
         }
     };
-    
+
     const handleSwitchDevice = async () => {
         try {
             const res = await switchDevice()
-            setIsOpenLogout(false);  
+            setIsOpenLogout(false);
             route.refresh('/login');
-    
+
         } catch (error) {
             console.error("Error switching device:", error);
             toast.error("Failed to switch device. Please try again.");
         }
     };
-    
+
     return (
         <>
-            <div className={`w-full sm:min-w-[500px] sm:w-auto ${subsDetail && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
+            <div className={`w-full sm:min-w-[500px] sm:w-auto ${planId && "mt-40 md:mt-20 min-h-[750px] sm:min-h-[500px] lg:min-h-[500px]"}`}>
                 {
-                    subsDetail &&
-                    <SubscriptionDetails price={price} courseType={courseType} />
+                    planId &&
+                    <SubscriptionDetails price={planPrice} courseType={planType} />
                 }
-                <div className=' mx-4 px-4 py-5 lg:p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mt-4'>
+                <div className='mx-4 px-4 py-5 lg:p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mt-4'>
                     <h2 className='text-center text-2xl md:text-[2.13rem] font-bold mb-[30px]'>Login to continue</h2>
 
                     <div className='mb-4'>

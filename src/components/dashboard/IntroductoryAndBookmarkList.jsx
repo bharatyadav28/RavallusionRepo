@@ -123,10 +123,10 @@ export const LessonCard = ({
 }) => {
   const route = useRouter();
   const [progress, setProgress] = useState(0);
+  const path = usePathname();
 
   const [deleteBookmark] = useDeleteBookmarkMutation();
-  const { courseId, updatedPercentageWatched, videoIdOfCurrentVideo } =
-    useSelector((state) => state.general);
+  const { courseId, updatedPercentageWatched, videoIdOfCurrentVideo } =  useSelector((state) => state.general);
 
   const videos = useSelector((state) => state.course.videos);
 
@@ -157,12 +157,17 @@ export const LessonCard = ({
     }
   }, [updatedPercentageWatched, videoId, videoIdOfCurrentVideo]);
 
-  const path = usePathname();
   const fetchVideo = () => {
     if (!isVideoUnlocked && !introductory && !bookmark) return;
+    if (introductory) {
+      route.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
+      onPlay();
+      return;
+    }
     const level = path.includes("beginner") ? "beginner" : "advanced";
     route.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
     onPlay();
+
   };
   const removeBookmark = async () => {
     try {
@@ -178,7 +183,7 @@ export const LessonCard = ({
       className="flex gap-x-3 items-center cursor-pointer px-3"
     >
       <div
-        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked  && !introductory && !bookmark ? "brightness-30 cursor-not-allowed" : ""
+        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked && !introductory && !bookmark ? "brightness-30 cursor-not-allowed" : ""
           }`}
         onClick={fetchVideo}
       >

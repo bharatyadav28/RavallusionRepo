@@ -1,4 +1,5 @@
 'use client'
+import CustomCarousel from "@/components/common/CustomCarousel";
 import PrimaryDashboard from "@/components/dashboard/PrimaryDashboard";
 import TutorialCards from "@/components/dashboard/TutorialCards";
 import { useGetModuleOnPrimaryDashboardQuery } from "@/store/Api/primaryDashboard";
@@ -62,7 +63,7 @@ const Page = () => {
   const { data, isLoading } = useGetModuleOnPrimaryDashboardQuery();
   const videoData = data?.data?.content;
   return <>
-    <PrimaryDashboard />
+      <PrimaryDashboard />
     {
       videoData && videoData.map((item, i) => (
         <TutorialCards key={i} title={item?.name} subItems={item?.videos} />

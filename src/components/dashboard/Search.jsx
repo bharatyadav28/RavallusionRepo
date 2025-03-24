@@ -21,7 +21,7 @@ const Search = () => {
             <div className='py-4 px-4 md:px-0 lg:mt-3 grid grid-cols-12 gap-4'>
 
                 {
-                    filteredData.length > 0 && filteredData.map((item) => (
+                    filteredData?.length > 0 && filteredData.map((item) => (
                         <VideoCard
                             key={item._id}
                             title={item.title}

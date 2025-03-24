@@ -172,7 +172,6 @@ const VideoPlayer = ({
     const foundVideo = courseProgress?.data?.courseProgress?.find(
       (v) => v.video === videoId
     );
-
     setIsVideoCompleted(foundVideo?.isCompleted);
 
     const lastPosition = foundVideo?.lastPosition;
@@ -181,6 +180,7 @@ const VideoPlayer = ({
       setLastPosition(foundVideo?.lastPosition);
     }
   }, [courseProgress]);
+
 
   useEffect(() => {
     setIsVideoFullScreen && setIsVideoFullScreen(isFullScreen);
@@ -389,7 +389,8 @@ const VideoPlayer = ({
   };
 
   const handleForward = () => {
-    if (isVideoCompleted === false) {
+    if (!isVideoCompleted) {
+      console.log(isVideoCompleted);
       return;
     }
     if (playerRef.current) {
@@ -401,9 +402,11 @@ const VideoPlayer = ({
   };
 
   const handleSeekChange = (e) => {
-    if (isVideoCompleted === false) {
+    if (!isVideoCompleted) {
+      console.log(isVideoCompleted);
       return;
     }
+
     const value = parseFloat(e.target.value);
     setPlayed(value);
     setShowRestartButton(false);
@@ -413,10 +416,11 @@ const VideoPlayer = ({
   };
 
   const handleSeekMouseDown = (e) => {
-    if (isVideoCompleted === false) {
+    if (!isVideoCompleted) {
+      console.log(isVideoCompleted);
       return;
     }
-    if (playerRef.current) {
+    else if (playerRef.current) {
       playerRef.current.seekTo(progressRef.current.value / 100, "fraction");
     }
   };
@@ -523,8 +527,6 @@ const VideoPlayer = ({
     setActiveMenu("main");
     setShowSettings(!showSettings);
   };
-
-
 
 
 
@@ -850,25 +852,25 @@ const VideoPlayer = ({
             } `}
         >
           <div className="on-screen-controls">
-            <GrBackTen className="control-icons" onClick={handleBackward} />
+            <GrBackTen className="control-icons cursor-pointer" onClick={handleBackward} />
 
             {showRestartButton ? (
               <MdReplay
                 onClick={handleRestart}
-                className="control-icons play-pause-restart"
+                className="control-icons play-pause-restart cursor-pointer"
               />
             ) : playing ? (
               <GiPauseButton
                 onClick={handlePlayPause}
-                className="control-icons play-pause-restart"
+                className="control-icons play-pause-restart cursor-pointer"
               />
             ) : (
               <FaPlay
-                className="control-icons play-pause-restart"
+                className="control-icons play-pause-restart cursor-pointer"
                 onClick={handlePlayPause}
               />
             )}
-            <GrForwardTen className={`control-icons`} onClick={handleForward} />
+            <GrForwardTen className={`control-icons ${isVideoCompleted ? "cursor-pointer" : "cursor-not-allowed"}`} onClick={handleForward} />
           </div>
 
           <div className="bottom-controls">
@@ -876,9 +878,8 @@ const VideoPlayer = ({
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
 
-            {/* tooltip  */}
             <div
-              className="progress-bar-wrapper me-2"
+              className={`progress-bar-wrapper me-2`}
               onMouseMove={handleProgressHover}
               onMouseLeave={() => setHoveredTime(null)}
             >
@@ -892,7 +893,7 @@ const VideoPlayer = ({
 
               <input
                 type="range"
-                className="track-range"
+                className={`track-range ${isVideoCompleted? "cursor-pointer" : "cursor-not-allowed"}`}
                 ref={progressRef}
                 min={0}
                 max={100}

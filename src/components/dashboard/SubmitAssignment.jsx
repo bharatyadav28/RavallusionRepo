@@ -29,7 +29,6 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
 
     if (!file) return;
 
-
     startUpload();
 
     const formData = new FormData();
@@ -45,8 +44,8 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
       setFilesUrl(response?.data?.fileUrl);
       setFiles(uploadedFile);
     } catch (error) {
-      console("Upload error:", error);
-      toast.error(error.data.message);
+      console.log("Upload error:", error);
+      toast.error(error?.data?.message);
     } finally {
       setIsUploading(false);
     }

@@ -4,6 +4,7 @@ import React from 'react'
 import Plans from '../common/Plans'
 import { useGetLandingPageDataQuery, useGetPlanDataQuery } from '@/store/Api/home';
 import PageLoader from '../common/PageLoader';
+import { SimpleLoader } from '../common/LoadingSpinner';
 
 // const plans = [
 //     {
@@ -33,9 +34,9 @@ const SubscriptionPlan = () => {
 
     const { data, isLoading, error } = useGetPlanDataQuery();
 
-    const plans = data?.data.plans || [];
+    const plans = data?.data?.plans || [];
 
-    return isLoading ? <PageLoader /> : (
+    return isLoading ? <SimpleLoader /> : (
         <div className='overflow-y-auto mx-4 mt-20 md:mt-14 p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mb-4'>
             <h2 className='text-center text-[34px] font-bold'>Select Subscription Plan</h2>
             <p className='text-[16px] text-center mb-[30px]'>Please Select subscription plan to Continue</p>

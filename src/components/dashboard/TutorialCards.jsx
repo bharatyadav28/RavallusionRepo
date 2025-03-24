@@ -31,9 +31,9 @@ const TutorialCards = ({ title, subItems }) => {
 const VideoCard = ({ img, heading, description, duration, videoId }) => {
     const router = useRouter();
     const path = usePathname();
+
     const fetchVideo = () => {
-        const level = path.includes("beginner") ? "beginner" : "advanced";
-        router.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
+        router.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
     }
     return (
         <motion.div

@@ -2,21 +2,17 @@
 
 import { useEffect, useState } from "react";
 import CustomSkeleton from "./CustomSkeleton";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Route } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
-import { handleClick } from "@/lib/rajorpayPayment";
-import { useGetUserDetailQuery } from "@/store/Api/auth";
-
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setPlanId, setPlanPrice, setPlanType } from "@/store/slice/general"
 
 const Plans = ({ plans, showSkeleton = false }) => {
-  const [isClient,setIsClient] = useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [count, setCount] = useState(1);
-  const {data} = useGetUserDetailQuery();
-
-  const name = data?.data?.user?.name;
-  const email = data?.data?.user?.email;
-  const mobile = data?.data?.user?.mobile;
 
 
   useEffect(() => {
@@ -30,7 +26,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
       }
     };
 
-   
+
 
     // Run the function on initial render
     updateCountBasedOnScreenSize();
@@ -42,11 +38,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
     return () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
-  },[]);
-
-  useEffect(()=>{
-    setIsClient(true);
-  },[])
+  }, []);
 
   const getValidity = (daysInSeconds) => {
     const days = daysInSeconds / (60 * 60 * 24);
@@ -84,7 +76,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
 
         <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
-            {plans[0].plan_type}
+            {plans?.[0]?.plan_type}
           </h1>
           <div className="py-[30px] px-4 flex flex-col 2xl:px-6 2xl:py-9 2xl:gap-6  gap-4  items-start">
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -117,18 +109,14 @@ const Plans = ({ plans, showSkeleton = false }) => {
           </div>
 
           <CustomButton
-            onClick={() => {
-              handleClick(plans[0]._id,isClient)
-            }
-            }
-
+            onClick={() => { router.push(`/mycart?planId=${plans[0]?._id}&planType=${plans[0]?.plan_type}&price=${plans[0]?.inr_price}`), dispatch(setPlanId(plans[0]?._id)), dispatch(setPlanType(plans[0]?.plan_type)), dispatch(setPlanPrice(plans[0]?.inr_price)) }}
             className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group">
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
-                &#8377; {plans[0].inr_price}
+                &#8377; {plans?.[0]?.inr_price}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-gray-400 font-semibold group-hover:text-white">
-                {getValidity(plans[0].validity)}
+                {getValidity(plans[0]?.validity)}
               </div>
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
@@ -171,7 +159,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
             </div>
           </div>
           <GlowButton
-            onClick={() => handleClick( plans[1]._id,isClient)}
+          onClick={() => { router.push(`/mycart?planId=${plans[1]?._id}&planType=${plans[1]?.plan_type}&price=${plans[1]?.inr_price}`), dispatch(setPlanId(plans[1]?._id)), dispatch(setPlanType(plans[1]?.plan_type)), dispatch(setPlanPrice(plans[1]?.inr_price)) }}
             className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
@@ -186,7 +174,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
         </div>
 
       </div>
-    </div>
+    </div >
   );
 };
 export default Plans;

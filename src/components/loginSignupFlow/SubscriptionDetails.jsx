@@ -5,10 +5,11 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { DevicesIcon, VideoIcon, Check } from '@/lib/svg_icons';
 import useSmallScreen from '@/hooks/detectScreen';
 import { useGetSubscriptionDetailQuery } from '@/store/Api/course';
-import { SimpleLoader } from '../common/LoadingSpinner';
+import { useRouter } from 'next/navigation';
 
-const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile = false }) => {
+const SubscriptionDetails = ({ courseType, cart = false, price, profile = false }) => {
   const isSmallScreen = useSmallScreen();
+  const router = useRouter();
 
   const { data, isLoading } = useGetSubscriptionDetailQuery();
 
@@ -16,8 +17,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
   const remainingDays = data?.data?.subscriptionDetails?.remainingDays;
   const planType = data?.data?.subscriptionDetails?.planType;
 
-  const [dropdown, setDropdown] = useState(profile && !isSmallScreen);
-  // const [dropdown, setDropdown] = useState(profile);
+  const [dropdown, setDropdown] = useState(profile || cart);
 
   const dropdownVariants = {
     hidden: { opacity: 0, height: 0 },
@@ -25,16 +25,18 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
   };
 
   return (
-    <div className={` ${!profile && "mx-4"} p-4 rounded-[17px] bg-[var(--navy-blue)] ${profile && "w-full !bg-[var(--card)] mx-0"}`}>
+    <div className={`${profile || cart ? "mx-0" : "mx-4"} p-4 rounded-[17px] bg-[var(--navy-blue)]
+     ${profile && "w-full !bg-[var(--card)] mx-0"}
+     ${cart && "w-ful mx-0 px-0"}`}>
+
+
       {/* Header Section */}
       <div className='flex justify-between items-center'>
-        <h2 className='text-white font-semibold text-sm  md:text-lg'>Subscription details</h2>
-
+        <h2 className='text-white font-semibold text-sm md:text-lg'>Subscription details</h2>
 
         <div className='flex gap-2'>
 
           {
-
             !dropdown && (
               <div className='flex gap-2 items-center'>
                 <span className='text-orange-300 text-sm'>{courseType}</span>
@@ -45,26 +47,25 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
           }
 
           {
-            dropdown && profile && (
-
+            profile && (
               <div className='flex items-center gap-x-1'>
                 <p className="text-xs md:text-sm underline text-[var(--neon-purple)] font-semibold">
                   Download Invoice
                 </p>
-
-                {isSmallScreen && (
-                  <ChevronUp
-                    size={"18px"}
-                    className="cursor-pointer text-gray-300"
-                    onClick={() => setDropdown(false)}
-                  />
-                )}
-
               </div>
             )
           }
           {
-            !dropdown && profile && isSmallScreen &&
+            cart && (
+              <div className='flex items-center cursor-pointer' onClick={() => router.push('/subscription-plan')}>
+                <p className="text-xs md:text-sm text-blue-600 font-semibold">
+                  Delete
+                </p>
+              </div>
+            )
+          }
+          {
+            !dropdown &&
             (
               <ChevronDown
                 size={"18px"}
@@ -72,10 +73,10 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
                 onClick={() => setDropdown(true)}
               />
             )
-          }
 
+          }
           {
-            dropdown && !profile && (
+            dropdown && !profile && !cart && (
               <ChevronUp
                 size={"18px"}
                 className="cursor-pointer text-gray-300"
@@ -83,18 +84,6 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
               />
             )
           }
-          {
-            !dropdown && !profile && (
-              (
-                <ChevronDown
-                  size={"18px"}
-                  className='cursor-pointer text-gray-300'
-                  onClick={() => setDropdown(true)}
-                />
-              )
-            )
-          }
-
 
         </div>
 
@@ -109,12 +98,14 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
         transition={{ duration: 0.3 }}
         className='overflow-hidden'
       >
-        <div className={`${profile && "py-2 px-0"} mt-1 p-3  rounded-lg text-gray-200`}>
+        <div className={`${profile && "py-2 px-0"}
+        ${cart && "px-0"}
+          mt-1 p-3  rounded-lg text-gray-200`}>
 
           <div className='flex justify-between items-center'>
             <div>
               <p className='text-[12px]'>Current plan</p>
-              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{isLoading ? "Loading.." : planType || "Beginner"}</h2>
+              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{isLoading ? "Loading.." : profile && planType || courseType}</h2>
             </div>
 
             <div>
@@ -122,7 +113,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
                 profile ? (
                   <>
                     <p className='text-[12px] text-end'>Paid on {isLoading ? "Loading.." : paidOn || "08/04/2025"}</p>
-                    <h2 className='text-lg md:text-2xl font-semibold'>{isLoading?"Loading..": remainingDays || 5} days remaining</h2>
+                    <h2 className='text-lg md:text-2xl font-semibold'>{isLoading ? "Loading.." : remainingDays || 5} days remaining</h2>
                   </>
                 ) :
                   (
@@ -139,7 +130,7 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
           <hr className='border-t border-gray-700 my-4' />
 
 
-          <div className='flex justify-between items-center'>
+          <div className={` flex justify-between items-center`}>
 
             <div className="text-center text-xs items-center 2xl:gap-3 2xl:text-sm">
               <span className="text-[10] font-bold border-2 py-[3px] 2xl:py-0 px-[5px] rounded-2xl ">
@@ -171,6 +162,8 @@ const SubscriptionDetails = ({ courseType = "Advance", price = "9999", profile =
               </span>
             </div>
           </div>
+
+
           <div>
           </div>
         </div>

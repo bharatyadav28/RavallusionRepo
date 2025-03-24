@@ -1,7 +1,5 @@
 "use client"
 import AuthNavbar from "@/components/loginSignupFlow/AuthNavbar";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function AuthLayout({ children }) {
     return (

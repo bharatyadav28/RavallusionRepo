@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  showProfileCard: false,
-  subDetail: false,
+  planId: null,
+  planType: null,
+  planPrice: null,
   introductoryVideosCount: 0,
   bookmarkCount: 0,
   submoduleId: null,
@@ -10,7 +11,7 @@ const initialState = {
   updatedPercentageWatched: 0,
   videoIdOfCurrentVideo: null,
   firstVideoId: null,
-  searchValue:" ",
+  searchValue: " ",
   searchHistory: [],
 }
 
@@ -18,11 +19,14 @@ export const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
-    setShowProfileCard: (state) => {
-      state.showProfileCard = !state.showProfileCard;
+    setPlanId: (state, actions) => {
+      state.planId = actions.payload;
     },
-    setSubDetail: (state, actions) => {
-      state.subDetail = actions.payload;
+    setPlanType: (state, actions) => {
+      state.planType = actions.payload;
+    },
+    setPlanPrice: (state, actions) => {
+      state.planPrice = actions.payload;
     },
     setIntroductoryVideoscount: (state, actions) => {
       state.introductoryVideosCount = actions.payload;
@@ -59,8 +63,7 @@ export const { setVideoIdOfcurrentVideo,
   setSearchHistory,
   setUpdatedPercentageWatched,
   setCourseId,
-  setFirstVideoId,
-  setShowProfileCard, setSubDetail, setIntroductoryVideoscount,
+  setFirstVideoId, setPlanId, setPlanPrice, setPlanType, setIntroductoryVideoscount,
   setBookmarkCount, setSubmoduleId } = generalSlice.actions
 
 export default generalSlice.reducer

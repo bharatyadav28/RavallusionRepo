@@ -13,7 +13,7 @@ import LogoutDialog from "./LogoutDialog";
 
 const VerifyOtp = () => {
     const { signinEmail, userId, isNewUser, keepMeSignedIn, hasSubscription } = useSelector((state) => state.signInState);
-    console.log("hassubscription", hasSubscription);
+    const { planId, planType, planPrice } = useSelector((state) => state.general);
     const [isOpenLogout, setIsOpenLogout] = useState(false);
     const route = useRouter();
 
@@ -54,7 +54,10 @@ const VerifyOtp = () => {
             if (hasSubscription) {
                 router.push("/dashboard");
             }
-            else {
+            else if (!hasSubscription && planId) {
+                router.push(`/mycart?planId=${planId}&planType=${planType}&price=${planPrice}`);
+            }
+            else{
                 router.push("/subscription-plan");
             }
 
@@ -69,18 +72,18 @@ const VerifyOtp = () => {
         }
     };
 
-   
-     const handleSwitchDevice = async () => {
-            try {
-                const res = await switchDevice()
-                setIsOpenLogout(false);  
-                route.refresh('/login');
-        
-            } catch (error) {
-                console.error("Error switching device:", error);
-                toast.error("Failed to switch device. Please try again.");
-            }
-        };
+
+    const handleSwitchDevice = async () => {
+        try {
+            const res = await switchDevice()
+            setIsOpenLogout(false);
+            route.refresh('/login');
+
+        } catch (error) {
+            console.error("Error switching device:", error);
+            toast.error("Failed to switch device. Please try again.");
+        }
+    };
 
     const handleResendOtp = async () => {
         try {

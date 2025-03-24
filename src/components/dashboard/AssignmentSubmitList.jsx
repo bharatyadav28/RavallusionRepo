@@ -12,11 +12,19 @@ const AssignmentSubmitList = () => {
     const [isActive, setIsActive] = useState(0);
     const { data, isLoading } = useGetSubmittedAssignmetQuery();
 
+
     const moduleName1 = data?.data?.assigments?.[0]?.moduleName;
     const moduleName2 = data?.data?.assigments?.[1]?.moduleName;
 
-    const module1Video = data?.data?.assigments?.[0]?.videos;
-    const module2Video = data?.data?.assigments?.[1]?.videos;
+    const beginnerPhotoshopAssignment = data?.data?.assigments?.[0]?.videos;
+    const advancedPhotoshopAssignment = data?.data?.assigments?.[2]?.videos;
+
+    const photoshopAssignment = [...(beginnerPhotoshopAssignment || []), ...(advancedPhotoshopAssignment || [])];
+
+    const beginnerPremierproAssignment = data?.data?.assigments?.[1]?.videos;
+    const advancedPremierproAssignment = data?.data?.assigments?.[4]?.videos;
+
+    const premierproAssignment = [...(beginnerPremierproAssignment || []), ...(advancedPremierproAssignment || [])]
 
     return isLoading ? <div className='flex items-center justify-center min-h-[60vh]'><SimpleLoader /> </div> : (
         <div className='my-2 lg:my-0 col-span-12 py-4 px-4 lg:col-span-4 rounded-2xl bg-[var(--card)] relative'>
@@ -53,7 +61,7 @@ const AssignmentSubmitList = () => {
                 isActive === 0 && (
                     <div>
                         {
-                            module1Video && module1Video.map((video, index) => (
+                            photoshopAssignment && photoshopAssignment.map((video, index) => (
                                 <SubmitAssignmentCard
                                     key={index}
                                     videoId={video._id}
@@ -72,7 +80,7 @@ const AssignmentSubmitList = () => {
                 isActive === 1 && (
                     <div>
                         {
-                            module2Video && module2Video.map((video, index) => (
+                            premierproAssignment && premierproAssignment.map((video, index) => (
                                 <SubmitAssignmentCard
                                     key={index}
                                     videoId={video._id}
