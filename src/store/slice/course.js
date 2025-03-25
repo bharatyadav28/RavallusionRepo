@@ -5,6 +5,7 @@ const initialState = {
   course: {},
   videos: {},
   
+  
 };
 export const course = createSlice({
   name: "course",

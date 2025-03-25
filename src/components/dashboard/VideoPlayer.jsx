@@ -65,7 +65,7 @@ const VideoPlayer = ({
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const isMobileDevice = useMediaQuery({ maxWidth: 600 });
   const [intervalId, setIntervalId] = useState(null);
-  const [isVideoCompleted, setIsVideoCompleted] = useState(false);
+  const [isVideoCompleted, setIsVideoCompleted] = useState(null);
   const [lastPositon, setLastPosition] = useState(0);
   const [isClient, setIsClient] = useState(null);
   const playerRef = useRef(null);
@@ -389,8 +389,8 @@ const VideoPlayer = ({
   };
 
   const handleForward = () => {
-    if (!isVideoCompleted) {
-      console.log(isVideoCompleted);
+    console.log(isVideoCompleted);
+    if (isVideoCompleted === false) {
       return;
     }
     if (playerRef.current) {
@@ -402,8 +402,7 @@ const VideoPlayer = ({
   };
 
   const handleSeekChange = (e) => {
-    if (!isVideoCompleted) {
-      console.log(isVideoCompleted);
+    if (isVideoCompleted === false) {
       return;
     }
 
@@ -416,8 +415,7 @@ const VideoPlayer = ({
   };
 
   const handleSeekMouseDown = (e) => {
-    if (!isVideoCompleted) {
-      console.log(isVideoCompleted);
+    if (isVideoCompleted === false) {
       return;
     }
     else if (playerRef.current) {
@@ -870,7 +868,7 @@ const VideoPlayer = ({
                 onClick={handlePlayPause}
               />
             )}
-            <GrForwardTen className={`control-icons ${isVideoCompleted ? "cursor-pointer" : "cursor-not-allowed"}`} onClick={handleForward} />
+            <GrForwardTen className={`control-icons ${isVideoCompleted === false ? "cursor-not-allowed" : "cursor-pointer"}`} onClick={handleForward} />
           </div>
 
           <div className="bottom-controls">
@@ -893,7 +891,7 @@ const VideoPlayer = ({
 
               <input
                 type="range"
-                className={`track-range ${isVideoCompleted? "cursor-pointer" : "cursor-not-allowed"}`}
+                className={`track-range ${isVideoCompleted === false ? "cursor-not-allowed" : "cursor-pointer"}`}
                 ref={progressRef}
                 min={0}
                 max={100}

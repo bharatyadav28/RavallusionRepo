@@ -7,7 +7,6 @@ import VideoDescription from "@/components/dashboard/VideoDescription";
 import VideoPlayer from "@/components/dashboard/VideoPlayer";
 import {
   useGetVideoQuery,
-  useLazyGetVideoQuery,
 } from "@/store/Api/introAndBookmark";
 import {
   useGetCourseProgressQuery,
@@ -17,8 +16,8 @@ import {
 import {
   setUpdatedPercentageWatched,
   setVideoIdOfcurrentVideo,
+  setVideoTitle,
 } from "@/store/slice/general";
-import { current } from "@reduxjs/toolkit";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,9 +28,7 @@ const VideoDashboard = () => {
   const dispatch = useDispatch();
   const route = useRouter();
   const id = searchParams.get("videoId");
-  const {courseId,firstVideoId} = useSelector((state) => state.general);
-
-  // const [getVideoQuery, { isLoading: loading }] = useLazyGetVideoQuery();
+  const { courseId, firstVideoId } = useSelector((state) => state.general);
 
   const [videoUrl, setVideoUrl] = useState(null);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
@@ -45,15 +42,14 @@ const VideoDashboard = () => {
       skip: !courseId,
     });
   const latestWatchedVideo =
-    courseProgress?.data?.courseProgress.length > 0
-      ? courseProgress.data.courseProgress[0]?.video
+    courseProgress?.data?.courseProgress?.length > 0
+      ? courseProgress?.data?.courseProgress[0]?.video
       : null;
   const [videoId, setVideoId] = useState(null);
 
   const { data, isLoading, error } = useGetVideoQuery(videoId, {
     skip: !videoId,
   });
-
   // Reset states when videoId changes
   useEffect(() => {
     setVideoUrl(null);
@@ -62,21 +58,21 @@ const VideoDashboard = () => {
 
   useEffect(() => {
     if (data?.data?.video) {
-      setVideoUrl(data.data.video.videoUrl);
-      setThumbnailUrl(data.data.video.thumbnailUrl);
+      setVideoUrl(data?.data?.video?.videoUrl);
+      setThumbnailUrl(data?.data?.video?.thumbnailUrl);
     }
   }, [data, videoId]); // Added videoId as dependency
 
   useEffect(() => {
-    if(id){
+    if (id) {
     }
     else if (latestWatchedVideo) {
       route.push(`?videoId=${latestWatchedVideo}`);
     }
-    else if(firstVideoId){
+    else if (firstVideoId) {
       route.push(`?videoId=${firstVideoId}`);
     }
-  }, [id,courseProgress,latestWatchedVideo,firstVideoId,route]);
+  }, [id, courseProgress, latestWatchedVideo, firstVideoId, route]);
 
   useEffect(() => {
     if (id) {
@@ -103,7 +99,11 @@ const VideoDashboard = () => {
     if (courseProgress) {
       dispatch(setVideos(courseProgress?.data?.courseProgress));
     }
-  }, [courseProgress]);
+    if (data) {
+      dispatch(setVideoTitle(data?.data?.video?.title));
+    }
+
+  }, [courseProgress, data]);
 
   // Force video player to remount when videoUrl changes
   const videoPlayerKey = videoUrl || "no-video";

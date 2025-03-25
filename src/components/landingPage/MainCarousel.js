@@ -147,7 +147,6 @@ const MainCarousel = ({ data }) => {
     return () => window.removeEventListener("resize", handleResize);
   },[]);
 
-  // console.log(screenWidth);
   return (
     <>
       <LandingContainer className="!px-0 flex items-center justify-center !h-fit py-12 sm:py-56 mt-1">

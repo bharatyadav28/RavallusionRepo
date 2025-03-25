@@ -23,8 +23,9 @@ const DashboardNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [searchDialog, setSearchDialog] = useState(false);
   const [urlpath, setUrlPath] = useState('');
-  const introductoryVideosCount = useSelector((state) => state.general.introductoryVideosCount);
-  const {searchValue, searchHistory} = useSelector((state) => state.general);
+  const { introductoryVideosCount, videoTitle } = useSelector((state) => state.general);
+
+  const { searchValue, searchHistory } = useSelector((state) => state.general);
   const { data } = useGetUserDetailQuery();
   const avatar = data?.data?.user?.avatar;
 
@@ -62,7 +63,7 @@ const DashboardNavbar = () => {
       {show ? (
         <div className='flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2'>
 
-          <button className='cursor-pointer' onClick={() => router.back()}>
+          <button className='cursor-pointer' onClick={() => { urlpath === 'playerDashboard' ? router.push('/dashboard') : router.back() }}>
             <ArrowLeft />
           </button>
 
@@ -84,18 +85,19 @@ const DashboardNavbar = () => {
               urlpath === 'playerDashboard' && (
                 <>
                   <h1 className='text-lg font-semibold mb-1'>Opening file</h1>
-                  <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p>
+                  {/* <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p> */}
+                  <p className='text-xs text-[#CDCED1]'>{videoTitle}</p>
                 </>
               )
             }
 
             {
               urlpath === 'search' && (
-                <SearchInput 
-                 searchValue={searchValue}
-                 searchHistory={searchHistory}
-                 setSearchHistory={setSearchHistory}
-                  setSearchValue={setSearchValue} headerSearch={true}/>
+                <SearchInput
+                  searchValue={searchValue}
+                  searchHistory={searchHistory}
+                  setSearchHistory={setSearchHistory}
+                  setSearchValue={setSearchValue} headerSearch={true} />
               )
             }
 
@@ -109,7 +111,7 @@ const DashboardNavbar = () => {
       <div className='flex gap-x-2 items-center'>
         {
           urlpath != "search" && (
-            <div className='p-3 border border-gray-600 relative cursor-pointer' onClick={() => {setSearchDialog(true) ,dispatch(setSearchValue(""))}}>
+            <div className='p-3 border border-gray-600 relative cursor-pointer' onClick={() => { setSearchDialog(true), dispatch(setSearchValue("")) }}>
               <EllipseOfSearch />
               <SearchIcon size={24} />
             </div>

@@ -47,7 +47,6 @@ const ContactForm = () => {
     });
     formData.append("name", `${formInputs.first_name} ${formInputs.last_name}`);
 
-    console.log(formData);
     const res = await submitQuery(formData);
     setLoading(false);
 

@@ -44,7 +44,8 @@ export const courseApi = createApi({
         }),
         getSearchedVideos: builder.query({
             query: (search) => `video/search?search=${search}`,
-        })
+        }),
+        
 
     }),
 })

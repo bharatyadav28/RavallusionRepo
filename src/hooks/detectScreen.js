@@ -1,28 +1,22 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 
 function useSmallScreen() {
-    const [isClient, setIsClient] = useState(false)
-
-    const [isSmallScreen, setIsSmallScreen] = useState();
-
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
-
-    useEffect(() => {
-        isClient && setIsSmallScreen(window.innerWidth <= 768)
-    }, [isClient])
+    const [isSmallScreen, setIsSmallScreen] = useState(
+        typeof window !== "undefined" && window.innerWidth <= 768
+    );
 
     useEffect(() => {
         const handleResize = () => {
             setIsSmallScreen(window.innerWidth <= 768);
         };
 
+        // Attach resize listener
         window.addEventListener("resize", handleResize);
+
+        // Cleanup listener on unmount
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
 
     return isSmallScreen;
 }

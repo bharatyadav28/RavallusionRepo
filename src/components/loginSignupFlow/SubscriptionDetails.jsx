@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { DevicesIcon, VideoIcon, Check } from '@/lib/svg_icons';
-import useSmallScreen from '@/hooks/detectScreen';
 import { useGetSubscriptionDetailQuery } from '@/store/Api/course';
 import { useRouter } from 'next/navigation';
 
 const SubscriptionDetails = ({ courseType, cart = false, price, profile = false }) => {
-  const isSmallScreen = useSmallScreen();
   const router = useRouter();
 
   const { data, isLoading } = useGetSubscriptionDetailQuery();
@@ -100,7 +98,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false 
       >
         <div className={`${profile && "py-2 px-0"}
         ${cart && "px-0"}
-          mt-1 p-3  rounded-lg text-gray-200`}>
+          mt-1 px-0 py-3  rounded-lg text-gray-200`}>
 
           <div className='flex justify-between items-center'>
             <div>
@@ -130,18 +128,18 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false 
           <hr className='border-t border-gray-700 my-4' />
 
 
-          <div className={` flex justify-between items-center`}>
+          <div className={`flex justify-between items-center`}>
 
             <div className="text-center text-xs items-center 2xl:gap-3 2xl:text-sm">
-              <span className="text-[10] font-bold border-2 py-[3px] 2xl:py-0 px-[5px] rounded-2xl ">
+              <span className="text-[10px] font-bold border-2 py-[3px] 2xl:py-0 px-[5px] rounded-2xl ">
                 X 1
               </span>
-              <span className='text-[10px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
+              <span className='text-[8px] sm:text-[10px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
             </div>
 
             <div className="flex flex-col text-xs items-center 2xl:gap-3 2xl:text-sm">
-              <Check className="border-2 rounded-full p-1" size={23} />
-              <span className='text-[10px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
+              <Check className="border-2 rounded-full p-1" size={"23"} />
+              <span className='text-[8px] sm:text-[10px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
             </div>
 
             <div className="flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -151,13 +149,13 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false 
                   FHD
                 </span>
               </div>
-              <span className='mt-3 text-[10px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
+              <span className='mt-3 text-[8px] sm:mt-3 sm:text-[10px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
             </div>
 
             <div className=" flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm">
               <DevicesIcon width={23} />
               <span
-                className="text-[10px] mt-[4px] md:mt-[10px]  text-center break-words leading-tight max-w-[100px] sm:max-w-[120px]">
+                className="text-[8px] sm:text-[10px] mt-[4px] md:mt-[7px]  text-center break-words leading-tight max-w-[90px] sm:max-w-[110px]">
                 Watch on Laptop, Mobile, Tab and iPad
               </span>
             </div>

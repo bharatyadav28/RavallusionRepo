@@ -37,9 +37,9 @@ const PrimaryDashboard = () => {
             whileHover={{ scale: 0.95 }}
             className="bg-pink-200 lg:col-span-3 col-span-6 relative order-1 lg:order-0"
           >
-            <h1 className="lg:text-[44px] text-[32px] absolute z-10 bottom-2 left-3 font-alexandria w-40 leading-tight font-extrabold">
+            {/* <h1 className="lg:text-[44px] text-[32px] absolute z-10 bottom-2 left-3 font-alexandria w-40 leading-tight font-extrabold">
               Fire effect
-            </h1>
+            </h1> */}
             <Image
               src={carouselImages[currentIndex % carouselImages.length] || fireEffectimg}
               alt="Fire effect img"
@@ -50,9 +50,9 @@ const PrimaryDashboard = () => {
 
           {/* Space effect - Center (Carousel with images) */}
           <div className="col-span-12 lg:col-span-6 relative flex items-center justify-center order-0 lg:order-1">
-            <h1 className="text-[44px] z-10 font-alexandria leading-tight font-extrabold absolute">
+            {/* <h1 className="text-[44px] z-10 font-alexandria leading-tight font-extrabold absolute">
               Space effect
-            </h1>
+            </h1> */}
             <div className="w-full h-full relative overflow-hidden">
               <Image
                 src={carouselImages[(currentIndex + 1) % carouselImages.length] || spaceEffect1}

@@ -17,7 +17,6 @@ const Introductory = () => {
   useEffect(() => {
     if (introductoryVideos?.length) {
       dispatch(setIntroductoryVideoscount(introductoryVideos.length));
-      // console.log(introductoryVideos.length);
     }
   }, [introductoryVideos.length, dispatch]);
 

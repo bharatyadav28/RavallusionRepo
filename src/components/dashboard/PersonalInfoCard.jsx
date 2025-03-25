@@ -54,7 +54,6 @@ const PersonalInfoCard = () => {
         handleSave('name', value);
         try {
             const res = await updateName({ name: value }).unwrap();
-            console.log("name", res);
 
         } catch (error) {
             console.log("error while Updating name", error)
@@ -66,10 +65,8 @@ const PersonalInfoCard = () => {
     }
     const handleUpdateMobile = async (value) => {
         handleSave('phone', value);
-        console.log("phone", value);
         try {
             const res = await updateMobile({ mobile: value }).unwrap();
-            console.log("phone", res);
         } catch (error) {
             console.log("error while Updating phone", error)
             toast.error(error?.data?.message);

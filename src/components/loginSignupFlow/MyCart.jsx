@@ -15,7 +15,7 @@ const MyCart = () => {
     const courseType = params.get('planType');
     const price = params.get('price');
     return (
-        <div className="mx-4 p-5 md:p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg sm:min-w-[500px]">
+        <div className="w-full p-5 sm:p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg sm:min-w-[500px]">
             <Button variant="default" className="bg-transparent hover:bg-[var(--navy-blue)] mb-[20px] -ml-4" onClick={() => router.back()}>
                 <ArrowLeft /> Back
             </Button>

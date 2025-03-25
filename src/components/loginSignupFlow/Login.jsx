@@ -30,8 +30,6 @@ const Login = () => {
 
     const [switchDevice, { isLoading: switchDeviceLoading }] = useSwitchDeviceMutation();
 
-
-
     const googleLogin = useGoogleLogin({
         onSuccess: async (response) => {
 
@@ -67,7 +65,7 @@ const Login = () => {
         },
         onError: (error) => {
             console.log("Login Failed:", error);
-            toast(error.message);
+            toast.error(error.message || "Login failed. Please try again.");
         }
 
     });
@@ -102,7 +100,7 @@ const Login = () => {
         } catch (err) {
             console.error("API Call Failed:", err);
             const errorMessage = err?.data?.message || "Something went wrong! Please try again.";
-            toast.error(`Error: ${errorMessage}`);
+            toast.error(`${errorMessage}`);
         }
     };
 
@@ -114,7 +112,7 @@ const Login = () => {
 
         } catch (error) {
             console.error("Error switching device:", error);
-            toast.error("Failed to switch device. Please try again.");
+            toast.error( error?.data?.message || "Failed to switch device. Please try again.");
         }
     };
 

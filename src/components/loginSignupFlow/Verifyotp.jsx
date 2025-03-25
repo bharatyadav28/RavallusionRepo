@@ -48,9 +48,7 @@ const VerifyOtp = () => {
             const type = isNewUser ? "account_verification" : "two_step_auth";
 
             const response = await verifyUser({ otp, email: signinEmail, type, userId, keepMeSignedIn }).unwrap();
-            console.log(response);
 
-            toast(response.message || "Verification successful!", { autoClose: 2000 });
             if (hasSubscription) {
                 router.push("/dashboard");
             }
@@ -62,13 +60,10 @@ const VerifyOtp = () => {
             }
 
         } catch (err) {
-            console.error("API Call Failed:", err);
-            console.log(err?.status)
             if (err?.status == 409) {
                 setIsOpenLogout(true);
             }
-            const errorMessage = err?.data?.message || "Something went wrong! Please try again.";
-            toast(`Error: ${errorMessage}`);
+            toast.error(err?.data?.message);
         }
     };
 
@@ -77,11 +72,11 @@ const VerifyOtp = () => {
         try {
             const res = await switchDevice()
             setIsOpenLogout(false);
-            route.refresh('/login');
+            route.refresh('/verify-otp');
 
         } catch (error) {
             console.error("Error switching device:", error);
-            toast.error("Failed to switch device. Please try again.");
+            toast.error( error?.data?.message||"Failed to switch device. Please try again.");
         }
     };
 
@@ -92,6 +87,7 @@ const VerifyOtp = () => {
             await signin({ email: signinEmail }).unwrap();
         } catch (error) {
             console.error("Resend OTP Failed:", error);
+            toast.error(error?.data?.message || "Failed to resend OTP. Please try again.");
         }
     };
 

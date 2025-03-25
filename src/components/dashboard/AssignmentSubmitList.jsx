@@ -61,7 +61,9 @@ const AssignmentSubmitList = () => {
                 isActive === 0 && (
                     <div>
                         {
+                            isLoading ? <SimpleLoader/>:
                             photoshopAssignment && photoshopAssignment.map((video, index) => (
+
                                 <SubmitAssignmentCard
                                     key={index}
                                     videoId={video._id}
@@ -79,18 +81,20 @@ const AssignmentSubmitList = () => {
             {
                 isActive === 1 && (
                     <div>
+
                         {
-                            premierproAssignment && premierproAssignment.map((video, index) => (
-                                <SubmitAssignmentCard
-                                    key={index}
-                                    videoId={video._id}
-                                    score={video.score}
-                                    percentageWatched={video.percentageWatched}
-                                    title={video.title}
-                                    isCompleted={video.isCompleted}
-                                    hasSubmitted={video.hasSubmitted}
-                                />
-                            ))
+                            isLoading ? <SimpleLoader /> :
+                                premierproAssignment && premierproAssignment.map((video, index) => (
+                                    <SubmitAssignmentCard
+                                        key={index}
+                                        videoId={video._id}
+                                        score={video.score}
+                                        percentageWatched={video.percentageWatched}
+                                        title={video.title}
+                                        isCompleted={video.isCompleted}
+                                        hasSubmitted={video.hasSubmitted}
+                                    />
+                                ))
                         }
                     </div>
                 )

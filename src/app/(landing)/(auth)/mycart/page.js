@@ -4,9 +4,12 @@ import React, { Suspense } from 'react'
 
 const page = () => {
     return (
-        <Suspense fallback={<SimpleLoader />}>
-            <MyCart />
-        </Suspense>
+        <div className='px-3 sm:px-0 w-full sm:w-auto'>
+            <Suspense fallback={<SimpleLoader />}>
+                <MyCart />
+            </Suspense>
+        </div>
+
     )
 }
 

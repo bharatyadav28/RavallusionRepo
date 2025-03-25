@@ -23,7 +23,6 @@ const CourseCard = ({ course }) => {
         <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsOpen={setIsOpen} isOpen={isOpen} />
       </CustomDialog>
 
-
       <div className="flex flex-col gap-2 2xl:gap-4 h-auto">
         <div>
           <div className="h-auto">
