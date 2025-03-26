@@ -62,7 +62,6 @@ const quickLinks = [
     title: "Contact us",
     link: "/contact-us",
   },
-
 ];
 const Footer = () => {
   return (
@@ -95,7 +94,7 @@ const Footer = () => {
             ))}
           </div>
           <div className="text-xs">
-            © 2024 String Art Pvt. Ltd. All rights reserved
+            © 2025 Ravallusion Training Academy LLP. All rights reserved
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -117,7 +116,6 @@ const Footer = () => {
       <div className="px-3">
         <FooterRavallusion className="w-full h-full md:h-[11rem] 2xl:h-[12.5rem] " />
       </div>
-
     </div>
   );
 };
