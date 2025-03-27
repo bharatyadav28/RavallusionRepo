@@ -2,8 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
+import SkeletonVideoCard from './SkeletonVideoCard';
 
-const TutorialCards = ({ title, subItems }) => {
+const TutorialCards = ({ title, subItems, isLoading }) => {
     return (
         <div className='py-2 bg-[var(--card)]'>
 
@@ -11,17 +12,25 @@ const TutorialCards = ({ title, subItems }) => {
                 <h1 className='text-lg font-semibold'>{title}</h1>
             </div>
 
-            <div className='grid grid-cols-12 px-2 md:px-0 gap-x-1'>
+            <div className='grid grid-cols-12 px-2 md:px-0 gap-x-4'>
                 {
-                    subItems.map((items, i) => (
-                        <VideoCard key={items._id}
-                            videoId={items._id}
-                            img={items.thumbnailUrl}
-                            heading={items.title}
-                            description={items.description}
-                            duration={`${String(items.duration.hours ?? 0).padStart(2, "0")}:${String(items.duration.minutes ?? 0).padStart(2, "0")}:${String(items.duration.seconds ?? 0).padStart(2, "0")}`}
-                        />
-                    ))
+                    isLoading ? (
+                        Array(4).fill(0).map((_, i) => (
+                            <SkeletonVideoCard key={i} />
+                        ))
+                    ) :
+                        (
+
+                            subItems.length > 0 && subItems.map((items, i) => (
+                                <VideoCard key={items._id}
+                                    videoId={items._id}
+                                    img={items.thumbnailUrl}
+                                    heading={items.title}
+                                    description={items.description}
+                                    duration={`${String(items.duration.hours ?? 0).padStart(2, "0")}:${String(items.duration.minutes ?? 0).padStart(2, "0")}:${String(items.duration.seconds ?? 0).padStart(2, "0")}`}
+                                />
+                            ))
+                        )
                 }
             </div>
         </div>
@@ -55,7 +64,7 @@ const VideoCard = ({ img, heading, description, duration, videoId }) => {
                 <h1 className='text-[16px] mb-2 font-semibold line-clamp-2'>
                     {heading}
                 </h1>
-                <p className='text-[10px] text-gray-300 font-medium line-clamp-2'>{description}</p>
+                <p className='text-xs text-gray-300 font-medium line-clamp-2'>{description}</p>
             </div>
 
         </motion.div>

@@ -2,9 +2,13 @@ import { CrownIcon } from '@/lib/svg_icons'
 import React from 'react'
 import SubscriptionDetails from '../loginSignupFlow/SubscriptionDetails'
 import Link from 'next/link'
+import { SimpleLoader } from '../common/LoadingSpinner'
+import { useGetSubscriptionDetailQuery } from '@/store/Api/course'
 
 const MySubscription = () => {
-    return (
+    const { data, isLoading } = useGetSubscriptionDetailQuery();
+
+    return isLoading ? <div className='flex items-center justify-center min-h-[60vh]'><SimpleLoader /></div> :  (
         <div className='pt-4 md:pt-0'>
             <h2 className='text-lg font-semibold'>My Subscription</h2>
 
@@ -13,7 +17,7 @@ const MySubscription = () => {
             </div>
 
             <div>
-                <SubscriptionDetails profile={true} />
+                <SubscriptionDetails profile={true} data={data} />
             </div>
 
         </div>

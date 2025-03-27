@@ -7,15 +7,16 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { CustomButton } from "../common/CustomButton";
 import { SimpleLoader } from "../common/LoadingSpinner";
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import CourseSkeletonLoader from "./CourseSkeletonLoader";
 
 const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId }) => {
     const modules = course?.modules;
 
-   
+
     const heading = course?.title || "Course";
 
-    return isLoading ? <SimpleLoader /> : (
+    return (
         <>
             <h1 className='text-lg font-semibold mb-7 px-3'>{heading}</h1>
 
@@ -27,6 +28,10 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
                             setPlayingVideoId={setPlayingVideoId}
                             title={items.name} videoCount={items.videoCount || 0} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
                     )) :
+                        <CourseSkeletonLoader />
+                }
+                {
+                    !course && (
                         (
                             <div className="flex flex-col items-center gap-y-3 h-60 px-10 text-center">
                                 <p className="text-red-500">You do not have this Plan, please purchase the plan</p>
@@ -36,6 +41,7 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
                                 </CustomButton>
                             </div>
                         )
+                    )
                 }
 
             </div>

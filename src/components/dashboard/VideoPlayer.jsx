@@ -716,7 +716,7 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={`video-container ${playing ? "playing" : "paused"
+      className={`video-container  ${playing ? "playing" : "paused"
         } !z-0 !${className}`}
       ref={containerRef}
       onMouseMove={() => {
@@ -889,7 +889,7 @@ const VideoPlayer = ({
                 </div>
               )}
 
-              <input
+              <input 
                 type="range"
                 className={`track-range ${isVideoCompleted === false ? "cursor-not-allowed" : "cursor-pointer"}`}
                 ref={progressRef}

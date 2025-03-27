@@ -1,18 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import LandingContainer from "../common/LandingContainer";
 import { CheckIcon } from "@/lib/svg_icons";
 import Image from "next/image";
 
-const data = {
-  title: "Get Certified",
-  points: [
-    "Clearing your fundamentals and unlearning BS",
-    "Overcome communication challenges and speak fluently",
-    "Common mistakes & roadblocks and how to avoid them",
-  ],
-  image: "/certificate.jpg",
-};
+
 const CertificateSection = ({ certificate }) => {
   return (
     <LandingContainer className="!h-fit pt-12 sm:pt-[7.5rem] !flex !flex-row justify-center">

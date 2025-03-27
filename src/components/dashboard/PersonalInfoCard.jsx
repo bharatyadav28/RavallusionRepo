@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useGetUserDetailQuery, useUpdateAvatarMutation, useUpdateMobileMutation, useUpdateNameMutation } from '@/store/Api/auth';
 import { toast } from 'react-toastify';
 import { SimpleLoader } from '../common/LoadingSpinner';
+import { PhoneOffIcon } from 'lucide-react';
 
 const PersonalInfoCard = () => {
     const { data, isLoading: loading } = useGetUserDetailQuery();
@@ -19,12 +20,12 @@ const PersonalInfoCard = () => {
     const [updateAvatar, { isLoading: isLoadingAvatar }] = useUpdateAvatarMutation();
 
     const userName = data?.data?.user?.name || "Ravallusion";
-    const email = data?.data?.user?.email || "ravallusion@gmail.com";
+    const email = data?.data?.user?.email || "NA";
     const avatar = data?.data?.user?.avatar || '/profilepic.jpeg';
-    const mobileNumber = data?.data?.user?.mobile || '+910000000000';
+    const mobileNumber = data?.data?.user?.mobile || 'NA';
 
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
+    const [name, setName] = useState(userName);
+    const [phone, setPhone] = useState(mobileNumber);
 
     const [isOpenName, setIsOpenName] = useState(false);
     const [isOpenPhone, setIsOpenPhone] = useState(false);
@@ -75,35 +76,10 @@ const PersonalInfoCard = () => {
             setIsOpenPhone(false);
         }
     }
-    // const variants = {
-    //     initial: {
-    //         x: window.innerWidth >= 1024 ? '100%' : '-50%',
-    //         y: window.innerWidth >= 1024 ? 0 : '100%',
-    //         left: '50%',
-    //     },
-    //     animate: {
-    //         x: window.innerWidth >= 1024 ? '-38%' : '-50%',
-    //         y: 0,
-    //         left: '50%',
-    //         transition: {
-    //             duration: 0.8,
-    //             ease: "easeOut"
-    //         }
-    //     },
-    //     exit: {
-    //         x: window.innerWidth >= 1024 ? '100%' : '-50%',
-    //         y: window.innerWidth >= 1024 ? 0 : '100%',
-    //         left: '50%',
-    //         transition: {
-    //             duration: 0.8,
-    //             ease: "easeIn"
-    //         }
-    //     }
-    // };
-    return (loading ? <div className='flex items-center justify-center min-h-[60vh]'> <SimpleLoader /></div> :
+    
+    return ( loading ? <div className='flex items-center justify-center min-h-[60vh]'> <SimpleLoader /></div> :
         <div
             className=" w-full z-20"
-
         >
             <div className='pt-4 md:pt-0'>
                 <div className="flex items-center justify-between">
@@ -177,7 +153,7 @@ const PersonalInfoCard = () => {
 const PersonalInfo = ({ label, content, onClick }) => {
     return (
         <div className="py-1">
-            <label htmlFor="name" className="text-[10px] text-gray-400 important">
+            <label htmlFor="name" className="text-[13px] ml-1 text-gray-400 important">
                 {label}
             </label>
             <div className="flex items-center justify-between relative">
@@ -193,17 +169,5 @@ const PersonalInfo = ({ label, content, onClick }) => {
 };
 
 
-// const AccountControl = ({ icon, title, onClick }) => {
-//     return (
-//         <div
-//             onClick={onClick}
-//             className={`py-3 flex items-center gap-x-3 cursor-pointer ${title === 'Logout' && 'text-red-600'
-//                 }`}
-//         >
-//             {icon}
-//             <p className="text-sm font-semibold">{title}</p>
-//         </div>
-//     );
-// };
 
 export default PersonalInfoCard;

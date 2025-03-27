@@ -26,21 +26,14 @@ const ModuleSection = ({ modules, curriculum }) => {
   useEffect(() => {
     setIsClient(true);
   }, [])
+
+
   const handleDownload = () => {
     if (isClient) {
       window.open(curriculum, "_blank");
     }
   };
 
-
-  // const handleDownload = () => {
-  //   const a = document.createElement('a');
-  //   a.href = curriculum;
-  //   a.download = "curriculum.pdf";  // Set the desired filename
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  // };
 
 
   return (
@@ -60,7 +53,7 @@ const ModuleSection = ({ modules, curriculum }) => {
                 following modules in depth.
               </div>
             </div>
-            <CustomButton className="!p-5 !py-6 !text-base 2xl:!text-lg !rounded-lg" onClick={handleDownload} download>
+            <CustomButton className="!p-5 !py-7 !text-base 2xl:!text-lg !rounded-xl" onClick={handleDownload} download>
               Download Curriculum <DownloadIcon />
             </CustomButton>
 

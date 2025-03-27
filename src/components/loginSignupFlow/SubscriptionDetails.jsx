@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { DevicesIcon, VideoIcon, Check } from '@/lib/svg_icons';
-import { useGetSubscriptionDetailQuery } from '@/store/Api/course';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { SimpleLoader } from '../common/LoadingSpinner';
 
-const SubscriptionDetails = ({ courseType, cart = false, price, profile = false }) => {
+const SubscriptionDetails = ({ courseType, cart = false, price, profile = false, data }) => {
   const router = useRouter();
 
-  const { data, isLoading } = useGetSubscriptionDetailQuery();
-
+  const invoice = data?.data?.subscriptionDetails?.invoice_url;
   const paidOn = data?.data?.subscriptionDetails?.paidOn;
   const remainingDays = data?.data?.subscriptionDetails?.remainingDays;
   const planType = data?.data?.subscriptionDetails?.planType;
@@ -22,6 +22,18 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false 
     visible: { opacity: 1, height: "auto" },
   };
 
+  const handleDownloadInvoice = () => {
+    if (!invoice) {
+      toast.warning("Invoice not found")
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = invoice;
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   return (
     <div className={`${profile || cart ? "mx-0" : "mx-4"} p-4 rounded-[17px] bg-[var(--navy-blue)]
      ${profile && "w-full !bg-[var(--card)] mx-0"}
@@ -47,7 +59,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false 
           {
             profile && (
               <div className='flex items-center gap-x-1'>
-                <p className="text-xs md:text-sm underline text-[var(--neon-purple)] font-semibold">
+                <p onClick={handleDownloadInvoice} className="cursor-pointer text-xs md:text-sm underline text-[var(--neon-purple)] font-semibold">
                   Download Invoice
                 </p>
               </div>
@@ -103,15 +115,15 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false 
           <div className='flex justify-between items-center'>
             <div>
               <p className='text-[12px]'>Current plan</p>
-              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{isLoading ? "Loading.." : profile && planType || courseType}</h2>
+              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{profile && planType || courseType}</h2>
             </div>
 
             <div>
               {
                 profile ? (
                   <>
-                    <p className='text-[12px] text-end'>Paid on {isLoading ? "Loading.." : paidOn || "08/04/2025"}</p>
-                    <h2 className='text-lg md:text-2xl font-semibold'>{isLoading ? "Loading.." : remainingDays || 5} days remaining</h2>
+                    <p className='text-[12px] text-end'>Paid on {paidOn || "08/04/2025"}</p>
+                    <h2 className='text-lg md:text-2xl font-semibold'>{remainingDays || 5} days remaining</h2>
                   </>
                 ) :
                   (

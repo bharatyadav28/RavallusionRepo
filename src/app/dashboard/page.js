@@ -66,7 +66,7 @@ const Page = () => {
       <PrimaryDashboard />
     {
       videoData && videoData.map((item, i) => (
-        <TutorialCards key={i} title={item?.name} subItems={item?.videos} />
+        <TutorialCards key={i} title={item?.name} subItems={item?.videos} isLoading={isLoading} />
       ))
     }
   </>

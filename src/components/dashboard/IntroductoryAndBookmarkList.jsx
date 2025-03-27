@@ -5,6 +5,7 @@ import {
   useGetCourseProgressQuery,
   useGetVideoProgressQuery,
 } from "@/store/Api/videoProgress";
+import { MessageSquareWarning } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -99,9 +100,9 @@ export const BookmarkedList = ({
           })
         ) : (
           <div className="flex flex-col items-center px-10 text-center">
-            <p className="text-red-500">
-              Nothing to show in bookmark , please add to bookmark
-            </p>
+             <MessageSquareWarning className="text-red-600 w-20 h-12"/>
+            <h5 className='text-xl font-bold text-[var(--neon-purple)]'>No Bookmarked Videos Found,
+              Please add to bookmarks </h5>
           </div>
         )}
       </div>
@@ -126,7 +127,7 @@ export const LessonCard = ({
   const path = usePathname();
 
   const [deleteBookmark] = useDeleteBookmarkMutation();
-  const { courseId, updatedPercentageWatched, videoIdOfCurrentVideo } =  useSelector((state) => state.general);
+  const { courseId, updatedPercentageWatched, videoIdOfCurrentVideo } = useSelector((state) => state.general);
 
   const videos = useSelector((state) => state.course.videos);
 

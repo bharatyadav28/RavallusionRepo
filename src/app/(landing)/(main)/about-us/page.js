@@ -23,7 +23,7 @@ const AboutUs = () => {
   const description = data?.data?.page?.description
 
   const subHeading = (
-    <>Get to know more about us</>
+    <>Want to learn more about who we are and what we do? Dive in and discover our journey, and the passion that drives us forward. Explore how we strive to make a difference and bring value to our community!</>
   );
   return isLoading ? <PageLoader /> : (
     <LandingContainer className="flex flex-col items-center !h-fit" bg2={true}>

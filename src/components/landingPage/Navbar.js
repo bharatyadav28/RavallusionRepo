@@ -12,14 +12,17 @@ const Navbar = () => {
         </Link>
 
         <Link href={'/login'}>
-          <CustomButton className="mr-5 px-4 text-base 2xl:text-xl !m-0">
-            <User className=" !w-[18px] !h-[18px]" />
-            <span className="hidden md:block text-sm">Login</span>
-          </CustomButton>
-        </Link>
+          <CustomButton className="mr-5 py-5 px-6 text-base 2xl:text-xl !m-0"
+            style={{
+              background: "linear-gradient(0deg, rgba(163, 127, 255, 0.15) 0%, rgba(163, 127, 255, 0.15) 100%), #030A14"}}
+          >
+          <User className=" !w-[19px] !h-[19px]" />
+          <span className="hidden md:block text-sm font-semibold">Login</span>
+        </CustomButton>
+      </Link>
 
-      </nav>
-      {/* <div className="h-[1px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div> */}
+    </nav>
+      {/* <div className="h-[1px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div> */ }
     </div >
   );
 };

@@ -85,7 +85,6 @@ const PlayerSidebar = () => {
         />
       </div>
 
-      {/* <div className='py-4 min-h-screen bg-[#181F2B] rounded-2xl'> */}
       <div className="py-4 min-h-screen bg-[#181F2B] rounded-2xl">
         {activeIndex === 0 && (
           <CourseModuleList
@@ -125,7 +124,7 @@ const ActionCard = ({ icon, isActive, onClick }) => {
         backgroundImage:
           isActive && "linear-gradient(180deg, #C99BFD 0%, #8574F6 100%)",
       }}
-      className="py-4 h-14 flex-grow rounded-lg flex items-center justify-center cursor-pointer"
+    className="hover:!bg-gray-800 py-4 h-14 flex-grow rounded-lg flex items-center justify-center cursor-pointer"
     >
       {icon}
     </div>

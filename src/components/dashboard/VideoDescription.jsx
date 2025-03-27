@@ -52,7 +52,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
       }
 
       const response = await addToBookmark({ videoId }).unwrap();
-      toast(response?.message || "Video bookmarked successfully");
+      toast.success(response?.message || "Video bookmarked successfully");
       setIsBookmarked(true);
 
       // Refetch to get the bookmark ID

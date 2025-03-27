@@ -3,14 +3,14 @@ import Image from "next/image";
 import Card from "./Card";
 import VideoPlayer from "../dashboard/VideoPlayer";
 import CustomDialog from "./CustomDialog";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
 const CourseCard = ({ course }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { title, description, videoUrl, thumbnailUrl } = course?.video;
 
   return (
-    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[310px] 2xl:h-[360px]"} onClick={() => setIsOpen(true)}>
+    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[290px] 2xl:h-[330px]"} onClick={() => setIsOpen(true)}>
       <Image
         src={thumbnailUrl}
         alt={title}
@@ -19,8 +19,8 @@ const CourseCard = ({ course }) => {
         className="w-full h-40 2xl:!h-48 object-cover rounded-2xl"
       />
 
-      <CustomDialog open={isOpen} close={() => setIsOpen(false)}>
-        <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsOpen={setIsOpen} isOpen={isOpen} />
+      <CustomDialog open={isOpen} close={() => { setIsOpen(false)}}>
+        <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsOpen={setIsOpen} isOpen={isOpen}/>
       </CustomDialog>
 
       <div className="flex flex-col gap-2 2xl:gap-4 h-auto">
@@ -34,39 +34,26 @@ const CourseCard = ({ course }) => {
           </div>
         </div>
 
-        <div className="absolute bottom-3">
+        {/* <div className="absolute bottom-3">
           <span className="flex items-center space-x-1 text-xs 2xl:text-base text-gray-400">
             <Views />
             <span>{"270k"}</span>
           </span>
-        </div>
-
-        {/* <div className="flex items-center gap-2  absolute bottom-0">
-          <span className="flex items-center space-x-1 text-xs 2xl:text-sm ">
-            <Views />
-            <span>{"270k"}</span>
-          </span>
-         <span className="flex items-center space-x-1">
-            <Like />
-            <span>{likes}</span>
-          </span> 
-      </div>
-      */}
-
+        </div> */}
       </div>
 
     </Card >
   );
 };
 
-const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsOpen }) => {
+const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsOpen,isOpen }) => {
   return (
     <div className="flex items-center justify-center">
-      <div className="relative w-full flex items-center justify-center border border-gray-500 backdrop-blur-lg rounded-xl py-9">
-        <button className="flex items-center justify-center outline-none absolute top-2 right-2 z-50 rounded-full border border-gray-300" onClick={(e) => { setIsOpen(false); e.stopPropagation() }}>
+      <div className="relative w-full flex items-center justify-center border-2 border-gray-500 backdrop-blur-lg rounded-t-xl  pt-9">
+        <button className="flex items-center justify-center outline-none absolute top-1 right-2 z-50 rounded-full border border-gray-300" onClick={(e) => { setIsOpen(false); e.stopPropagation() }}>
           <CrossIcon width={24} height={24} />
         </button>
-        <div className="w-[300px] md:w-[600px] h-auto relative">
+        <div className="w-[300px] md:w-full h-auto relative">
           <VideoPlayer source={videoUrl} poster={thumbnailUrl} />
         </div>
       </div>
