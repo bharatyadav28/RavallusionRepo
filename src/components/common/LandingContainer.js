@@ -17,7 +17,7 @@ const LandingContainer = ({ children, className, showBg, bg2 }) => {
     <div
       data-aos="fade-up"
       className={
-        `h-screen w-screen px-4 md:px-[9%] 2xl:px-[10rem] relative overflow-hidden  ` +
+        `h-screen px-4 md:px-[9%] 2xl:px-[10rem] relative overflow-hidden  ` +
         className
       }
     >

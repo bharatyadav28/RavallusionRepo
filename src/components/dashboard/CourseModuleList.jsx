@@ -4,15 +4,14 @@ import { CrossIcon, MinusIcon } from "@/lib/svg_icons";
 import { LessonCard } from "./IntroductoryAndBookmarkList";
 import { motion } from 'framer-motion';
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { CustomButton } from "../common/CustomButton";
-import { SimpleLoader } from "../common/LoadingSpinner";
 import { useSearchParams } from "next/navigation";
 import CourseSkeletonLoader from "./CourseSkeletonLoader";
 
-const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId }) => {
+const CourseModuleList = ({ course, playingVideoId, setPlayingVideoId, isLoading }) => {
+    console.log(course);
     const modules = course?.modules;
-
+    console.log(modules);
 
     const heading = course?.title || "Course";
 
@@ -22,26 +21,25 @@ const CourseModuleList = ({ course, isLoading, playingVideoId, setPlayingVideoId
 
             <div className='flex flex-col gap-y-7'>
                 {
-                    modules ? modules.map((items, i) => (
-                        <CourseCard
-                            playingVideoId={playingVideoId}
-                            setPlayingVideoId={setPlayingVideoId}
-                            title={items.name} videoCount={items.videoCount || 0} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
-                    )) :
-                        <CourseSkeletonLoader />
-                }
-                {
-                    !course && (
-                        (
-                            <div className="flex flex-col items-center gap-y-3 h-60 px-10 text-center">
-                                <p className="text-red-500">You do not have this Plan, please purchase the plan</p>
-
-                                <CustomButton className="mr-5 px-5 text-base 2xl:text-xl !m-0">
-                                    <Link href={'/subscription-plan'}>Buy a Plan</Link>
-                                </CustomButton>
+                    isLoading ? <CourseSkeletonLoader /> :
+                        modules && modules.length > 0 ? (modules.map((items, i) => (
+                            <CourseCard
+                                playingVideoId={playingVideoId}
+                                setPlayingVideoId={setPlayingVideoId}
+                                title={items.name} videoCount={items.videoCount || 0} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
+                        ))) : (
+                            <div className="flex flex-col items-center justify-center gap-y-4 h-40 px-5 text-center rounded-xl shadow-lg">
+                                <h3 className="text-lg font-semibold text-red-500">No Plan Found 😢</h3>
+                                <p className="text-sm text-gray-400">
+                                    You don&apos;t have access to this course. Please purchase a valid plan to continue.
+                                </p>
+                                <Link href="/subscription-plan">
+                                    <CustomButton className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 px-5 py-2 rounded-lg text-white font-semibold">
+                                        Buy a Plan
+                                    </CustomButton>
+                                </Link>
                             </div>
                         )
-                    )
                 }
 
             </div>

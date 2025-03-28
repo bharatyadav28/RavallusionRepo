@@ -99,11 +99,16 @@ export const BookmarkedList = ({
             );
           })
         ) : (
-          <div className="flex flex-col items-center px-10 text-center">
-             <MessageSquareWarning className="text-red-600 w-20 h-12"/>
-            <h5 className='text-xl font-bold text-[var(--neon-purple)]'>No Bookmarked Videos Found,
-              Please add to bookmarks </h5>
+          <div className="flex flex-col items-center justify-center h-64 px-6 text-center rounded-xl shadow-lg">
+            <MessageSquareWarning className="text-red-500 w-16 h-16 mb-4 animate-pulse" />
+            <h5 className="text-lg font-semibold text-[var(--neon-purple)] mb-2">
+              No Bookmarked Videos Found 📚
+            </h5>
+            <p className="text-sm text-gray-400 max-w-xs">
+              It looks like you haven&apos;t bookmarked any videos yet. Start exploring and add your favorites for quick access!
+            </p>
           </div>
+
         )}
       </div>
     </>

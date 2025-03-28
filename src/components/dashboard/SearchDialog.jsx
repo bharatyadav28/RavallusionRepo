@@ -1,7 +1,7 @@
 
 'use client'
 import { CrossIcon, Elipse83, EllipseOfSearch, Recent } from '@/lib/svg_icons'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { SearchIcon, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -12,6 +12,7 @@ import { setSearchHistory } from '@/store/slice/general'
 
 const SearchDialog = ({ setSearchDialog }) => {
     const { searchValue, searchHistory } = useSelector((state) => state.general);
+    const inputRef = useRef(null);
 
     const dispatch = useDispatch();
 
@@ -33,6 +34,7 @@ const SearchDialog = ({ setSearchDialog }) => {
             </div>
 
             <SearchInput
+                ref={inputRef}
                 searchHistory={searchHistory}
                 setSearchHistory={setSearchHistory}
                 setSearchValue={setSearchValue}
@@ -42,7 +44,7 @@ const SearchDialog = ({ setSearchDialog }) => {
                 searchHistory && [...searchHistory].reverse().slice(0, 8).map((item, i) => (
                     <div key={i} className='flex items-center gap-x-4 mb-4 mt-7'>
                         <Recent />
-                        <p className='text-sm cursor-pointer' onClick={() => { dispatch(setSearchValue(item)) }}>{item}</p>
+                        <p className='text-sm cursor-pointer' onClick={() => { dispatch(setSearchValue(item)); inputRef.current.focus() }}>{item}</p>
                     </div>
                 ))
             }
@@ -50,7 +52,7 @@ const SearchDialog = ({ setSearchDialog }) => {
     )
 }
 
-export const SearchInput = ({ setSearchDialog, searchValue, setSearchValue, headerSearch = false, searchHistory, setSearchHistory }) => {
+export const SearchInput = ({ ref, setSearchDialog, searchValue, setSearchValue, headerSearch = false, searchHistory, setSearchHistory }) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const handleInputChange = (e) => {
@@ -81,6 +83,7 @@ export const SearchInput = ({ setSearchDialog, searchValue, setSearchValue, head
         <div className='relative w-full border border-gray-600 px-11 flex '>
             <SearchIcon size={19} className='absolute top-4 left-3' />
             <input
+                ref={ref}
                 onKeyDown={(e) => { if (e.key === 'Enter') handleSearch() }}
                 type="text" className=' outline-none w-full py-3 bg-transparent' value={searchValue} onChange={handleInputChange} />
             {/* <div className='absolute top-5 left-1/2 -translate-x-1/2 z-0'>

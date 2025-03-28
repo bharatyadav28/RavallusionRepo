@@ -21,13 +21,6 @@ const CarouselCard = ({ item }) => {
     <div className="flex items-center justify-center  ">
       <div className=" relative w-full h-fit self-center ">
         <div className="p-3 carousel-bg h-96">
-          {/* <Image
-            src="/carousel-1.png"
-            width={1000}
-            height={1000}
-            alt={item._id}
-            className="w-[40vw] h-[40vw] md:w-[50vw] md:h-full  "
-          /> */}
           <VideoPlayer source={item.video.videoUrl} poster={item.video.thumbnailUrl}/>
         </div>
       </div>
@@ -111,13 +104,14 @@ const EmblaCarousel = (props) => {
       .on("slideFocus", tweenScale);
   }, [emblaApi, tweenScale]);
 
+
   return (
 
     <div className="embla relative ">
-      <div className="embla__viewport " ref={emblaRef}>
+      <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container ">
           {slides.map((item, index) => (
-            <div className="embla__slide  p-1" key={index}>
+            <div className="embla__slide p-1" key={index}>
               <div className="embla__slide__number ">
                 <CarouselCard item={item} />
               </div>

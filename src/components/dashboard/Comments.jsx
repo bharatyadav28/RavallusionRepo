@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 const Comments = ({ videoId }) => {
     const { data } = useGetVideoCommentsQuery(videoId);
-    const [createComment, { isLoading: isCreating }] = useCreateCommentMutation();
+    const [createComment] = useCreateCommentMutation();
     const [commentBody, setCommentBody] = useState("");
 
     const comments = data?.data?.comments || [];
@@ -68,7 +68,7 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
     const [showReplies, setShowReplies] = useState(false);
     const inputRef = useRef(null);
 
-    const src = !avatar ? "/thumbnail3.png" : avatar;
+    const src = !avatar ? "/profilepic.jpeg" : avatar;
 
     // Scroll to input when addReply is true
     useEffect(() => {

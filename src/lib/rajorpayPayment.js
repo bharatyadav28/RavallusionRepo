@@ -34,7 +34,7 @@ export const handleClick = async (plansId) => {
     });
     const res = await response.json();
     if (!response.ok) {
-        toast.warning(res.message)
+        toast.error(res.message)
         return;
     }
     const { data: { order } } = res;
@@ -57,8 +57,6 @@ export const handleClick = async (plansId) => {
             color: "#C99BFD",
         },
     };
-
-
     const rzp = new window.Razorpay(options);
     rzp.open();
 };

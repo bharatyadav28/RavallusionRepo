@@ -120,16 +120,8 @@ const CarouselCard = ({ item }) => {
     <div className="flex items-center justify-center  ">
       <div className=" relative ">
         <div className="p-[0.4rem] carousel-bg !rounded-md h-56 mx-2">
-          {/* <Image
-            src="/carousel-1.png" 
-            width={1000}
-            height={1000}
-            alt={item._id}
-            className="w-[70vw] h-[65vw] md:w-[50vw] md:h-full rounded-sm  "
-          /> */}
           <VideoPlayer source={item.video.videoUrl} poster={item.video.thumbnailUrl}/>
         </div>
-
       </div>
     </div>
   );

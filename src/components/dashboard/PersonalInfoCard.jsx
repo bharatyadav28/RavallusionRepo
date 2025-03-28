@@ -7,11 +7,9 @@ import {
 } from '@/lib/svg_icons';
 import CustomDialog from '../common/CustomDialog';
 import EditInfo from './EditPersonalInfo';
-import { useDispatch } from 'react-redux';
 import { useGetUserDetailQuery, useUpdateAvatarMutation, useUpdateMobileMutation, useUpdateNameMutation } from '@/store/Api/auth';
 import { toast } from 'react-toastify';
 import { SimpleLoader } from '../common/LoadingSpinner';
-import { PhoneOffIcon } from 'lucide-react';
 
 const PersonalInfoCard = () => {
     const { data, isLoading: loading } = useGetUserDetailQuery();
@@ -81,7 +79,7 @@ const PersonalInfoCard = () => {
         <div
             className=" w-full z-20"
         >
-            <div className='pt-4 md:pt-0'>
+            <div className='pt-4 lg:pt-0'>
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-semibold">Personal Information</h1>
                 </div>

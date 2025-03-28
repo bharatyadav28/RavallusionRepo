@@ -3,14 +3,14 @@ import Image from "next/image";
 import Card from "./Card";
 import VideoPlayer from "../dashboard/VideoPlayer";
 import CustomDialog from "./CustomDialog";
-import { useState ,useEffect} from "react";
+import { useState } from "react";
 
 const CourseCard = ({ course }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
   const { title, description, videoUrl, thumbnailUrl } = course?.video;
-
+  console.log(isCustomOpen)
   return (
-    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[290px] 2xl:h-[330px]"} onClick={() => setIsOpen(true)}>
+    <Card className={"group cursor-pointer hover:scale-95 hover:rotate-1 relative h-[290px] 2xl:h-[330px]"} onClick={() => setIsCustomOpen(true)}>
       <Image
         src={thumbnailUrl}
         alt={title}
@@ -19,8 +19,9 @@ const CourseCard = ({ course }) => {
         className="w-full h-40 2xl:!h-48 object-cover rounded-2xl"
       />
 
-      <CustomDialog open={isOpen} close={() => { setIsOpen(false)}}>
-        <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsOpen={setIsOpen} isOpen={isOpen}/>
+      <CustomDialog open={isCustomOpen} close={() => setIsCustomOpen(false)}>
+
+        <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsCustomOpen={setIsCustomOpen} isCustomOpen={isCustomOpen} />
       </CustomDialog>
 
       <div className="flex flex-col gap-2 2xl:gap-4 h-auto">
@@ -46,11 +47,11 @@ const CourseCard = ({ course }) => {
   );
 };
 
-const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsOpen,isOpen }) => {
+const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsCustomOpen, isCustomOpen }) => {
   return (
     <div className="flex items-center justify-center">
       <div className="relative w-full flex items-center justify-center border-2 border-gray-500 backdrop-blur-lg rounded-t-xl  pt-9">
-        <button className="flex items-center justify-center outline-none absolute top-1 right-2 z-50 rounded-full border border-gray-300" onClick={(e) => { setIsOpen(false); e.stopPropagation() }}>
+        <button className="flex items-center justify-center outline-none absolute top-1 right-2 z-50 rounded-full border border-gray-300" onClick={(e) => { setIsCustomOpen(false); e.stopPropagation() }}>
           <CrossIcon width={24} height={24} />
         </button>
         <div className="w-[300px] md:w-full h-auto relative">

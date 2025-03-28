@@ -37,7 +37,7 @@ export const MobileProfileSidebar = ({ activeItem, setActiveItem, setShowMobileS
                 <button className='self-end' onClick={() => setShowMobileSidebar(false)}>
                     <X size={28} />
                 </button>
-                <MenuItem setShowMobileSidebar={setShowMobileSidebar} icon={<User />} icon1={<UserFilled />} title="Personal Information" activeItem={activeItem} setActiveItem={setActiveItem} />
+                <MenuItem setShowMobileSidebar={setShowMobileSidebar} icon={<User />} icon1={<UserFilled />} title="Personal information" activeItem={activeItem} setActiveItem={setActiveItem} />
                 <MenuItem setShowMobileSidebar={setShowMobileSidebar} icon={<CrownIcon />} icon1={<CrownFilled />} title="My subscription" activeItem={activeItem} setActiveItem={setActiveItem} />
                 <MenuItem setShowMobileSidebar={setShowMobileSidebar} icon={<Assignment />} icon1={<AssignmentFilled />} title="My assignments" activeItem={activeItem} setActiveItem={setActiveItem} />
                 <MenuItem setShowMobileSidebar={setShowMobileSidebar} icon={<BookmarkBoldUnfilled />} icon1={<BookmarkBold width={25} height={25} />} title="Bookmarked videos" activeItem={activeItem} setActiveItem={setActiveItem} />

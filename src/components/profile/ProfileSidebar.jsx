@@ -1,7 +1,7 @@
 "use client"
 import { Assignment, CrownIcon, Logout, UserFilled, BookmarkBoldUnfilled, LogoutCard, CrownFilled, UserIcon, User, AssignmentFilled, BookmarkBold, SettingFilled } from '@/lib/svg_icons'
 import { Settings } from 'lucide-react'
-import React, { useState } from 'react'
+import React from 'react'
 import CustomDialog from '../common/CustomDialog'
 import AccountControlCard from '../dashboard/AccountControlCard'
 import { useLogoutMutation } from '@/store/Api/auth'
@@ -27,7 +27,7 @@ const ProfileSidebar = ({ setActiveItem, activeItem, setIsOpenLogout, isOpenLogo
 
     return (
         <div className=' w-72 bg-[var(--card)] h-full rounded-xl px-7 py-9 flex flex-col gap-5'>
-            <MenuItem icon={<User />} icon1={<UserFilled />} title="Personal Information" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
+            <MenuItem icon={<User />} icon1={<UserFilled />} title="Personal information" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
             <MenuItem icon={<CrownIcon />} icon1={<CrownFilled />} title="My subscription" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
             <MenuItem icon={<Assignment />} icon1={<AssignmentFilled />} title="My assignments" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
             <MenuItem icon={<BookmarkBoldUnfilled />} icon1={<BookmarkBold width={25} height={25} />} title="Bookmarked videos" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />

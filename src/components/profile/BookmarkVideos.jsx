@@ -38,9 +38,9 @@ const BookmarkVideos = () => {
   }
 
   return (
-    <div className='pt-4 md:pt-0'>
+    <div className='pt-4 lg:pt-0'>
       <h1 className='text-lg font-semibold mb-7'>
-        Bookmarked videos{' '}
+        Bookmarked Videos{' '}
         <span className='text-gray-300'>({bookmarkCount})</span>
       </h1>
 
@@ -68,12 +68,13 @@ const BookmarkVideos = () => {
           ))
         ) : (
           <div className='flex flex-col justify-center items-center min-h-[60vh] text-center col-span-12'>
-            <MessageSquareWarning className='text-red-600 w-20 h-14' />
-            <h5 className='text-2xl font-bold text-[var(--neon-purple)]'>
-              No Bookmarked Videos Found,
-              <br />
-              Please add to bookmarks
-            </h5>
+              <MessageSquareWarning className="text-red-500 w-16 h-16 mb-4 animate-pulse" />
+              <h5 className="text-lg font-semibold text-[var(--neon-purple)] mb-2">
+                No Bookmarked Videos Found 📚
+              </h5>
+              <p className="text-sm text-gray-400 max-w-xs">
+                It looks like you haven&apos;t bookmarked any videos yet. Start exploring and add your favorites for quick access!
+              </p>
           </div>
         )}
       </div>

@@ -182,6 +182,10 @@
   visibility: hidden;
 }
 
+.fullscreen-controls .on-screen-controls .control-icons {
+  font-size: 2.6rem;
+}
+
 /* .progress-bar{
       position: absolute;
       bottom: 100%;
@@ -553,7 +557,6 @@
     visibility: visible;
     opacity: 1;
     transform: translateY(0%);
-
   }
 
 }

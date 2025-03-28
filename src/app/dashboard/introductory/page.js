@@ -51,12 +51,17 @@ const Introductory = () => {
             />
           ))
         ) : (
-          // No Videos Found Message
-          <div className='flex justify-center items-center min-h-[60vh] text-center col-span-12'>
-            <h5 className='text-2xl font-bold text-[var(--neon-purple)]'>
-              No Introductory Videos Found
-            </h5>
+          <div className="flex justify-center items-center min-h-[60vh] col-span-12">
+            <div className="flex flex-col items-center text-center justify-center gap-3 p-5 bg-[var(--card)] rounded-2xl shadow-lg">
+              <h5 className="text-2xl font-bold text-[var(--neon-purple)] animate-pulse">
+                No Introductory Videos Found
+              </h5>
+              <p className="text-sm text-gray-400 max-w-md text-center">
+                Please check back later or explore other available modules to begin.
+              </p>
+            </div>
           </div>
+
         )}
       </div>
     </>

@@ -1,74 +1,36 @@
 'use client'
 import CustomCarousel from "@/components/common/CustomCarousel";
 import PrimaryDashboard from "@/components/dashboard/PrimaryDashboard";
+import SkeletonVideoCard from "@/components/dashboard/SkeletonVideoCard";
 import TutorialCards from "@/components/dashboard/TutorialCards";
 import { useGetModuleOnPrimaryDashboardQuery } from "@/store/Api/primaryDashboard";
 import React from "react";
-
-const cardTitle = [
-  {
-    title: "Photoshop",
-    subItems: [
-      {
-        img: "/thumbnail1.png",
-        heading: "Customize your workspace and panels",
-        description: "Learn advanced VFX course with use to gain more knowledge",
-      },
-      {
-        img: "/thumbnail2.png",
-        heading: "Customize your workspace and panels",
-        description: "Learn advanced VFX course with use to gain more knowledge",
-      },
-      {
-        img: "/tempvidimg.png",
-        heading: "Customize your workspace and panels",
-        description: "Learn advanced VFX course with use to gain more knowledge",
-      },
-      {
-        img: "/thumbnail3.png",
-        heading: "Customize your workspace and panels",
-        description: "Learn advanced VFX course with use to gain more knowledge",
-      },
-    ],
-  },
-  {
-    title: "Premiere Pro",
-    subItems: [
-      {
-        img: "/thumbnail1.png",
-        heading: "Editing Tips",
-        description: "Learn the best practices for video editing.",
-      },
-      {
-        img: "/thumbnail2.png",
-        heading: "Editing Tips",
-        description: "Learn the best practices for video editing.",
-      },
-      {
-        img: "/thumbnail1.png",
-        heading: "Editing Tips",
-        description: "Learn the best practices for video editing.",
-      },
-      {
-        img: "/thumbnail3.png",
-        heading: "Editing Tips",
-        description: "Learn the best practices for video editing.",
-      },
-    ],
-  },
-];
 
 
 const Page = () => {
   const { data, isLoading } = useGetModuleOnPrimaryDashboardQuery();
   const videoData = data?.data?.content;
   return <>
-      <PrimaryDashboard />
+    <PrimaryDashboard />
+
     {
-      videoData && videoData.map((item, i) => (
-        <TutorialCards key={i} title={item?.name} subItems={item?.videos} isLoading={isLoading} />
-      ))
+      isLoading ?
+        <div className='grid grid-cols-12 px-2 md:px-0 gap-x-4 gap-y-3 mt-5'>
+          {
+            (
+              Array(8).fill(0).map((_, i) => (
+                <SkeletonVideoCard key={i} />
+              ))
+            )
+          }
+        </div> :
+        (
+          videoData && videoData.map((item, i) => (
+            <TutorialCards key={i} title={item?.name} subItems={item?.videos} />
+          ))
+        )
     }
+
   </>
 };
 

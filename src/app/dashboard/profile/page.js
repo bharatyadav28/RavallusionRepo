@@ -10,13 +10,13 @@ import { AnimatePresence } from 'framer-motion'
 import React, { useState } from 'react'
 
 const Page = () => {
-    const [activeItem, setActiveItem] = useState("Personal Information");
+    const [activeItem, setActiveItem] = useState("Personal information");
     const [showMobileSidebar, setShowMobileSidebar] = useState(false);
     const [isOpenLogout, setIsOpenLogout] = useState(false);
 
 
     return (
-        <div className='md:mt-7 w-full flex flex-col lg:flex-row gap-x-6'>
+        <div className='lg:mt-7 w-full flex flex-col lg:flex-row gap-x-6'>
             <div className='hidden lg:block'>
                 <ProfileSidebar
                     setShowMobileSidebar={setShowMobileSidebar}
@@ -30,7 +30,7 @@ const Page = () => {
 
             <div className='h-full w-full rounded-xl px-3 md:px-0'>
                 {
-                    activeItem === "Personal Information" &&
+                    activeItem === "Personal information" &&
                     <PersonalInfoCard />
                 }
                 {

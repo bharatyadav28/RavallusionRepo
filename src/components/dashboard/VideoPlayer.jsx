@@ -73,7 +73,6 @@ const VideoPlayer = ({
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
-  const [isInView, setIsInView] = useState(false);
 
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -84,9 +83,6 @@ const VideoPlayer = ({
   // const imgSrc = `https://media.licdn.com/dms/image/v2/D5612AQEC2GNEaVOqHQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1709846879463?e=2147483647&v=beta&t=3oEOdpoAqT2j-2fuf4KzvbuNtxTkQVdaoy3wwqnMdrM`;
   const imgSrc = poster;
 
-  const pathname = usePathname();
-  const isVideoPage = pathname.includes("/video");
-  const isFreeVideoPage = pathname.includes("/free-video");
   // const [src, setSrc] = useState(` ${vidAddr}/${source[0]?.value}/360p.m3u8`);
   const [src, setSrc] = useState(source);
 
@@ -188,31 +184,33 @@ const VideoPlayer = ({
 
 
   useEffect(() => {
-    if (!(isVideoPage || isFreeVideoPage)) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // setPlaying(true)
-            } else {
-              setPlaying(false);
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-
-      if (containerRef.current) {
-        observer.observe(containerRef.current);
-      }
-
-      return () => {
-        if (playerRef.current) {
-          observer.unobserve(containerRef.current);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Check if the video is in the viewport
+        if (entry.isIntersecting) {
+          // Play when video comes in frame
+          setPlaying(true);
+        } else {
+          // Pause when video goes out of frame
+          setPlaying(false);
         }
-      };
+      },
+      {
+        threshold: 0.5, // 50% of the video should be visible to trigger
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
   }, []);
+
 
   useEffect(() => {
     const onTouchStart = () => {
@@ -267,31 +265,29 @@ const VideoPlayer = ({
   }, []);
 
   useEffect(() => {
-    if (isVideoPage || isFreeVideoPage) {
-      const handleKeyDown = (e) => {
-        switch (e.key) {
-          case " ":
-            e.preventDefault();
-            handlePlayPause();
-            break;
-          case "ArrowLeft":
-            e.preventDefault();
-            handleBackward();
-            break;
-          case "ArrowRight":
-            e.preventDefault();
-            handleForward();
-            break;
-          default:
-            break;
-        }
-      };
+    const handleKeyDown = (e) => {
+      switch (e.key) {
+        case " ":
+          e.preventDefault();
+          handlePlayPause();
+          break;
+        case "ArrowLeft":
+          e.preventDefault();
+          handleBackward();
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          handleForward();
+          break;
+        default:
+          break;
+      }
+    };
 
-      document.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.removeEventListener("keydown", handleKeyDown);
-      };
-    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [playing]);
 
   useEffect(() => {
@@ -346,10 +342,10 @@ const VideoPlayer = ({
   //Functions.......................
 
 
-  // const handleReady = () => {
-  //   setLoading(false);
-  //   // setPlaying(true);
-  // };
+  const handleReady = () => {
+    setLoading(false);
+    // setPlaying(true);
+  };
 
   const handleBuffer = () => {
     setLoading(true);
@@ -566,27 +562,6 @@ const VideoPlayer = ({
     toggleSettings();
   };
 
-  // const handleLangChange = (lang) => {
-  //   setSelectedLang(lang);
-
-  //   // const newSrc = `${vidAddr}/${lang?.value}/${selectedQuality}p.m3u8`;
-  //   const newSrc = `${source}`;
-  //   if (newSrc !== src) {
-  //     const currentTime = playerRef.current.getCurrentTime();
-  //     setPlaying(true);
-  //     setSrc(newSrc);
-
-  //     setTimeout(() => {
-  //       if (playerRef.current) {
-  //         playerRef.current.seekTo(currentTime);
-  //       }
-  //     }, 500);
-  //   }
-  //   toggleSettings();
-  // };
-
-
-
   const settingsMenu = () => {
     return (
       <div className={`settings-wrapper  ${showSettings ? "show" : ""}`}>
@@ -603,11 +578,11 @@ const VideoPlayer = ({
                 ? "Settings"
                 : activeMenu === "quality"
                   ? "Quality"
-                  : activeMenu === "language"
-                    ? "Language"
-                    : "Playback Rate"}
+                  : activeMenu === "playbackspeed" &&
+                  "Playback Rate"}
             </span>
           </div>
+
           <ul className="menu-items">
             {activeMenu === "main" && (
               <>
@@ -620,25 +595,10 @@ const VideoPlayer = ({
                     <p>Quality:</p>
                   </div>
 
-                  <span className="flex items-center">
+                  <span className="flex items-center cursor-pointer z-50">
                     {selectedQuality}p <FaAngleRight />
                   </span>
                 </li>
-
-                {/* 
-                <li
-                  onClick={() => handleMenuChange("language")}
-                  className="my-2 flex items-center justify-between"
-                >
-                  <span className="flex items-center">
-                    <MdOutlineLanguage className="me-1" />
-                    Language:
-                  </span>
-
-                  <span className="flex items-center">
-                    {selectedLang?.language?.name || "English"} <FaAngleRight />
-                  </span>
-                </li> */}
 
                 <li
                   onClick={() => handleMenuChange("playbackspeed")}
@@ -677,23 +637,6 @@ const VideoPlayer = ({
                 </li>
               </>
             )}
-            {/* {activeMenu === "language" &&
-              <li>English</li>
-
-              // source?.map((item, index) => (
-              //   <li
-              //     key={item?.value}
-              //     className={
-              //       selectedLang?.language?.name === item?.language?.name
-              //         ? "active"
-              //         : ""
-              //     }
-              //     onClick={() => handleLangChange(item)}
-              //   >
-              //     {item?.language?.name}
-              //   </li>
-              // ))}
-            } */}
             {activeMenu === "playbackspeed" &&
               playbackOptions?.map((speed, index) => (
                 <li
@@ -736,20 +679,7 @@ const VideoPlayer = ({
         resetTimeout();
       }}
     >
-      {/* {firstPlay && !playing ? (
-        <div className="thumbnail-poster">
-          <Image
-              src={imgSrc}
-              style={{ height: "100%", width: "100%" }}
-              alt="Thumbnail"
-              onClick={()=>
-                {setFirstPlay(false)
-                  setPlaying(true)
-                }
-              }
-            />
-        </div>
-      ) : null} */}
+
       {loading ? (
         <div className="loading-indicator text-white">
           <Spinner size="xl" />
@@ -758,13 +688,10 @@ const VideoPlayer = ({
 
       <div
         className="video-player"
-      // onClick={() => {
-      //   if (showControls) {
-      //     handlePlayPause();
-      //   }
-      // }}
+
       >
         <ReactPlayer
+          className="react-player"
           ref={playerRef}
           url={src}
           playing={playing}
@@ -889,7 +816,7 @@ const VideoPlayer = ({
                 </div>
               )}
 
-              <input 
+              <input
                 type="range"
                 className={`track-range ${isVideoCompleted === false ? "cursor-not-allowed" : "cursor-pointer"}`}
                 ref={progressRef}
