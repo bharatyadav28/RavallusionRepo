@@ -10,7 +10,7 @@ import { AnimatePresence } from 'framer-motion'
 import React, { useState } from 'react'
 
 const Page = () => {
-    const [activeItem, setActiveItem] = useState("Personal information");
+    const [activeItem, setActiveItem] = useState("Personal Information");
     const [showMobileSidebar, setShowMobileSidebar] = useState(false);
     const [isOpenLogout, setIsOpenLogout] = useState(false);
 
@@ -30,19 +30,19 @@ const Page = () => {
 
             <div className='h-full w-full rounded-xl px-3 md:px-0'>
                 {
-                    activeItem === "Personal information" &&
+                    activeItem === "Personal Information" &&
                     <PersonalInfoCard />
                 }
                 {
-                    activeItem === "My subscription" &&
+                    activeItem === "My Subscription" &&
                     <MySubscription />
                 }
                 {
-                    activeItem === "My assignments" &&
+                    activeItem === "My Assignments" &&
                     <MyAssignment />
                 }
                 {
-                    activeItem === "Bookmarked videos" &&
+                    activeItem === "Bookmarked Videos" &&
                     <BookmarkVideos />
                 }
                 {

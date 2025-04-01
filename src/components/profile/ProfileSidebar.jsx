@@ -27,10 +27,10 @@ const ProfileSidebar = ({ setActiveItem, activeItem, setIsOpenLogout, isOpenLogo
 
     return (
         <div className=' w-72 bg-[var(--card)] h-full rounded-xl px-7 py-9 flex flex-col gap-5'>
-            <MenuItem icon={<User />} icon1={<UserFilled />} title="Personal information" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
-            <MenuItem icon={<CrownIcon />} icon1={<CrownFilled />} title="My subscription" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
-            <MenuItem icon={<Assignment />} icon1={<AssignmentFilled />} title="My assignments" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
-            <MenuItem icon={<BookmarkBoldUnfilled />} icon1={<BookmarkBold width={25} height={25} />} title="Bookmarked videos" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
+            <MenuItem icon={<User />} icon1={<UserFilled />} title="Personal Information" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
+            <MenuItem icon={<CrownIcon />} icon1={<CrownFilled />} title="My Subscription" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
+            <MenuItem icon={<Assignment />} icon1={<AssignmentFilled />} title="My Assignments" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
+            <MenuItem icon={<BookmarkBoldUnfilled />} icon1={<BookmarkBold width={25} height={25} />} title="Bookmarked Videos" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
             <MenuItem icon={<Settings />} icon1={<SettingFilled />} title="Settings" activeItem={activeItem} setActiveItem={setActiveItem} setShowMobileSidebar={setShowMobileSidebar} />
             <MenuItem icon={<Logout />} icon1={<Logout />} title="Logout" setIsOpenLogout={setIsOpenLogout} setShowMobileSidebar={setShowMobileSidebar} />
 

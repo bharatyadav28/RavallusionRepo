@@ -31,7 +31,8 @@ const MyCart = () => {
             <Button variant="default" className="bg-transparent hover:bg-[var(--navy-blue)] mb-[20px] -ml-4" onClick={() => router.back()}>
                 <ArrowLeft /> Back
             </Button>
-            <h2 className="text-center text-3xl font-semibold mb-[20px]">My cart <span className='text-gray-300 font-medium'>(1)</span></h2>
+            {/* <h2 className="text-center text-3xl font-semibold mb-[20px]">My cart <span className='text-gray-300 font-medium'>(1)</span></h2> */}
+            <h2 className="text-center text-3xl font-semibold mb-[20px]">My Cart</h2>
 
             <SubscriptionDetails courseType={courseType} price={price} cart={true} />
 

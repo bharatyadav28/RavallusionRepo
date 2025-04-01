@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useImperativeHandle } from "react";
 import ReactPlayer from "react-player";
 import {
   FaArrowLeft,
@@ -44,6 +44,9 @@ const VideoPlayer = ({
   setWatchTime,
   courseProgress,
   videoId,
+  ref,
+  autoPlay,
+  latestVideo = false
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -73,6 +76,7 @@ const VideoPlayer = ({
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
+  const [showPoster, setShowPoster] = useState(true);
 
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -104,6 +108,47 @@ const VideoPlayer = ({
       }, 4000);
     }
   };
+
+  // Expose methods to parent component via ref
+  useImperativeHandle(ref, () => ({
+    play: () => {
+      setPlaying(true);
+      setFirstPlay(false);
+      setShowPoster(false);
+    },
+    pause: () => {
+      setPlaying(false);
+      setShowPoster(true);
+      if (firstPlay || currentTime === 0) {
+        setShowPoster(true);
+      }
+    },
+    getCurrentTime: () => {
+      return playerRef.current ? playerRef.current.getCurrentTime() : 0;
+    },
+    getDuration: () => {
+      return playerRef.current ? playerRef.current.getDuration() : 0;
+    },
+    reset: () => {
+      if (playerRef.current) {
+        playerRef.current.seekTo(0);
+      }
+      setPlaying(false);
+      setFirstPlay(true);
+      setShowPoster(true);
+    }
+  }));
+
+
+  // Handle autoplay prop changes
+  useEffect(() => {
+    if (autoPlay && firstPlay) {
+      setFirstPlay(false);
+      setPlaying(true);
+    } else if (!autoPlay && playing) {
+      setPlaying(false);
+    }
+  }, [autoPlay]);
 
   const toggleFullScreen = () => {
     const videoElement = playerRef.current.getInternalPlayer();
@@ -229,40 +274,73 @@ const VideoPlayer = ({
   }, []);
 
 
+  // useEffect(() => {
+  //   if (!isIOS()) {
+  //     const handleFullScreenChange = () => {
+  //       setIsFullScreen(screenfull.isFullscreen);
+  //       if (isClient && !screenfull.isFullscreen && window.screen.orientation) {
+  //         window.screen.orientation.unlock();
+  //       }
+  //     };
+
+  //     if (screenfull.isEnabled) {
+  //       screenfull.on("change", handleFullScreenChange);
+
+  //       return () => {
+  //         screenfull.off("change", handleFullScreenChange);
+  //       };
+  //     }
+  //   } else {
+  //     const handleFullScreenChange = () => {
+  //       setIsFullScreen(document.fullscreenElement != null);
+  //       if (isClient && !document.fullscreenElement && window.screen.orientation) {
+  //         window.screen.orientation.unlock();
+  //       }
+  //     };
+
+  //     document.addEventListener("fullscreenchange", handleFullScreenChange);
+
+  //     return () => {
+  //       document.removeEventListener(
+  //         "fullscreenchange",
+  //         handleFullScreenChange
+  //       );
+  //     };
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (!isIOS()) {
-      const handleFullScreenChange = () => {
-        setIsFullScreen(screenfull.isFullscreen);
-        if (isClient && !screenfull.isFullscreen && window.screen.orientation) {
-          window.screen.orientation.unlock();
-        }
-      };
+    const handleFullScreenChange = () => {
+      const isCurrentlyFullscreen = !isIOS()
+        ? screenfull.isFullscreen
+        : document.fullscreenElement != null;
 
-      if (screenfull.isEnabled) {
-        screenfull.on("change", handleFullScreenChange);
-
-        return () => {
-          screenfull.off("change", handleFullScreenChange);
-        };
+      // If exiting fullscreen, restore the stored position
+      if (!isCurrentlyFullscreen && latestVideo && window.lastDialogScrollPosition !== undefined) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: window.lastDialogScrollPosition,
+            behavior: 'auto'
+          });
+        }, 100);
       }
-    } else {
-      const handleFullScreenChange = () => {
-        setIsFullScreen(document.fullscreenElement != null);
-        if (isClient && !document.fullscreenElement && window.screen.orientation) {
-          window.screen.orientation.unlock();
-        }
-      };
 
-      document.addEventListener("fullscreenchange", handleFullScreenChange);
+      setIsFullScreen(isCurrentlyFullscreen);
+    };
 
+    if (!isIOS() && screenfull.isEnabled) {
+      screenfull.on("change", handleFullScreenChange);
       return () => {
-        document.removeEventListener(
-          "fullscreenchange",
-          handleFullScreenChange
-        );
+        screenfull.off("change", handleFullScreenChange);
+      };
+    } else {
+      document.addEventListener("fullscreenchange", handleFullScreenChange);
+      return () => {
+        document.removeEventListener("fullscreenchange", handleFullScreenChange);
       };
     }
   }, []);
+
 
   useEffect(() => {
     const handleKeyDown = (e) => {

@@ -3,7 +3,7 @@
 import { BulbIcon, CrownIcon, EllipseOfSearch, Gear, HamburgerMenu, NeonElipse } from '@/lib/svg_icons'
 import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, X, SearchIcon } from 'lucide-react'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import CustomDialog from '../common/CustomDialog';
@@ -239,6 +239,8 @@ const ProfileComponent = ({ href, avatar }) => {
 const BoxComponent = ({ icon, title, introductory, title1, title2, show, href }) => {
   const [isOpenBoxDropdown, setIsOpenBoxDropdown] = useState(false);
   const router = useRouter();
+  const boxRef = useRef(null);
+
 
   const handleClick = () => {
     if (introductory) {
@@ -248,12 +250,29 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If the click is outside the BoxComponent, close the dropdown
+      if (boxRef.current && !boxRef.current.contains(event.target)) {
+        setIsOpenBoxDropdown(false);
+      }
+    };
+
+    // Add event listener for detecting clicks outside
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup the event listener when component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
 
-    <div className="relative hidden lg:block">
+    <div className="relative hidden lg:block " ref={boxRef}>
       <div
         onClick={handleClick}
-        className={`px-4 py-3 flex flex-col bg-[#040C19] border-x border-t ${isOpenBoxDropdown ? '' : 'border-b'
+        className={`px-4 py-3  flex flex-col bg-[#040C19] border-x border-t ${isOpenBoxDropdown ? '' : 'border-b'
           } border-[var(--neon-purple)] cursor-pointer relative`}
       >
         <div className="flex justify-between items-center">
@@ -291,6 +310,7 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
     </div>
   );
 };
+
 const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
   const router = useRouter();
 
@@ -305,12 +325,12 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
       animate={{ height: 'auto', opacity: 1 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      <div className="flex flex-col gap-y-2">
-        <button className="text-xs text-white flex justify-between items-center" onClick={handleClick}>
+      <div className="flex flex-col gap-y-1 ">
+        <button className="text-xs text-white flex justify-between items-center hover:bg-gray-700 p-1 rounded-md" onClick={handleClick}>
           {title1} <ArrowRight size={21} />
         </button>
 
-        <button className="text-xs text-white flex justify-between items-center" onClick={handleClick}>
+        <button className="text-xs text-white flex justify-between items-center p-1 hover:bg-gray-700 rounded-md" onClick={handleClick}>
           {title2} <ArrowRight size={21} />
         </button>
       </div>
@@ -321,6 +341,22 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
 const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introductory, title1, title2, show, href }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter()
+  const boxRefMobile = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (boxRefMobile.current && !boxRefMobile.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [])
+
 
   const handleClick = () => {
     if (introductory) {
@@ -337,7 +373,7 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" ref={boxRefMobile}>
       <div
         onClick={handleClick}
         className={`px-4 py-3 w-full flex flex-col bg-[#040C19] border-t border-x border-[var(--neon-purple,#C99BFD)]

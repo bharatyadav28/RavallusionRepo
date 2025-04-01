@@ -154,7 +154,7 @@ const Login = () => {
                             </div>
                         </div>
 
-                        <span className="mx-4 text-gray-100">or</span>
+                        <span className="mx-4 text-gray-100">Or</span>
 
                         <div className="flex-1 relative">
                             <div className="absolute top-1/2 left-0 right-0 border-t border-transparent">

@@ -59,27 +59,23 @@ const AssignmentSubmitList = () => {
                     </div>
                 </div>
 
-
-
-
             </div>
             {
                 isActive === 0 && (
                     <div>
                         {
-                            
-                                photoshopAssignment && photoshopAssignment.map((video, index) => (
+                            photoshopAssignment && photoshopAssignment.map((video, index) => (
 
-                                    <SubmitAssignmentCard
-                                        key={index}
-                                        videoId={video._id}
-                                        score={video.score}
-                                        title={video.title}
-                                        percentageWatched={video.percentageWatched}
-                                        isCompleted={video.isCompleted}
-                                        hasSubmitted={video.hasSubmitted}
-                                    />
-                                ))
+                                <SubmitAssignmentCard
+                                    key={index}
+                                    videoId={video._id}
+                                    score={video.score}
+                                    title={video.title}
+                                    percentageWatched={video.percentageWatched}
+                                    isCompleted={video.isCompleted}
+                                    hasSubmitted={video.hasSubmitted}
+                                />
+                            ))
                         }
                     </div>
                 )
@@ -87,20 +83,18 @@ const AssignmentSubmitList = () => {
             {
                 isActive === 1 && (
                     <div>
-
                         {
-                            
-                                premierproAssignment && premierproAssignment.map((video, index) => (
-                                    <SubmitAssignmentCard
-                                        key={index}
-                                        videoId={video._id}
-                                        score={video.score}
-                                        percentageWatched={video.percentageWatched}
-                                        title={video.title}
-                                        isCompleted={video.isCompleted}
-                                        hasSubmitted={video.hasSubmitted}
-                                    />
-                                ))
+                            premierproAssignment && premierproAssignment.map((video, index) => (
+                                <SubmitAssignmentCard
+                                    key={index}
+                                    videoId={video._id}
+                                    score={video.score}
+                                    percentageWatched={video.percentageWatched}
+                                    title={video.title}
+                                    isCompleted={video.isCompleted}
+                                    hasSubmitted={video.hasSubmitted}
+                                />
+                            ))
                         }
                     </div>
                 )
@@ -115,7 +109,7 @@ const SubmitAssignmentCard = ({ isCompleted, percentageWatched, videoId, score, 
     const ongoing = percentageWatched > 0 && !isCompleted;
     const notStarted = percentageWatched === 0 && !ongoing;
     return (
-        <div className='py-3 flex items-center justify-between'>
+        <div className='py-3 flex items-center justify-between min-w-full'>
 
             <div>
                 <h1 className='text-sm mb-1 font-semibold'>{title}</h1>
@@ -144,7 +138,6 @@ const SubmitAssignmentCard = ({ isCompleted, percentageWatched, videoId, score, 
                 }
             </div>
 
-
             {/* Right Side */}
             <div>
                 {
@@ -172,24 +165,12 @@ const SubmitAssignmentCard = ({ isCompleted, percentageWatched, videoId, score, 
                 }
 
 
-                {/* {
-                    notStarted && (
-                        <div className='relative cursor-pointer'>
-                            <Button variant="neonOutline" className={"opacity-50"}>
-                                Submit
-                            </Button>
-                            <div className='absolute top-0 h-full flex items-center justify-center backdrop-blur-xs bg-[#0000001F] w-full'>
-                                <Lock />
-                            </div>
-
-                        </div>
-                    )
-                } */}
+                <CustomDialog close={() => setIsAssignmentOpen(false)} open={isAssignmentOpen}>
+                    <SubmitAssignment videoId={videoId} setIsAssignmentOpen={setIsAssignmentOpen} />
+                </CustomDialog>
             </div>
 
-            <CustomDialog close={() => setIsAssignmentOpen(false)} open={isAssignmentOpen}>
-                <SubmitAssignment videoId={videoId} setIsAssignmentOpen={setIsAssignmentOpen} />
-            </CustomDialog>
+
 
         </div>
     )

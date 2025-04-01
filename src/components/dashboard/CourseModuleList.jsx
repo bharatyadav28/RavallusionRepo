@@ -9,9 +9,7 @@ import { useSearchParams } from "next/navigation";
 import CourseSkeletonLoader from "./CourseSkeletonLoader";
 
 const CourseModuleList = ({ course, playingVideoId, setPlayingVideoId, isLoading }) => {
-    console.log(course);
     const modules = course?.modules;
-    console.log(modules);
 
     const heading = course?.title || "Course";
 

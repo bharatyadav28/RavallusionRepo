@@ -146,12 +146,12 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
               <span className="text-[10px] font-bold border-2 py-[3px] 2xl:py-0 px-[5px] rounded-2xl ">
                 X 1
               </span>
-              <span className='text-[8px] sm:text-[10px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
+              <span className='text-[8px] sm:text-[11px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
             </div>
 
             <div className="flex flex-col text-xs items-center 2xl:gap-3 2xl:text-sm">
               <Check className="border-2 rounded-full p-1" size={"23"} />
-              <span className='text-[8px] sm:text-[10px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
+              <span className='text-[8px] sm:text-[11px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
             </div>
 
             <div className="flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -161,13 +161,13 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
                   FHD
                 </span>
               </div>
-              <span className='mt-3 text-[8px] sm:mt-3 sm:text-[10px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
+              <span className='mt-3 text-[8px] sm:mt-3 sm:text-[11px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
             </div>
 
             <div className=" flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm">
               <DevicesIcon width={23} />
               <span
-                className="text-[8px] sm:text-[10px] mt-[4px] md:mt-[7px]  text-center break-words leading-tight max-w-[90px] sm:max-w-[110px]">
+                className="text-[8px] sm:text-[11px] mt-[4px] md:mt-[7px]  text-center break-words leading-tight max-w-[90px] sm:max-w-[110px]">
                 Watch on Laptop, Mobile, Tab and iPad
               </span>
             </div>

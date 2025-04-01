@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { Button } from '../ui/button';
+import { LoaderCircle } from 'lucide-react';
 
 const AccountControlCard = ({ title, icon, text, onClick, onCancel, isLoading }) => {
     return (
@@ -19,8 +20,8 @@ const AccountControlCard = ({ title, icon, text, onClick, onCancel, isLoading })
                 </div>
 
                 <div className='flex items-center gap-x-4'>
-                    <Button className="px-7 py-5 border border-gray-400 hover:bg-gray-700" onClick={onCancel} >Cancel</Button>
-                    <Button variant={'destructive'} className=" px-7 py-5 hover:bg-red-900" onClick={onClick} >{isLoading ? 'Loading...' : 'Confirm'}</Button>
+                    <Button className="px-7 py-5  bg-red-700 hover:bg-gray-800" onClick={onCancel} >Cancel</Button>
+                    <Button className=" px-7 py-5 border border-gray-400" onClick={onClick} >{isLoading ? <LoaderCircle className='animate-spin !h-7 !w-7' /> : 'Confirm'}</Button>
                 </div>
 
             </div>

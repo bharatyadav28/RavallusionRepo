@@ -61,7 +61,7 @@ import CarouselWrapper from "./CarouselWrapper";
 
 const CoursesList = ({ data }) => {
   const [count, setCount] = useState(2);
-  const [screenWidth,setScreenWidth] = useState();
+  const [screenWidth, setScreenWidth] = useState();
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
@@ -87,14 +87,15 @@ const CoursesList = ({ data }) => {
     return () => {
       window.removeEventListener("resize", updateCountBasedOnScreenSize);
     };
-  },[window.innerWidth]);
+  }, [window.innerWidth]);
 
 
   const firstThreeCourses = data.slice(0, 3);
   const lastThreeCourses = data.slice(3);
 
   return (
-    <div className="flex-grow relative">
+    <div className="flex-grow relative"
+    >
       <CustomSkeleton
         count={count}
         className="absolute !-left-7 sm:!-left-[11%] md:!-left-[7rem] !w-[10%] sm:!w-24 2xl:!w-[rem]  !h-full"
@@ -115,19 +116,19 @@ const CoursesList = ({ data }) => {
               >
                 < CarouselWrapper autoScrollInterval={3000} navigation={true} >
 
-                  {firstThreeCourses.map((course,index) => (
+                  {firstThreeCourses.map((course, index) => (
                     <CourseCard key={index} course={course} />
                   ))}
                 </CarouselWrapper>
 
               </div>
-              
+
               <div
                 className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
               >
                 < CarouselWrapper autoScrollInterval={3000} navigation={true} className="mt-5" >
 
-                  {lastThreeCourses.map((course,index) => (
+                  {lastThreeCourses.map((course, index) => (
                     <CourseCard key={index} course={course} />
                   ))}
                 </CarouselWrapper>
@@ -143,7 +144,7 @@ const CoursesList = ({ data }) => {
             <div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
             >
-              {data.map((course,index) => (
+              {data.map((course, index) => (
                 <CourseCard key={index} course={course} />
               ))}
             </div>
