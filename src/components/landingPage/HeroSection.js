@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const HeroSection = ({ data }) => {
-  const caption = data.caption.replace(/<\/?p>/g, "");
+  const caption = data?.caption.replace(/<\/?p>/g, "");
   const words = caption.split(" ");
   const firstPart = words.slice(0, -1).join(" ");
   const lastPart = words[words.length - 1];
@@ -25,7 +25,7 @@ const HeroSection = ({ data }) => {
         </h1>
 
         <p className="text-base md:text-lg 2xl:text-xl md:w-[70%] 2xl:w-[75%] text-gray-300">
-          {data.description}
+          {data?.description}
         </p>
 
         <GlowButton className="text-lg 2xl:text-2xl mt-4 px-14 2xl:px-16 py-7 2xl:py-8 w-40">

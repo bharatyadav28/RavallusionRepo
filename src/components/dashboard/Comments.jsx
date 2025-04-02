@@ -72,8 +72,8 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
 
     // Scroll to input when addReply is true
     useEffect(() => {
-        if (window.innerWidth >= 1024 && showReplies && inputRef.current) {
-            inputRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (showReplies && inputRef.current) {
+            inputRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
     }, [showReplies]);
 
@@ -112,10 +112,7 @@ const Comment = ({ comment, reply, userName, commentId, avatar }) => {
                                 </div>
                             )
                         }
-
                     </div>
-
-
                 </div>
             </div>
 

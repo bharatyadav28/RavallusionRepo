@@ -32,7 +32,6 @@ import ErrorBoundary from "@/app/utils/errorBoundaries";
 // import { imgAddr, vidAddr } from "../features/api";
 import { useMediaQuery } from "react-responsive";
 
-import { usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 
 const VideoPlayer = ({
@@ -46,7 +45,8 @@ const VideoPlayer = ({
   videoId,
   ref,
   autoPlay,
-  latestVideo = false
+  latestVideo = false,
+
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -76,7 +76,6 @@ const VideoPlayer = ({
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
-  const [showPoster, setShowPoster] = useState(true);
 
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -114,14 +113,9 @@ const VideoPlayer = ({
     play: () => {
       setPlaying(true);
       setFirstPlay(false);
-      setShowPoster(false);
     },
     pause: () => {
       setPlaying(false);
-      setShowPoster(true);
-      if (firstPlay || currentTime === 0) {
-        setShowPoster(true);
-      }
     },
     getCurrentTime: () => {
       return playerRef.current ? playerRef.current.getCurrentTime() : 0;
@@ -135,18 +129,14 @@ const VideoPlayer = ({
       }
       setPlaying(false);
       setFirstPlay(true);
-      setShowPoster(true);
     }
   }));
-
 
   // Handle autoplay prop changes
   useEffect(() => {
     if (autoPlay && firstPlay) {
       setFirstPlay(false);
       setPlaying(true);
-    } else if (!autoPlay && playing) {
-      setPlaying(false);
     }
   }, [autoPlay]);
 
@@ -796,6 +786,7 @@ const VideoPlayer = ({
                   alt="Thumbnail"
                   className="thumbnail-image"
                   onClick={() => {
+
                     setLoading(true);
                     setPreloaded(true);
                   }}
@@ -806,8 +797,10 @@ const VideoPlayer = ({
           // onReady={()=>setPlaying(true)}
           playsinline={true}
           onClickPreview={() => {
-            setLoading(true);
-            handlePlayPause();
+            if (!playing) {
+              setLoading(true);
+              handlePlayPause();
+            }
           }}
           // onStart={() => setPlaying(true)}
           onStart={() => {

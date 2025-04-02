@@ -19,7 +19,6 @@ const CarouselCard = ({ item, isActive, videoRefs, index }) => (
           poster={item.video.thumbnailUrl}
           ref={(el) => { videoRefs.current[index] = el; }}
           autoPlay={isActive}
-          key={`video-${index}-${isActive}`}
         />
       </div>
     </div>
@@ -99,10 +98,10 @@ const EmblaCarousel = ({ slides, options }) => {
     }
 
     // Play the current video
-    // const currentVideoRef = videoRefs.current[currentIndex];
-    // if (currentVideoRef?.play) {
-    //   setTimeout(() => currentVideoRef.play(), 100);
-    // }
+    const currentVideoRef = videoRefs.current[currentIndex];
+    if (currentVideoRef?.play) {
+      setTimeout(() => currentVideoRef.play(),100);
+    }
   }, []);
 
   useEffect(() => {
