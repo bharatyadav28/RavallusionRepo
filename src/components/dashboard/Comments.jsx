@@ -13,8 +13,12 @@ const Comments = ({ videoId }) => {
     const [commentBody, setCommentBody] = useState("");
 
     const comments = data?.data?.comments || [];
+
     const handleCreateComment = async () => {
-        if (!commentBody.trim()) return
+        if (!commentBody.trim()) {
+            toast.warning("Please enter a comment");
+            return;
+        }
         try {
             const res = await createComment({ body: { comment: commentBody }, videoId }).unwrap();
             if (res?.success) {
@@ -32,14 +36,18 @@ const Comments = ({ videoId }) => {
 
             <div className='relative my-4'>
                 <Input
+                   
                     type="text"
                     value={commentBody}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             handleCreateComment();
                         }
+                      
                     }}
-                    onChange={(e) => setCommentBody(e.target.value)}
+                    onChange={(e) => {
+                        setCommentBody(e.target.value);
+                    }}
                     className="px-4 py-3 rounded-3xl border border-gray-500" placeholder="Write Comments" />
                 <div className='absolute right-5 top-2 cursor-pointer' onClick={handleCreateComment}>
                     <Send />
@@ -64,7 +72,7 @@ const Comments = ({ videoId }) => {
     )
 }
 
-const Comment = ({ comment, reply, userName, commentId, avatar }) => {
+const Comment = ({ comment, reply, userName, avatar }) => {
     const [showReplies, setShowReplies] = useState(false);
     const inputRef = useRef(null);
 

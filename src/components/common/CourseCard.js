@@ -9,7 +9,6 @@ const CourseCard = ({ course }) => {
   const [isCustomOpen, setIsCustomOpen] = useState(false);
   const { title, description, videoUrl, thumbnailUrl } = course?.video;
 
-  console.log(isCustomOpen);
 
   const handleOpenDialog = () => {
     // Store the scroll position when opening the dialog

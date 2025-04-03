@@ -23,7 +23,7 @@ const PrimaryDashboard = () => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
-    },3100);
+    },3000);
 
     return () => clearInterval(interval);
   }, [carouselImages.length]);

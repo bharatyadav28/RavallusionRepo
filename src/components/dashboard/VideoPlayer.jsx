@@ -76,21 +76,18 @@ const VideoPlayer = ({
   const containerRef = useRef(null);
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
-
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
-  // src='https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
-  // src='https://d2n9feutzfz8ux.cloudfront.net/mu/720p.m3u8';
-
-  // const imgSrc = `${imgAddr}/${poster}`;
-  // const imgSrc = `https://media.licdn.com/dms/image/v2/D5612AQEC2GNEaVOqHQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1709846879463?e=2147483647&v=beta&t=3oEOdpoAqT2j-2fuf4KzvbuNtxTkQVdaoy3wwqnMdrM`;
   const imgSrc = poster;
 
-  // const [src, setSrc] = useState(` ${vidAddr}/${source[0]?.value}/360p.m3u8`);
   const [src, setSrc] = useState(source);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, [])
+
   const isIOS = () => {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && isClient && !window.MSStream;
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   };
 
   const resetTimeout = () => {
@@ -144,29 +141,29 @@ const VideoPlayer = ({
     const videoElement = playerRef.current.getInternalPlayer();
 
     if (isIOS()) {
-      if (videoElement.webkitEnterFullscreen && isClient) {
+      if (videoElement.webkitEnterFullscreen) {
         if (!isFullScreen) {
           videoElement.webkitEnterFullscreen();
           setIsFullScreen(true);
-          isClient && window.screen.orientation &&
+          window.screen.orientation &&
             window.screen.orientation.lock("landscape").catch(() => { });
         } else {
           videoElement.webkitExitFullscreen();
           setIsFullScreen(false);
-          isClient && window.screen.orientation && window.screen.orientation.unlock();
+          window.screen.orientation && window.screen.orientation.unlock();
         }
       }
     } else {
-      if (screenfull.isEnabled && isClient) {
+      if (screenfull.isEnabled) {
         if (!isFullScreen) {
           screenfull.request(containerRef.current);
           setIsFullScreen(true);
-          isClient && window.screen.orientation &&
+          window.screen.orientation &&
             window.screen.orientation.lock("landscape").catch(() => { });
         } else {
           screenfull.exit();
           setIsFullScreen(false);
-          isClient && window.screen.orientation && window.screen.orientation.unlock();
+          window.screen.orientation && window.screen.orientation.unlock();
         }
       }
     }
@@ -194,9 +191,7 @@ const VideoPlayer = ({
     }
   };
 
-  useEffect(() => {
-    setIsClient(true);
-  }, [])
+
 
 
   useEffect(() => {
@@ -264,76 +259,87 @@ const VideoPlayer = ({
   }, []);
 
 
-  // useEffect(() => {
-  //   if (!isIOS()) {
-  //     const handleFullScreenChange = () => {
-  //       setIsFullScreen(screenfull.isFullscreen);
-  //       if (isClient && !screenfull.isFullscreen && window.screen.orientation) {
-  //         window.screen.orientation.unlock();
-  //       }
-  //     };
-
-  //     if (screenfull.isEnabled) {
-  //       screenfull.on("change", handleFullScreenChange);
-
-  //       return () => {
-  //         screenfull.off("change", handleFullScreenChange);
-  //       };
-  //     }
-  //   } else {
-  //     const handleFullScreenChange = () => {
-  //       setIsFullScreen(document.fullscreenElement != null);
-  //       if (isClient && !document.fullscreenElement && window.screen.orientation) {
-  //         window.screen.orientation.unlock();
-  //       }
-  //     };
-
-  //     document.addEventListener("fullscreenchange", handleFullScreenChange);
-
-  //     return () => {
-  //       document.removeEventListener(
-  //         "fullscreenchange",
-  //         handleFullScreenChange
-  //       );
-  //     };
-  //   }
-  // }, []);
-
   useEffect(() => {
-    const handleFullScreenChange = () => {
-      const isCurrentlyFullscreen = !isIOS()
-        ? screenfull.isFullscreen
-        : document.fullscreenElement != null;
-
-      // If exiting fullscreen, restore the stored position
-      if (!isCurrentlyFullscreen && latestVideo && window.lastDialogScrollPosition !== undefined) {
-        setTimeout(() => {
-          window.scrollTo({
-            top: window.lastDialogScrollPosition,
-            behavior: 'auto'
-          });
-        }, 100);
-      }
-
-      setIsFullScreen(isCurrentlyFullscreen);
-    };
-
-    if (!isIOS() && screenfull.isEnabled) {
-      screenfull.on("change", handleFullScreenChange);
-      return () => {
-        screenfull.off("change", handleFullScreenChange);
+    if (!isIOS()) {
+      const handleFullScreenChange = () => {
+        setIsFullScreen(screenfull.isFullscreen);
+        if (    !screenfull.isFullscreen && window.screen.orientation) {
+          window.screen.orientation.unlock();
+        }
       };
+
+      if (screenfull.isEnabled) {
+        screenfull.on("change", handleFullScreenChange);
+
+        return () => {
+          screenfull.off("change", handleFullScreenChange);
+        };
+      }
     } else {
+      const handleFullScreenChange = () => {
+        setIsFullScreen(document.fullscreenElement != null);
+        if (    !document.fullscreenElement && window.screen.orientation) {
+          window.screen.orientation.unlock();
+        }
+      };
+
       document.addEventListener("fullscreenchange", handleFullScreenChange);
+
       return () => {
-        document.removeEventListener("fullscreenchange", handleFullScreenChange);
+        document.removeEventListener(
+          "fullscreenchange",
+          handleFullScreenChange
+        );
       };
     }
   }, []);
 
+  // useEffect(() => {
+  //   const handleFullScreenChange = () => {
+  //     if (latestVideo) {
+  //       const isCurrentlyFullscreen = !isIOS()
+  //         ? screenfull.isFullscreen
+  //         : document.fullscreenElement != null;
+
+  //       // If exiting fullscreen, restore the stored position
+  //       if (!isCurrentlyFullscreen && window.lastDialogScrollPosition !== undefined) {
+  //         setTimeout(() => {
+  //           window.scrollTo({
+  //             top: window.lastDialogScrollPosition,
+  //             behavior: 'auto'
+  //           });
+  //         }, 100);
+  //       }
+
+  //       setIsFullScreen(isCurrentlyFullscreen);
+  //     };
+  //   }
+
+  //   if (!isIOS() && screenfull.isEnabled) {
+  //     screenfull.on("change", handleFullScreenChange);
+  //     return () => {
+  //       screenfull.off("change", handleFullScreenChange);
+  //     };
+  //   } else {
+  //     document.addEventListener("fullscreenchange", handleFullScreenChange);
+  //     return () => {
+  //       document.removeEventListener("fullscreenchange", handleFullScreenChange);
+  //     };
+  //   }
+  // }, []);
+
 
   useEffect(() => {
+
     const handleKeyDown = (e) => {
+      if (
+        e.target.tagName === "INPUT" ||
+        e.target.tagName === "TEXTAREA" ||
+        e.target.isContentEditable
+      ) {
+        return;
+      }
+
       switch (e.key) {
         case " ":
           e.preventDefault();
@@ -347,6 +353,7 @@ const VideoPlayer = ({
           e.preventDefault();
           handleForward();
           break;
+
         default:
           break;
       }
@@ -405,6 +412,9 @@ const VideoPlayer = ({
 
 
 
+  if (!isClient) {
+    return null;
+  }
 
 
   //Functions.......................
@@ -453,7 +463,6 @@ const VideoPlayer = ({
   };
 
   const handleForward = () => {
-    console.log(isVideoCompleted);
     if (isVideoCompleted === false) {
       return;
     }
@@ -721,9 +730,6 @@ const VideoPlayer = ({
     );
   };
 
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <div

@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 import { useAssignmentSubmitMutation, useUploadFileMutation } from '@/store/Api/course';
+import { LoaderCircle } from 'lucide-react';
 
 const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
   const [files, setFiles] = useState();
@@ -190,7 +191,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
 
       <div className="flex items-center gap-x-4 justify-end mt-4">
         <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
-        <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>{isLoading ? 'Please wait...' : 'Submit'}</Button>
+        <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>{isLoading ?<LoaderCircle className='animate-spin !h-7 !w-7' /> : 'Submit'}</Button>
       </div>
     </div >
   );
