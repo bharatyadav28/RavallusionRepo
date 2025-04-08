@@ -1,4 +1,4 @@
-import { FooterBg } from "@/lib/svg_icons";
+import { FacebookColorIcon, FooterBg, InstagramColorIcon, LinkedInColorIcon, TelegramColorIcon, TwitterColorIcon, YoutubeColorIcon } from "@/lib/svg_icons";
 import {
   FacebookIcon,
   FooterRavallusion,
@@ -12,27 +12,27 @@ import Link from "next/link";
 
 const socialHandles = [
   {
-    Icon: FacebookIcon,
+    Icon: FacebookColorIcon,
     link: "#",
   },
   {
-    Icon: TwitterIcon,
+    Icon: TwitterColorIcon,
     link: "#",
   },
   {
-    Icon: LinkedInIcon,
+    Icon: LinkedInColorIcon,
     link: "#",
   },
   {
-    Icon: InstagramIcon,
+    Icon: InstagramColorIcon,
     link: "#",
   },
   {
-    Icon: YoutubeIcon,
+    Icon: YoutubeColorIcon,
     link: "#",
   },
   {
-    Icon: TelegramIcon,
+    Icon: TelegramColorIcon,
     link: "#",
   },
 ];
@@ -84,10 +84,10 @@ const Footer = () => {
           </div>
           <div className="flex gap-3">
             {socialHandles.map((item, index) => (
-              <Link
+              <Link 
                 key={index}
                 href={item.link}
-                className="w-10 h-10 bg-white/10 rounded-full flex justify-center items-center hover:bg-[var(--neon-purple)]"
+                className="w-10 h-10 bg-white/10 rounded-full flex justify-center items-center hover:scale-110"
               >
                 <item.Icon />
               </Link>

@@ -6,58 +6,6 @@ import CourseCard from "./CourseCard";
 import CustomSkeleton from "./CustomSkeleton";
 import CarouselWrapper from "./CarouselWrapper";
 
-// const courses = [
-//   {
-//     id: 1,
-//     title: "Advanced VFX",
-//     description: "Learn advanced VFX course with use to gain more knowledge",
-//     views: "192K",
-//     likes: "80K",
-//     imageUrl: "/URL_of_image_for_Advanced_VFX.jpeg",
-//   },
-//   {
-//     id: 2,
-//     title: "Ultra 3D Earth",
-//     description: "Learn advanced VFX course with use to gain more knowledge",
-//     views: "192K",
-//     likes: "80K",
-//     imageUrl: "/URL_of_image_for_Ultra_3D_Earth.jpeg",
-//   },
-//   {
-//     id: 3,
-//     title: "Colorful Glitch Effects",
-//     description: "Learn advanced VFX course with use to gain more knowledge",
-//     views: "192K",
-//     likes: "80K",
-//     imageUrl: "/URL_of_image_for_Colorful_Glitch_Effects.jpeg",
-//   },
-//   {
-//     id: 4,
-//     title: "FX Console Plugin",
-//     description: "Learn advanced VFX course with use to gain more knowledge",
-//     views: "192K",
-//     likes: "80K",
-//     imageUrl: "/URL_of_image_for_FX_Console_Plugin.jpeg",
-//   },
-//   {
-//     id: 5,
-//     title: "Realistic Raindrop Effect",
-//     description: "Learn advanced VFX course with use to gain more knowledge",
-//     views: "192K",
-//     likes: "80K",
-//     imageUrl: "/URL_of_image_for_Realistic_Raindrop_Effect.jpeg",
-//   },
-//   {
-//     id: 6,
-//     title: "Cinematic Title Design",
-//     description: "Learn advanced VFX course with use to gain more knowledge",
-//     views: "192K",
-//     likes: "80K",
-//     imageUrl: "/URL_of_image_for_Cinematic_Title_Design.jpeg",
-//   },
-
-// ];
-
 
 const CoursesList = ({ data }) => {
   const [count, setCount] = useState(2);
@@ -70,11 +18,13 @@ const CoursesList = ({ data }) => {
 
       if (screenWidth >= 1024) {
         setCount(2);
-      } else if (screenWidth >= 640) {
+      } else if (screenWidth > 768) {
         setCount(3);
-      } else {
+      }
+      else{
         setCount(2);
       }
+     
     };
 
     // Run the function on initial render
@@ -112,7 +62,7 @@ const CoursesList = ({ data }) => {
           (
             <>
               <div
-                className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
+                className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
               >
                 < CarouselWrapper autoScrollInterval={3000} navigation={true} >
 
@@ -124,7 +74,7 @@ const CoursesList = ({ data }) => {
               </div>
 
               <div
-                className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
+                className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
               >
                 < CarouselWrapper autoScrollInterval={3000} navigation={true} className="mt-5" >
 

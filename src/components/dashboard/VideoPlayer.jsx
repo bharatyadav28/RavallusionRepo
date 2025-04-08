@@ -44,6 +44,7 @@ const VideoPlayer = ({
   courseProgress,
   videoId,
   ref,
+  registerVideoRef,
   autoPlay,
   latestVideo = false,
 
@@ -106,7 +107,7 @@ const VideoPlayer = ({
   };
 
   // Expose methods to parent component via ref
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref || registerVideoRef, () => ({
     play: () => {
       setPlaying(true);
       setFirstPlay(false);
@@ -141,7 +142,7 @@ const VideoPlayer = ({
     const videoElement = playerRef.current.getInternalPlayer();
 
     if (isIOS()) {
-      if (videoElement.webkitEnterFullscreen) {
+      if (videoElement.webkitEnterFullscreen) {                   
         if (!isFullScreen) {
           videoElement.webkitEnterFullscreen();
           setIsFullScreen(true);
@@ -259,75 +260,74 @@ const VideoPlayer = ({
   }, []);
 
 
-  useEffect(() => {
-    if (!isIOS()) {
-      const handleFullScreenChange = () => {
-        setIsFullScreen(screenfull.isFullscreen);
-        if (    !screenfull.isFullscreen && window.screen.orientation) {
-          window.screen.orientation.unlock();
-        }
-      };
-
-      if (screenfull.isEnabled) {
-        screenfull.on("change", handleFullScreenChange);
-
-        return () => {
-          screenfull.off("change", handleFullScreenChange);
-        };
-      }
-    } else {
-      const handleFullScreenChange = () => {
-        setIsFullScreen(document.fullscreenElement != null);
-        if (    !document.fullscreenElement && window.screen.orientation) {
-          window.screen.orientation.unlock();
-        }
-      };
-
-      document.addEventListener("fullscreenchange", handleFullScreenChange);
-
-      return () => {
-        document.removeEventListener(
-          "fullscreenchange",
-          handleFullScreenChange
-        );
-      };
-    }
-  }, []);
-
   // useEffect(() => {
-  //   const handleFullScreenChange = () => {
-  //     if (latestVideo) {
-  //       const isCurrentlyFullscreen = !isIOS()
-  //         ? screenfull.isFullscreen
-  //         : document.fullscreenElement != null;
-
-  //       // If exiting fullscreen, restore the stored position
-  //       if (!isCurrentlyFullscreen && window.lastDialogScrollPosition !== undefined) {
-  //         setTimeout(() => {
-  //           window.scrollTo({
-  //             top: window.lastDialogScrollPosition,
-  //             behavior: 'auto'
-  //           });
-  //         }, 100);
+  //   if (!isIOS()) {
+  //     const handleFullScreenChange = () => {
+  //       setIsFullScreen(screenfull.isFullscreen);
+  //       if (!screenfull.isFullscreen && window.screen.orientation) {
+  //         window.screen.orientation.unlock();
   //       }
-
-  //       setIsFullScreen(isCurrentlyFullscreen);
   //     };
-  //   }
 
-  //   if (!isIOS() && screenfull.isEnabled) {
-  //     screenfull.on("change", handleFullScreenChange);
-  //     return () => {
-  //       screenfull.off("change", handleFullScreenChange);
-  //     };
+  //     if (screenfull.isEnabled) {
+  //       screenfull.on("change", handleFullScreenChange);
+
+  //       return () => {
+  //         screenfull.off("change", handleFullScreenChange);
+  //       };
+  //     }
   //   } else {
+  //     const handleFullScreenChange = () => {
+  //       setIsFullScreen(document.fullscreenElement != null);
+  //       if (    !document.fullscreenElement && window.screen.orientation) {
+  //         window.screen.orientation.unlock();
+  //       }
+  //     };
+
   //     document.addEventListener("fullscreenchange", handleFullScreenChange);
+
   //     return () => {
-  //       document.removeEventListener("fullscreenchange", handleFullScreenChange);
+  //       document.removeEventListener(
+  //         "fullscreenchange",
+  //         handleFullScreenChange
+  //       );
   //     };
   //   }
   // }, []);
 
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      if (latestVideo) {
+        const isCurrentlyFullscreen = !isIOS()
+          ? screenfull.isFullscreen
+          : document.fullscreenElement != null;
+
+        // If exiting fullscreen, restore the stored position
+        if (!isCurrentlyFullscreen && window.lastDialogScrollPosition !== undefined) {
+          setTimeout(() => {
+            window.scrollTo({
+              top: window.lastDialogScrollPosition,
+              behavior: 'auto'
+            });
+          }, 100);
+        }
+
+        setIsFullScreen(isCurrentlyFullscreen);
+      };
+    }
+
+    if (!isIOS() && screenfull.isEnabled) {
+      screenfull.on("change", handleFullScreenChange);
+      return () => {
+        screenfull.off("change", handleFullScreenChange);
+      };
+    } else {
+      document.addEventListener("fullscreenchange", handleFullScreenChange);
+      return () => {
+        document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      };
+    }
+  }, []);
 
   useEffect(() => {
 
@@ -527,11 +527,8 @@ const VideoPlayer = ({
       const tooltipWidthPercentage = (tooltipWidth / barWidth) * 100;
 
       let tooltipPositionX = (mouseX / barWidth) * 100;
-      // console.log(tooltipPositionX);
-      // console.log(tooltipWidthPercentage);
       if (tooltipPositionX < tooltipWidthPercentage) {
         tooltipPositionX = tooltipWidthPercentage;
-        // console.log(tooltipPositionX);
       } else if (tooltipPositionX + tooltipWidthPercentage > 100) {
         tooltipPositionX = 100 - tooltipWidthPercentage;
       }

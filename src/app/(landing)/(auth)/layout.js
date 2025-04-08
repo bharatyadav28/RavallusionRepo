@@ -16,7 +16,7 @@ export default function AuthLayout({ children }) {
              bg-[url('/ellipse_of_auth.png')] bg-no-repeat bg-contain overflow-hidden"
                 style={{
                     background: `
-      linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%),
       url('/ellipse_of_auth.png')`,
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",

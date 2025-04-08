@@ -1,6 +1,7 @@
 import { LogoutCard } from '@/lib/svg_icons'
 import React from 'react'
 import { Button } from '../ui/button'
+import { LoaderCircle } from 'lucide-react'
 
 const LogoutDialog = ({ setIsOpenLogout, onClick, switchDeviceLoading }) => {
     return (
@@ -20,7 +21,7 @@ const LogoutDialog = ({ setIsOpenLogout, onClick, switchDeviceLoading }) => {
 
                 <div className='flex items-center gap-x-4'>
                     <Button className="px-7 py-5 border border-gray-400 hover:bg-gray-700" onClick={() => setIsOpenLogout(false)}>Cancel</Button>
-                    <Button variant={'destructive'} className=" px-7 py-5 hover:bg-red-900" onClick={onClick}>{switchDeviceLoading ? "Loading.." : "Confirm"}</Button>
+                    <Button variant={'destructive'} className={`${switchDeviceLoading && 'cursor-not-allowed'} px-7 py-5 hover:bg-red-900`} onClick={onClick}>{switchDeviceLoading ? <LoaderCircle className='animate-spin !h-6 !w-6' />: "Confirm"}</Button>
                 </div>
 
             </div>

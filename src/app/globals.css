@@ -24,6 +24,10 @@ body {
 } */
 
 
+.my-subscription::-webkit-scrollbar {
+  display: none;
+}
+
 /* Scroll bar */
 ::-webkit-scrollbar {
   display: block;
@@ -37,11 +41,6 @@ body {
   /* For horizontal scrollbar */
 }
 
-/* Hide Horizontal Scrollbar */
-::-webkit-scrollbar:horizontal {
-  display: none;
-  /* Hides horizontal scrollbar */
-}
 
 /* Track */
 ::-webkit-scrollbar-track {
@@ -680,4 +679,8 @@ input[type="number"] {
 
 .animate-scroll:hover {
   animation-play-state: paused;
+}
+
+button:disabled {
+  cursor: not-allowed !important;
 }

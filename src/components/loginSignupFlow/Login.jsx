@@ -14,6 +14,7 @@ import { setUserId, setSigninEmail, setIsNewUser, setkeepMeSignedIn, setHasSubsc
 import { useGoogleLogin } from '@react-oauth/google';
 import CustomDialog from '../common/CustomDialog';
 import LogoutDialog from './LogoutDialog';
+import { LoaderCircle } from 'lucide-react';
 
 const Login = () => {
     const route = useRouter();
@@ -26,7 +27,7 @@ const Login = () => {
     const isChecked = useSelector((state) => state.signInState.keepMeSignedIn);
     const [hasSubscription] = useLazyHasSubscriptionQuery();
 
-    const [signin, { data, isLoading }] = useSigninMutation();
+    const [signin, { isLoading }] = useSigninMutation();
 
     const [switchDevice, { isLoading: switchDeviceLoading }] = useSwitchDeviceMutation();
 
@@ -112,7 +113,7 @@ const Login = () => {
 
         } catch (error) {
             console.error("Error switching device:", error);
-            toast.error( error?.data?.message || "Failed to switch device. Please try again.");
+            toast.error(error?.data?.message || "Failed to switch device. Please try again.");
         }
     };
 
@@ -141,8 +142,9 @@ const Login = () => {
                         <p className='text-sm'>Keep me signed in</p>
                     </div>
 
-                    <SubmitButton disabled={isLoading} className={"w-full mb-[30px] text-md"} onClick={handleSignIn}>
-                        {isLoading ? "Sending..." : "Continue"}
+                    <SubmitButton className={`w-full mb-[30px] text-md`}
+                        onClick={handleSignIn} disabled={isLoading} >
+                        {isLoading ? <LoaderCircle className='animate-spin !h-8 !w-8' /> : "Continue"}
                     </SubmitButton>
 
 

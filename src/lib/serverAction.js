@@ -12,7 +12,6 @@ const MutationRequest = async ({
   if (isTokenRequired) {
     headers.Authorization = `${cookies().get("token")?.value}`;
   }
-  // console.log("Headers:", headers);
 
   try {
     const response = await fetch(`https://revallusion.onrender.com${path}`, {
@@ -20,7 +19,6 @@ const MutationRequest = async ({
       //   headers,
       body,
     });
-    console.log("response", response);
 
     const responseData = await response.json();
     if (!response.ok) {
@@ -43,6 +41,5 @@ export const submitQuery = async (body) => {
     body,
     isTokenRequired: false,
   });
-  console.log(res);
   return res;
 };

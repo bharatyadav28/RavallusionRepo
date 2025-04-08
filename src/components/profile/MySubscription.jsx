@@ -8,7 +8,7 @@ import { useGetSubscriptionDetailQuery } from '@/store/Api/course'
 const MySubscription = () => {
     const { data, isLoading } = useGetSubscriptionDetailQuery();
 
-    return isLoading ? <div className='flex items-center justify-center min-h-[60vh]'><SimpleLoader /></div> :  (
+    return isLoading ? <div className='flex items-center justify-center min-h-[70vh]'><SimpleLoader /></div> :  (
         <div className='pt-4 lg:pt-0'>
             <h2 className='text-lg font-semibold'>My Subscription</h2>
 

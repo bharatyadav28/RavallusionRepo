@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import OTPInput from "../ui/otpInput";
 import { SubmitButton } from "../common/CustomButton";
 import { Button } from "../ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSigninMutation, useSwitchDeviceMutation, useVerifyUserMutation } from "@/store/Api/auth";
 import { toast } from "react-toastify";
@@ -123,8 +123,8 @@ const VerifyOtp = () => {
                     )}
                 </p>
 
-                <SubmitButton className={"w-full rounded-[12px] text-md"} onClick={handleVerifyUser} disabled={!otp || isLoading}>
-                    {isLoading ? "Verifying..." : "Verify OTP"}
+                <SubmitButton className={`w-full rounded-[12px] text-md`} onClick={handleVerifyUser} disabled={!otp || isLoading}>
+                    {isLoading ?<LoaderCircle className='animate-spin !h-8 !w-8' /> : "Verify OTP"}
                 </SubmitButton>
 
 
