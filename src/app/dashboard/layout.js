@@ -1,8 +1,30 @@
+"use client"
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import { useGetUserDetailQuery } from "@/store/Api/auth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DashboardLayout({ children }) {
-  return <section className="md:pt-12 md:px-20 md:pb-2 xl:pt-16 xl:pb-3 xl:px-32 min-h-screen bg-[var(--Surface, #040C19)]">
-    <DashboardNavbar/>
-    {children}
-  </section>;
+  const route = useRouter();
+  const {data} = useGetUserDetailQuery();
+  console.log(data?.data?.user?.hasSubscription);
+  useEffect(()=>{
+    if(!data?.data?.user?.hasSubscription){
+      route.push('/subscription-plan');
+    }
+  },[])
+  return (
+    <div className="min-h-screen bg-[var(--Surface)]">
+      <div className=" md:h-16 xl:h-20" />
+
+      <div className="sticky top-0 z-50 md:px-20 xl:px-32 bg-[var(--Surface)]">
+        <DashboardNavbar />
+      </div>
+
+
+      <div className=" md:px-20 xl:px-32 pb-2">
+        {children}
+      </div>
+    </div>
+  );
 }

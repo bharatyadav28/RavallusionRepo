@@ -7,7 +7,7 @@ import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setPlanId, setPlanPrice, setPlanType } from "@/store/slice/general"
+import { setPlanId, setPlanPrice, setPlanType } from "@/store/slice/general";
 
 const Plans = ({ plans, showSkeleton = false }) => {
   const router = useRouter();

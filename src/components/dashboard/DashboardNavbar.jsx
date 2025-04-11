@@ -326,11 +326,11 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div className="flex flex-col gap-y-1 ">
-        <button className="text-xs text-white flex justify-between items-center hover:bg-gray-700 p-1 rounded-md" onClick={handleClick}>
+        <button className="text-xs text-white flex justify-between items-center rounded-md" onClick={handleClick}>
           {title1} <ArrowRight size={21} />
         </button>
 
-        <button className="text-xs text-white flex justify-between items-center p-1 hover:bg-gray-700 rounded-md" onClick={handleClick}>
+        <button className="text-xs text-white flex justify-between items-center  rounded-md" onClick={handleClick}>
           {title2} <ArrowRight size={21} />
         </button>
       </div>

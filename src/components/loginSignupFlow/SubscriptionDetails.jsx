@@ -142,29 +142,29 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
 
           <div className={`flex justify-between items-center`}>
 
-            <div className="text-center text-xs items-center 2xl:gap-3 2xl:text-sm">
-              <span className="text-[10px] font-bold border-2 py-[3px] 2xl:py-0 px-[5px] rounded-2xl ">
+            <div className="text-center text-xs items-center 2xl:gap-1 2xl:text-sm">
+              <span className="text-[10px] font-bold border-2 py-[3px] 2xl:py-[3px] px-[5px] rounded-2xl ">
                 X 1
               </span>
               <span className='text-[8px] sm:text-[11px] text-center leading-tight block mt-4 max-w-16 lg:max-w-20'>Watch on 1 devices</span>
             </div>
 
-            <div className="flex flex-col text-xs items-center 2xl:gap-3 2xl:text-sm">
+            <div className="flex flex-col text-xs items-center 2xl:gap-1 2xl:text-sm">
               <Check className="border-2 rounded-full p-1" size={"23"} />
               <span className='text-[8px] sm:text-[11px] text-center leading-tight mt-2 max-w-16 lg:max-w-20'>Access to all content</span>
             </div>
 
-            <div className="flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm ">
+            <div className="flex flex-col text-xs items-center 2xl:gap-1 2xl:text-sm ">
               <div className="relative w-fit ">
                 <VideoIcon width={23} />
-                <span className=" absolute inset-0 text-[4.667px] top-[1px] left-[5px] 2xl:text-[5px] 2xl:top-[0.1px]">
+                <span className="absolute inset-0 text-[4.667px] top-[1px] left-[3px] 2xl:text-[5px] 2xl:top-[0.1px]">
                   FHD
                 </span>
               </div>
               <span className='mt-3 text-[8px] sm:mt-3 sm:text-[11px] text-center leading-tight max-w-16 lg:max-w-20'>Standard FHD quality</span>
             </div>
 
-            <div className=" flex flex-col text-xs items-center 2xl:gap-9 2xl:text-sm">
+            <div className=" flex flex-col text-xs items-center 2xl:gap-1 2xl:text-sm">
               <DevicesIcon width={23} />
               <span
                 className="text-[8px] sm:text-[11px] mt-[4px] md:mt-[7px]  text-center break-words leading-tight max-w-[90px] sm:max-w-[110px]">
