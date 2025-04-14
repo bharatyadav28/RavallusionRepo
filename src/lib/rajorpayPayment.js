@@ -24,7 +24,7 @@ export const handleClick = async (planId) => {
 
     let checkoutOptions = {
         paymentSessionId: sessionId,
-        redirectTarget: "_modal",
+        redirectTarget: "_self",
     };
     cashfree.checkout(checkoutOptions).then((result) => {
         if (result.error) {
