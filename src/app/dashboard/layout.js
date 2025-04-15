@@ -6,13 +6,13 @@ import { useEffect } from "react";
 
 export default function DashboardLayout({ children }) {
   const route = useRouter();
-  const {data} = useGetUserDetailQuery();
-  console.log(data?.data?.user?.hasSubscription);
-  useEffect(()=>{
-    if(!data?.data?.user?.hasSubscription){
+  const { data, isLoading } = useGetUserDetailQuery();
+  useEffect(() => {
+  
+    if (!data?.data?.user?.hasSubscription && !isLoading) {
       route.push('/subscription-plan');
     }
-  },[])
+  }, [isLoading,data])
   return (
     <div className="min-h-screen bg-[var(--Surface)]">
       <div className=" md:h-16 xl:h-20" />

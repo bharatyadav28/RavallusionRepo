@@ -1,9 +1,12 @@
+import { SimpleLoader } from '@/components/common/LoadingSpinner'
 import PaymentReceived from '@/components/loginSignupFlow/PaymentReceived'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const page = () => {
   return (
-    <PaymentReceived/>
+    <Suspense fallback={<SimpleLoader />}>
+      <PaymentReceived />
+    </Suspense>
   )
 }
 

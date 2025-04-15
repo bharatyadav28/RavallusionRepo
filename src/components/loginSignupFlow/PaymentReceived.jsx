@@ -1,16 +1,30 @@
 "use client"
 import React, { useEffect } from 'react'
 import { GreenCheck } from '@/lib/svg_icons'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import axios from 'axios'
 
 const PaymentReceived = () => {
   const router = useRouter();
+  const params = useSearchParams();
+  const order_id = params.get('order_id');
 
   useEffect(() => {
-    setTimeout(() => {
-      router.push('/dashboard');
-    },2000)
-  },[])
+    const verifyPayment = async () => {
+      try {
+        const res = await axios.get(`/api/v1/order/cash-free/verify?order_id=${order_id}`);
+        console.log(res);
+        if (res?.data?.success) {
+          router.push('/dashboard');
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+
+    }
+    verifyPayment();
+
+  }, [])
 
   return (
     <div

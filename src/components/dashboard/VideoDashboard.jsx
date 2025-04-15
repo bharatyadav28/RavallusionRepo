@@ -10,7 +10,6 @@ import {
 } from "@/store/Api/introAndBookmark";
 import {
   useGetCourseProgressQuery,
-  useGetVideoProgressQuery,
   useUpdateVideoProgressMutation,
 } from "@/store/Api/videoProgress";
 import {
