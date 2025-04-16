@@ -127,7 +127,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
           {description?.length > 100 && (
             <span
               onClick={handleToggle}
-              className="text-orange-300 cursor-pointer font-semibold"
+              className="text-[var(--yellow)] cursor-pointer font-semibold"
             >
               {isExpanded ? " Read less" : " Read more"}
             </span>
@@ -151,7 +151,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
 };
 
 const TextIconBox = ({ title, icon, onClick }) => (
-  <div onClick={onClick} className='cursor-pointer flex-1 flex items-center justify-center gap-x-4 rounded-[8px] px-5 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]'>
+  <div onClick={onClick} className='bg-[#2C68F626] cursor-pointer flex-1 flex items-center justify-center gap-x-4 rounded-[8px] px-5 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]'>
     <h1 className='text-xs font-semibold'>{title}</h1>
     {icon}
   </div>

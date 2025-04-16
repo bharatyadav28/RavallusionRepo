@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
-import { useAssignmentSubmitMutation, useUploadFileMutation } from '@/store/Api/course';
+import { useAssignmentSubmitMutation, useGetAlreadyAssignmentSubmittedQuery, useUploadFileMutation } from '@/store/Api/course';
 import { LoaderCircle } from 'lucide-react';
 
 const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
@@ -15,8 +15,10 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
   const [timeRemaining, setTimeRemaining] = useState(0);
   const fileInputRef = useRef(null);
   const [submitAssignment, { isLoading }] = useAssignmentSubmitMutation();
+  const { data } = useGetAlreadyAssignmentSubmittedQuery(videoId);
   const [uploadFile] = useUploadFileMutation();
 
+  const alreadyAssignmentSubmitted = data?.data?.hasAlreadySubmitted;
 
   const selectedFile = async (event) => {
     let file;
@@ -59,7 +61,7 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
 
     const interval = setInterval(() => {
       setUploadProgress((prev) => {
-        const newProgress = prev + 10.33; // Increment by 10.33%
+        const newProgress = prev + 10.33;
         if (newProgress >= 95) {
           clearInterval(interval);
           return 95;
@@ -100,17 +102,25 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
 
 
   const handleSubmitAssignment = async () => {
+    console.log(alreadyAssignmentSubmitted);
     if (!filesUrl) {
       toast.error("No files uploaded!");
       return;
     }
-
+    if (alreadyAssignmentSubmitted ) {
+      toast.error("You have already submitted assignment for this video!");
+      setIsAssignmentOpen(false);
+      return;
+    }
     try {
       const res = await submitAssignment({
         videoId,
         submittedFileUrl: filesUrl
       }).unwrap();
-      setIsAssignmentOpen(false);
+      if(res.success){
+        toast.success(res.message);
+        setIsAssignmentOpen(false);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message);
@@ -190,8 +200,9 @@ const SubmitAssignment = ({ setIsAssignmentOpen, videoId }) => {
       }
 
       <div className="flex items-center gap-x-4 justify-end mt-4">
-        <Button variant="outline" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
-        <Button className="bg-[var(--neon-purple)] py-5" onClick={handleSubmitAssignment}>{isLoading ?<LoaderCircle className='animate-spin !h-7 !w-7' /> : 'Submit'}</Button>
+        <Button variant="outline" className="hover:bg-gray-700 hover:text-white py-5" onClick={() => setIsAssignmentOpen(false)}>Cancel</Button>
+
+        <Button className="bg-[var(--neon-purple)] hover:bg-blue-500 py-5" onClick={handleSubmitAssignment}>{isLoading ? <LoaderCircle className='animate-spin !h-7 !w-7' /> : 'Submit'}</Button>
       </div>
     </div >
   );
@@ -218,12 +229,21 @@ const UploadingSimulation = ({ uploadProgress, timeRemaining }) => {
   return (
     <div className='p-4 flex items-center justify-between rounded-xl border border-gray-400'>
 
-      <div>
-        <p className='text-sm font-semibold'>Uploading...</p>
-        <p className='text-[10px] text-gray-300'>{Number(uploadProgress.toFixed(0))}% • {timeRemaining}s remaining</p>
+      <div className='w-[80%]'>
+        <div>
+          <p className='text-sm font-semibold'>Uploading...</p>
+          <p className='text-[10px] text-gray-300'>{Number(uploadProgress.toFixed(0))}% • {timeRemaining}s remaining</p>
+        </div>
+
+        <div className="mt-3 w-full h-2 rounded-full bg-[#0D1117] relative overflow-hidden">
+          <div
+            style={{ width: `${uploadProgress}%` }}
+            className={`h-full bg-[#2C68F6] rounded-full shadow-md transition-all duration-500`}></div>
+        </div>
+
       </div>
 
-      <div className='flex items-center gap-x-1'>
+      <div className='flex items-center gap-x-1 '>
         <RoundPause />
         <RoundCrossFill />
       </div>

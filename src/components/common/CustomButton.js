@@ -29,7 +29,7 @@ export const GlowButton = ({ children, ...props }) => {
 export const SubmitButton = ({ children, disabled, ...props }) => {
   const { className, onClick } = props;
 
-  const classes = cn(` submit-btn text-base py-6 text-lg`, className);
+  const classes = cn(`submit-btn text-base py-6 text-lg`, className);
   return (
     <CustomButton
       {...props}

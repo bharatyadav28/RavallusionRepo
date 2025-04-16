@@ -126,7 +126,7 @@ const SubmitAssignmentCard = ({ isCompleted, percentageWatched, videoId, score, 
                 }
                 {
                     ongoing && (
-                        <p className='text-[11px] text-yellow-200'>Ongoing</p>
+                        <p className='text-[11px] text-[var(--yellow)]'>Ongoing</p>
 
                     )
                 }

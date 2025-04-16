@@ -21,6 +21,9 @@ export const courseApi = createApi({
             }),
             invalidatesTags: (result) => [{ type: "assignment", id: "LIST" }],
         }),
+        getAlreadyAssignmentSubmitted: builder.query({
+            query: (videoId) => `submitted-assignment/already-submitted/video/${videoId}`,
+        }),
         uploadFile: builder.mutation({
             query: (body) => ({
                 url: "submitted-assignment/upload-answer",
@@ -50,5 +53,5 @@ export const courseApi = createApi({
     }),
 })
 
-export const { useGetSearchedVideosQuery,useLazyGetSearchedVideosQuery,useGetSubmittedAssignmetQuery, useGetSubscribedPlanCourseQuery,
+export const {useGetAlreadyAssignmentSubmittedQuery,useGetSearchedVideosQuery,useLazyGetSearchedVideosQuery,useGetSubmittedAssignmetQuery, useGetSubscribedPlanCourseQuery,
     useGetSubscriptionDetailQuery, useAssignmentSubmitMutation, useUploadFileMutation } = courseApi;

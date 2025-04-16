@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCreateCommentMutation, useGetVideoCommentsQuery } from '@/store/Api/comments';
 import { toast } from 'react-toastify';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 
 const Comments = ({ videoId }) => {
@@ -36,14 +37,14 @@ const Comments = ({ videoId }) => {
 
             <div className='relative my-4'>
                 <Input
-                   
+
                     type="text"
                     value={commentBody}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             handleCreateComment();
                         }
-                      
+
                     }}
                     onChange={(e) => {
                         setCommentBody(e.target.value);
@@ -54,7 +55,7 @@ const Comments = ({ videoId }) => {
                 </div>
             </div>
 
-            <div className='flex flex-col gap-y-4 h-28 overflow-y-scroll'>
+            <div className='flex flex-col gap-y-4 h-40 overflow-y-scroll'>
                 {
                     [...comments].reverse().map((items, i) => (
                         <Comment
@@ -103,19 +104,19 @@ const Comment = ({ comment, reply, userName, avatar }) => {
 
                 <div>
                     <p className="text-[10px] text-gray-300">{userName}</p>
-                    <p className="text-xs mb-1 font-semibold">{comment}</p>
+                    <p className="text-xs mb-2 font-semibold">{comment}</p>
 
                     <div className='flex gap-x-3'>
 
                         {
                             reply &&
                             (
-                                <div className="flex items-center gap-x-3">
+                                <div className="flex items-center gap-x-4 ">
                                     <p
                                         className="text-[var(--neon-purple)] text-[10px] font-semibold cursor-pointer"
                                         onClick={toggleReplies}
                                     >
-                                        {showReplies ? "Hide Replies" : `View Replies`}
+                                        {showReplies ? <span className='flex items-center gap-x-1'> Hide Replies <ChevronUp className='w-4 h-4' /></span> : <span className='flex items-center gap-x-1'> Show Replies <ChevronDown className='w-4 h-4' /></span>}
                                     </p>
                                 </div>
                             )
@@ -133,7 +134,7 @@ const Comment = ({ comment, reply, userName, avatar }) => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
                         transition={{ duration: 0.4 }}
-                        className=" mt-2 overflow-hidden"
+                        className="ml-8 mt-2 overflow-hidden"
                     >
                         <div className="flex gap-x-2 mb-2">
                             <div className="w-8 h-8 rounded-full bg-red-300 relative">
@@ -156,7 +157,7 @@ const Comment = ({ comment, reply, userName, avatar }) => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </div >
     );
 };
 

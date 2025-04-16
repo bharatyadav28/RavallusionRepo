@@ -39,7 +39,7 @@ const EditInfo = ({ label, content, onClick, onSave, type = 'text', isLoading })
                 <div className='flex items-center gap-x-20'>
 
                     <Button className="px-7 py-6 w-full border border-gray-500 hover:bg-gray-700 font-semibold" onClick={onClick}>Cancel</Button>
-                    <Button className="hover:bg-[var(--neon-purple)] px-7 py-6 bg-purple-400 w-full font-semibold " onClick={handleSave}>{isLoading ? "Updating..." : "Save"}</Button>
+                    <Button className="hover:bg-[var(--neon-purple)] px-7 py-6 glow-btn w-full font-semibold " onClick={handleSave}>{isLoading ? "Updating..." : "Save"}</Button>
 
                 </div>
 

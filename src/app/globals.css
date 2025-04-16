@@ -49,7 +49,9 @@ body {
 
 /* Thumb (draggable part) */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #C99BFD, #5b099b);
+  /* background: linear-gradient(180deg, #C99BFD, #5b099b); */
+  background: linear-gradient(180deg, #2C68F6, #47b4ea);
+
   border-radius: 10px;
 }
 
@@ -93,11 +95,13 @@ body {
 
     --main-purple: #5b099b;
     --button-bg: #a37fff26;
-    --neon-purple: rgb(201, 155, 253);
+    /* --neon-purple: rgb(201, 155, 253); */
+    --neon-purple: #2C68F6;
     --light-gray: rgba(255, 255, 255, 0.8);
     --card: rgba(24, 31, 43, 1);
     --light-black: rgba(39, 45, 57, 1);
-    --yellow: #feb179;
+    /* --yellow: #feb179; */
+    --yellow: #FFEA47;
     --input: #171931;
     --navy-blue: #091528;
     --Surface: #040C19;
@@ -157,31 +161,27 @@ body {
 .glow-btn,
 .glow-btn:hover {
   border: none;
-  background: radial-gradient(306.84% 52% at 90.34% 67.19%,
-      rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0) 100%),
-    radial-gradient(66.48% 68.75% at 50% 31.25%,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 100%),
-    radial-gradient(89.09% 55.97% at 31.25% 76.56%,
-      rgba(255, 255, 255, 0.22) 0%,
-      rgba(255, 255, 255, 0.04) 100%),
-    radial-gradient(102.67% 97.22% at 35.23% 0%,
-      #c243fe 0%,
-      rgba(182, 47, 246, 0.12) 100%),
-    radial-gradient(105.19% 147.56% at 43.75% -31.25%,
-      rgba(170, 34, 156, 0.92) 24.16%,
-      rgba(162, 95, 248, 0.89) 84.89%),
-    #5b099b;
-  /* box-shadow: 0px 0px 500px 0px rgba(255, 255, 255, 0.4) inset; */
-  filter: drop-shadow(0px 3px 6px rgba(125, 20, 208, 0.8)) drop-shadow(0px 6px 3px rgba(218, 37, 156, 0.3)) drop-shadow(-5px -5px 7px rgba(102, 67, 242, 0.25));
+  background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 100%),
+    linear-gradient(135deg, #2C68F6 0%, #8574F6 100%),
+    linear-gradient(135deg, #8574F6 24.16%, #2C68F6 84.89%),
+    #2C68F6;
+
+  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.40) inset;
+  filter: 
+    drop-shadow(0px 3px 6px rgba(77, 74, 232, 0.8)) 
+    drop-shadow(0px 6px 3px rgba(53, 109, 221, 0.3)) 
+    drop-shadow(-5px -5px 7px rgba(56, 106, 177, 0.25));
 }
+
 
 .glow-btn:hover {
-  filter: drop-shadow(0px 4px 8px rgba(125, 20, 208, 0.6)) drop-shadow(0px 8px 4px rgba(218, 37, 156, 0.25)) drop-shadow(-6px -6px 12px rgba(102, 67, 242, 0.3));
+  filter: drop-shadow(0px 3px 6px rgba(44, 104, 246, 0.8)) drop-shadow(0px 6px 3px rgba(44, 104, 246, 0.3)) drop-shadow(-5px -5px 7px rgba(56, 106, 177, 0.25));
 }
 
-.submit-btn {
+/* .submit-btn {
   background: radial-gradient(306.84% 52% at 90.34% 67.19%,
       rgba(255, 255, 255, 0.2) 0%,
       rgba(255, 255, 255, 0) 100%),
@@ -198,10 +198,24 @@ body {
       rgba(170, 34, 156, 0.92) 24.16%,
       rgba(162, 95, 248, 0.89) 84.89%),
     #5b099b;
+} */
+.submit-btn {
+  background:
+    radial-gradient(circle at 10% 50%, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 60%),
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%),
+    radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 100%),
+    linear-gradient(to right, #2C68F6 0%, #8574F6 100%),
+    linear-gradient(to right, #8574F6 24.16%, #2C68F6 84.89%),
+    #2C68F6;
 }
 
-.submit-btn:hover {
+/* .submit-btn:hover {
   filter: drop-shadow(0px 10px 15px rgba(125, 20, 208, 0.8)) drop-shadow(0px 10px 5px rgba(218, 37, 156, 0.3)) drop-shadow(-10px -10px 15px rgba(102, 67, 242, 0.25));
+
+  transition: all 0.2s;
+} */
+.submit-btn:hover {
+  filter: drop-shadow(0px 10px 15px rgba(44, 104, 246, 0.8)) drop-shadow(0px 10px 5px rgba(218, 37, 156, 0.3)) drop-shadow(-10px -10px 15px rgba(102, 67, 242, 0.25));
 
   transition: all 0.2s;
 }
@@ -370,7 +384,7 @@ body {
   background: linear-gradient(to right,
       rgba(255, 255, 255, 0.05) 0%,
       rgba(255, 255, 255, 0.05) 20%,
-      rgba(201, 155, 253, 0.53) 50%,
+      rgba(44, 104, 246, 0.53) 50%,
       rgba(255, 255, 255, 0.05) 80%,
       rgba(255, 255, 255, 0.05)),
     linear-gradient(to top,
@@ -533,7 +547,7 @@ body {
 .plans-card:hover {
 
   background: linear-gradient(167deg,
-      rgba(194, 67, 254, 0.2) 18.5%,
+      rgba(7, 58, 226, 0.2) 18.5%,
       rgba(17, 24, 37, 0.2) 51.78%),
     #131a26;
 }
@@ -565,7 +579,7 @@ body {
 }
 
 .certificate {
-  background: linear-gradient(to top, var(--yellow), #30333b, #181f2b);
+  background: linear-gradient(to top, #2c69f6c3, #30333b, #181f2b);
 }
 
 

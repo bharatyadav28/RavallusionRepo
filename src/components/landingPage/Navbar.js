@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { CustomButton } from "../common/CustomButton";
 import { User } from "lucide-react";
+import Image from "next/image";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (
@@ -8,21 +10,22 @@ const Navbar = () => {
       <div className="h-[0.5px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div>
       <nav className="p-5 w-full flex justify-between items-center backdrop-blur-lg navbar  z-10">
         <Link href="/">
-          <i className="text-2xl 2xl:text-3xl font-medium">Ravallusion</i>
+          {/* <i className="text-2xl 2xl:text-3xl font-medium">Ravallusion</i> */}
+          <div className="w-12 h-12 relative">
+            <Image src="/logo.png" alt="logo" fill className="object-contain" />
+          </div>
         </Link>
 
         <Link href={'/login'}>
-          <CustomButton className="mr-5 py-5 px-6 text-base 2xl:text-xl !m-0"
-            style={{
-              background: "linear-gradient(0deg, rgba(163, 127, 255, 0.15) 0%, rgba(163, 127, 255, 0.15) 100%), #030A14"}}
+          <Button variant="default" className="hover:bg-gray-700 bg-[#2C68F626] border-2 border-[var(--neon-purple)] mr-5 py-5 px-6 text-base 2xl:text-xl rounded-xl"
           >
-          <User className=" !w-[19px] !h-[19px]" />
-          <span className="hidden md:block text-sm font-semibold">Login</span>
-        </CustomButton>
-      </Link>
+            <User className=" !w-[19px] !h-[19px]" />
+            <span className="hidden md:block text-sm font-semibold">Login</span>
+          </Button>
+        </Link>
 
-    </nav>
-      {/* <div className="h-[1px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div> */ }
+      </nav>
+      {/* <div className="h-[1px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div> */}
     </div >
   );
 };

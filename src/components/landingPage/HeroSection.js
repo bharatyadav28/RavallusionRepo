@@ -28,7 +28,7 @@ const HeroSection = ({ data }) => {
           {data?.description}
         </p>
 
-        <GlowButton className="text-lg 2xl:text-2xl mt-4 px-14 2xl:px-16 py-7 2xl:py-8 w-40">
+        <GlowButton className="text-lg 2xl:text-2xl mt-4 px-14 2xl:px-16 py-7 2xl:py-8 w-40 hover:scale-110">
           <Link href={'/login'}>
             Enroll Now
           </Link>

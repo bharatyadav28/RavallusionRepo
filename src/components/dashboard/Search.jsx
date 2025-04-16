@@ -4,7 +4,7 @@ import React from 'react';
 import VideoCard from './VideoCard';
 import { useSearchParams } from 'next/navigation';
 import SkeletonVideoCard from './SkeletonVideoCard';
-import { MessageSquareWarning } from 'lucide-react';
+import { MessageSquareWarning, SearchCheckIcon, SearchIcon } from 'lucide-react';
 
 
 const Search = () => {
@@ -49,15 +49,20 @@ const Search = () => {
             {
                 filteredData.length <= 0 && (
                     <div className="flex justify-center items-center min-h-[60vh] col-span-12">
-                        <div className="flex flex-col items-center text-center justify-center gap-3 p-5 bg-[var(--card)] rounded-2xl shadow-lg">
-                            <h5 className="text-2xl font-bold text-[var(--neon-purple)] animate-pulse">
-                                No Results Found
-                            </h5>
-                            <p className="text-sm text-gray-400 max-w-md">
-                                We couldn’t find any videos matching your search. Try using different keywords or exploring other modules.
-                            </p>
-                        </div>
+                    <div className="flex flex-col items-center text-center gap-4 p-8 rounded-3xl bg-[var(--card)] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-md border border-[rgba(255,255,255,0.1)]">
+                      <div className="p-4 bg-[rgba(138,43,226,0.1)] rounded-full animate-pulse">
+                        <SearchIcon className="w-14 h-14  text-red-500" />
+                      </div>
+                      <h5 className="text-2xl font-semibold text-[var(--neon-purple)] ">
+                        No Results Found
+                      </h5>
+                      <p className="text-sm text-gray-400 max-w-md">
+                        We couldn’t find any videos matching your search.<br />
+                        Try different keywords or explore other modules.
+                      </p>
                     </div>
+                  </div>
+                  
 
                 )
             }

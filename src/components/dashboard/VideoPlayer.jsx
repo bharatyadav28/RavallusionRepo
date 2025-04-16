@@ -509,7 +509,7 @@ const VideoPlayer = ({
 
     const progressBar = progressRef.current;
     if (progressBar) {
-      const progressColor = `linear-gradient(to right, #CAA257 ${progressPercentage + 0.1
+      const progressColor = `linear-gradient(to right, #2C68F6 ${progressPercentage + 0.1
         }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
       progressBar.style.background = progressColor;
     }
@@ -910,7 +910,7 @@ const VideoPlayer = ({
                   type="range"
                   className="volume-track"
                   style={{
-                    background: `linear-gradient(to right, #CAA257 ${volume * 100
+                    background: `linear-gradient(to right, #2C68F6 ${volume * 100
                       }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
                   }}
                   min={0}

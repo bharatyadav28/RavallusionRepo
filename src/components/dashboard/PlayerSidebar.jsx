@@ -122,7 +122,7 @@ const ActionCard = ({ icon, isActive, onClick }) => {
       style={{
         background: isActive ? "var(--neon-purple)" : "var(--card, #181F2B)",
         backgroundImage:
-          isActive && "linear-gradient(180deg, #C99BFD 0%, #8574F6 100%)",
+          isActive && "linear-gradient(150deg, #2C68F6 0%, #8574F6 100%)",
       }}
     className="hover:!bg-gray-800 py-4 h-14 flex-grow rounded-lg flex items-center justify-center cursor-pointer"
     >

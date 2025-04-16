@@ -207,7 +207,7 @@
 .bottom-controls button:hover,
 .bottom-controls button.active {
   outline: none;
-  background-color: #CAA257 !important;
+  background-color: #2C68F6 !important;
 }
 
 
@@ -359,7 +359,7 @@
   height: 15px;
   width: 15px;
   cursor: pointer;
-  background-color: #CAA257;
+  background-color: #2C68F6;
   border-radius: 50%;
   border: 2px solid #fff;
   transition: .2s ease-in-out;
@@ -372,7 +372,7 @@
 .track-range::-moz-range-thumb {
   height: 15px;
   width: 15px;
-  background-color: #CAA257;
+  background-color: #2C68F6;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid #fff;
@@ -445,7 +445,7 @@
   appearance: none;
   width: 12px;
   height: 12px;
-  background-color: #CAA257;
+  background-color: #2C68F6;
   border: 1px solid #fff;
   border-radius: 50%;
   cursor: pointer;
@@ -458,7 +458,7 @@
 .volume-track::-moz-range-thumb {
   width: 12px;
   height: 12px;
-  background-color: #CAA257;
+  background-color: #2C68F6;
   border: 1px solid #fff;
   border-radius: 50%;
   cursor: pointer;

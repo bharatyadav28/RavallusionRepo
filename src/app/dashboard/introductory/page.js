@@ -3,6 +3,7 @@ import SkeletonVideoCard from '@/components/dashboard/SkeletonVideoCard'
 import VideoCard from '@/components/dashboard/VideoCard'
 import { useGetIntroductoryQuery } from '@/store/Api/introAndBookmark'
 import { setIntroductoryVideoscount } from '@/store/slice/general'
+import { MonitorPlay } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -37,7 +38,7 @@ const Introductory = () => {
     <>
       {/* Introductory Videos List */}
       <div className='py-4 px-4 md:px-0 lg:mt-3 grid grid-cols-12 gap-4'>
-        {introductoryVideos.length > 0 ? (
+        {introductoryVideos.length < 0 ? (
           introductoryVideos.map((item) => (
             <VideoCard
               key={item?._id}
@@ -52,15 +53,19 @@ const Introductory = () => {
           ))
         ) : (
           <div className="flex justify-center items-center min-h-[60vh] col-span-12">
-            <div className="flex flex-col items-center text-center justify-center gap-3 p-5 bg-[var(--card)] rounded-2xl shadow-lg">
-              <h5 className="text-2xl font-bold text-[var(--neon-purple)] animate-pulse">
+            <div className="flex flex-col items-center text-center justify-center gap-4 px-6 py-8 bg-[var(--card)] rounded-3xl shadow-xl border border-white/10 backdrop-blur-md">
+              <div className="p-4 bg-[rgba(138,43,226,0.1)] rounded-full animate-pulse">
+                <MonitorPlay className='w-16 h-16 text-red-500' />
+              </div>
+              <h5 className="text-2xl font-semibold text-[var(--neon-purple)]">
                 No Introductory Videos Found
               </h5>
-              <p className="text-sm text-gray-400 max-w-md text-center">
-                Please check back later or explore other available modules to begin.
+              <p className="text-sm text-gray-400 max-w-md">
+                Please check back later or explore other available modules to begin your learning journey.
               </p>
             </div>
           </div>
+
 
         )}
       </div>

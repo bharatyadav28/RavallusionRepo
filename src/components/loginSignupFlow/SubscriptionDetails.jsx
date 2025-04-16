@@ -49,7 +49,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
           {
             !dropdown && (
               <div className='flex gap-2 items-center'>
-                <span className='text-orange-300 text-sm'>{courseType}</span>
+                <span className='text-[var(--yellow)] text-sm'>{courseType}</span>
                 <span className='text-xs'>•</span>
                 <span className='text-sm'>₹{price}</span>
               </div>
@@ -115,7 +115,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
           <div className='flex justify-between items-center'>
             <div>
               <p className='text-[12px]'>Current plan</p>
-              <h2 className='text-orange-300 text-lg md:text-2xl font-semibold'>{profile && planType || courseType}</h2>
+              <h2 className='text-[var(--yellow)] text-lg md:text-2xl font-semibold'>{profile && planType || courseType}</h2>
             </div>
 
             <div>

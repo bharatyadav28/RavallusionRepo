@@ -1,4 +1,5 @@
 import LandingContainer from "@/components/common/LandingContainer";
+import ContactCard from "@/components/landingPage/ContactCard";
 import ContactForm from "@/components/landingPage/ContactForm";
 import StaticHeader from "@/components/landingPage/StaticHeader";
 
@@ -27,7 +28,10 @@ const ContactUsPage = () => {
         heading={heading}
         className="!pt-32 md:!pt-24 md:!pb-0"
       />
-      <ContactForm />
+      <div className="flex-col-reverse xl:flex-row flex gap-y-8 xl:gap-x-12 items-start mt-8 ">
+        <ContactCard />
+        <ContactForm />
+      </div>
     </LandingContainer>
   );
 };

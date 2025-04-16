@@ -27,12 +27,13 @@ const CourseModuleList = ({ course, playingVideoId, setPlayingVideoId, isLoading
                                 title={items.name} videoCount={items.videoCount || 0} submodules={items.submodules} img={items.thumbnailUrl} key={i} />
                         ))) : (
                             <div className="flex flex-col items-center justify-center gap-y-4 h-40 px-5 text-center rounded-xl shadow-lg">
-                                <h3 className="text-lg font-semibold text-red-500">No Plan Found 😢</h3>
+                                <span className="animate-pulse text-4xl">😢</span>
+                                <h3 className="text-lg font-semibold text-red-500">Plan not Found</h3>
                                 <p className="text-sm text-gray-400">
                                     You don&apos;t have access to this course. Please purchase a valid plan to continue.
                                 </p>
                                 <Link href="/subscription-plan">
-                                    <CustomButton className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 px-5 py-2 rounded-lg text-white font-semibold">
+                                    <CustomButton className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-600 hover:to-blue-400 px-5 py-2 rounded-lg text-white font-semibold">
                                         Buy a Plan
                                     </CustomButton>
                                 </Link>
@@ -124,9 +125,8 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
     return (
         <div className="flex flex-col gap-y-2">
             {/* module heading */}
-
             <div
-                style={{ background: "linear-gradient(180deg, rgba(201, 155, 253, 0.49) 0%, rgba(133, 116, 246, 0.49) 100%)" }}
+                style={{ background: "linear-gradient(140deg, rgba(44, 104, 246, 0.49) 0%, rgba(133, 116, 246, 0.49) 100%)" }}
                 className="flex gap-x-2 items-center cursor-pointer px-3 py-2"
             >
                 <div className="rounded-lg w-16 h-12 relative">
@@ -139,8 +139,8 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
                 </div>
 
                 <div className="flex-grow">
-                    <h1 className="text-xs font-normal mb-1 ">{title}</h1>
-                    <p className="text-[8px]">{videoCount} videos</p>
+                    <h1 className="text-xs font-semibold mb-1 ">{title}</h1>
+                    <p className="text-xs">{videoCount} videos</p>
                 </div>
 
                 <button
@@ -181,8 +181,8 @@ const CourseCardExpand = ({ title, img, videoCount, submodules, onCollapse, setP
                                     </div>
 
                                     <div className="flex-grow w-32">
-                                        <h1 className="text-xs mb-1">{item.name}</h1>
-                                        <p className="text-[8px] text-gray-300 ">{item.videoCount || 0} videos</p>
+                                        <h1 className="text-xs font-semibold mb-1">{item.name}</h1>
+                                        <p className="text-xs text-gray-300 ">{item.videoCount || 0} videos</p>
                                     </div>
 
                                     <button

@@ -8,6 +8,7 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "@/lib/svg_icons";
+import Image from "next/image";
 import Link from "next/link";
 
 const socialHandles = [
@@ -74,9 +75,15 @@ const Footer = () => {
         <div className="flex flex-col gap-5 w-screen sm:w-[30rem] 2xl:!w-[33rem]">
           <div>
             {/* Logo */}
-            <i className="text-3xl 2xl:text-4xl font-medium mb-2">
-              Ravallusion Logo
-            </i>
+            <div className="flex items-center gap-x-3 mb-2">
+              <div className="w-12 h-12 relative">
+                <Image src="/logo.png" alt="logo" fill className="object-contain" />
+              </div>
+              <h3 className="text-2xl 2xl:text-4xl font-semibold">
+                Ravallusion Academy
+              </h3>
+            </div>
+
             <div className="text-lg 2xl:text-xl">
               Join thousands of creators enhancing their storytelling with our
               expert-led courses.
@@ -84,7 +91,7 @@ const Footer = () => {
           </div>
           <div className="flex gap-3">
             {socialHandles.map((item, index) => (
-              <Link 
+              <Link
                 key={index}
                 href={item.link}
                 className="w-10 h-10 bg-white/10 rounded-full flex justify-center items-center hover:scale-110"

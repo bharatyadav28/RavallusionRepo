@@ -105,7 +105,9 @@ const DashboardNavbar = () => {
 
         </div>
       ) :
-        (<h1 className='text-2xl italic font-bold'>Ravallusion</h1>)
+        (<div className="w-12 h-12 relative">
+          <Image src="/logo.png" alt="logo" fill className="object-contain" />
+        </div>)
       }
 
       <div className='flex gap-x-2 items-center'>
@@ -284,7 +286,7 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
           </div>
 
           {introductory ? (
-            <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">
+            <span className="text-[9px] text-[var(--yellow)] rounded-sm bg-[#7b40006e] px-2 py-[1px] ml-2">
               Free
             </span>
           ) : (

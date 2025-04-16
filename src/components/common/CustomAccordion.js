@@ -25,12 +25,12 @@ const CustomAccordion = ({ list }) => {
             <div className="max-w-[92%]"> {item.title}</div>
             <Plus
               size={17}
-              color="rgba(254, 177, 121, 1)"
+              color="var(--yellow)"
               className=" accordion-plus duration-1000"
             />
             <Minus
               size={17}
-              color="rgba(254, 177, 121, 1)"
+              color="var(--yellow)"
               className=" accordion-minus duration-1000"
             />
           </AccordionTrigger>

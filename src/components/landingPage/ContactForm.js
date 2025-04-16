@@ -82,105 +82,106 @@ const ContactForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 sm:gap-5 sm:py-[3.75rem] md:pt-[1.3rem] w-full sm:w-[80%] md:w-[50rem] "
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 ">
-        <TextInput
-          label="Your First Name"
-          id="first_name"
-          placeholder="First Name"
-          icon={userIcon}
-          required={true}
-          value={formInputs.first_name}
-          onChange={(data) =>
-            setFormInputs({ ...formInputs, first_name: data })
-          }
-        />
-        <TextInput
-          label="Your Last Name"
-          id="last_name"
-          placeholder="Last Name"
-          icon={userIcon}
-          required={true}
-          value={formInputs.last_name}
-          onChange={(data) => setFormInputs({ ...formInputs, last_name: data })}
-        />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <TextInput
-          label="Your Email Name"
-          id="email"
-          type={"email"}
-          placeholder="Email address"
-          icon={emailIcon}
-          required={true}
-          value={formInputs.email}
-          onChange={(data) => setFormInputs({ ...formInputs, email: data })}
-        />
-        <TextInput
-          type={'number'}
-          label="Your Phone Number"
-          id="phone_no"
-          placeholder="Phone number"
-          icon={indiaFlag}
-          required={true}
-          value={formInputs.mobile}
-          onChange={handleMobileChange}
-        />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 sm:gap-5 w-full sm:w-[80%] md:w-[40rem] "
+      >
+        <h1 className='text-4xl font-semibold text-white hidden xl:block'>Any Queries?</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 ">
+          <TextInput
+            label="Your First Name"
+            id="first_name"
+            placeholder="First Name"
+            icon={userIcon}
+            required={true}
+            value={formInputs.first_name}
+            onChange={(data) =>
+              setFormInputs({ ...formInputs, first_name: data })
+            }
+          />
+          <TextInput
+            label="Your Last Name"
+            id="last_name"
+            placeholder="Last Name"
+            icon={userIcon}
+            required={true}
+            value={formInputs.last_name}
+            onChange={(data) => setFormInputs({ ...formInputs, last_name: data })}
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <TextInput
+            label="Your Email Name"
+            id="email"
+            type={"email"}
+            placeholder="Email address"
+            icon={emailIcon}
+            required={true}
+            value={formInputs.email}
+            onChange={(data) => setFormInputs({ ...formInputs, email: data })}
+          />
+          <TextInput
+            type={'number'}
+            label="Your Phone Number"
+            id="phone_no"
+            placeholder="Phone number"
+            icon={indiaFlag}
+            required={true}
+            value={formInputs.mobile}
+            onChange={handleMobileChange}
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        <CustomCombobox
-          label={"Your Profession"}
-          id={"profession"}
+          <CustomCombobox
+            label={"Your Profession"}
+            id={"profession"}
+            required={true}
+            icon={professionIcon}
+            value={formInputs.profession}
+            onChange={(data) => setFormInputs({ ...formInputs, profession: data })}
+          />
+
+          <TextInput
+            label="Your Address"
+            id="address"
+            placeholder="Address"
+            icon={locationIcon}
+            value={formInputs.address}
+            onChange={(data) => setFormInputs({ ...formInputs, address: data })}
+          />
+
+
+        </div>
+        <UploadInput
+          placeholder="Upload file"
+          icon={uploadIcon}
+          label="Upload Your File(JPG, PNG, PDF and Etc..)"
+          id="upload-file"
+          value={formInputs.file?.name || "Upload file"}
+          onChange={(data) => setFormInputs({ ...formInputs, file: data })}
+        />
+        <TextArea
+          label="Message"
+          id="message"
+          placeholder="Leave us a message..."
           required={true}
-          icon={professionIcon}
-          value={formInputs.profession}
-          onChange={(data) => setFormInputs({ ...formInputs, profession: data })}
+          rows={3}
+          value={formInputs.message}
+
+          onChange={(data) => setFormInputs({ ...formInputs, message: data })}
         />
-
-        <TextInput
-          label="Your Address"
-          id="address"
-          placeholder="Address"
-          icon={locationIcon}
-          value={formInputs.address}
-          onChange={(data) => setFormInputs({ ...formInputs, address: data })}
+        <CheckBoxInput
+          label="You agree to our friendly privacy policy."
+          id="privacy"
+          required={true}
+          checked={formInputs.privacy}
+          onChange={(data) => setFormInputs({ ...formInputs, privacy: data })}
         />
-
-
-      </div>
-      <UploadInput
-        placeholder="Upload file"
-        icon={uploadIcon}
-        label="Upload Your File(JPG, PNG, PDF and Etc..)"
-        id="upload-file"
-        value={formInputs.file?.name || "Upload file"}
-        onChange={(data) => setFormInputs({ ...formInputs, file: data })}
-      />
-      <TextArea
-        label="Message"
-        id="message"
-        placeholder="Leave us a message..."
-        required={true}
-        rows={3}
-        value={formInputs.message}
-        
-        onChange={(data) => setFormInputs({ ...formInputs, message: data })}
-      />
-      <CheckBoxInput
-        label="You agree to our friendly privacy policy."
-        id="privacy"
-        required={true}
-        checked={formInputs.privacy}  
-        onChange={(data) => setFormInputs({ ...formInputs, privacy: data })}
-      />
-      <SubmitButton className="!mt-[8px] text-base !py-5">
-        Submit {isLoading && <LoadingSpinner />}
-      </SubmitButton>
-    </form >
+        <SubmitButton className="!mt-[8px] text-base !py-5">
+          Submit {isLoading && <LoadingSpinner />}
+        </SubmitButton>
+      </form >
   );
 };
 

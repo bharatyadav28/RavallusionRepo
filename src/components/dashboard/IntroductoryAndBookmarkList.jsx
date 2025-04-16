@@ -221,7 +221,7 @@ export const LessonCard = ({
 
 
         {isplaying && (
-          <span className="absolute font-semibold text-orange-300 text-[10px] bottom-2 left-1 flex gap-x-1 items-center">
+          <span className="absolute font-semibold text-[var(--yellow)] text-[10px] bottom-2 left-1 flex gap-x-1 items-center">
             <span>
               <OrangePlay />
             </span>{" "}
@@ -232,7 +232,7 @@ export const LessonCard = ({
         {/* Progress Bar */}
         <div className="absolute rounded-t-xl z-50 bottom-0 w-full h-[6px] bg-gray-300 rounded-full mt-1 overflow-hidden">
           <div
-            className="h-full bg-orange-300"
+            className="h-full bg-[var(--yellow)]"
             style={{
               width: `${progress}%`,
             }}
@@ -244,7 +244,7 @@ export const LessonCard = ({
       <div className="flex-grow w-32">
         <h1 className="text-xs font-normal mb-1 truncate whitespace-nowrap">
           {isplaying ? (
-            <span className="text-sm text-orange-300">Opening file</span>
+            <span className="text-sm font-medium text-[var(--yellow)]">Opening file</span>
           ) : (
             title
           )}

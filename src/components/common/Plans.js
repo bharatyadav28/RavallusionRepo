@@ -72,7 +72,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
         </>
       )}
 
-      <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
 
         <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
@@ -165,7 +165,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
               <h1 className="text-xl 2xl:text-2xl font-semibold">
                 &#8377; {plans[1].inr_price}
               </h1>
-              <div className="text-[10px] 2xl:text-sm text-[#D8D8D8] group-hover:text-white font-semibold ">
+              <div className="text-[10px] 2xl:text-sm text-white group-hover:text-white font-semibold ">
                 {getValidity(plans[1].validity)}
               </div>
             </div>
