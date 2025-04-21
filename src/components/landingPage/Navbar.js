@@ -17,7 +17,8 @@ const Navbar = () => {
         </Link>
 
         <Link href={'/login'}>
-          <Button variant="default" className="hover:bg-gray-700 bg-[#2C68F626] border-2 border-[var(--neon-purple)] mr-5 py-5 px-6 text-base 2xl:text-xl rounded-xl"
+          <Button variant="default"
+            className="primary-btn bg-transparent border-2 border-[var(--neon-purple)] mr-5 py-5 px-6 text-base 2xl:text-xl rounded-xl"
           >
             <User className=" !w-[19px] !h-[19px]" />
             <span className="hidden md:block text-sm font-semibold">Login</span>

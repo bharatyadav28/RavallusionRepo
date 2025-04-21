@@ -23,6 +23,9 @@ body {
   width: 100%;
 } */
 
+.primary-btn:hover {
+  background: linear-gradient(to bottom, transparent, #1e3a8a) !important;
+}
 
 .my-subscription::-webkit-scrollbar {
   display: none;
@@ -53,11 +56,6 @@ body {
   background: linear-gradient(180deg, #2C68F6, #47b4ea);
 
   border-radius: 10px;
-}
-
-/* Thumb on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #8c52ff;
 }
 
 
@@ -161,7 +159,7 @@ body {
 .glow-btn,
 .glow-btn:hover {
   border: none;
-  background: 
+  background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%),
     linear-gradient(to right, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.00) 100%),
     linear-gradient(to right, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.04) 100%),
@@ -170,10 +168,8 @@ body {
     #2C68F6;
 
   box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.40) inset;
-  filter: 
-    drop-shadow(0px 3px 6px rgba(77, 74, 232, 0.8)) 
-    drop-shadow(0px 6px 3px rgba(53, 109, 221, 0.3)) 
-    drop-shadow(-5px -5px 7px rgba(56, 106, 177, 0.25));
+  filter:
+    drop-shadow(0px 3px 6px rgba(77, 74, 232, 0.8)) drop-shadow(0px 6px 3px rgba(53, 109, 221, 0.3)) drop-shadow(-5px -5px 7px rgba(56, 106, 177, 0.25));
 }
 
 
@@ -553,7 +549,7 @@ body {
 }
 
 .vinod-card {
-  background-image: linear-gradient(to top, var(--yellow), #30333b, #181f2b);
+  background-image: linear-gradient(to top, #ffea47b2, #30333b, #181f2b);
 }
 
 .featured::before {

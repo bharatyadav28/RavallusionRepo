@@ -53,7 +53,7 @@ const ModuleSection = ({ modules, curriculum }) => {
                 following modules in depth.
               </div>
             </div>
-            <CustomButton className="!p-5 !py-7 !text-base 2xl:!text-lg !rounded-xl" onClick={handleDownload} download>
+            <CustomButton className="!p-5 !py-7 !text-base 2xl:!text-lg !rounded-xl primary-btn" onClick={handleDownload} download>
               Download Curriculum <DownloadIcon />
             </CustomButton>
 
