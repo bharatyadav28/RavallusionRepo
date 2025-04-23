@@ -5,10 +5,10 @@ import React, { Suspense } from 'react'
 
 const page = () => {
   return (
-    <Suspense fallback={<SimpleLoader />}>
-      <AuthNavbar/>
+    <>
+      <AuthNavbar />
       <VerifyCertificate />
-    </Suspense>
+    </>
   )
 }
 
