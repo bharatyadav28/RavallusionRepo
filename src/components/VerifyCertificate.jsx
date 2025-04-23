@@ -11,7 +11,7 @@ const VerifyCertificate = () => {
     const pathArray = path.split("/")
     const id = pathArray[pathArray.length - 1]
 
-    const { data, isLoading } = useVerifyCertificateQuery("6808a4295058780b16c56e2c");
+    const { data, isLoading } = useVerifyCertificateQuery(id);
 
     const pdfUrl = data?.data?.certificate;
     return (
