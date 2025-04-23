@@ -25,6 +25,9 @@ const geistMono = localFont({
 export const metadata = {
   title: "Ravallusion",
   description: "Ravallusion course website",
+  icons: {
+    icon: [{ url: '/favicon_io/favicon.ico' }],
+  },
 };
 
 export default function RootLayout({ children }) {

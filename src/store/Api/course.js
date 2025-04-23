@@ -48,10 +48,13 @@ export const courseApi = createApi({
         getSearchedVideos: builder.query({
             query: (search) => `video/search?search=${search}`,
         }),
-        
 
+        verifyCertificate: builder.query({
+            query: (id) => `user-certificate/verify/${id}`,
+        }),
+        
     }),
 })
 
 export const {useGetAlreadyAssignmentSubmittedQuery,useGetSearchedVideosQuery,useLazyGetSearchedVideosQuery,useGetSubmittedAssignmetQuery, useGetSubscribedPlanCourseQuery,
-    useGetSubscriptionDetailQuery, useAssignmentSubmitMutation, useUploadFileMutation } = courseApi;
+    useGetSubscriptionDetailQuery, useAssignmentSubmitMutation, useUploadFileMutation, useVerifyCertificateQuery } = courseApi;
