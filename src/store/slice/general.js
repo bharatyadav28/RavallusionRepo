@@ -14,6 +14,7 @@ const initialState = {
   searchValue: " ",
   searchHistory: [],
   videoTitle: "",
+  paymentSuccess:false,
 }
 
 export const generalSlice = createSlice({
@@ -59,10 +60,13 @@ export const generalSlice = createSlice({
     setVideoTitle: (state, action) => {
       state.videoTitle = action.payload
     },
+    setPaymentSuccess: (state, action) => {
+      state.paymentSuccess = action.payload
+    }
   },
 })
 
-export const { setVideoIdOfcurrentVideo,setVideoTitle,
+export const { setVideoIdOfcurrentVideo,setVideoTitle, setPaymentSuccess,
   setSearchValue,
   setSearchHistory,
   setUpdatedPercentageWatched,

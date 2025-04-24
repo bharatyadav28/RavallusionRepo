@@ -75,11 +75,14 @@ export const authApi = createApi({
                 method: "DELETE",
             }),
         }),
+        getActivePaymentGateway: builder.query({
+            query: () => "app-config/active-gateways",
+        })
     })
 })
 
 
-export const { useDeleteAccountMutation,useSigninMutation,
+export const { useDeleteAccountMutation, useSigninMutation,
     useUpdateMobileMutation,
     useUpdateNameMutation,
     useUpdateAvatarMutation,
@@ -88,4 +91,6 @@ export const { useDeleteAccountMutation,useSigninMutation,
     useSwitchDeviceMutation,
     useLazyHasSubscriptionQuery,
     useGetUserDetailQuery,
-    useHasSubscriptionQuery } = authApi;
+    useHasSubscriptionQuery,
+    useGetActivePaymentGatewayQuery,
+} = authApi;

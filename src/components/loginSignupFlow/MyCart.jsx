@@ -6,9 +6,16 @@ import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { Button } from '../ui/button'
 import { SubmitButton } from '../common/CustomButton'
 import { handleClick } from '@/lib/rajorpayPayment'
+import { useGetActivePaymentGatewayQuery } from '@/store/Api/auth'
+import { toast } from 'react-toastify'
 
 const MyCart = () => {
     const [isLoading, setIsLoading] = useState(false);
+
+    const { data, isLoading: loading } = useGetActivePaymentGatewayQuery();
+
+    const activePaymentGateway = data?.data?.activeGateways[0];
+
 
     const router = useRouter();
     const params = useSearchParams();
@@ -18,8 +25,12 @@ const MyCart = () => {
 
     const handleCheckout = async () => {
         setIsLoading(true);
+        if (!activePaymentGateway || !planId) {
+            toast.error("Payment gateway not found or plan ID is missing.");
+            return;
+        }
         try {
-            await handleClick(planId);
+            await handleClick({ planId, activePaymentGateway });
         } catch (error) {
             console.error("Payment failed:", error);
         } finally {

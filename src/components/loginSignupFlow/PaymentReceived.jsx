@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GreenCheck } from '@/lib/svg_icons'
 import { useRouter, useSearchParams } from 'next/navigation'
 import axios from 'axios'
@@ -11,7 +11,7 @@ const PaymentReceived = () => {
   const router = useRouter();
   const params = useSearchParams();
   const order_id = params.get('order_id');
-  const [paymentSuccess, setPaymentSuccess] = React.useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -37,7 +37,7 @@ const PaymentReceived = () => {
 }
 
 
-const PaymentSuccessFull = () => {
+export const PaymentSuccessFull = () => {
   return (
     <div
       className="mx-4 p-10 rounded-[28px] flex items-center justify-center flex-col backdrop-blur-lg"
