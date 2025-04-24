@@ -694,3 +694,10 @@ input[type="number"] {
 button:disabled {
   cursor: not-allowed !important;
 }
+
+
+
+/* Verify certifcate scrollbar hide */
+.verify-certificate::-webkit-scrollbar {
+  display: none;
+}
