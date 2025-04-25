@@ -29,6 +29,8 @@ const VideoDashboard = () => {
   const id = searchParams.get("videoId");
   const { courseId, firstVideoId } = useSelector((state) => state.general);
 
+  const [showTimeStamp, setShowTimeStamp] = useState(false);
+
   const [videoUrl, setVideoUrl] = useState(null);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
 
@@ -121,6 +123,8 @@ const VideoDashboard = () => {
               poster={thumbnailUrl}
               setWatchTime={setWatchTime}
               watchTime={watchTime}
+              setShowTimeStamp={setShowTimeStamp}
+              showTimeStamp={showTimeStamp}
             />
           ) : (
             // <div className='flex items-center justify-center h-full'>
@@ -131,6 +135,7 @@ const VideoDashboard = () => {
         </div>
         <div className="my-[20px] px-4 lg:px-0">
           <VideoDescription
+            showTimeStamp={showTimeStamp}
             downloadResource={data?.data?.video?.resource}
             downloadAssignment={data?.data?.video?.assignment}
             videoId={videoId}

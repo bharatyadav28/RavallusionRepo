@@ -33,6 +33,7 @@ import ErrorBoundary from "@/app/utils/errorBoundaries";
 import { useMediaQuery } from "react-responsive";
 
 import { toast } from "react-toastify";
+import { ChevronRight } from "lucide-react";
 
 const VideoPlayer = ({
   source,
@@ -47,7 +48,8 @@ const VideoPlayer = ({
   registerVideoRef,
   autoPlay,
   latestVideo = false,
-
+  showTimeStamp,
+  setShowTimeStamp,
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -78,6 +80,7 @@ const VideoPlayer = ({
   const menuRef = useRef(null);
   const timeoutId = useRef(null);
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
+  const [chapters, setChapters] = useState([]);
 
   const imgSrc = poster;
 
@@ -142,7 +145,7 @@ const VideoPlayer = ({
     const videoElement = playerRef.current.getInternalPlayer();
 
     if (isIOS()) {
-      if (videoElement.webkitEnterFullscreen) {                   
+      if (videoElement.webkitEnterFullscreen) {
         if (!isFullScreen) {
           videoElement.webkitEnterFullscreen();
           setIsFullScreen(true);
@@ -259,41 +262,6 @@ const VideoPlayer = ({
     };
   }, []);
 
-
-  // useEffect(() => {
-  //   if (!isIOS()) {
-  //     const handleFullScreenChange = () => {
-  //       setIsFullScreen(screenfull.isFullscreen);
-  //       if (!screenfull.isFullscreen && window.screen.orientation) {
-  //         window.screen.orientation.unlock();
-  //       }
-  //     };
-
-  //     if (screenfull.isEnabled) {
-  //       screenfull.on("change", handleFullScreenChange);
-
-  //       return () => {
-  //         screenfull.off("change", handleFullScreenChange);
-  //       };
-  //     }
-  //   } else {
-  //     const handleFullScreenChange = () => {
-  //       setIsFullScreen(document.fullscreenElement != null);
-  //       if (    !document.fullscreenElement && window.screen.orientation) {
-  //         window.screen.orientation.unlock();
-  //       }
-  //     };
-
-  //     document.addEventListener("fullscreenchange", handleFullScreenChange);
-
-  //     return () => {
-  //       document.removeEventListener(
-  //         "fullscreenchange",
-  //         handleFullScreenChange
-  //       );
-  //     };
-  //   }
-  // }, []);
 
   useEffect(() => {
     const handleFullScreenChange = () => {
@@ -590,12 +558,10 @@ const VideoPlayer = ({
   };
 
 
-
   const toggleSettings = () => {
     setActiveMenu("main");
     setShowSettings(!showSettings);
   };
-
 
 
   const handleMenuChange = (menu) => {
@@ -728,6 +694,10 @@ const VideoPlayer = ({
   };
 
 
+  const handleChapterClick = (time) => {
+    playerRef.current.seekTo(time, "seconds");
+  };
+  
   return (
     <div
       className={`video-container  ${playing ? "playing" : "paused"
@@ -845,6 +815,7 @@ const VideoPlayer = ({
           }}
         />
       </div>
+
       {!firstPlay && (
         <div
           className={`player-controls ${isFullScreen ? "fullscreen-controls" : ""
@@ -872,23 +843,41 @@ const VideoPlayer = ({
             <GrForwardTen className={`control-icons ${isVideoCompleted === false ? "cursor-not-allowed" : "cursor-pointer"}`} onClick={handleForward} />
           </div>
 
+
+
           <div className="bottom-controls">
-            <span className="text-white ms-2 duration-counter">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
+
+            <div className="flex items-center">
+              <span className="text-white ms-2 duration-counter">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </span>
+
+              {
+                1 && (
+                  <div className="flex items-center cursor-pointer" onClick={() => {setShowTimeStamp(!showTimeStamp)}}>
+                    <span className="ml-2 uppercase text-sm flex items-center">
+                      • Chapter 1
+                    </span>
+                    <ChevronRight size={18} />
+                  </div>
+                )
+              }
+
+            </div>
+
 
             <div
               className={`progress-bar-wrapper me-2`}
               onMouseMove={handleProgressHover}
               onMouseLeave={() => setHoveredTime(null)}
             >
-              {tooltipView && !isTouchDevice && (
+              {/* {tooltipView && !isTouchDevice && (
                 <div
                   className="tooltip-progress"
                 >
                   <p>{formatTime(hoveredTime)}</p>
                 </div>
-              )}
+              )} */}
 
               <input
                 type="range"
@@ -903,36 +892,38 @@ const VideoPlayer = ({
               />
             </div>
 
-            <div className="volume-wrapper flex items-center ">
-              {volumeIcon()}
-              {isTouchDevice ? null : (
-                <input
-                  type="range"
-                  className="volume-track"
-                  style={{
-                    background: `linear-gradient(to right, #2C68F6 ${volume * 100
-                      }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
-                  }}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={volume}
-                  onChange={handleVolumeChange}
+            <div className="flex">
+              <div className="volume-wrapper flex items-center ">
+                {volumeIcon()}
+                {isTouchDevice ? null : (
+                  <input
+                    type="range"
+                    className="volume-track"
+                    style={{
+                      background: `linear-gradient(to right, #2C68F6 ${volume * 100
+                        }%, rgba(255,255,255,0.8) ${volume * 100}%)`,
+                    }}
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={volume}
+                    onChange={handleVolumeChange}
+                  />
+                )}
+              </div>
+
+              <div className="quality mx-3" ref={menuRef}>
+                {settingsMenu()}
+
+                <FaCog
+                  size={18}
+                  onClick={toggleSettings}
+                  className={`settings-button ${showSettings ? "active" : ""}`}
                 />
-              )}
+              </div>
+
+              <span className="me-2">{fullScreenIcon()}</span>
             </div>
-
-            <div className="quality mx-3" ref={menuRef}>
-              {settingsMenu()}
-
-              <FaCog
-                size={18}
-                onClick={toggleSettings}
-                className={`settings-button ${showSettings ? "active" : ""}`}
-              />
-            </div>
-
-            <span className="me-2">{fullScreenIcon()}</span>
           </div>
         </div>
       )}

@@ -163,7 +163,7 @@
   width: 100%;
   bottom: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 

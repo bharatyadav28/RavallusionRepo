@@ -1,15 +1,22 @@
 "use client"
 import { Assignment, DownloadIcon, BookMark, Quiz, Bookmarked, Resources } from '@/lib/svg_icons';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import SubmitAssignment from './SubmitAssignment';
 import CustomDialog from '../common/CustomDialog';
-import AttendQuiz from './AttendQuiz';
-import { useAddBookmarkMutation, useDeleteBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAndBookmark';
+import { useAddBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAndBookmark';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
+const chapters = [
+  { title: "Chapter 1", time: "00:00" },
+  { title: "Chapter 2", time: "02:00" },
+  { title: "Chapter 3", time: "03:00" },
+  { title: "Chapter 3", time: "04:00" },
+  { title: "Chapter 3", time: "05:00" },
+];
 
-const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment }) => {
+const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment, showTimeStamp }) => {
+  const chapterRef = useRef(null);
   const [addToBookmark] = useAddBookmarkMutation();
   const { data: getdata, refetch } = useGetBookmarkQuery();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,11 +25,17 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkedId, setBookmarkId] = useState(null);
   const { submoduleId } = useSelector((state) => state.general);
-  const [isClient,setIsClient] = useState(null);
+  const [isClient, setIsClient] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsClient(true)
-  },[])
+  }, [])
+
+  useEffect(() => {
+    if (showTimeStamp && chapterRef.current) {
+      chapterRef.current.scrollIntoView({ behavior: 'smooth'});
+    }
+  }, [showTimeStamp]);
 
   useEffect(() => {
     if (getdata?.bookmarks) {
@@ -100,8 +113,8 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     document.body.removeChild(a);
   }
 
-  if(!isClient) return null;
- 
+  if (!isClient) return null;
+
   return (
     <div className="text-white">
 
@@ -136,8 +149,24 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
 
       </div>
 
+      {
+        showTimeStamp && (
+          <div className='mb-4' ref={chapterRef}>
+            <h3 className='text-xl font-bold mb-2'>Chapters</h3>
+            <ul>
+              {chapters.map((ch, i) => (
+                <li key={i} style={{ cursor: 'pointer' }}>
+                  <span><span className='text-[var(--neon-purple)]'>{ch.time}</span> - {ch.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+
       <div className="flex gap-y-2 md:gap-y-2 md:gap-x-4 flex-col md:flex-row items-center flex-wrap">
-        <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={()=>setIsAssignmentOpen(true)} />
+        <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={() => setIsAssignmentOpen(true)} />
         <TextIconBox title="Download assignment" icon={<DownloadIcon />} onClick={handleDownloadAssignment} />
         <TextIconBox title="Download resources" icon={<Resources />} onClick={handleResource} />
       </div>
