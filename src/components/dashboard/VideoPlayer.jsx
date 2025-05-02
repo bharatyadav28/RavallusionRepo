@@ -50,6 +50,8 @@ const VideoPlayer = ({
   latestVideo = false,
   showTimeStamp,
   setShowTimeStamp,
+  chapterRef,
+  chapters
 }) => {
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -74,13 +76,13 @@ const VideoPlayer = ({
   const [isVideoCompleted, setIsVideoCompleted] = useState(null);
   const [lastPositon, setLastPosition] = useState(0);
   const [isClient, setIsClient] = useState(null);
-  const playerRef = useRef(null);
   const progressRef = useRef(null);
   const containerRef = useRef(null);
   const menuRef = useRef(null);
+  const playerRef = useRef(null);
   const timeoutId = useRef(null);
   const playbackOptions = [0.5, 0.75, 1, 1.25, 1.5, 2];
-  const [chapters, setChapters] = useState([]);
+  const [currentChapter, setCurrentChapter] = useState("");
 
   const imgSrc = poster;
 
@@ -196,8 +198,6 @@ const VideoPlayer = ({
   };
 
 
-
-
   useEffect(() => {
     const foundVideo = courseProgress?.data?.courseProgress?.find(
       (v) => v.video === videoId
@@ -279,7 +279,6 @@ const VideoPlayer = ({
             });
           }, 100);
         }
-
         setIsFullScreen(isCurrentlyFullscreen);
       };
     }
@@ -474,6 +473,13 @@ const VideoPlayer = ({
     setPlayed(progressPercentage);
 
     setCurrentTime(playedSeconds);
+
+    if (chapters) {
+      const current = [...chapters].reverse().find(ch => playedSeconds >= ch.time) || chapters[0];
+      if (current.title !== currentChapter) {
+        setCurrentChapter(current.title);
+      }
+    }
 
     const progressBar = progressRef.current;
     if (progressBar) {
@@ -694,10 +700,19 @@ const VideoPlayer = ({
   };
 
 
-  const handleChapterClick = (time) => {
-    playerRef.current.seekTo(time, "seconds");
-  };
+  function mergeRefs(...refs) {
+    return (element) => {
+      refs.forEach(ref => {
+        if (typeof ref === "function") {
+          ref(element);
+        } else if (ref != null) {
+          ref.current = element;
+        }
+      });
+    };
+  }
   
+
   return (
     <div
       className={`video-container  ${playing ? "playing" : "paused"
@@ -733,7 +748,8 @@ const VideoPlayer = ({
       >
         <ReactPlayer
           className="react-player"
-          ref={playerRef}
+          ref={mergeRefs(playerRef,chapterRef)}
+          // ref={playerRef || chapterRef}
           url={src}
           playing={playing}
           controls={false}
@@ -853,10 +869,10 @@ const VideoPlayer = ({
               </span>
 
               {
-                1 && (
-                  <div className="flex items-center cursor-pointer" onClick={() => {setShowTimeStamp(!showTimeStamp)}}>
+                chapters.length>0 && (
+                  <div className="flex items-center cursor-pointer" onClick={() => { setShowTimeStamp(!showTimeStamp) }}>
                     <span className="ml-2 uppercase text-sm flex items-center">
-                      • Chapter 1
+                      {currentChapter}
                     </span>
                     <ChevronRight size={18} />
                   </div>
@@ -930,5 +946,6 @@ const VideoPlayer = ({
     </div>
   );
 };
+
 
 export default VideoPlayer;

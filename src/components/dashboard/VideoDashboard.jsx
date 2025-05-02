@@ -24,9 +24,14 @@ import { setVideos, updateVideo } from "@/store/slice/course";
 
 const VideoDashboard = () => {
   const searchParams = useSearchParams();
+    const chapterRef = useRef(null);
+
   const dispatch = useDispatch();
+
   const route = useRouter();
+
   const id = searchParams.get("videoId");
+  
   const { courseId, firstVideoId } = useSelector((state) => state.general);
 
   const [showTimeStamp, setShowTimeStamp] = useState(false);
@@ -51,6 +56,9 @@ const VideoDashboard = () => {
   const { data, isLoading, error } = useGetVideoQuery(videoId, {
     skip: !videoId,
   });
+
+  console.log(data,'data');
+  
   // Reset states when videoId changes
   useEffect(() => {
     setVideoUrl(null);
@@ -125,6 +133,8 @@ const VideoDashboard = () => {
               watchTime={watchTime}
               setShowTimeStamp={setShowTimeStamp}
               showTimeStamp={showTimeStamp}
+              chapterRef={chapterRef}
+              chapters={data?.data?.timestamps} 
             />
           ) : (
             // <div className='flex items-center justify-center h-full'>
@@ -135,12 +145,14 @@ const VideoDashboard = () => {
         </div>
         <div className="my-[20px] px-4 lg:px-0">
           <VideoDescription
+            chapterRef={chapterRef}
             showTimeStamp={showTimeStamp}
             downloadResource={data?.data?.video?.resource}
             downloadAssignment={data?.data?.video?.assignment}
             videoId={videoId}
             title={data?.data?.video?.title}
             description={data?.data?.video?.description}
+            chapters={data?.data?.timestamps}
           />
         </div>
 

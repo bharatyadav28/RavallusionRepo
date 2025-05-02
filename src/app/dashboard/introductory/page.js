@@ -38,7 +38,7 @@ const Introductory = () => {
     <>
       {/* Introductory Videos List */}
       <div className='py-4 px-4 md:px-0 lg:mt-3 grid grid-cols-12 gap-4'>
-        {introductoryVideos.length < 0 ? (
+        {introductoryVideos.length > 0 ? (
           introductoryVideos.map((item) => (
             <VideoCard
               key={item?._id}

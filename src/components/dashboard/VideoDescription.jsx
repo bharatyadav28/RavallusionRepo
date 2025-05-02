@@ -7,16 +7,16 @@ import { useAddBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAn
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const chapters = [
-  { title: "Chapter 1", time: "00:00" },
-  { title: "Chapter 2", time: "02:00" },
-  { title: "Chapter 3", time: "03:00" },
-  { title: "Chapter 3", time: "04:00" },
-  { title: "Chapter 3", time: "05:00" },
-];
+// export const chapters = [
+//   { title: "Chapter 1", time: 0 },
+//   { title: "Chapter 2", time: 60 },
+//   { title: "Chapter 3", time: 120 },
+//   { title: "Chapter 3", time: 180 },
+//   { title: "Chapter 3", time: 240 },
+// ];
 
-const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment, showTimeStamp }) => {
-  const chapterRef = useRef(null);
+const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment, showTimeStamp, chapterRef, chapters }) => {
+  const chapterSection = useRef(null);
   const [addToBookmark] = useAddBookmarkMutation();
   const { data: getdata, refetch } = useGetBookmarkQuery();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -32,8 +32,8 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
   }, [])
 
   useEffect(() => {
-    if (showTimeStamp && chapterRef.current) {
-      chapterRef.current.scrollIntoView({ behavior: 'smooth'});
+    if (showTimeStamp && chapterSection.current) {
+      chapterSection.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [showTimeStamp]);
 
@@ -113,7 +113,22 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     document.body.removeChild(a);
   }
 
+
+  const handleSeek = (time) => {
+    if (chapterRef.current) {
+      chapterRef.current.seekTo(time, 'seconds');
+    }
+  };
+
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   if (!isClient) return null;
+
 
   return (
     <div className="text-white">
@@ -151,12 +166,12 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
 
       {
         showTimeStamp && (
-          <div className='mb-4' ref={chapterRef}>
+          <div className='mb-4' ref={chapterSection}>
             <h3 className='text-xl font-bold mb-2'>Chapters</h3>
             <ul>
               {chapters.map((ch, i) => (
                 <li key={i} style={{ cursor: 'pointer' }}>
-                  <span><span className='text-[var(--neon-purple)]'>{ch.time}</span> - {ch.title}</span>
+                  <div><span className='text-[var(--neon-purple)]' onClick={() => handleSeek(ch.time)}>{formatTime(ch.time)}</span> - {ch.title}</div>
                 </li>
               ))}
             </ul>
