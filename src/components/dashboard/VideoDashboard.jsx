@@ -57,7 +57,6 @@ const VideoDashboard = () => {
     skip: !videoId,
   });
 
-  console.log(data,'data');
   
   // Reset states when videoId changes
   useEffect(() => {

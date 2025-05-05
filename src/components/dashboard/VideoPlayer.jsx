@@ -869,7 +869,7 @@ const VideoPlayer = ({
               </span>
 
               {
-                chapters.length>0 && (
+                chapters?.length>0 && (
                   <div className="flex items-center cursor-pointer" onClick={() => { setShowTimeStamp(!showTimeStamp) }}>
                     <span className="ml-2 uppercase text-sm flex items-center">
                       {currentChapter}

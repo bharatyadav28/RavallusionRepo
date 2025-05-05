@@ -117,6 +117,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
   const handleSeek = (time) => {
     if (chapterRef.current) {
       chapterRef.current.seekTo(time, 'seconds');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -165,7 +166,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
       </div>
 
       {
-        showTimeStamp && (
+        showTimeStamp && chapters?.length > 0 && (
           <div className='mb-4' ref={chapterSection}>
             <h3 className='text-xl font-bold mb-2'>Chapters</h3>
             <ul>
