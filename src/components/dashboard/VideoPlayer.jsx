@@ -474,7 +474,7 @@ const VideoPlayer = ({
 
     setCurrentTime(playedSeconds);
 
-    if (chapters) {
+    if (chapters?.length>0) {
       const current = [...chapters].reverse().find(ch => playedSeconds >= ch.time) || chapters[0];
       if (current.title !== currentChapter) {
         setCurrentChapter(current.title);
@@ -887,13 +887,13 @@ const VideoPlayer = ({
               onMouseMove={handleProgressHover}
               onMouseLeave={() => setHoveredTime(null)}
             >
-              {/* {tooltipView && !isTouchDevice && (
+              {tooltipView && !isTouchDevice && (
                 <div
                   className="tooltip-progress"
                 >
                   <p>{formatTime(hoveredTime)}</p>
                 </div>
-              )} */}
+              )}
 
               <input
                 type="range"
