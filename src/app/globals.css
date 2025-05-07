@@ -698,6 +698,6 @@ button:disabled {
 
 
 /* Verify certifcate scrollbar hide */
-.verify-certificate::-webkit-scrollbar {
+.verify-certificate,.paypal-button::-webkit-scrollbar {
   display: none;
 }

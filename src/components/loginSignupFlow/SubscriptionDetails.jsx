@@ -41,7 +41,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
 
 
       {/* Header Section */}
-      <div className='flex justify-between items-center'>
+      <div className={`flex justify-between items-center ${cart&&"px-2"}`}>
         <h2 className='text-white font-semibold text-sm md:text-lg'>Subscription details</h2>
 
         <div className='flex gap-2'>
@@ -109,7 +109,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
         className='overflow-hidden'
       >
         <div className={`${profile && "py-2 px-0"}
-        ${cart && "px-0"}
+        ${cart && "px-2"}
           mt-1 px-0 py-3  rounded-lg text-gray-200`}>
 
           <div className='flex justify-between items-center'>
