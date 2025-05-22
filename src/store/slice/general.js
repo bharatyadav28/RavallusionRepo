@@ -4,6 +4,8 @@ const initialState = {
   planId: null,
   planType: null,
   planPrice: null,
+  usdPrice:null,
+  isIndia: true,
   introductoryVideosCount: 0,
   bookmarkCount: 0,
   submoduleId: null,
@@ -29,6 +31,12 @@ export const generalSlice = createSlice({
     },
     setPlanPrice: (state, actions) => {
       state.planPrice = actions.payload;
+    },
+    setUsdPrice: (state, actions) => {
+      state.usdPrice = actions.payload;
+    },
+    setIsIndia:(state, actions) => {
+      state.isIndia = actions.payload;
     },
     setIntroductoryVideoscount: (state, actions) => {
       state.introductoryVideosCount = actions.payload;
@@ -69,9 +77,10 @@ export const generalSlice = createSlice({
 export const { setVideoIdOfcurrentVideo,setVideoTitle, setPaymentSuccess,
   setSearchValue,
   setSearchHistory,
+  setIsIndia,
   setUpdatedPercentageWatched,
   setCourseId,
-  setFirstVideoId, setPlanId, setPlanPrice, setPlanType, setIntroductoryVideoscount,
+  setFirstVideoId, setPlanId, setPlanPrice, setPlanType,setUsdPrice, setIntroductoryVideoscount,
   setBookmarkCount, setSubmoduleId } = generalSlice.actions
 
 export default generalSlice.reducer

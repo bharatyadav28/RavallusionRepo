@@ -1,7 +1,9 @@
+
 import localFont from "next/font/local";
 import "./globals.css";
 import { Alexandria } from 'next/font/google'
 import LayoutWrapper from "@/components/LayoutWrapper";
+
 
 
 
@@ -31,6 +33,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body

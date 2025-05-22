@@ -2,6 +2,7 @@
 import AuthNavbar from "@/components/loginSignupFlow/AuthNavbar";
 
 export default function AuthLayout({ children }) {
+    
     return (
 
         <div className="flex flex-col items-center justify-center relative background">

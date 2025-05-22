@@ -6,14 +6,15 @@ import { ArrowRight, Check, Route } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { setPlanId, setPlanPrice, setPlanType } from "@/store/slice/general";
+import { useDispatch ,useSelector} from "react-redux";
+import { setPlanId, setPlanPrice, setPlanType, setUsdPrice } from "@/store/slice/general";
 
 const Plans = ({ plans, showSkeleton = false }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
 
+  const isIndia = useSelector((state) => state.general.isIndia);
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
@@ -25,7 +26,6 @@ const Plans = ({ plans, showSkeleton = false }) => {
         setCount(2);
       }
     };
-
 
 
     // Run the function on initial render
@@ -109,11 +109,11 @@ const Plans = ({ plans, showSkeleton = false }) => {
           </div>
 
           <CustomButton
-            onClick={() => { router.push(`/mycart?planId=${plans[0]?._id}&planType=${plans[0]?.plan_type}&price=${plans[0]?.inr_price}`), dispatch(setPlanId(plans[0]?._id)), dispatch(setPlanType(plans[0]?.plan_type)), dispatch(setPlanPrice(plans[0]?.inr_price)) }}
+            onClick={() => { router.push(`/mycart?planId=${plans[0]?._id}&planType=${plans[0]?.plan_type}${isIndia ? `&price=${plans[0]?.inr_price}` : `&usdPrice=${plans[0]?.usd_price}`}`), dispatch(setPlanId(plans[0]?._id)), dispatch(setPlanType(plans[0]?.plan_type)), dispatch(setPlanPrice(plans[0]?.inr_price)), dispatch(setUsdPrice(plans[0]?.usd_price)) }}
             className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group">
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
-                &#8377; {plans?.[0]?.inr_price}
+                {isIndia ?`₹${plans?.[0]?.inr_price}` : `$${plans?.[0]?.usd_price}`}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-gray-400 font-semibold group-hover:text-white">
                 {getValidity(plans[0]?.validity)}
@@ -159,11 +159,11 @@ const Plans = ({ plans, showSkeleton = false }) => {
             </div>
           </div>
           <GlowButton
-          onClick={() => { router.push(`/mycart?planId=${plans[1]?._id}&planType=${plans[1]?.plan_type}&price=${plans[1]?.inr_price}`), dispatch(setPlanId(plans[1]?._id)), dispatch(setPlanType(plans[1]?.plan_type)), dispatch(setPlanPrice(plans[1]?.inr_price)) }}
+            onClick={() => { router.push(`/mycart?planId=${plans[1]?._id}&planType=${plans[1]?.plan_type} ${isIndia ? `&price=${plans[1]?.inr_price}` : `&usdPrice=${plans[1]?.usd_price}`}`), dispatch(setPlanId(plans[1]?._id)), dispatch(setPlanType(plans[1]?.plan_type)), dispatch(setPlanPrice(plans[1]?.inr_price)), dispatch(setUsdPrice(plans[1]?.usd_price)) }}
             className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
-                &#8377; {plans[1].inr_price}
+              {isIndia ?`₹${plans?.[1]?.inr_price}` : `$${plans?.[1]?.usd_price}`}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-white group-hover:text-white font-semibold ">
                 {getValidity(plans[1].validity)}

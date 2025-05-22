@@ -13,7 +13,7 @@ import LogoutDialog from "./LogoutDialog";
 
 const VerifyOtp = () => {
     const { signinEmail, userId, isNewUser, keepMeSignedIn, hasSubscription } = useSelector((state) => state.signInState);
-    const { planId, planType, planPrice } = useSelector((state) => state.general);
+    const { planId, planType, planPrice,usdPrice} = useSelector((state) => state.general);
     const [isOpenLogout, setIsOpenLogout] = useState(false);
     const route = useRouter();
 

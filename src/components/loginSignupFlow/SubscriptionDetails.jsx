@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { SimpleLoader } from '../common/LoadingSpinner';
 
-const SubscriptionDetails = ({ courseType, cart = false, price, profile = false, data }) => {
+const SubscriptionDetails = ({ courseType, cart = false, price =5999, usd_price=30, profile = false, data, isIndia = true }) => {
   const router = useRouter();
 
   const invoice = data?.data?.subscriptionDetails?.invoice_url;
@@ -41,7 +41,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
 
 
       {/* Header Section */}
-      <div className={`flex justify-between items-center ${cart&&"px-2"}`}>
+      <div className={`flex justify-between items-center ${cart && "px-2"}`}>
         <h2 className='text-white font-semibold text-sm md:text-lg'>Subscription details</h2>
 
         <div className='flex gap-2'>
@@ -51,11 +51,10 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
               <div className='flex gap-2 items-center'>
                 <span className='text-[var(--yellow)] text-sm'>{courseType}</span>
                 <span className='text-xs'>•</span>
-                <span className='text-sm'>₹{price}</span>
+                <span className='text-sm'>{isIndia ? `₹${price}` : `$${usd_price}`}</span>
               </div>
             )
           }
-
           {
             profile && (
               <div className='flex items-center gap-x-1'>
@@ -129,7 +128,7 @@ const SubscriptionDetails = ({ courseType, cart = false, price, profile = false,
                   (
                     <>
                       <p className='text-[10px]'>Price</p>
-                      <h2 className='font-semibold text-2xl'>₹{price}</h2>
+                      <h2 className='font-semibold text-2xl'>{isIndia ? `₹${price}` : `$${usd_price}`}</h2>
                     </>
                   )
               }

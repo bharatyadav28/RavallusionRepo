@@ -16,6 +16,10 @@ import {
   useGetModuleQuery, useGetPlanDataQuery
 } from "@/store/Api/home";
 
+import { publicIpv4 } from 'public-ip'
+import ipLocation from "iplocation";
+
+
 export default function Home() {
 
   const { data: heroSection, isLoading: heroLoading } = useGetHeroSectionQuery();
@@ -29,6 +33,7 @@ export default function Home() {
   const { data: faqSection, isLoading: faqLoading } = useGetFaqQuery();
 
   const loading = heroLoading || faqLoading || certificateLoading || mentorLoading || planLoading || moduleLoading || curriculumLoading || latestTutorialLoading || carouselLoading
+
   return loading ? (
     <PageLoader />
   ) : (
