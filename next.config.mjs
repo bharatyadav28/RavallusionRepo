@@ -17,6 +17,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "dcays3srybill.cloudfront.net",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "encrypted-tbn0.gstatic.com",
         port: "",
         pathname: "/**",
@@ -42,4 +48,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-  

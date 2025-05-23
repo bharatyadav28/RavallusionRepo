@@ -20,14 +20,14 @@ export default function LandingLayout({ children }) {
         console.log(data);
         if (data) {
           dispatch(setIsIndia(data?.country?.name === "India"));
+          // dispatch(setIsIndia(false));
         }
       } catch (error) {
         console.error("Error fetching country:", error);
       }
     };
     fetchCountry();
-  }, [isIndia])
-
+  }, [isIndia]);
 
   return (
     <section className=" h-screen">

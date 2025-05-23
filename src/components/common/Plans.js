@@ -6,8 +6,13 @@ import { ArrowRight, Check, Route } from "lucide-react";
 import { DevicesIcon, VideoIcon } from "@/lib/svg_icons";
 import { CustomButton, GlowButton } from "./CustomButton";
 import { useRouter } from "next/navigation";
-import { useDispatch ,useSelector} from "react-redux";
-import { setPlanId, setPlanPrice, setPlanType, setUsdPrice } from "@/store/slice/general";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setPlanId,
+  setPlanPrice,
+  setPlanType,
+  setUsdPrice,
+} from "@/store/slice/general";
 
 const Plans = ({ plans, showSkeleton = false }) => {
   const router = useRouter();
@@ -15,6 +20,8 @@ const Plans = ({ plans, showSkeleton = false }) => {
   const [count, setCount] = useState(1);
 
   const isIndia = useSelector((state) => state.general.isIndia);
+
+  // console.log("Plans", plans, plans?.[0]?.usd_price);
 
   useEffect(() => {
     const updateCountBasedOnScreenSize = () => {
@@ -26,7 +33,6 @@ const Plans = ({ plans, showSkeleton = false }) => {
         setCount(2);
       }
     };
-
 
     // Run the function on initial render
     updateCountBasedOnScreenSize();
@@ -54,7 +60,6 @@ const Plans = ({ plans, showSkeleton = false }) => {
     }
   };
 
-
   return (
     <div className="flex-grow flex justify-center relative ">
       {showSkeleton && (
@@ -73,7 +78,6 @@ const Plans = ({ plans, showSkeleton = false }) => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
-
         <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
             {plans?.[0]?.plan_type}
@@ -109,11 +113,28 @@ const Plans = ({ plans, showSkeleton = false }) => {
           </div>
 
           <CustomButton
-            onClick={() => { router.push(`/mycart?planId=${plans[0]?._id}&planType=${plans[0]?.plan_type}${isIndia ? `&price=${plans[0]?.inr_price}` : `&usdPrice=${plans[0]?.usd_price}`}`), dispatch(setPlanId(plans[0]?._id)), dispatch(setPlanType(plans[0]?.plan_type)), dispatch(setPlanPrice(plans[0]?.inr_price)), dispatch(setUsdPrice(plans[0]?.usd_price)) }}
-            className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group">
+            onClick={() => {
+              router.push(
+                `/mycart?planId=${plans[0]?._id}&planType=${
+                  plans[0]?.plan_type
+                }${
+                  isIndia
+                    ? `&price=${plans[0]?.inr_price}`
+                    : `&usdPrice=${plans[0]?.usd_price}`
+                }`
+              ),
+                dispatch(setPlanId(plans[0]?._id)),
+                dispatch(setPlanType(plans[0]?.plan_type)),
+                dispatch(setPlanPrice(plans[0]?.inr_price)),
+                dispatch(setUsdPrice(plans[0]?.usd_price));
+            }}
+            className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group"
+          >
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
-                {isIndia ?`₹${plans?.[0]?.inr_price}` : `$${plans?.[0]?.usd_price}`}
+                {isIndia
+                  ? `₹${plans?.[0]?.inr_price}`
+                  : `$${plans?.[0]?.usd_price}`}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-gray-400 font-semibold group-hover:text-white">
                 {getValidity(plans[0]?.validity)}
@@ -121,9 +142,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
             </div>
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
           </CustomButton>
-
         </div>
-
 
         <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
@@ -159,11 +178,28 @@ const Plans = ({ plans, showSkeleton = false }) => {
             </div>
           </div>
           <GlowButton
-            onClick={() => { router.push(`/mycart?planId=${plans[1]?._id}&planType=${plans[1]?.plan_type} ${isIndia ? `&price=${plans[1]?.inr_price}` : `&usdPrice=${plans[1]?.usd_price}`}`), dispatch(setPlanId(plans[1]?._id)), dispatch(setPlanType(plans[1]?.plan_type)), dispatch(setPlanPrice(plans[1]?.inr_price)), dispatch(setUsdPrice(plans[1]?.usd_price)) }}
-            className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  ">
+            onClick={() => {
+              router.push(
+                `/mycart?planId=${plans[1]?._id}&planType=${
+                  plans[1]?.plan_type
+                } ${
+                  isIndia
+                    ? `&price=${plans[1]?.inr_price}`
+                    : `&usdPrice=${plans[1]?.usd_price}`
+                }`
+              ),
+                dispatch(setPlanId(plans[1]?._id)),
+                dispatch(setPlanType(plans[1]?.plan_type)),
+                dispatch(setPlanPrice(plans[1]?.inr_price)),
+                dispatch(setUsdPrice(plans[1]?.usd_price));
+            }}
+            className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "
+          >
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">
-              {isIndia ?`₹${plans?.[1]?.inr_price}` : `$${plans?.[1]?.usd_price}`}
+                {isIndia
+                  ? `₹${plans?.[1]?.inr_price}`
+                  : `$${plans?.[1]?.usd_price}`}
               </h1>
               <div className="text-[10px] 2xl:text-sm text-white group-hover:text-white font-semibold ">
                 {getValidity(plans[1].validity)}
@@ -172,9 +208,8 @@ const Plans = ({ plans, showSkeleton = false }) => {
             <ArrowRight className="!w-6 !h-6 2xl:!w-7 2xl:!h-7 !p-0" />
           </GlowButton>
         </div>
-
       </div>
-    </div >
+    </div>
   );
 };
 export default Plans;
