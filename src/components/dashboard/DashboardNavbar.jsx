@@ -1,139 +1,187 @@
 "use client";
 
-import { BulbIcon, CrownIcon, EllipseOfSearch, Gear, HamburgerMenu, NeonElipse } from '@/lib/svg_icons'
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, X, SearchIcon } from 'lucide-react'
-import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion';
-import { usePathname, useRouter } from 'next/navigation';
-import CustomDialog from '../common/CustomDialog';
-import SearchDialog, { SearchInput } from './SearchDialog';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetUserDetailQuery } from '@/store/Api/auth';
-import { setSearchValue } from '@/store/slice/general';
-import { setSearchHistory } from '@/store/slice/general';
-
+import {
+  BulbIcon,
+  CrownIcon,
+  EllipseOfSearch,
+  Gear,
+  HamburgerMenu,
+  NeonElipse,
+} from "@/lib/svg_icons";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  X,
+  SearchIcon,
+} from "lucide-react";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
+import CustomDialog from "../common/CustomDialog";
+import SearchDialog, { SearchInput } from "./SearchDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetUserDetailQuery } from "@/store/Api/auth";
+import { setSearchValue } from "@/store/slice/general";
+import { setSearchHistory } from "@/store/slice/general";
 
 const DashboardNavbar = () => {
-
   const pathname = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [searchDialog, setSearchDialog] = useState(false);
-  const [urlpath, setUrlPath] = useState('');
-  const { introductoryVideosCount, videoTitle } = useSelector((state) => state.general);
+  const [urlpath, setUrlPath] = useState("");
+  const { introductoryVideosCount, videoTitle } = useSelector(
+    (state) => state.general
+  );
 
   const { searchValue, searchHistory } = useSelector((state) => state.general);
   const { data } = useGetUserDetailQuery();
   const avatar = data?.data?.user?.avatar;
 
-
   useEffect(() => {
     if (pathname === "/dashboard") {
       setShow(false);
-      setUrlPath('dashboard')
-    }
-    else if (pathname === '/dashboard/introductory') {
+      setUrlPath("dashboard");
+    } else if (pathname === "/dashboard/introductory") {
       setShow(true);
-      setUrlPath('introductory')
-    }
-    else if (pathname === '/dashboard/profile') {
+      setUrlPath("introductory");
+    } else if (pathname === "/dashboard/profile") {
       setShow(true);
-      setUrlPath('profile')
-    }
-    else if (pathname === '/dashboard/search') {
+      setUrlPath("profile");
+    } else if (pathname === "/dashboard/search") {
       setShow(true);
-      setUrlPath('search')
-    }
-    else if (pathname === '/dashboard/player-dashboard/[advanced]' || '/dashboard/player-dashboard/[beginner]') {
+      setUrlPath("search");
+    } else if (
+      pathname === "/dashboard/player-dashboard/[advanced]" ||
+      "/dashboard/player-dashboard/[beginner]"
+    ) {
       setShow(true);
-      setUrlPath('playerDashboard')
-    }
-    else {
-      setShow(true)
+      setUrlPath("playerDashboard");
+    } else {
+      setShow(true);
     }
   }, [pathname]);
 
-
   return (
-    <div className={`${urlpath == 'dashboard' ? "rounded-none" : "rounded-none md:rounded-xl"} bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative`}>
-      {openSidebar && <SideBar avatar={avatar} setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} urlpath={urlpath} />}
+    <div
+      className={`${
+        urlpath == "dashboard" ? "rounded-none" : "rounded-none md:rounded-xl"
+      } bg-[#181F2B] w-full p-4 lg:px-8 lg:py-4 flex items-center justify-between relative`}
+    >
+      {openSidebar && (
+        <SideBar
+          avatar={avatar}
+          setOpenSidebar={setOpenSidebar}
+          openSidebar={openSidebar}
+          urlpath={urlpath}
+        />
+      )}
       {show ? (
-        <div className='flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2'>
-
-          <button className='cursor-pointer' onClick={() => { urlpath === 'playerDashboard' ? router.push('/dashboard') : router.back() }}>
+        <div className="flex gap-x-5 lg:gap-x-7 items-center w-2/3 lg:w-1/2">
+          <button
+            className="cursor-pointer"
+            onClick={() => {
+              urlpath === "playerDashboard"
+                ? router.push("/dashboard")
+                : router.back();
+            }}
+          >
             <ArrowLeft />
           </button>
 
-          <div className='flex-grow'>
-            {
-              urlpath === 'profile' && (
-                <h1 className='text-lg font-semibold  '>Profile</h1>
-              )
-            }
-            {
-              urlpath === 'introductory' && (
-                <>
-                  <h1 className='text-lg font-semibold mb-1'>Introductory videos</h1>
-                  <p className='text-xs text-[#CDCED1]'>{introductoryVideosCount} Videos</p>
-                </>
-              )
-            }
-            {
-              urlpath === 'playerDashboard' && (
-                <>
-                  <h1 className='text-lg font-semibold mb-1'>Opening file</h1>
-                  {/* <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p> */}
-                  <p className='text-xs text-[#CDCED1]'>{videoTitle}</p>
-                </>
-              )
-            }
+          <div className="flex-grow">
+            {urlpath === "profile" && (
+              <h1 className="text-lg font-semibold  ">Profile</h1>
+            )}
+            {urlpath === "introductory" && (
+              <>
+                <h1 className="text-lg font-semibold mb-1">
+                  Introductory videos
+                </h1>
+                <p className="text-xs text-[#CDCED1]">
+                  {introductoryVideosCount} Videos
+                </p>
+              </>
+            )}
+            {urlpath === "playerDashboard" && (
+              <>
+                <h1 className="text-lg font-semibold mb-1">Opening file</h1>
+                {/* <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p> */}
+                <p className="text-xs text-[#CDCED1]">{videoTitle}</p>
+              </>
+            )}
 
-            {
-              urlpath === 'search' && (
-                <SearchInput
-                  searchValue={searchValue}
-                  searchHistory={searchHistory}
-                  setSearchHistory={setSearchHistory}
-                  setSearchValue={setSearchValue} headerSearch={true} />
-              )
-            }
-
+            {urlpath === "search" && (
+              <SearchInput
+                searchValue={searchValue}
+                searchHistory={searchHistory}
+                setSearchHistory={setSearchHistory}
+                setSearchValue={setSearchValue}
+                headerSearch={true}
+              />
+            )}
           </div>
-
         </div>
-      ) :
-        (<div className="w-12 h-12 relative">
+      ) : (
+        <div className="w-12 h-12 relative">
           <Image src="/logo.png" alt="logo" fill className="object-contain" />
-        </div>)
-      }
+        </div>
+      )}
 
-      <div className='flex gap-x-2 items-center'>
-        {
-          urlpath != "search" && (
-            <div className='p-3 border border-gray-600 relative cursor-pointer' onClick={() => { setSearchDialog(true), dispatch(setSearchValue("")) }}>
-              <EllipseOfSearch />
-              <SearchIcon size={24} />
-            </div>
-          )
-        }
+      <div className="flex gap-x-2 items-center">
+        {urlpath != "search" && (
+          <div
+            className="p-3 border border-gray-600 relative cursor-pointer"
+            onClick={() => {
+              setSearchDialog(true), dispatch(setSearchValue(""));
+            }}
+          >
+            <EllipseOfSearch />
+            <SearchIcon size={24} />
+          </div>
+        )}
 
+        <BoxComponent
+          show={show}
+          icon={<CrownIcon />}
+          title={"Advanced"}
+          title1={"Photoshop"}
+          title2={"Premier pro"}
+          href={"/dashboard/player-dashboard/advanced"}
+        />
 
-        <BoxComponent show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard/advanced'} />
+        <BoxComponent
+          show={show}
+          icon={<Gear />}
+          title={"Beginner"}
+          title1={"Photoshop"}
+          title2={"Premier pro"}
+          href={"/dashboard/player-dashboard/beginner"}
+        />
 
+        <BoxComponent
+          show={show}
+          icon={<BulbIcon />}
+          title={"Introductory"}
+          introductory={true}
+          href={"/dashboard/introductory"}
+        />
 
-        <BoxComponent show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} href={'/dashboard/player-dashboard/beginner'} />
+        <ProfileComponent
+          show={show}
+          href={"/dashboard/profile"}
+          avatar={avatar}
+        />
 
-
-        <BoxComponent show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} href={'/dashboard/introductory'} />
-
-
-        <ProfileComponent show={show} href={'/dashboard/profile'} avatar={avatar} />
-
-
-        <div onClick={() => setOpenSidebar(true)} className='p-3 border relative cursor-pointer lg:hidden border-[var(--neon-purple)] bg-[#040C19] '>
+        <div
+          onClick={() => setOpenSidebar(true)}
+          className="p-3 border relative cursor-pointer lg:hidden border-[var(--neon-purple)] bg-[#040C19] "
+        >
           <EllipseOfSearch />
           <HamburgerMenu width={24} />
         </div>
@@ -141,11 +189,10 @@ const DashboardNavbar = () => {
         <CustomDialog open={searchDialog} close={() => setSearchDialog(false)}>
           <SearchDialog setSearchDialog={setSearchDialog} />
         </CustomDialog>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SideBar = ({ openSidebar, setOpenSidebar, avatar }) => {
   const sidebarVariants = {
@@ -183,7 +230,8 @@ const SideBar = ({ openSidebar, setOpenSidebar, avatar }) => {
         onClick={() => setOpenSidebar(false)}
       />
 
-      <motion.div className="absolute bg-[var(--Surface)] w-72 pt-12 pb-8 px-4 h-screen top-0 left-0 z-20 lg:hidden"
+      <motion.div
+        className="absolute bg-[var(--Surface)] w-72 pt-12 pb-8 px-4 h-screen top-0 left-0 z-20 lg:hidden"
         initial="closed"
         animate={openSidebar ? "open" : "closed"}
         variants={sidebarVariants}
@@ -196,57 +244,94 @@ const SideBar = ({ openSidebar, setOpenSidebar, avatar }) => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-y-4'>
-          <BoxComponentMobile setOpenSidebar={setOpenSidebar} href={"/dashboard/player-dashboard/advanced"} show={show} icon={<CrownIcon />} title={"Advanced"} title1={"Photoshop"} title2={"Premier pro"} />
-          <BoxComponentMobile setOpenSidebar={setOpenSidebar} href={"/dashboard/player-dashboard/beginner"} show={show} icon={<Gear />} title={"Beginner"} title1={"Photoshop"} title2={"Premier pro"} />
-          <BoxComponentMobile setOpenSidebar={setOpenSidebar} href={"/dashboard/introductory"} show={show} icon={<BulbIcon />} title={"Introductory"} introductory={true} />
-          <BoxComponentMobile setOpenSidebar={setOpenSidebar} href={"/dashboard/profile"} show={show}
-            icon={<div className='bg-gray-300  rounded-full w-6 h-6 relative'>
-              <Image
-                src={avatar || '/profilepic.jpeg'}
-                alt='Profile pic'
-                layout="fill"
-                objectFit="cover"
-                className="rounded-full"
-              /> </div>}
-            title={"Profile"} profileMobile={true} />
-
+        <div className="flex flex-col gap-y-4">
+          <BoxComponentMobile
+            setOpenSidebar={setOpenSidebar}
+            href={"/dashboard/player-dashboard/advanced"}
+            show={show}
+            icon={<CrownIcon />}
+            title={"Advanced"}
+            title1={"Photoshop"}
+            title2={"Premier pro"}
+          />
+          <BoxComponentMobile
+            setOpenSidebar={setOpenSidebar}
+            href={"/dashboard/player-dashboard/beginner"}
+            show={show}
+            icon={<Gear />}
+            title={"Beginner"}
+            title1={"Photoshop"}
+            title2={"Premier pro"}
+          />
+          <BoxComponentMobile
+            setOpenSidebar={setOpenSidebar}
+            href={"/dashboard/introductory"}
+            show={show}
+            icon={<BulbIcon />}
+            title={"Introductory"}
+            introductory={true}
+          />
+          <BoxComponentMobile
+            setOpenSidebar={setOpenSidebar}
+            href={"/dashboard/profile"}
+            show={show}
+            icon={
+              <div className="bg-gray-300  rounded-full w-6 h-6 relative">
+                <Image
+                  src={avatar || "/profilepic.jpeg"}
+                  alt="Profile pic"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />{" "}
+              </div>
+            }
+            title={"Profile"}
+            profileMobile={true}
+          />
         </div>
       </motion.div>
     </>
-  )
-}
-
+  );
+};
 
 const ProfileComponent = ({ href, avatar }) => {
   const router = useRouter();
 
   return (
-    <div className='ml-3 bg-gray-300 rounded-full w-11 h-11 relative hidden lg:block cursor-pointer'
+    <div
+      className="ml-3 bg-gray-300 rounded-full w-11 h-11 relative hidden lg:block cursor-pointer"
       onClick={() => {
-        router.push(href)
+        router.push(href);
       }}
     >
       <Image
-        src={avatar || '/profilepic.jpeg'}
-        alt='Profile pic'
+        src={avatar || "/profilepic.jpeg"}
+        alt="Profile pic"
         layout="fill"
         objectFit="cover"
         className="rounded-full"
       />
     </div>
-  )
-}
+  );
+};
 
-const BoxComponent = ({ icon, title, introductory, title1, title2, show, href }) => {
+const BoxComponent = ({
+  icon,
+  title,
+  introductory,
+  title1,
+  title2,
+  show,
+  href,
+}) => {
   const [isOpenBoxDropdown, setIsOpenBoxDropdown] = useState(false);
   const router = useRouter();
   const boxRef = useRef(null);
 
-
   const handleClick = () => {
     if (introductory) {
-      router.push('/dashboard/introductory');
+      router.push("/dashboard/introductory");
     } else {
       setIsOpenBoxDropdown((prev) => !prev);
     }
@@ -261,21 +346,21 @@ const BoxComponent = ({ icon, title, introductory, title1, title2, show, href })
     };
 
     // Add event listener for detecting clicks outside
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     // Cleanup the event listener when component unmounts
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
-
     <div className="relative hidden lg:block " ref={boxRef}>
       <div
         onClick={handleClick}
-        className={`px-4 py-3  flex flex-col bg-[#040C19] border-x border-t ${isOpenBoxDropdown ? '' : 'border-b'
-          } border-[var(--neon-purple)] cursor-pointer relative`}
+        className={`px-4 py-3  flex flex-col bg-[#040C19] border-x border-t ${
+          isOpenBoxDropdown ? "" : "border-b"
+        } border-[var(--neon-purple)] cursor-pointer relative`}
       >
         <div className="flex justify-between items-center">
           <div className="flex gap-x-2 items-center">
@@ -319,20 +404,26 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
   const handleClick = () => {
     router.push(href);
     setIsOpenBoxDropdown(false);
-  }
+  };
   return (
     <motion.div
       className="absolute top-full left-0 right-0 w-full border-x border-b border-[var(--neon-purple)] bg-[#040C19] px-4 py-2 z-10 overflow-hidden"
       initial={{ height: 0, opacity: 0 }}
-      animate={{ height: 'auto', opacity: 1 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
+      animate={{ height: "auto", opacity: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <div className="flex flex-col gap-y-1 ">
-        <button className="text-xs text-white flex justify-between items-center rounded-md" onClick={handleClick}>
+        <button
+          className="text-sm font-medium text-white flex justify-between items-center rounded-md"
+          onClick={handleClick}
+        >
           {title1} <ArrowRight size={21} />
         </button>
 
-        <button className="text-xs text-white flex justify-between items-center  rounded-md" onClick={handleClick}>
+        <button
+          className="text-sm font-medium text-white flex justify-between items-center  rounded-md"
+          onClick={handleClick}
+        >
           {title2} <ArrowRight size={21} />
         </button>
       </div>
@@ -340,36 +431,46 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
   );
 };
 
-const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introductory, title1, title2, show, href }) => {
+const BoxComponentMobile = ({
+  setOpenSidebar,
+  profileMobile,
+  icon,
+  title,
+  introductory,
+  title1,
+  title2,
+  show,
+  href,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const boxRefMobile = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (boxRefMobile.current && !boxRefMobile.current.contains(event.target)) {
+      if (
+        boxRefMobile.current &&
+        !boxRefMobile.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [])
-
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleClick = () => {
     if (introductory) {
-      router.push('/dashboard/introductory');
+      router.push("/dashboard/introductory");
       setOpenSidebar(false);
-    }
-    else if (profileMobile) {
-      router.push('/dashboard/profile')
+    } else if (profileMobile) {
+      router.push("/dashboard/profile");
       setOpenSidebar(false);
-    }
-    else {
+    } else {
       setIsOpen((prev) => !prev);
     }
   };
@@ -385,7 +486,9 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
           {/* Left side with icon and title */}
           <div className="flex gap-x-2 items-center">
             {icon}
-            <span className="text-sm font-semibold">{show && !isOpen ? "" : title}</span>
+            <span className="text-sm font-semibold">
+              {show && !isOpen ? "" : title}
+            </span>
           </div>
 
           {/* Free tag for introductory */}
@@ -393,11 +496,13 @@ const BoxComponentMobile = ({ setOpenSidebar, profileMobile, icon, title, introd
             <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">
               Free
             </span>
-          ) : !profileMobile && (
-            // Chevron for dropdown
-            <div className="cursor-pointer ml-3">
-              {isOpen ? <ChevronUp /> : <ChevronDown />}
-            </div>
+          ) : (
+            !profileMobile && (
+              // Chevron for dropdown
+              <div className="cursor-pointer ml-3">
+                {isOpen ? <ChevronUp /> : <ChevronDown />}
+              </div>
+            )
           )}
         </div>
 
@@ -452,6 +557,5 @@ const BoxDropdownMobile = ({ setOpenSidebar, title1, title2, href }) => {
     </motion.div>
   );
 };
-
 
 export default DashboardNavbar;
