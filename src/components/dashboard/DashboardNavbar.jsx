@@ -100,9 +100,7 @@ const DashboardNavbar = () => {
             )}
             {urlpath === "introductory" && (
               <>
-                <h1 className="text-lg font-semibold mb-1">
-                  Introductory videos
-                </h1>
+                <h1 className="text-lg font-semibold mb-1">Learn properly</h1>
                 <p className="text-xs text-[#CDCED1]">
                   {introductoryVideosCount} Videos
                 </p>
@@ -167,7 +165,7 @@ const DashboardNavbar = () => {
         <BoxComponent
           show={show}
           icon={<BulbIcon />}
-          title={"Introductory"}
+          title={"Learn Properly"}
           introductory={true}
           href={"/dashboard/introductory"}
         />

@@ -47,14 +47,15 @@ const PlayerSidebar = () => {
     if (subscribedCourse?.modules) {
       const level = path.includes("beginner") ? "beginner" : "advanced";
       if (level === "beginner") {
-        const id = subscribedCourse?.modules?.[0].submodules?.[0].videos[0]?._id;
+        const id =
+          subscribedCourse?.modules?.[0].submodules?.[0].videos[0]?._id;
         dispatch(setFirstVideoId(id));
       } else {
-        const id = subscribedCourse?.modules?.[0].submodules?.[0].videos[0]?._id;
+        const id =
+          subscribedCourse?.modules?.[0].submodules?.[0].videos[0]?._id;
         dispatch(setFirstVideoId(id));
       }
     }
-
   }, [subscribedCourseData, dispatch]);
 
   useEffect(() => {
@@ -96,7 +97,7 @@ const PlayerSidebar = () => {
         )}
         {activeIndex === 1 && (
           <IntroductoryList
-            heading={"Introductory videos"}
+            heading={"Learn properly"}
             subItems={introductoryVideos}
             playingVideoId={playingVideoId}
             setPlayingVideoId={setPlayingVideoId}
@@ -124,7 +125,7 @@ const ActionCard = ({ icon, isActive, onClick }) => {
         backgroundImage:
           isActive && "linear-gradient(150deg, #2C68F6 0%, #8574F6 100%)",
       }}
-    className="hover:!bg-gray-800 py-4 h-14 flex-grow rounded-lg flex items-center justify-center cursor-pointer"
+      className="hover:!bg-gray-800 py-4 h-14 flex-grow rounded-lg flex items-center justify-center cursor-pointer"
     >
       {icon}
     </div>
