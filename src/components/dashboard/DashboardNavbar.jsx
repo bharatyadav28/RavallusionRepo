@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetUserDetailQuery } from "@/store/Api/auth";
 import { setSearchValue } from "@/store/slice/general";
 import { setSearchHistory } from "@/store/slice/general";
+import YourProgress from "../progress/YourProgress";
 
 const DashboardNavbar = () => {
   const pathname = usePathname();
@@ -169,6 +170,8 @@ const DashboardNavbar = () => {
           introductory={true}
           href={"/dashboard/introductory"}
         />
+
+        <YourProgress />
 
         <ProfileComponent
           show={show}
