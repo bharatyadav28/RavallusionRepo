@@ -3,9 +3,27 @@ import React, { useState } from "react";
 import CustomDialog from "../common/CustomDialog";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useGenerateMyCertificateMutation } from "@/store/Api/courseProgress";
+import { toast } from "react-toastify";
 
 function CertificateForm({ open, setOpen }) {
   const [name, setName] = useState("");
+
+  const [generateCertificate, { isLoading }] =
+    useGenerateMyCertificateMutation();
+
+  const handleSubmit = async () => {
+    if (isLoading) return;
+    try {
+      const res = await generateCertificate(name).unwrap();
+      if (res?.success) {
+        setOpen(false);
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Error while generating certificate");
+    }
+  };
+
   return (
     <CustomDialog open={open} close={() => setOpen(false)}>
       <div className="flex items-center justify-center my-8">
@@ -45,9 +63,9 @@ function CertificateForm({ open, setOpen }) {
           <div className="flex justify-end mt-1">
             <Button
               className="hover:bg-[var(--neon-purple)] px-10 py-6 glow-btn font-semibold w-max rounded-lg "
-              //   onClick={handleSave}
+              onClick={handleSubmit}
             >
-              {false ? "Updating..." : "Get Certificate"}
+              {isLoading ? "Generating..." : "Get Certificate"}
             </Button>
           </div>
         </div>

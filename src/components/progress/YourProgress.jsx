@@ -12,16 +12,49 @@ import {
 import { CustomPieChart } from "../common/CustomPieChart";
 import Celebration from "./Celebration";
 import CertificateForm from "./CertificateForm";
+import {
+  useGetCourseProgressQuery,
+  useGetMyCertificateQuery,
+} from "@/store/Api/courseProgress";
+import { cdnDomain } from "@/lib/functions";
+import LoadingSpinner, { SimpleLoader } from "../common/LoadingSpinner";
 
 function YourProgress() {
   const [openDialog, setOpenDialog] = useState(false);
+
+  const { data: progressData, isLoading } = useGetCourseProgressQuery();
+  const { data: certificateData, isCertficateLoading } =
+    useGetMyCertificateQuery();
+
+  const planName = progressData?.data?.planName;
+  const totalVideos = progressData?.data?.yourProgress.totalVideos;
+  const completedVideos = progressData?.data?.yourProgress.completedVideos;
+
+  const perCompleted = Math.ceil((completedVideos / totalVideos) * 100);
+  const isCourseCompleted = perCompleted === 100;
+  const certificate = certificateData?.data?.certificates?.[0];
+
+  const isDataLoading = isLoading || isCertficateLoading;
+  const showCelebration = isCourseCompleted && !certificate;
+
+  const handleDownloadCertificate = () => {
+    if (!certificate) {
+      setOpenDialog(true);
+    } else {
+      const a = document.createElement("a");
+      a.href = `${cdnDomain}/${certificate?.path}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <div className="flex gap-1 items-center px-2">
-            <CustomPieChart>
+            <CustomPieChart percentage={perCompleted}>
               <div className="p-4">
                 <Trophy className="relative z-10 w-5 h-5" />
               </div>
@@ -35,50 +68,66 @@ function YourProgress() {
             </div>
           </div>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent className="bg-black border-none mt-[0.7rem] rounded-xl !mr-[13rem]">
-          <div className="text-[#fff] px-5 pt-5 pb-3 ">
-            <div className="flex text-lg gap-2">
-              <div className="font-bold ">Course Progress</div>
-              <div className="self-center opacity-80">
-                <Dot />
-              </div>
-              <div className="opacity-80 ">Advance</div>
+          {isDataLoading && (
+            <div className="flex w-[25rem] h-[10rem] justify-center items-center">
+              <SimpleLoader />
             </div>
+          )}
 
-            <div className="mt-4 flex gap-2 items-center">
-              <div>
-                <CustomPieChart>
-                  {" "}
-                  <div className="py-4 m-8 text-xl"> 25%</div>{" "}
-                </CustomPieChart>
+          {showCelebration && <Celebration />}
+
+          {!isDataLoading && (
+            <div className="text-[#fff] px-5 pt-5 pb-3 ">
+              <div className="flex text-lg gap-2">
+                <div className="font-bold ">Course Progress</div>
+                <div className="self-center opacity-80">
+                  <Dot />
+                </div>
+                <div className="opacity-80 ">{planName}</div>
               </div>
 
-              <div className="flex flex-col">
-                <div className="font-semibold">53 of 350 complete.</div>
-                {false && (
-                  <div className="text-sm ">
-                    Finish the course to get certificate{" "}
+              <div className="mt-4 flex gap-2 items-center">
+                <div>
+                  <CustomPieChart percentage={perCompleted}>
+                    {" "}
+                    <div className="py-4 m-8 font-semibold text-xl flex gap-[0.1rem] ">
+                      {" "}
+                      <div>{perCompleted}</div>
+                      <div className="!text-md"> % </div>
+                    </div>{" "}
+                  </CustomPieChart>
+                </div>
+
+                <div className="flex flex-col">
+                  <div className="font-semibold">
+                    {completedVideos} of {totalVideos} complete.
                   </div>
-                )}
-                {true && <Celebration />}
-                {true && (
-                  <div>
-                    <div className="text-sm mt-1 break-all text-[#FFEA47]">
-                      🥳 🎉 Congratulations you completed a course
+                  {!isCourseCompleted && (
+                    <div className="text-sm mt-1">
+                      <div>Finish the course videos and submit assignment </div>
+                      <div>to get your certificate</div>
                     </div>
-                    <button
-                      className="p-0 m-0 text-[#2C68F6] mt-2 font-medium"
-                      onClick={() => setOpenDialog(true)}
-                    >
-                      Download certificate
-                    </button>
-                  </div>
-                )}
+                  )}
+                  {false && <Celebration />}
+                  {isCourseCompleted && (
+                    <div>
+                      <div className="text-sm mt-1 break-all text-[#FFEA47]">
+                        🥳 🎉 Congratulations you completed a course
+                      </div>
+                      <button
+                        className="p-0 m-0 text-[#2C68F6] mt-2 font-medium"
+                        onClick={handleDownloadCertificate}
+                      >
+                        Download certificate
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-          {/* <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>sdsd</DropdownMenuItem> */}
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
