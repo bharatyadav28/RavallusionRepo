@@ -125,7 +125,7 @@ const MyCart = () => {
           options={{
             // "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
             "client-id":
-              "AAYcITR01g4NIxYbO4d4KmdLP4ub9C2AZLRrmcKJWAVb7DgRtejR2l_aqH7fhT9qLcTzudldUEYZhhvXY",
+              "AYcITR01g4NIxYbO4d4KmdLP4ub9C2AZLRrmcKJWAVb7DgRtejR2l_aqH7fhT9qLcTzudldUEYZhhvXY",
             currency: "USD",
             intent: "capture",
           }}
