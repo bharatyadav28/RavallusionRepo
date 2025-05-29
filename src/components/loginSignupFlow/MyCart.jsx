@@ -123,7 +123,9 @@ const MyCart = () => {
       ) : (
         <PayPalScriptProvider
           options={{
-            "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+            // "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+            "client-id":
+              "AchAKvRFT6aDO_C0Kz3sGH2nuiF5-q8VMChEcHQJIk3Q6nP4PmFuStSsRneIsDmck8X9Nu4qF7Hk2iB5",
             currency: "USD",
             intent: "capture",
           }}
