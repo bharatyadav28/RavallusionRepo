@@ -11,7 +11,7 @@ export function CustomPieChart({ children, percentage }) {
   const circumference = 2 * Math.PI * radius;
   const strokeDasharray = circumference;
   const strokeDashoffset =
-    circumference - (clampedPercentage / 100) * circumference;
+    circumference - (clampedPercentage / 100) * circumference || 0;
 
   return (
     <div className="flex gap-2 items-center text-sm ">
