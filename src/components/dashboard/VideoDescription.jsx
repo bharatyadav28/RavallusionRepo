@@ -1,11 +1,21 @@
-"use client"
-import { Assignment, DownloadIcon, BookMark, Quiz, Bookmarked, Resources } from '@/lib/svg_icons';
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import SubmitAssignment from './SubmitAssignment';
-import CustomDialog from '../common/CustomDialog';
-import { useAddBookmarkMutation, useGetBookmarkQuery } from '@/store/Api/introAndBookmark';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+"use client";
+import {
+  Assignment,
+  DownloadIcon,
+  BookMark,
+  Quiz,
+  Bookmarked,
+  Resources,
+} from "@/lib/svg_icons";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import SubmitAssignment from "./SubmitAssignment";
+import CustomDialog from "../common/CustomDialog";
+import {
+  useAddBookmarkMutation,
+  useGetBookmarkQuery,
+} from "@/store/Api/introAndBookmark";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 // export const chapters = [
 //   { title: "Chapter 1", time: 0 },
@@ -15,7 +25,16 @@ import { toast } from 'react-toastify';
 //   { title: "Chapter 3", time: 240 },
 // ];
 
-const VideoDescription = ({ videoId, title, description, downloadResource, downloadAssignment, showTimeStamp, chapterRef, chapters }) => {
+const VideoDescription = ({
+  videoId,
+  title,
+  description,
+  downloadResource,
+  downloadAssignment,
+  showTimeStamp,
+  chapterRef,
+  chapters,
+}) => {
   const chapterSection = useRef(null);
   const [addToBookmark] = useAddBookmarkMutation();
   const { data: getdata, refetch } = useGetBookmarkQuery();
@@ -28,12 +47,12 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
   const [isClient, setIsClient] = useState(null);
 
   useEffect(() => {
-    setIsClient(true)
-  }, [])
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (showTimeStamp && chapterSection.current) {
-      chapterSection.current.scrollIntoView({ behavior: 'smooth' });
+      chapterSection.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [showTimeStamp]);
 
@@ -54,7 +73,7 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     try {
       if (isBookmarked) {
         if (!bookmarkedId) {
-          toast.error('bookmarkId is undefined')
+          toast.error("bookmarkId is undefined");
           return;
         }
 
@@ -86,13 +105,14 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
 
   const handleToggle = () => setIsExpanded(!isExpanded);
 
-  const truncatedText = description?.length > 100
-    ? description?.slice(0, 100) + "..."
-    : description;
+  const truncatedText =
+    description?.length > 100
+      ? description?.slice(0, 100) + "..."
+      : description;
 
   const handleResource = () => {
     if (!downloadResource) {
-      toast.warning("Resource not found")
+      toast.warning("Resource not found");
       return;
     }
     const a = document.createElement("a");
@@ -100,59 +120,64 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  }
+  };
   const handleDownloadAssignment = () => {
-    if (!downloadAssignment) {
-      toast.warning("Assignment not found")
-      return;
+    if (downloadAssignment) {
+      const a = document.createElement("a");
+      a.href = downloadAssignment;
+      a.download = ""; // Optional: force download
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
-    const a = document.createElement("a");
-    a.href = downloadAssignment;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
 
-
-  const handleSeek = (time) => {
-    if (chapterRef.current) {
-      chapterRef.current.seekTo(time, 'seconds');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (downloadResource) {
+      // Delay the second download slightly
+      setTimeout(() => {
+        const a = document.createElement("a");
+        a.href = downloadResource;
+        a.download = ""; // Optional
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, 500); // 500ms delay to allow the first download to trigger
     }
   };
 
+  const handleSeek = (time) => {
+    if (chapterRef.current) {
+      chapterRef.current.seekTo(time, "seconds");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
   };
 
   if (!isClient) return null;
 
-
   return (
     <div className="text-white">
-
       <div className="flex justify-between mb-3">
         <h1 className="text-xl font-semibold">{title}</h1>
-        {
-          title && !isBookmarked && (
-            <div className='p-3 rounded-full sm:bg-[#181F2B] cursor-pointer -mb-3' onClick={handleBookmark}>
-              {!isBookmarked && <BookMark />}
-            </div>
-          )
-        }
-
+        {title && !isBookmarked && (
+          <div
+            className="p-3 rounded-full sm:bg-[#181F2B] cursor-pointer -mb-3"
+            onClick={handleBookmark}
+          >
+            {!isBookmarked && <BookMark />}
+          </div>
+        )}
       </div>
 
       <div className="mb-4">
         <p className="text-sm">
-          {isExpanded ? (
-            description
-          ) : (
-            truncatedText
-          )}
+          {isExpanded ? description : truncatedText}
           {description?.length > 100 && (
             <span
               onClick={handleToggle}
@@ -162,44 +187,68 @@ const VideoDescription = ({ videoId, title, description, downloadResource, downl
             </span>
           )}
         </p>
-
       </div>
 
-      {
-        showTimeStamp && chapters?.length > 0 && (
-          <div className='mb-4' ref={chapterSection}>
-            <h3 className='text-xl font-bold mb-2'>Chapters</h3>
-            <ul>
-              {chapters.map((ch, i) => (
-                <li key={i} style={{ cursor: 'pointer' }}>
-                  <div><span className='text-[var(--neon-purple)]' onClick={() => handleSeek(ch.time)}>{formatTime(ch.time)}</span> - {ch.title}</div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )
-      }
-
+      {showTimeStamp && chapters?.length > 0 && (
+        <div className="mb-4" ref={chapterSection}>
+          <h3 className="text-xl font-bold mb-2">Chapters</h3>
+          <ul>
+            {chapters.map((ch, i) => (
+              <li key={i} style={{ cursor: "pointer" }}>
+                <div>
+                  <span
+                    className="text-[var(--neon-purple)]"
+                    onClick={() => handleSeek(ch.time)}
+                  >
+                    {formatTime(ch.time)}
+                  </span>{" "}
+                  - {ch.title}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="flex gap-y-2 md:gap-y-2 md:gap-x-4 flex-col md:flex-row items-center flex-wrap">
-        <TextIconBox title="Submit assignment" icon={<Assignment />} onClick={() => setIsAssignmentOpen(true)} />
-        <TextIconBox title="Download assignment" icon={<DownloadIcon />} onClick={handleDownloadAssignment} />
-        <TextIconBox title="Download resources" icon={<Resources />} onClick={handleResource} />
+        <TextIconBox
+          title="Submit assignment"
+          icon={<Assignment />}
+          onClick={() => setIsAssignmentOpen(true)}
+        />
+        <TextIconBox
+          title="Download assets"
+          icon={<DownloadIcon />}
+          onClick={handleDownloadAssignment}
+        />
+        {/* <TextIconBox
+          title="Download resources"
+          icon={<Resources />}
+          onClick={handleResource}
+        /> */}
       </div>
 
-      <CustomDialog open={isAssignmentOpen} close={() => setIsAssignmentOpen(false)}>
-        <SubmitAssignment videoId={videoId} setIsAssignmentOpen={setIsAssignmentOpen} />
+      <CustomDialog
+        open={isAssignmentOpen}
+        close={() => setIsAssignmentOpen(false)}
+      >
+        <SubmitAssignment
+          videoId={videoId}
+          setIsAssignmentOpen={setIsAssignmentOpen}
+        />
       </CustomDialog>
-
     </div>
   );
 };
 
 const TextIconBox = ({ title, icon, onClick }) => (
-  <div onClick={onClick} className='bg-[#2C68F626] cursor-pointer flex-1 flex items-center justify-center gap-x-4 rounded-[8px] px-5 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]'>
-    <h1 className='text-xs font-semibold'>{title}</h1>
+  <div
+    onClick={onClick}
+    className="bg-[#2C68F626] cursor-pointer flex-1 flex items-center justify-center gap-x-4 rounded-[8px] px-5 py-2 h-12 w-full md:w-auto border border-[var(--neon-purple)]"
+  >
+    <h1 className="text-xs font-semibold">{title}</h1>
     {icon}
   </div>
 );
 
-export default VideoDescription;  
+export default VideoDescription;
