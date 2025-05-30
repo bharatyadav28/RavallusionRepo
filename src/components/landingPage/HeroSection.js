@@ -6,15 +6,15 @@ import { useEffect, useState } from "react";
 
 const HeroSection = ({ data }) => {
   const caption = data?.caption.replace(/<\/?p>/g, "");
-  const words = caption.split(" ");
-  const firstPart = words.slice(0, -1).join(" ");
-  const lastPart = words[words.length - 1];
-  const [isMobile, setIsMobile] = useState(false)
+  const words = caption?.split(" ");
+  const firstPart = words?.slice(0, -1).join(" ");
+  const lastPart = words && words[words?.length - 1];
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mobileWidth = window.innerWidth < 640
+    const mobileWidth = window.innerWidth < 640;
     setIsMobile(mobileWidth);
-  }, [])
+  }, []);
   return (
     <LandingContainer className=" relative w-full !h-screen flex items-center md:px-[7rem] 2xl:px-[10rem]">
       {/* Text Content */}
@@ -29,33 +29,29 @@ const HeroSection = ({ data }) => {
         </p>
 
         <GlowButton className="text-lg 2xl:text-2xl mt-4 px-14 2xl:px-16 py-7 2xl:py-8 w-40">
-          <Link href={'/login'}>
-            Enroll Now
-          </Link>
+          <Link href={"/login"}>Enroll Now</Link>
         </GlowButton>
       </div>
 
       {/* Background Image */}
       <div className="absolute inset-0 -z-10 ">
-        {
-          isMobile ? (
-            <Image
-              src="/Hero section image - Mobile res.png"
-              fill
-              alt="Hero Background"
-              style={{ objectFit: "cover", filter: "brightness(0.7)" }}
-            />
-          ) : (<Image
+        {isMobile ? (
+          <Image
+            src="/Hero section image - Mobile res.png"
+            fill
+            alt="Hero Background"
+            style={{ objectFit: "cover", filter: "brightness(0.7)" }}
+          />
+        ) : (
+          <Image
             src="/hero-image.png"
             fill
             alt="Hero Background"
             style={{ objectFit: "cover" }}
-          />)
-        }
+          />
+        )}
       </div>
-
     </LandingContainer>
-
   );
 };
 
