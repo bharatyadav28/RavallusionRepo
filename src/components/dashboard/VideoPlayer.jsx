@@ -857,19 +857,17 @@ const VideoPlayer = ({
                 {formatTime(currentTime)} / {formatTime(duration)}
               </span>
 
-              {chapters?.length > 0 && (
-                <div
-                  className="flex items-center cursor-pointer"
-                  onClick={() => {
-                    setShowTimeStamp(!showTimeStamp);
-                  }}
-                >
-                  <span className="ml-2 uppercase text-sm flex items-center">
-                    {currentChapter}
-                  </span>
-                  <ChevronRight size={18} />
-                </div>
-              )}
+              {
+                chapters?.length>0 && (
+                  <div className="flex items-center cursor-pointer" onClick={() => { setShowTimeStamp(!showTimeStamp) }}>
+                    <span className="ml-2 uppercase text-sm flex items-center">
+                      {currentChapter}
+                    </span>
+                    <ChevronRight size={18} />
+                  </div>
+                )
+              }
+
             </div>
 
             <div

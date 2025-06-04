@@ -1,15 +1,16 @@
 "use client";
-
+import { toast } from 'react-toastify';
 import { Bookmarked } from "@/lib/svg_icons";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import React from "react";
-
-const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId, duration }) => {
+import { useDeleteBookmarkMutation } from "@/store/Api/introAndBookmark";
+const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId, duration,bookmarkedId }) => {
     const router = useRouter();
     const path = usePathname();
 
+  const [deleteBookmark] = useDeleteBookmarkMutation();
     const fetchVideo = () => {
         if (!isBookmarked) {
             router.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
@@ -20,6 +21,15 @@ const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, vid
         }
 
     };
+      const removeBookmark = async () => {
+    try {
+      const res = await deleteBookmark({ bookmarkedId });
+      toast.success("Bookmark removed successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message || "Error while removing bookmark");
+    }
+  };
 
     return (
         <motion.div
@@ -59,8 +69,9 @@ const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, vid
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                        >
-                            <Bookmarked width={18} height={18} />
+                        >  <button onClick={removeBookmark}>
+                            <Bookmarked width={18} height={18}  />
+                            </button>
                         </motion.div>
                     )}
                 </div>

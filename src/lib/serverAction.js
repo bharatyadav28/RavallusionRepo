@@ -41,5 +41,6 @@ export const submitQuery = async (body) => {
     body,
     isTokenRequired: false,
   });
+
   return res;
 };

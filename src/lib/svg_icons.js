@@ -838,8 +838,8 @@ export const Vinod = ({ className }) => (
         y2="95.9439"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="white" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
     </defs>
   </svg>
@@ -1999,9 +1999,9 @@ export const Phone = () => (
     <path
       d="M5 4H9L11 9L8.5 10.5C9.57096 12.6715 11.3285 14.429 13.5 15.5L15 13L20 15V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21C14.0993 20.763 10.4202 19.1065 7.65683 16.3432C4.8935 13.5798 3.23705 9.90074 3 6C3 5.46957 3.21071 4.96086 3.58579 4.58579C3.96086 4.21071 4.46957 4 5 4Z"
       stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -2049,32 +2049,32 @@ export const Trophy = () => {
     <path
       d="M12.7563 2.27132C13.2906 2.37298 13.6078 2.48546 13.8811 2.82288C14.225 3.24538 14.207 3.70177 14.1702 4.61454C14.0404 7.89722 13.305 12.0364 9.15208 12.0364C4.99916 12.0364 4.26303 7.89794 4.13181 4.61454C4.09576 3.70177 4.07774 3.24466 4.42021 2.82288C4.7634 2.40038 5.17364 2.33116 5.99485 2.19273C7.03825 2.02182 8.09407 1.93813 9.15136 1.94255C9.66951 1.94351 10.1502 1.95985 10.5933 1.99158"
       stroke="white"
-      stroke-width="1.08149"
-      stroke-linecap="round"
+      strokeWidth="1.08149"
+      strokeLinecap="round"
     />
     <path
       d="M14.1983 4.10303L14.8825 4.33086C15.5963 4.56879 15.9532 4.68775 16.1572 4.9711C16.3612 5.25445 16.3612 5.63153 16.3612 6.3828V6.43544C16.3612 7.05549 16.3612 7.36624 16.212 7.62003C16.0628 7.87382 15.7909 8.0245 15.2488 8.3266L13.1168 9.51047M4.10438 4.10303L3.42016 4.33086C2.70638 4.56879 2.34949 4.68775 2.14545 4.9711C1.94141 5.25445 1.94141 5.63153 1.94141 6.3828V6.43544C1.94141 7.05549 1.94141 7.36624 2.09065 7.62003C2.2399 7.87382 2.51171 8.0245 3.0539 8.3266L5.18587 9.51047"
       stroke="white"
-      stroke-width="1.08149"
+      strokeWidth="1.08149"
     />
     <path
       d="M9.15039 12.7573V14.1993"
       stroke="white"
-      stroke-width="1.08149"
-      stroke-linecap="round"
+      strokeWidth="1.08149"
+      strokeLinecap="round"
     />
     <path
       d="M11.6739 16.3621H6.62695L6.87209 15.1392C6.90475 14.9759 6.99298 14.8288 7.1218 14.7232C7.25061 14.6175 7.41205 14.5597 7.57866 14.5596H10.7222C10.8888 14.5597 11.0502 14.6175 11.1791 14.7232C11.3079 14.8288 11.3961 14.9759 11.4288 15.1392L11.6739 16.3621Z"
       stroke="white"
-      stroke-width="1.08149"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.08149"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M13.4781 16.3618H4.82617"
       stroke="white"
-      stroke-width="1.08149"
-      stroke-linecap="round"
+      strokeWidth="1.08149"
+      strokeLinecap="round"
     />
   </svg>;
 };

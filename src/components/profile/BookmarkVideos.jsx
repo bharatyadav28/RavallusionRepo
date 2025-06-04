@@ -48,6 +48,7 @@ const BookmarkVideos = () => {
         {bookmarks.length > 0 ? (
           bookmarks.map((item) => (
             <VideoCard
+              bookmarkedId={item?._id}
               isBookmarked={true}
               key={item?.video?._id}
               videoId={item?.video?._id}
@@ -64,7 +65,7 @@ const BookmarkVideos = () => {
                 2,
                 '0'
               )}`}
-            />
+            /> 
           ))
         ) : (
           <div className='flex flex-col justify-center items-center min-h-[60vh] text-center col-span-12'>

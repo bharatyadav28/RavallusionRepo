@@ -60,7 +60,7 @@ const quickLinks = [
     link: "/refund-policy",
   },
   {
-    title: "Contact us",
+    title: "Contact Us",
     link: "/contact-us",
   },
 ];

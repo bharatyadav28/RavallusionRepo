@@ -79,8 +79,8 @@ const Plans = ({ plans, showSkeleton = false }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
         <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
-          <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 ">
-            {plans?.[0]?.plan_type}
+          <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 uppercase ">
+            {plans?.[0]?.plan_type} 
           </h1>
           <div className="py-[30px] px-4 flex flex-col 2xl:px-6 2xl:py-9 2xl:gap-6  gap-4  items-start">
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
@@ -145,7 +145,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
         </div>
 
         <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
-          <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
+          <h1 className="text-lg 2xl:text-xl uppercase pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
             {plans[1].plan_type}
           </h1>
           <div className="py-[30px] px-4 flex flex-col 2xl:px-6 2xl:py-9 2xl:gap-6  gap-4 items-start">

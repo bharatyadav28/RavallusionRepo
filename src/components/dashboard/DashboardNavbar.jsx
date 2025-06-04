@@ -127,8 +127,14 @@ const DashboardNavbar = () => {
           </div>
         </div>
       ) : (
+        <div className="flex items-center gap-3">
         <div className="w-12 h-12 relative">
           <Image src="/logo.png" alt="logo" fill className="object-contain" />
+      
+        </div>
+           <span className="text-lg font-semibold whitespace-nowrap">
+        Ravallusion Academy
+      </span>
         </div>
       )}
 
@@ -414,19 +420,18 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <div className="flex flex-col gap-y-1 ">
-        <button
-          className="text-sm font-medium text-white flex justify-between items-center rounded-md"
-          onClick={handleClick}
-        >
-          {title1} <ArrowRight size={21} />
-        </button>
-
-        <button
-          className="text-sm font-medium text-white flex justify-between items-center  rounded-md"
-          onClick={handleClick}
-        >
-          {title2} <ArrowRight size={21} />
-        </button>
+     <span
+  onClick={handleClick}
+  className="block px-4 py-2 text-md text-white hover:text-[var(--yellow)] hover:bg-[#0e1624] transition-colors duration-200 cursor-pointer"
+>
+  {title1}
+</span>
+<span
+  onClick={handleClick}
+  className="block px-4 py-2 text-md text-white hover:text-[var(--yellow)] hover:bg-[#0e1624] transition-colors duration-200 cursor-pointer"
+>
+  {title2}
+</span>
       </div>
     </motion.div>
   );

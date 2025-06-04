@@ -21,9 +21,11 @@ import { useToast } from "@/hooks/use-toast";
 import LoadingSpinner from "../common/LoadingSpinner";
 import CustomCombobox from "../common/CustomCombobox";
 
+
 const ContactForm = () => {
   const { toast } = useToast();
   const formData = new FormData();
+  const [errors, setErrors] = useState("");
   const [formInputs, setFormInputs] = useState({
     first_name: "",
     last_name: "",
@@ -39,6 +41,12 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formInputs.profession || formInputs.profession=="" ) {
+     const newErrors  = "This field is required.";
+      setErrors(newErrors);
+    return;
+  }
+   
     setLoading(true);
 
     Object.entries(formInputs).forEach(([key, value]) => {
@@ -132,16 +140,17 @@ const ContactForm = () => {
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
+<div>
           <CustomCombobox
             label={"Your Profession"}
             id={"profession"}
             required={true}
             icon={professionIcon}
             value={formInputs.profession}
-            onChange={(data) => setFormInputs({ ...formInputs, profession: data })}
+            onChange={(data) => setFormInputs({ ...formInputs, profession: data }, setErrors(""))}
           />
-
+{errors && <p className="text-red-500 text-sm mt-1">{errors}</p>}
+</div>
           <TextInput
             label="Your Address"
             id="address"

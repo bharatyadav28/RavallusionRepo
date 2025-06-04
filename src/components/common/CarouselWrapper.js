@@ -51,10 +51,10 @@ const CarouselWrapper = ({ navigation = false, children, autoScrollInterval = 30
                 navigation && (
                     <>
                         <button
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2 hover:bg-gray-900"
+                            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-700  text-white rounded-full p-2 hover:bg-gray-900"
                             onClick={prevSlide}
                         >
-                            <ChevronLeft/>
+                          <ChevronLeft/>
                         </button>
                         <button
                             className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2 hover:bg-gray-900"

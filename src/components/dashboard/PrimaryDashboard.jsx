@@ -32,6 +32,7 @@ const PrimaryDashboard = () => {
     <CarouselWrapper>
       {carouselImages && carouselImages.map((img, index) => (
         <div key={index} className="grid grid-cols-12 gap-0 lg:gap-2 h-96 lg:h-80">
+          
           {/* Fire effect - Left side */}
           <motion.div
             whileHover={{ scale: 0.95 }}

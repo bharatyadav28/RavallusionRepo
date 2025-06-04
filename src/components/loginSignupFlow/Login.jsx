@@ -100,8 +100,11 @@ const Login = () => {
 
         } catch (err) {
             console.error("API Call Failed:", err);
-            const errorMessage = err?.data?.message || "Something went wrong! Please try again.";
+         
+            // const errorMessage = err?.data?.message || "Something went wrong! Please try again.";
+              const errorMessage =  " check email ! & Please try again.";
             toast.error(`${errorMessage}`);
+            
         }
     };
 

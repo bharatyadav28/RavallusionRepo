@@ -6,7 +6,7 @@ import SkeletonVideoCard from './SkeletonVideoCard';
 
 const TutorialCards = ({ title, subItems }) => {
     return (
-        <div className='py-2 bg-[var(--card)]'>
+        <div className='py-2  px-3 bg-[var(--card)]'>
 
             <div className='p-3'>
                 <h1 className='text-lg font-semibold'>{title}</h1>
@@ -18,6 +18,7 @@ const TutorialCards = ({ title, subItems }) => {
                         subItems.length > 0 && subItems.map((items, i) => (
                             <VideoCard key={items._id}
                                 videoId={items._id}
+                              
                                 img={items.thumbnailUrl}
                                 heading={items.title}
                                 description={items.description}

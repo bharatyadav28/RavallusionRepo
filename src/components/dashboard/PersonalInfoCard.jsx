@@ -62,17 +62,26 @@ const PersonalInfoCard = () => {
     }
   };
 
-  const handleUpdateName = async (value) => {
-    handleSave("name", value);
-    try {
-      const res = await updateName({ name: value }).unwrap();
-    } catch (error) {
-      console.log("error while Updating name", error);
-      toast.error(error?.data?.message);
-    } finally {
-      setIsOpenName(false);
-    }
-  };
+const handleUpdateName = async (value) => {
+  // Allow only letters, spaces, hyphens and apostrophes (e.g., O'Connor)
+  const nameRegex = /^[a-zA-Z\s'-]+$/;
+
+  if (!nameRegex.test(value)) {
+    toast.error("No special characters allowed in name field");
+    return;
+  }
+
+  handleSave("name", value);
+  try {
+    const res = await updateName({ name: value }).unwrap();
+  } catch (error) {
+    console.log("error while Updating name", error);
+    toast.error(error?.data?.message);
+  } finally {
+    setIsOpenName(false);
+  }
+};
+
   const handleUpdateMobile = async (value) => {
     handleSave("phone", value);
     try {

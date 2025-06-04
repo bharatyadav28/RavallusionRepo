@@ -31,11 +31,11 @@ const CustomCombobox = ({ required, label, icon, id,value,onChange }) => {
         <div className='flex flex-col gap-[0.375rem]'>
             <label htmlFor={id} className="text-xs">
                 {label}
-                {required && <span className="text-red-700"> *</span>}
+                {required  && <span className="text-red-700"> *</span>}
             </label>
             <div className='flex bg-[var(--input)] rounded-xl items-center px-2 h-full py-1 md:py-0'>
                 <span>{icon}</span>
-                <Combobox profession={profession} value={value} onChange={onChange} />
+                <Combobox required  profession={profession} value={value} onChange={onChange} />
             </div>
         </div>
     )

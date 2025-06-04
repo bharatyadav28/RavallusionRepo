@@ -116,7 +116,8 @@ const VideoDashboard = () => {
   // Force video player to remount when videoUrl changes
   const videoPlayerKey = videoUrl || "no-video";
   return (
-    <div className="lg:mt-6 flex lg:flex-row flex-col">
+    <div className="lg:mt-6 flex lg:flex-row flex-col ">
+      
       <div className="lg:mr-6 xl:mr-8 w-full lg:w-[70%]">
         <div className="h-[400px] rounded-md">
           {isLoading || courseProgressLoading ? (
@@ -142,7 +143,7 @@ const VideoDashboard = () => {
             <SimpleLoader />
           )}
         </div>
-        <div className="my-[20px] px-4 lg:px-0">
+        <div className="my-[20px] px-4 lg:px-0 ">
           <VideoDescription
             chapterRef={chapterRef}
             showTimeStamp={showTimeStamp}
