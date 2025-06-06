@@ -11,22 +11,25 @@ import CarouselWrapper from "../common/CarouselWrapper";
 const PrimaryDashboard = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { data, isLoading } = useGetCarouselImgQuery();
+  
+  console.log(data?.data?.carousals);
 
   // Fallback images in case API data is not available
   const defaultImages = [fireEffectimg, spaceEffect1, prismatic];
-  const carouselImages = data?.data?.carousal?.map((item) => item?.image) || defaultImages;
+  
+  const carouselImages = data?.data?.carousals?.map((item) => item?.video?.thumbnailUrl) || defaultImages;
 
 
   // Auto-moving carousel with interval
   useEffect(() => {
-    if (carouselImages.length === 0) return;
+    if (carouselImages?.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselImages?.length);
     },3000);
 
     return () => clearInterval(interval);
-  }, [carouselImages.length]);
+  }, [carouselImages?.length]);
 
   return (
     <CarouselWrapper>
@@ -42,7 +45,7 @@ const PrimaryDashboard = () => {
               Fire effect
             </h1> */}
             <Image
-              src={carouselImages[currentIndex % carouselImages.length] || fireEffectimg}
+              src={carouselImages[currentIndex % carouselImages?.length] || fireEffectimg}
               alt="Fire effect img"
               fill
               style={{ objectFit: "cover" }}
@@ -56,7 +59,7 @@ const PrimaryDashboard = () => {
             </h1> */}
             <div className="w-full h-full relative overflow-hidden">
               <Image
-                src={carouselImages[(currentIndex + 1) % carouselImages.length] || spaceEffect1}
+                src={carouselImages[(currentIndex + 1) % carouselImages?.length] || spaceEffect1}
                 alt={`Space effect image ${currentIndex + 1}`}
                 fill
                 style={{
@@ -84,7 +87,7 @@ const PrimaryDashboard = () => {
             className="bg-blue-200 col-span-6 lg:col-span-3 relative order-2"
           >
             <Image
-              src={carouselImages[(currentIndex + 2) % carouselImages.length] || prismatic}
+              src={carouselImages[(currentIndex + 2) % carouselImages?.length] || prismatic}
               alt="Prismatic img"
               fill
               style={{ objectFit: "cover" }}

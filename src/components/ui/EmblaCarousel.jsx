@@ -4,29 +4,41 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
 import VideoPlayer from "../dashboard/VideoPlayer";
-
+import Autoplay from "embla-carousel-autoplay";
+import CustomPlayButton from "./customPlay";
 const TWEEN_FACTOR_BASE = 0.52;
 
 const numberWithinRange = (number, min, max) =>
   Math.min(Math.max(number, min), max);
 
-const CarouselCard = ({ item, isActive, videoRefs, index }) => (
+const CarouselCard = ({ item, isActive, videoRefs, index }) => (  
   <div className="flex items-center justify-center">
     <div className="relative w-full h-fit self-center">
       <div className="p-3 carousel-bg h-96">
+    
         <VideoPlayer
           source={item.video.videoUrl}
           poster={item.video.thumbnailUrl}
           ref={(el) => { videoRefs.current[index] = el; }}
           autoPlay={isActive}
-        />
+      playIcon={<CustomPlayButton/>}     />
       </div>
     </div>
   </div>
 );
 
 const EmblaCarousel = ({ slides, options }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+const autoplay = useRef(
+  Autoplay(
+    { delay: 4000, stopOnInteraction: false }, 
+    (emblaRoot) => emblaRoot.parentElement
+  )
+);
+
+const [emblaRef, emblaApi] = useEmblaCarousel(
+  { ...options, loop: true },
+  [autoplay.current]
+);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef([]);
   const videoRefs = useRef([]);
@@ -141,13 +153,17 @@ const EmblaCarousel = ({ slides, options }) => {
     onNextButtonClick();
   }, [onNextButtonClick, activeIndex]);
 
+  
+
   return (
     <div className="embla relative">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((item, index) => (
+            
             <div className="embla__slide p-1" key={index}>
               <div className="embla__slide__number">
+               
                 <CarouselCard
                   isActive={index === activeIndex}
                   videoRefs={videoRefs}

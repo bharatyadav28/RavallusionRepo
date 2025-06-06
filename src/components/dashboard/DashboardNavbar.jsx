@@ -110,7 +110,6 @@ const DashboardNavbar = () => {
             {urlpath === "playerDashboard" && (
               <>
                 <h1 className="text-lg font-semibold mb-1">Opening file</h1>
-                {/* <p className='text-xs text-[#CDCED1]'>Photoshop interface  <span className='ml-2'>&#183; 1 Basic interface</span></p> */}
                 <p className="text-xs text-[#CDCED1]">{videoTitle}</p>
               </>
             )}
@@ -128,13 +127,12 @@ const DashboardNavbar = () => {
         </div>
       ) : (
         <div className="flex items-center gap-3">
-        <div className="w-12 h-12 relative">
-          <Image src="/logo.png" alt="logo" fill className="object-contain" />
-      
-        </div>
-           <span className="text-lg font-semibold whitespace-nowrap">
-        Ravallusion Academy
-      </span>
+          <div className="w-12 h-12 relative">
+            <Image src="/logo.png" alt="logo" fill className="object-contain" />
+          </div>
+          <span className="text-lg font-semibold whitespace-nowrap">
+            Ravallusion Academy
+          </span>
         </div>
       )}
 
@@ -151,31 +149,33 @@ const DashboardNavbar = () => {
           </div>
         )}
 
-        <BoxComponent
-          show={show}
-          icon={<CrownIcon />}
-          title={"Advanced"}
-          title1={"Photoshop"}
-          title2={"Premier pro"}
-          href={"/dashboard/player-dashboard/advanced"}
-        />
+        <div className="hidden lg:flex gap-x-2">
+          <BoxComponent
+            show={show}
+            icon={<CrownIcon />}
+            title={"Advanced"}
+            title1={"Photoshop"}
+            title2={"Premier pro"}
+            href={"/dashboard/player-dashboard/advanced"}
+          />
 
-        <BoxComponent
-          show={show}
-          icon={<Gear />}
-          title={"Beginner"}
-          title1={"Photoshop"}
-          title2={"Premier pro"}
-          href={"/dashboard/player-dashboard/beginner"}
-        />
+          <BoxComponent
+            show={show}
+            icon={<Gear />}
+            title={"Beginner"}
+            title1={"Photoshop"}
+            title2={"Premier pro"}
+            href={"/dashboard/player-dashboard/beginner"}
+          />
 
-        <BoxComponent
-          show={show}
-          icon={<BulbIcon />}
-          title={"Learn Properly"}
-          introductory={true}
-          href={"/dashboard/introductory"}
-        />
+          <BoxComponent
+            show={show}
+            icon={<BulbIcon />}
+            title={"Learn Properly"}
+            introductory={true}
+            href={"/dashboard/introductory"}
+          />
+        </div>
 
         <YourProgress />
 
@@ -204,7 +204,7 @@ const DashboardNavbar = () => {
 const SideBar = ({ openSidebar, setOpenSidebar, avatar }) => {
   const sidebarVariants = {
     open: {
-      x: 0, // Sidebar slides into view
+      x: 0,
       opacity: 1,
       transition: {
         type: "spring",
@@ -213,7 +213,7 @@ const SideBar = ({ openSidebar, setOpenSidebar, avatar }) => {
       },
     },
     closed: {
-      x: "-100%", // Sidebar slides out of view
+      x: "-100%",
       opacity: 0,
       transition: {
         type: "spring",
@@ -346,26 +346,23 @@ const BoxComponent = ({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // If the click is outside the BoxComponent, close the dropdown
       if (boxRef.current && !boxRef.current.contains(event.target)) {
         setIsOpenBoxDropdown(false);
       }
     };
 
-    // Add event listener for detecting clicks outside
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup the event listener when component unmounts
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
-    <div className="relative hidden lg:block " ref={boxRef}>
+    <div className="relative hidden lg:block" ref={boxRef}>
       <div
         onClick={handleClick}
-        className={`px-4 py-3  flex flex-col bg-[#040C19] border-x border-t ${
+        className={`px-4 py-3 flex flex-col bg-[#040C19] border-x border-t ${
           isOpenBoxDropdown ? "" : "border-b"
         } border-[var(--neon-purple)] cursor-pointer relative`}
       >
@@ -419,19 +416,19 @@ const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
       animate={{ height: "auto", opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      <div className="flex flex-col gap-y-1 ">
-     <span
-  onClick={handleClick}
-  className="block px-4 py-2 text-md text-white hover:text-[var(--yellow)] hover:bg-[#0e1624] transition-colors duration-200 cursor-pointer"
->
-  {title1}
-</span>
-<span
-  onClick={handleClick}
-  className="block px-4 py-2 text-md text-white hover:text-[var(--yellow)] hover:bg-[#0e1624] transition-colors duration-200 cursor-pointer"
->
-  {title2}
-</span>
+      <div className="flex flex-col gap-y-1">
+        <span
+          onClick={handleClick}
+          className="block px-4 py-2 text-md text-white hover:text-[var(--yellow)] hover:bg-[#0e1624] transition-colors duration-200 cursor-pointer"
+        >
+          {title1}
+        </span>
+        <span
+          onClick={handleClick}
+          className="block px-4 py-2 text-md text-white hover:text-[var(--yellow)] hover:bg-[#0e1624] transition-colors duration-200 cursor-pointer"
+        >
+          {title2}
+        </span>
       </div>
     </motion.div>
   );
@@ -489,7 +486,6 @@ const BoxComponentMobile = ({
           cursor-pointer relative ${isOpen ? "" : "border-b"}`}
       >
         <div className="flex justify-between items-center">
-          {/* Left side with icon and title */}
           <div className="flex gap-x-2 items-center">
             {icon}
             <span className="text-sm font-semibold">
@@ -497,14 +493,12 @@ const BoxComponentMobile = ({
             </span>
           </div>
 
-          {/* Free tag for introductory */}
           {introductory ? (
             <span className="text-[9px] text-orange-300 rounded-sm bg-red-950 px-2 py-[1px] ml-2">
               Free
             </span>
           ) : (
             !profileMobile && (
-              // Chevron for dropdown
               <div className="cursor-pointer ml-3">
                 {isOpen ? <ChevronUp /> : <ChevronDown />}
               </div>
@@ -512,13 +506,11 @@ const BoxComponentMobile = ({
           )}
         </div>
 
-        {/* Neon Elipse Positioned at Bottom */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full flex justify-center">
           <NeonElipse />
         </div>
       </div>
 
-      {/* Dropdown Section - Pushes Content Down */}
       {isOpen && (
         <BoxDropdownMobile
           title1={title1}

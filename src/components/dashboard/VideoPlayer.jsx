@@ -48,12 +48,15 @@ const VideoPlayer = ({
   ref,
   registerVideoRef,
   autoPlay,
+  playIcon = <FaPlay className="control-icons play-pause-restart cursor-pointer h-20 w-20 " />,
   latestVideo = false,
   showTimeStamp,
   setShowTimeStamp,
   chapterRef,
   chapters,
 }) => {
+
+
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -574,10 +577,10 @@ const VideoPlayer = ({
     toggleSettings();
   };
 
-  const handleError = (error) => {
-    console.error("An error occurred while loading the video:", error);
-    toast.error("An error occurred while loading the video");
-  };
+  // const handleError = (error) => {
+  //   console.error("An error occurred while loading the video:", error);
+  //   // toast.error("An error occurred while loading the video");
+  // };
 
   const handleQualityChange = (quality) => {
     // if (quality === 360) {
@@ -740,7 +743,11 @@ const VideoPlayer = ({
           playbackRate={playbackSpeed}
           volume={volume}
           // light={false}
-          // playIcon={<FaPlay/>}
+             playIcon={<div className="absolute"   style={{
+            
+                zIndex: 199,
+              
+              }}>{playIcon} </div>}
           light={
             <div
               className={"flex justify-center thumbnail-container"}
@@ -783,7 +790,7 @@ const VideoPlayer = ({
           onDuration={handleDuration}
           onEnded={handleEnded}
           onBuffer={handleBuffer}
-          onError={handleError}
+          // onError={handleError}
           onBufferEnd={handleBufferEnd}
           onPlay={() => {
             setPlaying(true);
