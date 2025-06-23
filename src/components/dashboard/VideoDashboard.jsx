@@ -88,20 +88,23 @@ const VideoDashboard = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    const progressUpdate = async () => {
-      if (watchTime) {
+useEffect(() => {
+  const interval = setInterval(async () => {
+    if (watchTime && videoId) {
+      try {
         const res = await updateProgress({ id: videoId, watchTime }).unwrap();
-        dispatch(
-          setUpdatedPercentageWatched(res?.videoProgress?.percentageWatched)
-        );
+        dispatch(setUpdatedPercentageWatched(res?.videoProgress?.percentageWatched));
         dispatch(setVideoIdOfcurrentVideo(videoId));
-
         dispatch(updateVideo(res.videoProgress));
+      } catch (err) {
+        console.error("Error updating video progress:", err);
       }
-    };
-    progressUpdate();
-  }, [watchTime]);
+    }
+  }, 120000); // 2 minutes 
+
+  return () => clearInterval(interval); // Cleanup on unmount
+}, [watchTime, videoId, updateProgress, dispatch]);
+
 
   useEffect(() => {
     if (courseProgress) {

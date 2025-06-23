@@ -91,7 +91,7 @@ const VideoPlayer = ({
   const imgSrc = poster;
 
   const [src, setSrc] = useState(`${cdnDomain}/${source}/720p.m3u8`);
-  console.log("Src: ", src);
+
 
   useEffect(() => {
     setIsClient(true);
@@ -202,18 +202,16 @@ const VideoPlayer = ({
     }
   };
 
-  useEffect(() => {
-    const foundVideo = courseProgress?.data?.courseProgress?.find(
-      (v) => v.video === videoId
-    );
-    setIsVideoCompleted(foundVideo?.isCompleted);
+useEffect(() => {
+  const foundVideo = courseProgress?.data?.courseProgress?.find(
+    (v) => v.video === videoId
+  );
+  setIsVideoCompleted(foundVideo?.isCompleted || false); 
 
-    const lastPosition = foundVideo?.lastPosition;
+  const lastPosition = foundVideo?.lastPosition || 0;
+  setLastPosition(lastPosition);
+}, [courseProgress, videoId]); 
 
-    if (lastPosition) {
-      setLastPosition(foundVideo?.lastPosition);
-    }
-  }, [courseProgress]);
 
   useEffect(() => {
     setIsVideoFullScreen && setIsVideoFullScreen(isFullScreen);
@@ -222,12 +220,12 @@ const VideoPlayer = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Check if the video is in the viewport
+
         if (entry.isIntersecting) {
-          // Play when video comes in frame
+    
           setPlaying(true);
         } else {
-          // Pause when video goes out of frame
+       
           setPlaying(false);
         }
       },
@@ -270,7 +268,7 @@ const VideoPlayer = ({
           ? screenfull.isFullscreen
           : document.fullscreenElement != null;
 
-        // If exiting fullscreen, restore the stored position
+        
         if (
           !isCurrentlyFullscreen &&
           window.lastDialogScrollPosition !== undefined
@@ -577,10 +575,10 @@ const VideoPlayer = ({
     toggleSettings();
   };
 
-  // const handleError = (error) => {
-  //   console.error("An error occurred while loading the video:", error);
-  //   // toast.error("An error occurred while loading the video");
-  // };
+  const handleError = (error) => {
+    console.error("An error occurred while loading the video:", error);
+    toast.error("An error occurred while loading the video");
+  };
 
   const handleQualityChange = (quality) => {
     // if (quality === 360) {
@@ -790,7 +788,7 @@ const VideoPlayer = ({
           onDuration={handleDuration}
           onEnded={handleEnded}
           onBuffer={handleBuffer}
-          // onError={handleError}
+          onError={handleError}
           onBufferEnd={handleBufferEnd}
           onPlay={() => {
             setPlaying(true);
