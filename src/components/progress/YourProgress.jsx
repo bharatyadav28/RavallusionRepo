@@ -22,7 +22,8 @@ import LoadingSpinner, { SimpleLoader } from "../common/LoadingSpinner";
 function YourProgress() {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { data: progressData, isLoading } = useGetCourseProgressQuery();
+ const { data: progressData, isLoading } = useGetCourseProgressQuery();
+ console.log(progressData,"name")
   const { data: certificateData, isCertficateLoading } =
     useGetMyCertificateQuery();
 
@@ -37,6 +38,8 @@ function YourProgress() {
   const isDataLoading = isLoading || isCertficateLoading;
   const showCelebration = isCourseCompleted && !certificate;
 
+
+  
   const handleDownloadCertificate = () => {
     if (!certificate) {
       setOpenDialog(true);

@@ -17,6 +17,8 @@ import {
   SearchIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { setSidebarTabIndex } from  "@/store/slice/general";
+
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
@@ -335,11 +337,12 @@ const BoxComponent = ({
   const [isOpenBoxDropdown, setIsOpenBoxDropdown] = useState(false);
   const router = useRouter();
   const boxRef = useRef(null);
-
+ 
   const handleClick = () => {
     if (introductory) {
       router.push("/dashboard/introductory");
     } else {
+      
       setIsOpenBoxDropdown((prev) => !prev);
     }
   };
@@ -404,8 +407,9 @@ const BoxComponent = ({
 
 const BoxDropdown = ({ title1, title2, href, setIsOpenBoxDropdown }) => {
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const handleClick = () => {
+     dispatch(setSidebarTabIndex(0));
     router.push(href);
     setIsOpenBoxDropdown(false);
   };

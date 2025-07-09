@@ -12,4 +12,5 @@ export const createMarkup = (html) => {
 export const mapToObject = (map) => Object.fromEntries(map);
 export const objectToMap = (obj) => new Map(Object.entries(obj));
 
-export const cdnDomain = `https://dcays3srybill.cloudfront.net`;
+export const cdnDomain =  `https://d2b1ol8c9bt133.cloudfront.net`;
+//

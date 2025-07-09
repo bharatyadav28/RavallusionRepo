@@ -7,7 +7,7 @@ import {
   IntroductoryList,
 } from "./IntroductoryAndBookmarkList";
 import CourseModuleList from "./CourseModuleList";
-
+import { setSidebarTabIndex } from  "@/store/slice/general";
 import {
   useGetBookmarkQuery,
   useGetIntroductoryQuery,
@@ -34,11 +34,16 @@ const PlayerSidebar = () => {
     useGetSubscribedPlanCourseQuery(planId, { skip: !planId });
 
   const subscribedCourse = subscribedCourseData?.data?.course || [];
-
+const sidebarTabIndex = useSelector((state) => state.general.sidebarTabIndex);
   const introductoryVideos = introductoryData?.data?.introductoryVideos || [];
   const bookmarkedVideos = data?.bookmarks || [];
   useEffect(() => {
+  setActiveIndex(sidebarTabIndex);
+}, [sidebarTabIndex]);
+
+  useEffect(() => {
     const courseData = subscribedCourseData?.data?.course;
+console.log(courseData);
 
     if (courseData) {
       dispatch(setCourseId(courseData?._id));
@@ -60,9 +65,12 @@ const PlayerSidebar = () => {
 
   useEffect(() => {
     if (path.includes("beginner")) {
-      setPlanId(plansData?.data?.plans[0]?._id);
+     const plan = plansData?.data?.plans?.find((plan)=>plan.level===1)
+
+      setPlanId(plan?._id);
     } else {
-      setPlanId(plansData?.data?.plans[1]?._id);
+      const plan = plansData?.data?.plans?.find((plan)=>plan.level===2)
+      setPlanId(plan?._id);
     }
   }, [path, plansData]);
 
@@ -72,17 +80,21 @@ const PlayerSidebar = () => {
         <ActionCard
           icon={<CourseIcon />}
           isActive={activeIndex === 0}
-          onClick={() => setActiveIndex(0)}
+          onClick={() => { setActiveIndex(0); dispatch(setSidebarTabIndex(0)) }}
+     
         />
         <ActionCard
           icon={<BulbIcon />}
           isActive={activeIndex === 1}
-          onClick={() => setActiveIndex(1)}
+          onClick={() =>  { setActiveIndex(1); dispatch(setSidebarTabIndex(1)) }}
+        
+
         />
         <ActionCard
           icon={<Bookmark />}
           isActive={activeIndex === 2}
-          onClick={() => setActiveIndex(2)}
+          onClick={() => { setActiveIndex(2); dispatch(setSidebarTabIndex(2)) }}
+          
         />
       </div>
 
@@ -101,6 +113,8 @@ const PlayerSidebar = () => {
             subItems={introductoryVideos}
             playingVideoId={playingVideoId}
             setPlayingVideoId={setPlayingVideoId}
+        
+          
           />
         )}
         {activeIndex === 2 && (

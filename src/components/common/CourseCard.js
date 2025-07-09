@@ -65,7 +65,7 @@ const LatestTutorialVideo = ({ videoUrl, thumbnailUrl, setIsCustomOpen }) => {
           <CrossIcon width={24} height={24} />
         </button>
         <div className="w-[300px] md:w-full h-auto relative">
-          <VideoPlayer source={videoUrl} poster={thumbnailUrl} latestVideo={true} />
+          <VideoPlayer source={videoUrl} poster={thumbnailUrl} latestVideo={true} iscourse={false} />
         </div>
       </div>
     </div>

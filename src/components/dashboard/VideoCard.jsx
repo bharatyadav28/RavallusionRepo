@@ -5,14 +5,24 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import React from "react";
+import { setSidebarTabIndex } from  "@/store/slice/general";
 import { useDeleteBookmarkMutation } from "@/store/Api/introAndBookmark";
-const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId, duration,bookmarkedId }) => {
+import { useDispatch } from "react-redux";
+const VideoCard = ({ isBookmarked = false, title, description, thumbnailUrl, videoId, duration,bookmarkedId,type }) => {
     const router = useRouter();
     const path = usePathname();
-
+ const dispatch = useDispatch()
   const [deleteBookmark] = useDeleteBookmarkMutation();
     const fetchVideo = () => {
         if (!isBookmarked) {
+
+            if(type){
+      dispatch(setSidebarTabIndex(1));
+           }
+           else{
+                dispatch(setSidebarTabIndex(0));
+           }
+           
             router.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
         }
         else {

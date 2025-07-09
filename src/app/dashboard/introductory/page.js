@@ -42,6 +42,7 @@ const Introductory = () => {
           introductoryVideos.map((item) => (
             <VideoCard
               key={item?._id}
+              type="intro"
               videoId={item?._id}
               title={item?.title}
               description={item?.description}

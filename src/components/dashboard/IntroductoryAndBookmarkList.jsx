@@ -1,6 +1,7 @@
 import { mapToObject, objectToMap } from "@/lib/functions";
 import { Bookmarked, Lock, OrangePlay } from "@/lib/svg_icons";
 import { useDeleteBookmarkMutation } from "@/store/Api/introAndBookmark";
+import { setSidebarTabIndex } from  "@/store/slice/general";
 import {
   useGetCourseProgressQuery,
   useGetVideoProgressQuery,
@@ -16,6 +17,7 @@ export const IntroductoryList = ({
   subItems,
   setPlayingVideoId,
   playingVideoId,
+  iscourse=false,
 }) => {
   const params = useSearchParams();
   const videoId = params.get("videoId");
@@ -94,7 +96,7 @@ export const BookmarkedList = ({
                 )}:${String(timeDuration?.seconds ?? 0).padStart(2, "0")}`}
                 description={items?.video?.description}
                 isplaying={playingVideoId === items?.video?._id}
-                onPlay={() => setPlayingVideoId(items?.video?._id)}
+                onPlay={(iscourse) => setPlayingVideoId(items?.video?._id)}
               />
             );
           })
@@ -122,10 +124,13 @@ export const LessonCard = ({
   description,
   duration,
   isplaying,
+  iscourse=false,
   bookmarkedId,
   bookmark = false,
   introductory = false,
   onPlay,
+
+  isLocked = false 
 }) => {
   const route = useRouter();
   const [progress, setProgress] = useState(0);
@@ -139,9 +144,7 @@ export const LessonCard = ({
   const MapVideos = objectToMap(videos);
   const currentVideoData = MapVideos.get(videoId);
 
-  // Get the first element from the Map
   const firstEntry = MapVideos.entries().next().value;
-
   const currentVideoIndex = [...MapVideos.keys()].indexOf(videoId);
   const previousVideoData = [...MapVideos.values()][currentVideoIndex - 1];
 
@@ -157,6 +160,7 @@ export const LessonCard = ({
       setProgress(foundVideo?.percentageWatched);
     }
   }, []);
+
   useEffect(() => {
     if (updatedPercentageWatched && videoId === videoIdOfCurrentVideo) {
       setProgress(updatedPercentageWatched);
@@ -164,17 +168,21 @@ export const LessonCard = ({
   }, [updatedPercentageWatched, videoId, videoIdOfCurrentVideo]);
 
   const fetchVideo = () => {
-    if (!isVideoUnlocked && !introductory && !bookmark) return;
+  
+    if (isLocked || (!isVideoUnlocked && !introductory && !bookmark)) return;
+
     if (introductory) {
+    
       route.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
       onPlay();
       return;
     }
+
     const level = path.includes("beginner") ? "beginner" : "advanced";
     route.push(`/dashboard/player-dashboard/${level}?videoId=${videoId}`);
     onPlay();
-
   };
+
   const removeBookmark = async () => {
     try {
       const res = await deleteBookmark({ bookmarkedId });
@@ -184,61 +192,48 @@ export const LessonCard = ({
       toast.error(error?.data?.message || "Error while removing bookmark");
     }
   };
+
   return (
-    <div
-      className="flex gap-x-3 items-center cursor-pointer px-3"
-    >
+    <div className="flex gap-x-3 items-center cursor-pointer px-3">
       <div
-        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${!isVideoUnlocked && !introductory && !bookmark ? "brightness-30 cursor-not-allowed" : ""
+        className={`rounded-t-xl rounded-b-lg w-36 h-20 relative ${(!isVideoUnlocked || isLocked) && !introductory && !bookmark ? "brightness-30 cursor-not-allowed" : ""
           }`}
         onClick={fetchVideo}
       >
-        {
-          !isVideoUnlocked && !introductory && !bookmark ? (
-            <div className='z-50 absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-full flex items-center justify-center backdrop-blur-sm bg-[#0000001F] w-full'>
-              <Lock width={30} height={30} />
-            </div>
-          ) : ""
-        }
+        {(isLocked || (!isVideoUnlocked && !introductory && !bookmark)) && (
+          <div className='z-50 absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-full flex items-center justify-center backdrop-blur-sm bg-[#0000001F] w-full'>
+            <Lock width={30} height={30} />
+          </div>
+        )}
 
         <Image
           src={thumbnail}
           alt="video"
           fill
-          className={`rounded-t-xl rounded-b-lg ${isplaying && "brightness-50"
-            }`}
+          className={`rounded-t-xl rounded-b-lg ${isplaying && "brightness-50"}`}
         />
         <span
           style={{
             background: "rgba(0, 0, 0, 0.50)",
-            backdropFilter: "blur(5.400000095367432px)",
+            backdropFilter: "blur(5.4px)",
           }}
-          className="px-1 py-[2px] text-[10px] absolute top-2 right-2 rounded-sm "
+          className="px-1 py-[2px] text-[10px] absolute top-2 right-2 rounded-sm"
         >
           {duration || "00:00:00"}
         </span>
 
-
-
         {isplaying && (
           <span className="absolute font-semibold text-[var(--yellow)] text-[10px] bottom-2 left-1 flex gap-x-1 items-center">
-            <span>
-              <OrangePlay />
-            </span>{" "}
-            Now Playing
+            <OrangePlay /> Now Playing
           </span>
         )}
 
-        {/* Progress Bar */}
         <div className="absolute rounded-t-xl z-50 bottom-0 w-full h-[6px] bg-gray-300 rounded-full mt-1 overflow-hidden">
           <div
             className="h-full bg-[var(--yellow)]"
-            style={{
-              width: `${progress}%`,
-            }}
+            style={{ width: `${progress}%` }}
           ></div>
         </div>
-
       </div>
 
       <div className="flex-grow w-32">
@@ -249,11 +244,11 @@ export const LessonCard = ({
             title
           )}
         </h1>
-
         <p className="text-[10px] truncate whitespace-nowrap">
           {isplaying ? "" : description}
         </p>
       </div>
+
       {bookmark && (
         <button onClick={removeBookmark}>
           <Bookmarked width="16" height="16" />
@@ -262,3 +257,4 @@ export const LessonCard = ({
     </div>
   );
 };
+

@@ -31,11 +31,12 @@ const VideoDashboard = () => {
   const route = useRouter();
 
   const id = searchParams.get("videoId");
-  
+  const sidebarTabIndex = useSelector((state) => state.general.sidebarTabIndex);
   const { courseId, firstVideoId } = useSelector((state) => state.general);
 
   const [showTimeStamp, setShowTimeStamp] = useState(false);
-
+const [delayedAccessMessage, setDelayedAccessMessage] = useState(false);
+const [status, setStatus] = useState(true);
   const [videoUrl, setVideoUrl] = useState(null);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
 
@@ -57,7 +58,19 @@ const VideoDashboard = () => {
     skip: !videoId,
   });
 
-  
+
+  useEffect(() => {
+  if (!videoUrl && !isLoading && !courseProgressLoading) {
+    const timer = setTimeout(() => {
+      setDelayedAccessMessage(true);
+    }, 8000);
+
+    return () => clearTimeout(timer);
+  } else {
+    setDelayedAccessMessage(false); // Reset if videoUrl loads
+  }
+}, [videoUrl, isLoading, courseProgressLoading]);
+
   // Reset states when videoId changes
   useEffect(() => {
     setVideoUrl(null);
@@ -85,6 +98,13 @@ const VideoDashboard = () => {
   useEffect(() => {
     if (id) {
       setVideoId(id);
+   if(sidebarTabIndex==1)
+   {
+    setStatus(false)
+   }
+   else{
+    setStatus(true)
+   }
     }
   }, [id]);
 
@@ -96,11 +116,12 @@ useEffect(() => {
         dispatch(setUpdatedPercentageWatched(res?.videoProgress?.percentageWatched));
         dispatch(setVideoIdOfcurrentVideo(videoId));
         dispatch(updateVideo(res.videoProgress));
+       
       } catch (err) {
         console.error("Error updating video progress:", err);
       }
     }
-  }, 120000); // 2 minutes 
+  }, 2000); // 2 minutes 
 
   return () => clearInterval(interval); // Cleanup on unmount
 }, [watchTime, videoId, updateProgress, dispatch]);
@@ -123,28 +144,33 @@ useEffect(() => {
       
       <div className="lg:mr-6 xl:mr-8 w-full lg:w-[70%]">
         <div className="h-[400px] rounded-md">
-          {isLoading || courseProgressLoading ? (
-            <SimpleLoader />
-          ) : videoUrl ? (
-            <VideoPlayer
-              videoId={videoId}
-              courseProgress={courseProgress}
-              key={videoPlayerKey}
-              source={videoUrl}
-              poster={thumbnailUrl}
-              setWatchTime={setWatchTime}
-              watchTime={watchTime}
-              setShowTimeStamp={setShowTimeStamp}
-              showTimeStamp={showTimeStamp}
-              chapterRef={chapterRef}
-              chapters={data?.data?.timestamps} 
-            />
-          ) : (
-            // <div className='flex items-center justify-center h-full'>
-            //   <p className="text-red-500 font-bold text-2xl">Can&apos;t Play Video</p>
-            // </div>
-            <SimpleLoader />
-          )}
+{isLoading || courseProgressLoading ? (
+  <SimpleLoader />
+) : videoUrl ? (
+  <VideoPlayer
+    videoId={videoId}
+    courseProgress={courseProgress}
+    key={videoPlayerKey}
+    source={videoUrl}
+    poster={thumbnailUrl}
+    setWatchTime={setWatchTime}
+    watchTime={watchTime}
+    setShowTimeStamp={setShowTimeStamp}
+    showTimeStamp={showTimeStamp}
+    chapterRef={chapterRef}
+    chapters={data?.data?.timestamps}
+    iscourse={status}
+  />
+) : !delayedAccessMessage ? (
+  <SimpleLoader />
+) : (
+  <div className='flex items-center justify-center h-full'>
+    <p className="text-red-500 font-bold text-2xl text-center">
+      You don&apos;t have access .
+    </p>
+  </div>
+)}
+
         </div>
         <div className="my-[20px] px-4 lg:px-0 ">
           <VideoDescription

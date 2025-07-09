@@ -28,13 +28,18 @@ import {
   MdReplay,
   MdTune,
 } from "react-icons/md";
+
 import ErrorBoundary from "@/app/utils/errorBoundaries";
 // import { imgAddr, vidAddr } from "../features/api";
 import { useMediaQuery } from "react-responsive";
+import {
+  useGetCourseProgressQuery,
+} from "@/store/Api/courseProgress";
 
 import { toast } from "react-toastify";
 import { ChevronRight } from "lucide-react";
 import { cdnDomain } from "@/lib/functions";
+import { useDispatch, useSelector } from "react-redux";
 
 const VideoPlayer = ({
   source,
@@ -50,18 +55,23 @@ const VideoPlayer = ({
   autoPlay,
   playIcon = <FaPlay className="control-icons play-pause-restart cursor-pointer h-20 w-20 " />,
   latestVideo = false,
+   onPlayChange = () => {},
   showTimeStamp,
   setShowTimeStamp,
+  iscourse,
   chapterRef,
   chapters,
 }) => {
 
+  const sidebarTabIndex = useSelector((state) => state.general.sidebarTabIndex);
 
   const [firstPlay, setFirstPlay] = useState(true);
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState(720);
   const [selectedLang, setSelectedLang] = useState([source]);
+  const [maxWatchTime, setMaxWatchTime] = useState(0);
+
   const [played, setPlayed] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -91,7 +101,12 @@ const VideoPlayer = ({
   const imgSrc = poster;
 
   const [src, setSrc] = useState(`${cdnDomain}/${source}/720p.m3u8`);
+  const { refetch: refetchCourseProgress } = useGetCourseProgressQuery();
 
+  if(sidebarTabIndex==1)
+  {
+    iscourse=false;
+  }
 
   useEffect(() => {
     setIsClient(true);
@@ -145,6 +160,7 @@ const VideoPlayer = ({
     if (autoPlay && firstPlay) {
       setFirstPlay(false);
       setPlaying(true);
+       onPlayChange(true);
     }
   }, [autoPlay]);
 
@@ -402,10 +418,18 @@ useEffect(() => {
     setShowRestartButton(false);
   };
 
-  const handleEnded = () => {
-    setPlaying(false);
-    setShowRestartButton(true);
-  };
+const handleEnded = async () => {
+  setPlaying(false);
+  setShowRestartButton(true);
+  setIsVideoCompleted(true);
+
+  try {
+    const data = await refetchCourseProgress();
+    console.log("hihi",data)
+  } catch (error) {
+    console.error("Error refetching progress:", error);
+  }
+};
 
   const handleRestart = () => {
     if (playerRef.current) {
@@ -425,67 +449,98 @@ useEffect(() => {
     }
   };
 
-  const handleForward = () => {
-    if (isVideoCompleted === false) {
-      return;
-    }
-    if (playerRef.current) {
-      playerRef.current.seekTo(
-        playerRef.current.getCurrentTime() + 10,
-        "seconds"
-      );
-    }
-  };
+const handleForward = () => {
 
-  const handleSeekChange = (e) => {
-    if (isVideoCompleted === false) {
-      return;
-    }
+  if(iscourse==false)
+  {
+     const currentTime = playerRef.current.getCurrentTime();
+  const newTime = currentTime + 10;
+        if (isVideoCompleted || newTime <= maxWatchTime) {
+    playerRef.current.seekTo(newTime, "seconds");
+  }
+    return;
+  }
+  
+  if (!playerRef.current) return;
+  
+  const currentTime = playerRef.current.getCurrentTime();
+  const newTime = currentTime + 10;
 
-    const value = parseFloat(e.target.value);
+  if (isVideoCompleted || newTime <= maxWatchTime) {
+    playerRef.current.seekTo(newTime, "seconds");
+  }
+};
+const handleSeekChange = (e) => {
+
+  if(iscourse==false)
+  {
+      const value = parseFloat(e.target.value);
+  const targetTime = (value / 100) * duration;
+   setPlayed(value);
+    setShowRestartButton(false);
+    playerRef.current?.seekTo(value / 100, "fraction");
+    return;
+  }
+  const value = parseFloat(e.target.value);
+  const targetTime = (value / 100) * duration;
+
+  if (isVideoCompleted || targetTime <= maxWatchTime) {
     setPlayed(value);
     setShowRestartButton(false);
-    if (playerRef.current) {
-      playerRef.current.seekTo(value / 100, "fraction");
+    playerRef.current?.seekTo(value / 100, "fraction");
+  }
+};
+
+
+const handleSeekMouseDown = () => {
+
+    if(iscourse==false)
+  {
+      const value = parseFloat(progressRef.current.value);
+  const targetTime = (value / 100) * duration;
+      playerRef.current?.seekTo(value / 100, "fraction");
+  }
+
+  const value = parseFloat(progressRef.current.value);
+  const targetTime = (value / 100) * duration;
+
+  if (isVideoCompleted || targetTime <= maxWatchTime) {
+    playerRef.current?.seekTo(value / 100, "fraction");
+  }
+};
+
+
+ const handleProgress = (state) => {
+   if (!progressRef.current) return;
+  const { played, playedSeconds, loaded } = state;
+
+  const progressPercentage = played * 100;
+  const loadedPercentage = loaded * 100;
+
+  setPlayed(progressPercentage);
+  setCurrentTime(playedSeconds);
+
+  if (!isVideoCompleted && playedSeconds > maxWatchTime) {
+    setMaxWatchTime(playedSeconds);
+  }
+
+  if (chapters?.length > 0) {
+    const current =
+      [...chapters].reverse().find((ch) => playedSeconds >= ch.time) ||
+      chapters[0];
+    if (current.title !== currentChapter) {
+      setCurrentChapter(current.title);
     }
-  };
+  }
 
-  const handleSeekMouseDown = (e) => {
-    if (isVideoCompleted === false) {
-      return;
-    } else if (playerRef.current) {
-      playerRef.current.seekTo(progressRef.current.value / 100, "fraction");
-    }
-  };
-
-  const handleProgress = (state) => {
-    if (!progressRef.current) return;
-    const { played, playedSeconds, loaded } = state;
-
-    const progressPercentage = played * 100;
-    const loadedPercentage = loaded * 100;
-
-    setPlayed(progressPercentage);
-
-    setCurrentTime(playedSeconds);
-
-    if (chapters?.length > 0) {
-      const current =
-        [...chapters].reverse().find((ch) => playedSeconds >= ch.time) ||
-        chapters[0];
-      if (current.title !== currentChapter) {
-        setCurrentChapter(current.title);
-      }
-    }
-
-    const progressBar = progressRef.current;
-    if (progressBar) {
-      const progressColor = `linear-gradient(to right, #2C68F6 ${
-        progressPercentage + 0.1
-      }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
-      progressBar.style.background = progressColor;
-    }
-  };
+  const progressBar = progressRef.current;
+  if (progressBar) {
+    const progressColor = `linear-gradient(to right, #2C68F6 ${
+      progressPercentage + 0.1
+    }%, rgba(255,255,255,0.6) ${progressPercentage}%, rgba(255,255,255,0.6) ${loadedPercentage}%, rgba(255,255,255,0.2) ${loadedPercentage}%)`;
+    progressBar.style.background = progressColor;
+  }
+};
 
   const handleProgressHover = (e) => {
     const barWidth = progressRef.current.getBoundingClientRect().width;
@@ -575,10 +630,10 @@ useEffect(() => {
     toggleSettings();
   };
 
-  const handleError = (error) => {
-    console.error("An error occurred while loading the video:", error);
-    toast.error("An error occurred while loading the video");
-  };
+  // const handleError = (error) => {
+  //   console.error("An error occurred while loading the video:", error);
+  //   toast.error("An error occurred while loading the video");
+  // };
 
   const handleQualityChange = (quality) => {
     // if (quality === 360) {
@@ -788,10 +843,14 @@ useEffect(() => {
           onDuration={handleDuration}
           onEnded={handleEnded}
           onBuffer={handleBuffer}
-          onError={handleError}
+          // onError={handleError}
           onBufferEnd={handleBufferEnd}
           onPlay={() => {
+
+          
             setPlaying(true);
+             onPlayChange(true); 
+
             const id = setInterval(() => {
               if (playerRef.current && setWatchTime) {
                 const currentTime = playerRef.current.getCurrentTime();
@@ -799,9 +858,11 @@ useEffect(() => {
               }
             }, 2000); //Todo:  need to change in 1 minutes
             setIntervalId(id);
+          
           }}
           onPause={() => {
             setPlaying(false);
+            onPlayChange(false); 
             if (intervalId) {
               clearInterval(intervalId);
               setIntervalId(null);
@@ -846,14 +907,17 @@ useEffect(() => {
                 onClick={handlePlayPause}
               />
             )}
-            <GrForwardTen
-              className={`control-icons ${
-                isVideoCompleted === false
-                  ? "cursor-not-allowed"
-                  : "cursor-pointer"
-              }`}
-              onClick={handleForward}
-            />
+         <GrForwardTen
+  className={`control-icons ${
+    playerRef.current &&
+    !isVideoCompleted &&
+    playerRef.current.getCurrentTime() + 10 > maxWatchTime
+      ? "cursor-not-allowed"
+      : "cursor-pointer"
+  }`}
+  onClick={handleForward}
+/>
+
           </div>
 
           <div className="bottom-controls">
@@ -886,21 +950,23 @@ useEffect(() => {
                 </div>
               )}
 
-              <input
-                type="range"
-                className={`track-range ${
-                  isVideoCompleted === false
-                    ? "cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
-                ref={progressRef}
-                min={0}
-                max={100}
-                value={played}
-                step="any"
-                onChange={handleSeekChange}
-                onMouseDown={handleSeekMouseDown}
-              />
+<input
+  type="range"
+  className={`track-range ${
+    isVideoCompleted || (duration && (played / 100) * duration <= maxWatchTime|| iscourse==false)
+      ? "cursor-pointer"
+      : "cursor-not-allowed"
+  }`}
+  ref={progressRef}
+  min={0}
+  max={100}
+  value={played}
+  step="any"
+  onChange={handleSeekChange}
+  onMouseDown={handleSeekMouseDown}
+/>
+
+
             </div>
 
             <div className="flex">

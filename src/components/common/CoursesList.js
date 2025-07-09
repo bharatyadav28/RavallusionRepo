@@ -40,8 +40,8 @@ const CoursesList = ({ data }) => {
   }, [window.innerWidth]);
 
 
-  const firstThreeCourses = data.slice(0, 3);
-  const lastThreeCourses = data.slice(3);
+  const firstThreeCourses = data?.slice(0, 3);
+  const lastThreeCourses = data?.slice(3);
 
   return (
     <div className="flex-grow relative"
@@ -94,7 +94,7 @@ const CoursesList = ({ data }) => {
             <div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-[7%] md:px-0"
             >
-              {data.map((course, index) => (
+              {data?.map((course, index) => (
                 <CourseCard key={index} course={course} />
               ))}
             </div>

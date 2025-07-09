@@ -17,12 +17,16 @@ const initialState = {
   searchHistory: [],
   videoTitle: "",
   paymentSuccess:false,
+   sidebarTabIndex: 0,
 }
 
 export const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
+      setSidebarTabIndex: (state, action) => {
+    state.sidebarTabIndex = action.payload;
+  },
     setPlanId: (state, actions) => {
       state.planId = actions.payload;
     },
@@ -79,6 +83,7 @@ export const { setVideoIdOfcurrentVideo,setVideoTitle, setPaymentSuccess,
   setSearchHistory,
   setIsIndia,
   setUpdatedPercentageWatched,
+  setSidebarTabIndex,
   setCourseId,
   setFirstVideoId, setPlanId, setPlanPrice, setPlanType,setUsdPrice, setIntroductoryVideoscount,
   setBookmarkCount, setSubmoduleId } = generalSlice.actions

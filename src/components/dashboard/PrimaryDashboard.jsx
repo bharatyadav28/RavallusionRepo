@@ -21,7 +21,7 @@ const PrimaryDashboard = () => {
   ];
 
   const carousals = data?.data?.carousals || [];
-  const carouselItems = carousals.length
+  const carouselItems = carousals?.length
     ? carousals.map((item) => ({
         img: item?.video?.thumbnailUrl,
         videoId: item?.video?._id,
@@ -29,14 +29,14 @@ const PrimaryDashboard = () => {
     : defaultImages;
 
   useEffect(() => {
-    if (carouselItems.length === 0) return;
+    if (carouselItems?.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
+      setCurrentIndex((prev) => (prev + 1) % carouselItems?.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [carouselItems.length]);
+  }, [carouselItems?.length]);
 
   const handleClick = (videoId) => {
     if (videoId) {
@@ -52,11 +52,11 @@ const PrimaryDashboard = () => {
             whileHover={{ scale: 0.95 }}
             className="bg-pink-200 lg:col-span-3 col-span-6 relative order-1 lg:order-0 cursor-pointer"
             onClick={() =>
-              handleClick(carouselItems[currentIndex % carouselItems.length]?.videoId)
+              handleClick(carouselItems[currentIndex % carouselItems?.length]?.videoId)
             }
           >
             <Image
-              src={carouselItems[currentIndex % carouselItems.length]?.img || fireEffectimg}
+              src={carouselItems[currentIndex % carouselItems?.length]?.img || fireEffectimg}
               alt="Fire effect img"
               fill
               style={{ objectFit: "cover" }}
@@ -66,12 +66,12 @@ const PrimaryDashboard = () => {
           <div
             className="col-span-12 lg:col-span-6 relative flex items-center justify-center order-0 lg:order-1 cursor-pointer"
             onClick={() =>
-              handleClick(carouselItems[(currentIndex + 1) % carouselItems.length]?.videoId)
+              handleClick(carouselItems[(currentIndex + 1) % carouselItems?.length]?.videoId)
             }
           >
             <div className="w-full h-full relative overflow-hidden">
               <Image
-                src={carouselItems[(currentIndex + 1) % carouselItems.length]?.img || spaceEffect1}
+                src={carouselItems[(currentIndex + 1) % carouselItems?.length]?.img || spaceEffect1}
                 alt={`Space effect image ${currentIndex + 1}`}
                 fill
                 style={{
@@ -99,11 +99,11 @@ const PrimaryDashboard = () => {
             whileHover={{ scale: 0.95 }}
             className="bg-blue-200 col-span-6 lg:col-span-3 relative order-2 cursor-pointer"
             onClick={() =>
-              handleClick(carouselItems[(currentIndex + 2) % carouselItems.length]?.videoId)
+              handleClick(carouselItems[(currentIndex + 2) % carouselItems?.length]?.videoId)
             }
           >
             <Image
-              src={carouselItems[(currentIndex + 2) % carouselItems.length]?.img || prismatic}
+              src={carouselItems[(currentIndex + 2) % carouselItems?.length]?.img || prismatic}
               alt="Prismatic img"
               fill
               style={{ objectFit: "cover" }}
