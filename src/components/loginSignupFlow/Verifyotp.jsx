@@ -100,7 +100,7 @@ const VerifyOtp = () => {
                 <h2 className="text-center text-3xl font-bold mb-[30px]">Verify OTP</h2>
 
                 <div className="mb-[30px]">
-                    <p className="text-sm text-center">Please enter the OTP code sent to your email</p>
+                    <p className="text-sm text-center">Please enter the OTP sent to your email</p>
                     <p className="text-sm text-center">
                         {signinEmail}
                         <span className="text-orange-300 underline ml-2 cursor-pointer" onClick={() => router.push("/login")}>

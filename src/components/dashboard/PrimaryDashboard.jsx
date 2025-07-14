@@ -8,12 +8,15 @@ import { useGetCarouselImgQuery } from "@/store/Api/primaryDashboard";
 import { motion } from "framer-motion";
 import CarouselWrapper from "../common/CarouselWrapper";
 import { useRouter } from "next/navigation"; 
-
+import { useDispatch } from "react-redux";
+import { setSidebarTabIndex } from  "@/store/slice/general";
 const PrimaryDashboard = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { data } = useGetCarouselImgQuery();
   const router = useRouter(); 
+ const dispatch = useDispatch();
 
+ console.log(data)
   const defaultImages = [
     { img: fireEffectimg, videoId: null },
     { img: spaceEffect1, videoId: null },
@@ -27,6 +30,7 @@ const PrimaryDashboard = () => {
         videoId: item?.video?._id,
       }))
     : defaultImages;
+  
 
   useEffect(() => {
     if (carouselItems?.length === 0) return;
@@ -39,6 +43,7 @@ const PrimaryDashboard = () => {
   }, [carouselItems?.length]);
 
   const handleClick = (videoId) => {
+     dispatch(setSidebarTabIndex(1));
     if (videoId) {
       router.push(`/dashboard/player-dashboard/beginner?videoId=${videoId}`);
     }

@@ -455,7 +455,7 @@ const handleForward = () => {
   {
      const currentTime = playerRef.current.getCurrentTime();
   const newTime = currentTime + 10;
-        if (isVideoCompleted || newTime <= maxWatchTime) {
+        if (isVideoCompleted || newTime <= maxWatchTime||iscourse==false) {
     playerRef.current.seekTo(newTime, "seconds");
   }
     return;
@@ -910,10 +910,9 @@ const handleSeekMouseDown = () => {
          <GrForwardTen
   className={`control-icons ${
     playerRef.current &&
-    !isVideoCompleted &&
-    playerRef.current.getCurrentTime() + 10 > maxWatchTime
-      ? "cursor-not-allowed"
-      : "cursor-pointer"
+     isVideoCompleted || (duration && (played / 100) * duration <= maxWatchTime|| iscourse==false)
+      ? "cursor-pointer"
+      : "cursor-not-allowed"
   }`}
   onClick={handleForward}
 />

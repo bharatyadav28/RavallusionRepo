@@ -3,14 +3,14 @@ import LandingContainer from "../common/LandingContainer";
 import { GlowButton } from "../common/CustomButton";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import { createMarkup } from "@/lib/functions";
 const HeroSection = ({ data }) => {
   const caption = data?.caption.replace(/<\/?p>/g, "");
   const words = caption?.split(" ");
   const firstPart = words?.slice(0, -1).join(" ");
   const lastPart = words && words[words?.length - 1];
   const [isMobile, setIsMobile] = useState(false);
-
+console.log(data.caption)
   useEffect(() => {
     const mobileWidth = window.innerWidth < 640;
     setIsMobile(mobileWidth);
@@ -20,12 +20,12 @@ const HeroSection = ({ data }) => {
       {/* Text Content */}
       <div className="mt-[10rem] sm:mt-0 relative z-10 max-w-[800px] flex flex-col items-start text-left gap-2 md:gap-4">
         <h1 className="text-[37px] md:text-5xl 2xl:text-6xl leading-tight">
-          <span className="block text-[2.5rem]">{firstPart}</span>
-          <span className="block text-[4.5rem] font-semibold">{lastPart}.</span>
+          <span className="block text-[2.5rem]"dangerouslySetInnerHTML={createMarkup(firstPart)}></span>
+          <span className="block text-[4.5rem] font-semibold"dangerouslySetInnerHTML={createMarkup(lastPart)}></span>
         </h1>
 
         <p className="text-base md:text-lg 2xl:text-xl md:w-[70%] 2xl:w-[75%] text-gray-300">
-          {data?.description}
+         {data?.description}
         </p>
 
         <GlowButton className="text-lg 2xl:text-2xl mt-4 px-14 2xl:px-16 py-7 2xl:py-8 w-40">

@@ -11,10 +11,10 @@ const Navbar = () => {
   <div className="h-[0.5px] bg-gradient-to-r from-transparent via-[gray]/50 to-transparent"></div>
   <nav className="p-5 w-full flex justify-between items-center backdrop-blur-lg navbar z-10">
     <Link href="/" className="flex items-center gap-3">
-      <div className="w-12 h-12 relative">
+      <div className="w-14 h-14 relative">
         <Image src="/logo.png" alt="logo" fill className="object-contain" />
       </div>
-      <span className="text-lg font-semibold whitespace-nowrap">
+      <span className="text-2xl font-semibold whitespace-nowrap">
         Ravallusion Academy
       </span>
     </Link>

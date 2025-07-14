@@ -8,7 +8,7 @@ import Image from "next/image";
 const CertificateSection = ({ certificate }) => {
   return (
     <LandingContainer className="!h-fit pt-12 sm:pt-[7.5rem] !flex !flex-row justify-center">
-      <div className="flex gap-10 items-center w-full flex-wrap">
+      <div className="flex gap-28 items-center w-full flex-wrap">
 
         <div className="p-5 py-[50px] rounded-2xl certificate backdrop-blur-xl">
           <Image
@@ -16,7 +16,7 @@ const CertificateSection = ({ certificate }) => {
             width={1000}
             height={1000}
             alt="certificate"
-            className="w-[326px] h-[230px] md:w-[450px] md:h-[300px] xl:w-[30rem] 2xl:w-[32rem] xl:h-[20rem] 2xl:h-[22rem] rounded-xl "
+            className="w-[326px] h-[230px] md:w-[450px] md:h-[300px] xl:w-[30rem] 2xl:w-[30rem] xl:h-[20rem] 2xl:h-[20rem] rounded-xl "
           />
         </div>
 
@@ -28,7 +28,7 @@ const CertificateSection = ({ certificate }) => {
           {certificate.key_points.map((point) => (
             <div
               key={point}
-              className="flex items-center gap-3 text-xs xl:text-sm"
+              className="flex items-center gap-3 text-xs xl:text-base"
             >
               <CheckIcon />
               {point}.

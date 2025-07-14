@@ -208,6 +208,7 @@
 .bottom-controls button.active {
   outline: none;
   background-color: #2C68F6 !important;
+  font-weight: lighter;
 }
 
 
@@ -244,6 +245,7 @@
 .settings-menu {
   padding: 10px;
   font-size: .8rem;
+  font-weight: lighter;
   transition: all 0.3s ease;
 }
 
@@ -258,7 +260,7 @@
 }
 
 .menu-title {
-  font-weight: bold;
+  font-weight: medium;
 }
 
 .menu-items {
@@ -287,7 +289,8 @@
   color: #fff;
   cursor: pointer;
   margin: 0.25rem;
-  font-size: 1.4rem;
+  font-size: 1rem;
+  font-weight: lighter;
   transform: rotate(0deg);
   /* transition: all 0.3s ease; */
 }
@@ -302,7 +305,8 @@
 .duration-counter {
 
   margin-right: auto !important;
-  font-size: 1rem;
+  font-size: 13px;
+  font-weight: lighter;
 }
 
 .volume-wrapper {
@@ -335,7 +339,7 @@
   width: 100%;
   outline: none;
   border-radius: 15px;
-  height: 4px;
+  height: 3px;
   background: rgba(255, 255, 255, 0.2);
   transition: height ease-in-out 0.3s;
 

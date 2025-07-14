@@ -52,7 +52,7 @@ const CarouselCard = ({ item, isActive, videoRefs, index, onPlayChange }) => {
 const EmblaCarousel = ({ slides, options }) => {
   const autoplay = useRef(
     Autoplay(
-      { delay: 4000, stopOnInteraction: false }, 
+      { delay: 6000, stopOnInteraction: true }, 
       (emblaRoot) => emblaRoot.parentElement
     )
   );

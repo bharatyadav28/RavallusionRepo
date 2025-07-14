@@ -1,32 +1,32 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils"; // make sure this exists in your utils
 
-function CustomDialog({ open, close, children }) {
-  // useEffect(() => {
-  //   if (open) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'auto';
-  //   }
+function CustomDialog({ open, close, children, variant = "default" }) {
+  // Variant-specific sizing classes
+  const sizeClasses =
+    variant === "latest-video"
+      ? "max-w-[850px] w-full h-auto" // size for latest video
+      : "h-screen w-full";           // default full-screen
 
-  //   return () => {
-  //     document.body.style.overflow = 'auto';
-  //   };
-  // }, [open]);
   return (
     <Dialog open={open} onOpenChange={close}>
-      <DialogTitle className="hidden"></DialogTitle>
-      <DialogDescription className="hidden"></DialogDescription>
-        <DialogContent
-          className="h-screen overflow-y-auto border-none w-full outline-none">
-          {children}
-        </DialogContent>
+      <DialogTitle className="hidden" />
+      <DialogDescription className="hidden" />
+      <DialogContent
+        className={cn(
+          "overflow-y-none border-none outline-none",
+          sizeClasses
+        )}
+      >
+        {children}
+      </DialogContent>
     </Dialog>
   );
 }

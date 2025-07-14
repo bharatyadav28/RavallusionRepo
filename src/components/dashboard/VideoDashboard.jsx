@@ -164,11 +164,32 @@ useEffect(() => {
 ) : !delayedAccessMessage ? (
   <SimpleLoader />
 ) : (
-  <div className='flex items-center justify-center h-full'>
-    <p className="text-red-500 font-bold text-2xl text-center">
-      You don&apos;t have access .
+<div className="flex items-center justify-center h-full px-4">
+  <div className="bg-white max-w-md w-full p-6 rounded-2xl shadow-xl border border-red-200 text-center animate-in fade-in zoom-in duration-300">
+    <div className="flex justify-center mb-4">
+      <svg
+        className="w-14 h-14 text-red-500"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </div>
+<h2 className="text-xl font-semibold text-gray-800 mb-2">Upgrade  to Advance Plan</h2>
+    <p className="text-md text-gray-600 mb-4">
+      This video is part of the <span className="font-medium text-red-500">Advanced Course</span> and isn't available in your current subscription.
     </p>
+ 
   </div>
+</div>
+
 )}
 
         </div>

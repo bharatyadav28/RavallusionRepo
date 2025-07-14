@@ -77,8 +77,8 @@ const Plans = ({ plans, showSkeleton = false }) => {
         </>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8">
-        <div className="!w-[70vw] sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 2xl:gap-8 ">
+        <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[450px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-4 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl pb-[30px] px-4 font-semibold border-b-[1px] border-gray-500 2xl:px-6 2xl:pb-9 uppercase ">
             {plans?.[0]?.plan_type} 
           </h1>
@@ -88,12 +88,12 @@ const Plans = ({ plans, showSkeleton = false }) => {
                 X 1
               </span>
               {/* <span>{plans[0].watch}</span> */}
-              <span>Watch on 1 device</span>
+              <span className="text-xl font-semibold">Watch on 1 device</span>
             </div>
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
               <Check className="border-2 rounded-full p-1" size={27} />
               {/* <span>{plans[0].access}</span> */}
-              <span>Access to all content</span>
+              <span className="text-xl font-semibold">Access to Advance content</span>
             </div>
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
               <div className="relative w-fit">
@@ -103,12 +103,12 @@ const Plans = ({ plans, showSkeleton = false }) => {
                 </span>
               </div>
               {/* <span>{plans[0].quality}</span> */}
-              <span>Standard FHD quality</span>
+              <span className="text-xl font-semibold">Standard FHD quality</span>
             </div>
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm pr-2">
               <DevicesIcon />
               {/* <span>{plans[0].devices}</span> */}
-              <span>Watch on Laptop, Mobile, Tab and ipad</span>
+              <span className="text-xl font-semibold"> Watch on Laptop, Mobile, Tab and ipad</span>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
                 dispatch(setPlanPrice(plans[0]?.inr_price)),
                 dispatch(setUsdPrice(plans[0]?.usd_price));
             }}
-            className="!px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group"
+            className="!px-4 !py-10  !text-base !rounded-3xl  !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5 group"
           >
             <div className="flex flex-col items-start">
               <h1 className="text-xl font-semibold 2xl:text-2xl">
@@ -144,7 +144,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
           </CustomButton>
         </div>
 
-        <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[438px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-9 flex flex-col plans-card">
+        <div className="!w-[70vw]  sm:!w-[296px] 2xl:!w-[22rem] !h-[450px] 2xl:!h-[31rem] bg-[#131A26] rounded-2xl  py-[30px] 2xl:py-4 flex flex-col plans-card">
           <h1 className="text-lg 2xl:text-xl uppercase pb-[30px] px-4 font-semibold border-b-[1px] 2xl:px-5 border-gray-500 bg-gradient-to-l from-[#C99BFD]/80 to-[var(--neon-purple)] bg-clip-text text-transparent 2xl:pb-9">
             {plans[1].plan_type}
           </h1>
@@ -154,12 +154,12 @@ const Plans = ({ plans, showSkeleton = false }) => {
                 X 1
               </span>
               {/* <span>{plans[1].watch}</span> */}
-              <span>Watch on 1 device</span>
+              <span className="text-xl font-semibold">Watch on 1 device</span>
             </div>
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
               <Check className="border-2 rounded-full p-1" size={27} />
               {/* <span>{plans[1].access}</span> */}
-              <span>Access to all content</span>
+              <span className="text-xl font-semibold">Access to Beginner content</span>
             </div>
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm ">
               <div className="relative w-fit">
@@ -169,12 +169,12 @@ const Plans = ({ plans, showSkeleton = false }) => {
                 </span>
               </div>
               {/* <span>{plans[1].quality}</span> */}
-              <span>Standard FHD quality</span>
+              <span className="text-xl font-semibold">Standard FHD quality</span>
             </div>
             <div className="flex gap-7 text-xs items-center 2xl:gap-9 2xl:text-sm pr-2">
               <DevicesIcon />
               {/* <span>{plans[1].devices}</span> */}
-              <span>Watch on Laptop, Mobile, Tab and ipad</span>
+              <span className="text-xl font-semibold">Watch on Laptop, Mobile, Tab and ipad</span>
             </div>
           </div>
           <GlowButton
@@ -193,7 +193,7 @@ const Plans = ({ plans, showSkeleton = false }) => {
                 dispatch(setPlanPrice(plans[1]?.inr_price)),
                 dispatch(setUsdPrice(plans[1]?.usd_price));
             }}
-            className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[30px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "
+            className=" group !px-4 !py-10  !text-base !rounded-3xl !mt-[px] !mx-4 !flex-row !justify-between 2xl:!px-5 2xl:!py-11 2xl:!text-lg 2xl:!mx-5  "
           >
             <div className="flex flex-col items-start">
               <h1 className="text-xl 2xl:text-2xl font-semibold">

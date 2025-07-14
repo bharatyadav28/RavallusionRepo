@@ -11,8 +11,11 @@ const Introductory = () => {
   const dispatch = useDispatch();
   const { data, isLoading, error } = useGetIntroductoryQuery();
 
+
   // Extract introductory videos or fallback to an empty array
   const introductoryVideos = data?.data?.introductoryVideos || [];
+
+  console.log(introductoryVideos)
 
   // Set introductory video count in Redux when data is fetched
   useEffect(() => {

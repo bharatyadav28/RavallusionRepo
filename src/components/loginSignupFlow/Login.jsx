@@ -129,6 +129,7 @@ const Login = () => {
                 }
                 <div className='mx-4 px-4 py-5 lg:p-10 rounded-[28px] bg-[var(--card-bg)] backdrop-blur-lg mt-4'>
                     <h2 className='text-center text-2xl md:text-[2.13rem] font-bold mb-[30px]'>Login to continue</h2>
+<form onSubmit={handleSignIn}>
 
                     <div className='mb-4'>
                         <label className='text-gray-100 text-sm mb-[6px]' htmlFor="email">Your Email Id <span className='text-red-500'>*</span></label>
@@ -149,7 +150,7 @@ const Login = () => {
                         onClick={handleSignIn} disabled={isLoading} >
                         {isLoading ? <LoaderCircle className='animate-spin !h-8 !w-8' /> : "Continue"}
                     </SubmitButton>
-
+</form>
 
                     <div className="flex items-center mb-[30px]">
 

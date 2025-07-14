@@ -31,7 +31,7 @@ const CourseCard = ({ course }) => {
         <div className="flex flex-col gap-2 2xl:gap-4 h-auto">
           <div>
             <div className="h-auto">
-              <h3 className="text-lg 2xl:text-2xl font-bold leading-tight line-clamp-2">{title}</h3>
+              <h3 className="text-lg xl:text-xl font-medium leading-tight line-clamp-2">{title}</h3>
             </div>
 
             <div className="mt-2">
@@ -49,9 +49,18 @@ const CourseCard = ({ course }) => {
 
       </Card >
 
-      <CustomDialog open={isCustomOpen} close={() => setIsCustomOpen((prev) => !prev)}>
-        <LatestTutorialVideo videoUrl={videoUrl} thumbnailUrl={thumbnailUrl} setIsCustomOpen={setIsCustomOpen} isCustomOpen={isCustomOpen} />
-      </CustomDialog>
+   <CustomDialog
+  open={isCustomOpen}
+  close={() => setIsCustomOpen((prev) => !prev)}
+  variant="latest-video" // this applies the custom size
+>
+  <LatestTutorialVideo
+    videoUrl={videoUrl}
+    thumbnailUrl={thumbnailUrl}
+    setIsCustomOpen={setIsCustomOpen}
+    isCustomOpen={isCustomOpen}
+  />
+</CustomDialog>
     </>
   );
 };
