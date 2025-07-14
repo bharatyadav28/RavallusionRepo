@@ -184,7 +184,7 @@ useEffect(() => {
     </div>
 <h2 className="text-xl font-semibold text-gray-800 mb-2">Upgrade  to Advance Plan</h2>
     <p className="text-md text-gray-600 mb-4">
-      This video is part of the <span className="font-medium text-red-500">Advanced Course</span> and isn't available in your current subscription.
+      This video is part of the <span className="font-medium text-red-500">Advanced Course</span> and isnt available in your current subscription.
     </p>
  
   </div>
